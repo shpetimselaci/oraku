@@ -1,0 +1,3959 @@
+[
+  {
+    "externalRef": "4ad17f35-4709-4a39-8fbf-0aa5ec53acbe",
+    "category": "communication",
+    "subcategory": "sms_sent",
+    "log": "SMS sent to 1-988-451-9155 x01786",
+    "meta": {
+      "username": "michelle70",
+      "userId": "b4c459d4-965a-427b-bd36-b0c8b132897f",
+      "email": "michelle70_Hartmann47@hotmail.com",
+      "ip": "217.123.99.85",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/592.81.28 (KHTML, like Gecko) Version/16.1 Safari/601.53.81",
+      "sessionId": "QZa9wwpt8T6ycBORykLC8RWxzOvzTxPh",
+      "deviceType": "desktop",
+      "browser": "Firefox",
+      "os": "macOS Sonoma",
+      "country": "Micronesia",
+      "city": "Lake Arne",
+      "timezone": "America/Bahia_Banderas",
+      "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
+      "organizationName": "Boyer LLC",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "84bf0cd4-91c0-48b2-9ef1-51b18834e8f7",
+      "traceId": "62cbCc9BdcDBC800ae32aD7E6e9B8ca3",
+      "spanId": "32D2BBFeb1CFc2Ac",
+      "environment": "development",
+      "version": "8.11.7",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-08T15:30:15.809Z"
+  },
+  {
+    "externalRef": "c220b2f5-9a80-4f02-8b72-95cb93b4d9f4",
+    "category": "document",
+    "subcategory": "shared",
+    "log": "jaleel37 shared splash_times_underneath.ics with Danny.Rowe@hotmail.com",
+    "meta": {
+      "username": "jaleel37",
+      "userId": "0719f0ed-f8d6-4184-b287-d14b178e24f4",
+      "email": "jaleel37_Kautzer16@yahoo.com",
+      "ip": "207.160.121.187",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:104.0) Gecko/20100101 Firefox/81.0",
+      "sessionId": "Zk6UQTkXcmbU2aXvz1VMgaFthX7539KV",
+      "deviceType": "mobile",
+      "browser": "Firefox",
+      "os": "Windows 11",
+      "country": "Russian Federation",
+      "city": "Port Coralie",
+      "timezone": "Europe/Belgrade",
+      "organizationId": "57d727ed-ecc4-43e7-9972-67e75183e010",
+      "organizationName": "Runolfsdottir Group",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "8a8acb7c-719a-4e1c-8583-4864ea2a1350",
+      "traceId": "E7AEbd6b1D3a52a440FB2801fc63f84f",
+      "spanId": "6fBebf85df8a1E63",
+      "environment": "production",
+      "version": "5.14.20",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-03T06:50:45.676Z"
+  },
+  {
+    "externalRef": "018b31fb-27de-4ff4-96ba-c05587a42144",
+    "category": "user",
+    "subcategory": "suspended",
+    "log": "User iliana_treutel89 was suspended. Reason: policy_violation",
+    "meta": {
+      "username": "iliana_treutel89",
+      "userId": "8161378b-84cc-4a8c-9536-635695a7f44b",
+      "email": "iliana_treutel89_Volkman1@hotmail.com",
+      "ip": "186.53.193.243",
+      "userAgent": "Mozilla/5.0 (Linux; Android 5; SM-G998B) AppleWebKit/579.74 (KHTML, like Gecko) Chrome/88.8.5.4 Mobile Safari/571.95",
+      "sessionId": "Rh5Fr8A2UoM1ULPE7YaZze039YUnxfHZ",
+      "deviceType": "mobile",
+      "browser": "Firefox",
+      "os": "Ubuntu 22.04",
+      "country": "Chad",
+      "city": "Bismarck",
+      "timezone": "America/Manaus",
+      "organizationId": "118603d0-d8e7-4c77-9e6a-bb54ec6f4d67",
+      "organizationName": "Thompson Inc",
+      "role": "viewer",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "3b305d1f-03a1-4e91-9f6e-a4951e96550d",
+      "traceId": "55b9DfdeEc7E4EEDf056C0F40ed8acAE",
+      "spanId": "b68f3E5e24bDa16E",
+      "environment": "production",
+      "version": "4.14.14",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-01T19:17:09.130Z"
+  },
+  {
+    "externalRef": "9f7b2c90-69ef-492f-b7d7-7f16095014c1",
+    "category": "authentication",
+    "subcategory": "password_reset",
+    "log": "Password reset requested for norma.rutherford31",
+    "meta": {
+      "username": "norma.rutherford31",
+      "userId": "76b18074-b772-4565-b50c-2231697dff30",
+      "email": "norma.rutherford31_White@hotmail.com",
+      "ip": "186.181.83.9",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:131.0) Gecko/20100101 Firefox/95.0",
+      "sessionId": "1rmKXuMLWxrke1wvXfuJrYIvYyyzhWbY",
+      "deviceType": "desktop",
+      "browser": "Chrome",
+      "os": "Android 14",
+      "country": "Cook Islands",
+      "city": "New Brunswick",
+      "timezone": "America/Atikokan",
+      "organizationId": "50a7c963-1fdf-49f5-8110-17705646bcf1",
+      "organizationName": "Boyle - Farrell",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "e3a1e2c7-6eb6-4715-9682-d05e7d38c773",
+      "traceId": "C6639bBe9eFADABa9FcDf6F9551fc62D",
+      "spanId": "087b49a6F0C836B9",
+      "environment": "staging",
+      "version": "9.4.6",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-15T20:47:30.269Z"
+  },
+  {
+    "externalRef": "c2d0b118-3cab-429b-8e98-9d9ca0265327",
+    "category": "communication",
+    "subcategory": "sms_sent",
+    "log": "SMS sent to 1-621-687-9652 x5887",
+    "meta": {
+      "username": "hubert_herman",
+      "userId": "7f68d339-a6a1-4ada-ad15-6d33f3158f77",
+      "email": "hubert_herman.Sanford@gmail.com",
+      "ip": "51b0:5fbf:e768:7d9a:bae0:eb87:0a4d:c6fc",
+      "userAgent": "FakerBot/8.13.5",
+      "sessionId": "5QeCCwRvSJUYDn6i87wqxyXCP8b5gW8C",
+      "deviceType": "tablet",
+      "browser": "Edge",
+      "os": "Ubuntu 22.04",
+      "country": "Sint Maarten",
+      "city": "North Deonte",
+      "timezone": "America/Fortaleza",
+      "organizationId": "c6407cf4-c897-465c-b654-8077116650bf",
+      "organizationName": "Herzog Group",
+      "role": "super_admin",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "d7c00451-189e-4532-8420-b2a003da15b6",
+      "traceId": "480EDB1DD07BEeffaFfCcfFEFafe4B0F",
+      "spanId": "805cf4d729F0B9ef",
+      "environment": "production",
+      "version": "4.15.6",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-04T10:52:33.948Z"
+  },
+  {
+    "externalRef": "9a402f56-de51-40b8-b0df-2587cf804f13",
+    "category": "authentication",
+    "subcategory": "failed_login",
+    "log": "Failed login attempt for irene76 from 659d:7e1d:ebd0:703b:dc7b:fee2:8c1a:a603",
+    "meta": {
+      "username": "irene76",
+      "userId": "7d660c37-77cd-4b15-aec0-e6432515533a",
+      "email": "irene76.Lesch65@gmail.com",
+      "ip": "b8be:94d0:0c68:0dc9:c504:9c9c:6e50:cb93",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/557.62.9 (KHTML, like Gecko) Chrome/120.0.4.7 Safari/604.70.29",
+      "sessionId": "80zUnJ0ioDW8TX8iMn1SIoBflkJB5kfV",
+      "deviceType": "desktop",
+      "browser": "Safari",
+      "os": "iOS 17",
+      "country": "France",
+      "city": "Santa Fe",
+      "timezone": "Europe/Brussels",
+      "organizationId": "f8a8158d-e300-4324-9b3f-410e24751bf5",
+      "organizationName": "Parker - Kuhn",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "497eae4f-9b71-44ea-a19b-68fefa773625",
+      "traceId": "46C1B45437Bfdc81Be90EFDDbfD7D6eA",
+      "spanId": "3cCE5CbD81DC0eEe",
+      "environment": "development",
+      "version": "7.18.9",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-15T20:53:12.128Z"
+  },
+  {
+    "externalRef": "30b7db31-13fc-4bd7-9cf1-ab2794aef78d",
+    "category": "document",
+    "subcategory": "viewed",
+    "log": "joyce_stark viewed pluck_switchboard_behind.xml",
+    "meta": {
+      "username": "joyce_stark",
+      "userId": "efe261e7-a6b0-4f1a-9fff-61f14d684a2f",
+      "email": "joyce_stark.Doyle95@hotmail.com",
+      "ip": "221.146.13.241",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/597.11.29 (KHTML, like Gecko) Version/13_2 Mobile/15E148 Safari/589.17",
+      "sessionId": "vBn27N4gVn3z6ihmdRG5vG4BS4BXSgzs",
+      "deviceType": "tablet",
+      "browser": "Chrome",
+      "os": "Android 14",
+      "country": "Latvia",
+      "city": "Beierstead",
+      "timezone": "America/Argentina/Buenos_Aires",
+      "organizationId": "7550dc9d-aa8b-4643-be7d-cbba231e4c11",
+      "organizationName": "Bogisich and Sons",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "eed67514-28b6-49b8-a4a2-07588add6ae9",
+      "traceId": "BB4edcAcAD43CA9BcbE7e285c1Cf624d",
+      "spanId": "CeDa345bAac018e7",
+      "environment": "production",
+      "version": "1.13.16",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-21T22:04:51.112Z"
+  },
+  {
+    "externalRef": "0dbe0632-3422-49a9-8156-83c22cd43e77",
+    "category": "communication",
+    "subcategory": "call_ended",
+    "log": "Call ended. Duration: 48m 23s",
+    "meta": {
+      "username": "bernadette87",
+      "userId": "1324bd4d-c94e-4890-86d4-a8625bfa3ad4",
+      "email": "bernadette87.Boyle39@gmail.com",
+      "ip": "cf3d:3e2b:b9f4:dca3:de63:cb7d:fda7:5708",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/121.0",
+      "sessionId": "iQDsfqbTDHaGmSXOVdarz2RQDOEPPhXQ",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "country": "Libyan Arab Jamahiriya",
+      "city": "Kozeyhaven",
+      "timezone": "Europe/Copenhagen",
+      "organizationId": "279f6caf-41a5-42dc-bb0d-b40b0eb9cdee",
+      "organizationName": "Medhurst, Raynor and Ziemann",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "8127deb4-5a98-4b64-830c-07fa04294539",
+      "traceId": "Ff4058Fccb83C80CC31C3cAF6ec3e59B",
+      "spanId": "Fe76FCdDd4e948Bf",
+      "environment": "production",
+      "version": "1.12.2",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-11T01:53:58.107Z"
+  },
+  {
+    "externalRef": "6c2f387a-f91a-44f0-b001-71b3c8dc3217",
+    "category": "workflow",
+    "subcategory": "workflow_started",
+    "log": "Workflow started: deployment",
+    "meta": {
+      "username": "ahmad_bauch",
+      "userId": "93391448-449e-46d8-9651-39fcf38aac82",
+      "email": "ahmad_bauch61@yahoo.com",
+      "ip": "5c6f:ce7a:6e2e:ccec:2acd:8ddc:dde4:25c4",
+      "userAgent": "FakerBot/9.14.12",
+      "sessionId": "AJrnDxt3iUGEAosgsYQrwFAtRQ4grTDM",
+      "deviceType": "desktop",
+      "browser": "Edge",
+      "os": "iOS 17",
+      "country": "Tajikistan",
+      "city": "Mount Pleasant",
+      "timezone": "Africa/Brazzaville",
+      "organizationId": "2e093e0a-f396-45dc-9b91-f9934b04b65f",
+      "organizationName": "Homenick - Davis",
+      "role": "super_admin",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "081ee020-f565-4853-aab5-55faf2d50095",
+      "traceId": "0a7874D516eF1Ef0A880Fee7dd677594",
+      "spanId": "b6DB7DcbD9cF89ee",
+      "environment": "production",
+      "version": "2.17.7",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-16T03:45:36.836Z"
+  },
+  {
+    "externalRef": "1653d6f8-29ae-45f8-ae01-7952ea9eccbc",
+    "category": "compliance",
+    "subcategory": "violation_detected",
+    "log": "Compliance violation detected: logging",
+    "meta": {
+      "username": "billie_waters88",
+      "userId": "aeb78cf4-5f3d-4aae-b39d-94470b09f17c",
+      "email": "billie_waters8819@yahoo.com",
+      "ip": "9da2:1d9b:5e2b:4b6b:c19f:6592:55a4:66e1",
+      "userAgent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.1; Trident/6.0)",
+      "sessionId": "li66vcRBIeuDCNwmre5objXdQYvsFueg",
+      "deviceType": "mobile",
+      "browser": "Firefox",
+      "os": "Android 14",
+      "country": "Saint Barthélemy",
+      "city": "Omariton",
+      "timezone": "Europe/Malta",
+      "organizationId": "d2ba2418-aa02-4b25-8c5e-d4ff396cfc7a",
+      "organizationName": "Botsford - Casper",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "5fa329d3-d3e7-40db-8448-006730ec31df",
+      "traceId": "8ef1cFed3EF635E86E3795CCD5c0B7cA",
+      "spanId": "7Bf9955Dba0E088d",
+      "environment": "development",
+      "version": "9.15.12",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-03T04:24:39.930Z"
+  },
+  {
+    "externalRef": "5ed37282-6c08-4e9d-9932-08868e855b71",
+    "category": "authentication",
+    "subcategory": "session_expired",
+    "log": "Session expired for jacqueline_wisozk82",
+    "meta": {
+      "username": "jacqueline_wisozk82",
+      "userId": "2b199cb8-b180-46f6-81b5-aad2d7ffb0c8",
+      "email": "jacqueline_wisozk82_Johnson31@yahoo.com",
+      "ip": "179.78.84.15",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_0 like Mac OS X) AppleWebKit/561.10.89 (KHTML, like Gecko) Version/14_2 Mobile/15E148 Safari/598.5",
+      "sessionId": "FI6ghXlzKshFo0edkwNSlmRG8cgRmJ6w",
+      "deviceType": "mobile",
+      "browser": "Firefox",
+      "os": "Ubuntu 22.04",
+      "country": "South Georgia and the South Sandwich Islands",
+      "city": "West Rollinbury",
+      "timezone": "America/Nassau",
+      "organizationId": "8141aac7-6b74-4f55-a4db-8080c2b4d3e1",
+      "organizationName": "Gislason, Jacobi and Fadel",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "e5249abb-8c76-43e2-b492-c6202c224ee5",
+      "traceId": "E69Af0632A8B21AbDfbF4cfab27DD8B9",
+      "spanId": "1eA68F44d93D2DF8",
+      "environment": "staging",
+      "version": "0.11.7",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-26T06:32:37.010Z"
+  },
+  {
+    "externalRef": "fbbf4896-5287-4660-b8fd-5854c470896a",
+    "category": "communication",
+    "subcategory": "email_opened",
+    "log": "Email opened by Kristy_Ratke33@gmail.com: \"Tandem aptus numquam sophismata spoliatio.\"",
+    "meta": {
+      "username": "jim14",
+      "userId": "cd54610d-3f94-4deb-9de0-d2e3036d8f51",
+      "email": "jim1493@gmail.com",
+      "ip": "87.156.23.151",
+      "userAgent": "Mozilla/5.0 (compatible; MSIE 7.0; Windows NT 10.0; Trident/4.0)",
+      "sessionId": "ebkFNrZsK92RLF7fPNawpxh1GXCtgGka",
+      "deviceType": "mobile",
+      "browser": "Firefox",
+      "os": "Windows 11",
+      "country": "Grenada",
+      "city": "Lydiastad",
+      "timezone": "Asia/Kuala_Lumpur",
+      "organizationId": "6186a1dd-eece-4328-be95-a205ffcdc654",
+      "organizationName": "Nikolaus, Corkery and Daugherty",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "59595a2f-6229-4bbd-a966-6970d59af45c",
+      "traceId": "e2e3DbF0023f058E295316f5bdeb8EE6",
+      "spanId": "f23Cadc2EbdE820a",
+      "environment": "production",
+      "version": "4.3.6",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-12T14:11:41.156Z"
+  },
+  {
+    "externalRef": "8fe0c0ed-2e43-4cda-8909-c0f141d57b74",
+    "category": "authentication",
+    "subcategory": "password_changed",
+    "log": "Password changed for jayde4",
+    "meta": {
+      "username": "jayde4",
+      "userId": "916481fc-060b-4ed6-92bf-eaaf9cd7cc15",
+      "email": "jayde471@gmail.com",
+      "ip": "199.140.205.160",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/571.83.23 (KHTML, like Gecko) Chrome/74.7.5.16 Safari/564.0.20",
+      "sessionId": "ltqXrOcgqBtg5QyGndZSnKW3TuBjubNQ",
+      "deviceType": "tablet",
+      "browser": "Edge",
+      "os": "Android 14",
+      "country": "Finland",
+      "city": "New Wyattland",
+      "timezone": "Asia/Baku",
+      "organizationId": "d51d5efb-a0bf-4d3b-8df8-eaf496a305c0",
+      "organizationName": "Mertz, Beier and Jones",
+      "role": "user",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "3634a250-8be0-4e33-ab0f-53a742dd414a",
+      "traceId": "fBa4Ca3eaFAaefaA53e4c9cadccFb3cE",
+      "spanId": "0db0006dfFE837AC",
+      "environment": "staging",
+      "version": "1.6.9",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-16T07:46:21.589Z"
+  },
+  {
+    "externalRef": "11e47d7c-b5a6-48ae-9e4e-d14b472f98bd",
+    "category": "document",
+    "subcategory": "permission_changed",
+    "log": "claire52 changed permissions on next_amongst.xul",
+    "meta": {
+      "username": "claire52",
+      "userId": "a63d81a7-ce25-4ca3-8d97-f6b590614ea8",
+      "email": "claire52_Gleichner@yahoo.com",
+      "ip": "ec45:0edd:dccb:4ad2:d411:d6ba:7bbf:bab3",
+      "userAgent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.2; Trident/7.0)",
+      "sessionId": "2Ku7vXOB3DQ27kjbI2FgZRMHkCfvDZ2l",
+      "deviceType": "desktop",
+      "browser": "Safari",
+      "os": "Ubuntu 22.04",
+      "country": "Costa Rica",
+      "city": "Covina",
+      "timezone": "Australia/Broken_Hill",
+      "organizationId": "f44359b3-479e-4d63-b981-f004e7c9689b",
+      "organizationName": "Brekke Inc",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "30959197-5de7-4f75-a68d-1399cb3e624c",
+      "traceId": "fbb9eBD4d3A08f3cfbEaA1Ee9f1F4847",
+      "spanId": "D9Ff186Ae4EFfbfa",
+      "environment": "production",
+      "version": "9.5.6",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-26T22:35:42.824Z"
+  },
+  {
+    "externalRef": "17388657-4090-4627-88ae-b7a155ba7d1d",
+    "category": "workflow",
+    "subcategory": "deadline_missed",
+    "log": "Deadline missed for task: textilis creator demoror",
+    "meta": {
+      "username": "kendra61",
+      "userId": "187e0155-edbf-47f1-afaa-0f3cdb2b756f",
+      "email": "kendra61.Buckridge@gmail.com",
+      "ip": "152.160.114.166",
+      "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/591.67 (KHTML, like Gecko) Chrome/65.3.5.12 Safari/554.33 Edg/130.7.0.11",
+      "sessionId": "1JVRzSz6wl0ZZjiioj8cj2Q2NDcb7I4x",
+      "deviceType": "mobile",
+      "browser": "Chrome",
+      "os": "iOS 17",
+      "country": "Saudi Arabia",
+      "city": "New Gudrun",
+      "timezone": "Asia/Kolkata",
+      "organizationId": "2ab6e197-0ecb-4f47-8754-c081a7dacda7",
+      "organizationName": "Mitchell, Bins and Zemlak",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "7a493d37-f038-4c65-82f8-878c46a74260",
+      "traceId": "51057C74b3eac0928E3ef51DBAb5C1aa",
+      "spanId": "Aae93CDde2c9Cf52",
+      "environment": "production",
+      "version": "2.16.1",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-06T15:21:09.879Z"
+  },
+  {
+    "externalRef": "dcaf02df-7689-4c68-b08a-240aa64baf70",
+    "category": "data",
+    "subcategory": "report_generated",
+    "log": "estell.welch42 generated report: revenue_report",
+    "meta": {
+      "username": "estell.welch42",
+      "userId": "e1deb7f6-377d-4246-9e75-9b95dc0f4bca",
+      "email": "estell.welch4225@gmail.com",
+      "ip": "713f:6a57:cdaf:ea54:6caf:6bbe:e7a8:3915",
+      "userAgent": "FakerBot/1.12.2",
+      "sessionId": "UJhur6SxTBa8eWb4cwYsVee7Y6dc2ozl",
+      "deviceType": "desktop",
+      "browser": "Chrome",
+      "os": "macOS Sonoma",
+      "country": "Brunei Darussalam",
+      "city": "Rockwall",
+      "timezone": "Indian/Christmas",
+      "organizationId": "ac8a0606-93fb-4e91-b446-64bac19efc80",
+      "organizationName": "Christiansen LLC",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "64c99a98-a439-4150-9f31-1c7f1b7f7041",
+      "traceId": "C1f6B65BeF349B16Fcd88c180EC75AD2",
+      "spanId": "40bd1dDE46E67a38",
+      "environment": "production",
+      "version": "0.7.0",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-30T09:59:02.603Z"
+  },
+  {
+    "externalRef": "981b34ac-0292-4036-9537-08e8410d482a",
+    "category": "compliance",
+    "subcategory": "data_request",
+    "log": "Data access request submitted by evangeline.gulgowski80",
+    "meta": {
+      "username": "evangeline.gulgowski80",
+      "userId": "bceae2e7-3091-41f0-bcbb-3bb9bf41298b",
+      "email": "evangeline.gulgowski8027@gmail.com",
+      "ip": "190.52.84.126",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:114.0) Gecko/20100101 Firefox/87.0",
+      "sessionId": "zC53yxQi3Rn4ZoVIMtSz2GvPuhlWD4IC",
+      "deviceType": "mobile",
+      "browser": "Chrome",
+      "os": "Ubuntu 22.04",
+      "country": "Burkina Faso",
+      "city": "New Lourdes",
+      "timezone": "America/Argentina/Catamarca",
+      "organizationId": "d4cba163-6c5d-48b9-b1e5-c3e0c874708d",
+      "organizationName": "Fadel - Witting",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "c6fdd737-dd64-4433-a67d-c9bb14be914c",
+      "traceId": "48B52F82f37eFbDAbbb5ad8597EBfFcf",
+      "spanId": "Fb1B3d8BC9dCC33E",
+      "environment": "production",
+      "version": "6.12.4",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-01T18:12:04.317Z"
+  },
+  {
+    "externalRef": "c4614367-ba0b-42a4-aa58-6ae3a3dfceb0",
+    "category": "document",
+    "subcategory": "uploaded",
+    "log": "christine_osinski24 uploaded kissingly_where_quirkily.tiff (13 MB)",
+    "meta": {
+      "username": "christine_osinski24",
+      "userId": "e4afa43d-43f4-4c5d-b17f-8f871a68314e",
+      "email": "christine_osinski2436@hotmail.com",
+      "ip": "54.198.55.47",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:117.0) Gecko/20100101 Firefox/92.0",
+      "sessionId": "wmZlCZJaEpo5ad5OMfuJn5z7OKh7Ohbf",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "Android 14",
+      "country": "Montserrat",
+      "city": "West Stanford",
+      "timezone": "Asia/Tashkent",
+      "organizationId": "f384eb67-f981-4387-9131-d4dd71c2f003",
+      "organizationName": "Swaniawski LLC",
+      "role": "user",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "388b6c20-89a3-47ee-896c-5c16a3c5d8d6",
+      "traceId": "615b5DaF2ddF8eDaa2Bd6C75ef2401f7",
+      "spanId": "F5EF97e7F27EEBC6",
+      "environment": "development",
+      "version": "9.6.11",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-29T08:46:10.513Z"
+  },
+  {
+    "externalRef": "88755ba5-7500-4a22-b33b-210481611f55",
+    "category": "document",
+    "subcategory": "downloaded",
+    "log": "callie62 downloaded marten_airbrush_common.deb",
+    "meta": {
+      "username": "callie62",
+      "userId": "62d10a07-3ac1-454d-91fb-e618cb0bfd6b",
+      "email": "callie62.Cruickshank@gmail.com",
+      "ip": "80.28.108.131",
+      "userAgent": "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.0; Trident/4.0)",
+      "sessionId": "tNdFcUjCb0t8fLdnGbM1ILdEiOr23wRs",
+      "deviceType": "desktop",
+      "browser": "Chrome",
+      "os": "Android 14",
+      "country": "Nepal",
+      "city": "Dandrefield",
+      "timezone": "Europe/Helsinki",
+      "organizationId": "3b0657be-53d3-428b-ad43-f014b3399956",
+      "organizationName": "Shields - Spinka",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "8c3f610e-36da-4fb3-a303-7ef0b3573ef6",
+      "traceId": "F90B8c85fEF8EE6722B4B3B71f42Ba43",
+      "spanId": "B6Ec92FbcfFa85fD",
+      "environment": "production",
+      "version": "0.13.20",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-05T08:25:34.012Z"
+  },
+  {
+    "externalRef": "395458dc-020b-43d2-b033-08d0b1e8eb9a",
+    "category": "document",
+    "subcategory": "edited",
+    "log": "carol_wiegand edited beard.mp4v",
+    "meta": {
+      "username": "carol_wiegand",
+      "userId": "8c47ade2-f070-487d-93d4-e177cea18cbd",
+      "email": "carol_wiegand_Moen53@hotmail.com",
+      "ip": "118.50.229.230",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_3 like Mac OS X) AppleWebKit/570.72.63 (KHTML, like Gecko) Version/11_4 Mobile/15E148 Safari/578.38",
+      "sessionId": "vgNW4OYOCOAQkBBAKYxHBmxu0t0XABII",
+      "deviceType": "mobile",
+      "browser": "Chrome",
+      "os": "iOS 17",
+      "country": "Zambia",
+      "city": "Jaymeboro",
+      "timezone": "Antarctica/Vostok",
+      "organizationId": "a218dcb1-80ec-4059-bbd8-f3e39bf4a40a",
+      "organizationName": "Aufderhar - Waters",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "186b00d6-bf55-48aa-8121-733a5daffab3",
+      "traceId": "04b3C927056Fb2a8f84CFb2eaC2e31fa",
+      "spanId": "AAABcf1497Fdc8c5",
+      "environment": "production",
+      "version": "0.4.15",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-29T02:56:26.071Z"
+  },
+  {
+    "externalRef": "d9a32cb5-f7fd-4e08-bf51-e403b49f33ff",
+    "category": "authentication",
+    "subcategory": "mfa_disabled",
+    "log": "MFA disabled for phil_block",
+    "meta": {
+      "username": "phil_block",
+      "userId": "14670c6c-696d-491c-81b6-23a2a133181d",
+      "email": "phil_block_Yundt@hotmail.com",
+      "ip": "120.103.92.6",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/546.11.46 (KHTML, like Gecko) Version/15_1 Mobile/15E148 Safari/578.73",
+      "sessionId": "jiHCRpyYiZv83Sg3aIyu6HSFlxIyIhMX",
+      "deviceType": "desktop",
+      "browser": "Safari",
+      "os": "Android 14",
+      "country": "Bouvet Island",
+      "city": "O'Reillystead",
+      "timezone": "America/Dawson",
+      "organizationId": "faabe95c-36ba-4626-a5dd-ba66c60d43b0",
+      "organizationName": "Kilback Group",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "a6a9f47b-7f39-45f1-95d5-2eac11ffbe9f",
+      "traceId": "E82BB19C1d851A3C860D2978f2ede666",
+      "spanId": "7eC3de142dc9ACFF",
+      "environment": "production",
+      "version": "3.7.10",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-06T23:53:02.623Z"
+  },
+  {
+    "externalRef": "f48d985b-3c05-4014-a296-c788e472f195",
+    "category": "user",
+    "subcategory": "deleted",
+    "log": "User jo.beahan48 was deleted by willie9",
+    "meta": {
+      "username": "jo.beahan48",
+      "userId": "708f55a2-b802-45b6-b19f-c44a0c124ec2",
+      "email": "jo.beahan4870@gmail.com",
+      "ip": "20ba:cb76:cdea:fbbc:d0cb:fbde:4af2:7cff",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/554.21.63 (KHTML, like Gecko) Chrome/85.6.19.12 Safari/562.59.16",
+      "sessionId": "vaeqjFmzOJWp2kuZUW3NSpeT8VBLfIce",
+      "deviceType": "mobile",
+      "browser": "Edge",
+      "os": "Android 14",
+      "country": "South Sudan",
+      "city": "Elainaside",
+      "timezone": "America/Nassau",
+      "organizationId": "91787ad6-94e7-4257-a011-9335e26ac074",
+      "organizationName": "Mayer - Heaney",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "913308e7-205b-46b2-a4ad-49d19a96828f",
+      "traceId": "2BfB58E111d7b71EbE1A2fAF14b11bc6",
+      "spanId": "E8A71628a8dD950f",
+      "environment": "staging",
+      "version": "6.8.5",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-05T18:33:24.111Z"
+  },
+  {
+    "externalRef": "67faddf7-ef1c-4290-a1d2-3fca3b7a8e7e",
+    "category": "billing",
+    "subcategory": "subscription_started",
+    "log": "chanel_sanford started enterprise subscription",
+    "meta": {
+      "username": "chanel_sanford",
+      "userId": "d4097c67-8636-4231-a262-e8152df40892",
+      "email": "chanel_sanford_Kozey11@hotmail.com",
+      "ip": "dd7b:60ec:c1dd:5b1e:caf2:cb23:dcc9:3d28",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:117.0) Gecko/20100101 Firefox/113.0",
+      "sessionId": "3PBGVYNnUwQErvh9BVt7y0kEA9KG2qMf",
+      "deviceType": "tablet",
+      "browser": "Edge",
+      "os": "Windows 11",
+      "country": "Uzbekistan",
+      "city": "Port Nona",
+      "timezone": "Asia/Seoul",
+      "organizationId": "fcaec113-edd4-4aa0-9aa7-0328cc1e6339",
+      "organizationName": "Jast Group",
+      "role": "editor",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "b347b569-3bed-4721-8f7a-fa613e0620b4",
+      "traceId": "E5A2aaB04221B78DcB41a940E2D9BFb6",
+      "spanId": "b6021Aa78fBECFB4",
+      "environment": "staging",
+      "version": "5.12.16",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-28T02:37:51.583Z"
+  },
+  {
+    "externalRef": "2ed6313e-c6f1-4fd6-a4e1-21a7cb8bb9d7",
+    "category": "compliance",
+    "subcategory": "remediation_applied",
+    "log": "Remediation applied for encryption",
+    "meta": {
+      "username": "claire_morar41",
+      "userId": "17c6fd74-d67c-4c5b-9423-cdf5e9a8d8fa",
+      "email": "claire_morar41.OKon41@yahoo.com",
+      "ip": "9f7f:622f:4fcf:bc0e:6ccd:839b:b19d:5cf8",
+      "userAgent": "Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/537.19 (KHTML, like Gecko) Chrome/88.3.0.7 Safari/542.68 Edg/126.3.0.11",
+      "sessionId": "0uIvcNq2paCsbfF2RxDj9wPuf0SszDYp",
+      "deviceType": "desktop",
+      "browser": "Firefox",
+      "os": "Android 14",
+      "country": "United States Minor Outlying Islands",
+      "city": "Sipesfort",
+      "timezone": "America/Tortola",
+      "organizationId": "f2391641-4d93-4650-9bfd-18ab19a6b4b7",
+      "organizationName": "Turner - Kovacek",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "ee67215a-818d-42d2-b15f-0fc2b597f6a5",
+      "traceId": "5ccFF9898083dC7F2CDCfEdd66baaA1a",
+      "spanId": "Ca5f86ABB4C77B26",
+      "environment": "staging",
+      "version": "0.3.18",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-14T17:13:20.289Z"
+  },
+  {
+    "externalRef": "04b41441-b03d-41a7-84e5-c04377a9aacd",
+    "category": "workflow",
+    "subcategory": "deadline_missed",
+    "log": "Deadline missed for task: vulariter pectus repudiandae",
+    "meta": {
+      "username": "dustin33",
+      "userId": "abb3a00b-b85a-477f-a5bf-7f40ece1adc9",
+      "email": "dustin33.Towne97@gmail.com",
+      "ip": "bfdb:fe4d:c9b1:19be:e4a1:dd24:dba9:add6",
+      "userAgent": "Mozilla/5.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/5.0)",
+      "sessionId": "Jv5gpweopfr2X3yMBkrCZHENhQwuiVih",
+      "deviceType": "desktop",
+      "browser": "Firefox",
+      "os": "macOS Sonoma",
+      "country": "Greece",
+      "city": "Lake Cristinatown",
+      "timezone": "America/Thule",
+      "organizationId": "be4f17e2-1eaa-479f-88ab-30d9916b08be",
+      "organizationName": "Hickle, Connelly and Cummings",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "7f3f9198-9971-4afb-8111-d9bffdc7715c",
+      "traceId": "affFcfdE851BbbAA69E84AEe8fB3286A",
+      "spanId": "a9fc42E745B9BfC6",
+      "environment": "staging",
+      "version": "4.9.10",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-19T14:45:35.080Z"
+  },
+  {
+    "externalRef": "de52dc18-feb0-4351-b363-42ebb3457eb4",
+    "category": "system",
+    "subcategory": "backup_restored",
+    "log": "Backup BKP-WCPUGVMTMBBW restored",
+    "meta": {
+      "username": "ruben_kling",
+      "userId": "75383619-14a7-47b2-bd46-2dca3c6da135",
+      "email": "ruben_kling.Wintheiser@gmail.com",
+      "ip": "adb1:7ca1:0b47:ac17:92ba:f05d:fc7b:2cbb",
+      "userAgent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/6.0)",
+      "sessionId": "08Zggm9E57fc4Z4zEpLg1VyAR0TjYXMh",
+      "deviceType": "tablet",
+      "browser": "Edge",
+      "os": "iOS 17",
+      "country": "Guyana",
+      "city": "East Bellshire",
+      "timezone": "America/Curacao",
+      "organizationId": "d648e1cf-dd7f-499d-8ebc-d4591adb53f7",
+      "organizationName": "Veum, Morissette and Weissnat",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "34fb864c-6387-4f34-a63a-98eb943c47de",
+      "traceId": "fD45dba5d6F9D70cFb1e5Fe0a11e2e03",
+      "spanId": "Daa5cBF5Eb9540bF",
+      "environment": "staging",
+      "version": "8.5.5",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-09T05:44:21.949Z"
+  },
+  {
+    "externalRef": "25e7be3b-9f77-4b23-b1f1-ed0e5e94336c",
+    "category": "document",
+    "subcategory": "renamed",
+    "log": "tatum_goodwin11 renamed attend.avi to ouch_often_ew.bpk",
+    "meta": {
+      "username": "tatum_goodwin11",
+      "userId": "81bd9b92-05ad-4e62-97e9-dd7dd2c07b2a",
+      "email": "tatum_goodwin1139@hotmail.com",
+      "ip": "dff4:e8ff:8c3a:7bc2:dcfa:bbdb:3b68:a53b",
+      "userAgent": "Mozilla/5.0 (Linux; Android 10; SM-G998U) AppleWebKit/555.45 (KHTML, like Gecko) Chrome/94.1.15.14 Mobile Safari/576.68",
+      "sessionId": "2wr6JJdfv0tWpIFznnXaTgkhewc1m9T2",
+      "deviceType": "mobile",
+      "browser": "Chrome",
+      "os": "Ubuntu 22.04",
+      "country": "Samoa",
+      "city": "Fort Janick",
+      "timezone": "Africa/Ndjamena",
+      "organizationId": "83b23181-6a07-4fc0-a4bc-51c20a63c330",
+      "organizationName": "Brekke Group",
+      "role": "viewer",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "5cc7a7eb-736a-42eb-a4b0-b4d44265e772",
+      "traceId": "57D5A1E30AdB8ba8Bae9Ff6aB6Af1Aca",
+      "spanId": "C53aEbDe1505eCBE",
+      "environment": "development",
+      "version": "9.1.18",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-05T22:36:06.207Z"
+  },
+  {
+    "externalRef": "6b38641d-ee61-4ed4-b187-b93239880f79",
+    "category": "workflow",
+    "subcategory": "workflow_started",
+    "log": "Workflow started: onboarding",
+    "meta": {
+      "username": "doyle97",
+      "userId": "7955f3f2-07e5-48ca-9b4f-70462f6de099",
+      "email": "doyle97_Mueller99@yahoo.com",
+      "ip": "bbc9:d4db:fccc:1ab6:3e0d:f2e1:64c3:c1c5",
+      "userAgent": "Mozilla/5.0 (Linux; Android 9; SM-G998U) AppleWebKit/569.54 (KHTML, like Gecko) Chrome/55.3.10.13 Mobile Safari/541.44",
+      "sessionId": "IHVJmQ4OAsSgg592K5zFNBNvsWgA6wI9",
+      "deviceType": "desktop",
+      "browser": "Chrome",
+      "os": "macOS Sonoma",
+      "country": "Dominican Republic",
+      "city": "Constancefield",
+      "timezone": "Asia/Yakutsk",
+      "organizationId": "89d14e92-7ab8-46b5-9d18-609dd1a5a7cf",
+      "organizationName": "Romaguera Group",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "982fdbb3-d9a5-4aa1-92a8-b8436c4c7426",
+      "traceId": "1ce21DB8b589CCa77AbEC77a5fCf00A6",
+      "spanId": "EcFe6Ac602cBccE6",
+      "environment": "development",
+      "version": "3.19.10",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-26T16:09:07.293Z"
+  },
+  {
+    "externalRef": "c3deef21-cb99-40d5-9c28-5497b5c56730",
+    "category": "authentication",
+    "subcategory": "mfa_enabled",
+    "log": "MFA enabled for dallas_legros using authenticator",
+    "meta": {
+      "username": "dallas_legros",
+      "userId": "a48929e5-5515-4091-a0d4-53ce551b249d",
+      "email": "dallas_legros4@gmail.com",
+      "ip": "a6af:ea70:7c0e:63b4:6b6a:2aee:ecbc:eabd",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:82.0) Gecko/20100101 Firefox/127.0",
+      "sessionId": "gWioahmNf6auakXuxx2juVTKRsLlbhAT",
+      "deviceType": "tablet",
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "country": "Sao Tome and Principe",
+      "city": "New Virgil",
+      "timezone": "America/Chicago",
+      "organizationId": "667770de-26b9-46ac-b093-d907fcc02066",
+      "organizationName": "Barton, Upton and VonRueden",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "fbdf8041-8a36-4533-b90a-785cdca983e9",
+      "traceId": "183dd2ddcF61ac4f9bcd0eab32319cE1",
+      "spanId": "5eEbd8cAB5b5ebaa",
+      "environment": "production",
+      "version": "5.0.9",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-19T11:12:31.005Z"
+  },
+  {
+    "externalRef": "960a2a6b-5fda-4054-98e1-0024f45e2c2d",
+    "category": "billing",
+    "subcategory": "trial_started",
+    "log": "hunter_heathcote22 started 30-day trial",
+    "meta": {
+      "username": "hunter_heathcote22",
+      "userId": "16170381-efc7-4b5e-8c09-c0dbc2c306a6",
+      "email": "hunter_heathcote2266@yahoo.com",
+      "ip": "226.168.170.153",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/545.27.34 (KHTML, like Gecko) Version/12_1 Mobile/15E148 Safari/546.80",
+      "sessionId": "iOsroQWiHldoENsckuKNTst0vUTCckY3",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "country": "Lao People's Democratic Republic",
+      "city": "Stromancester",
+      "timezone": "Europe/Madrid",
+      "organizationId": "8e845026-bcd4-46fb-bb21-dd84d16990ef",
+      "organizationName": "McClure LLC",
+      "role": "user",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "dfc6dc24-dca3-4b26-9a4a-81d9a373aefe",
+      "traceId": "dEacdB8d23258A1d2fafEc6cd7330403",
+      "spanId": "571942ff07fefa85",
+      "environment": "staging",
+      "version": "1.0.6",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-19T21:06:53.041Z"
+  },
+  {
+    "externalRef": "bd1e5a19-54de-4e2f-92ed-99be9c1cb044",
+    "category": "api",
+    "subcategory": "request_success",
+    "log": "API request successful: /api/v1/products",
+    "meta": {
+      "username": "abraham43",
+      "userId": "bc40e799-b14e-47dc-ba09-627992ce1606",
+      "email": "abraham4356@gmail.com",
+      "ip": "126.142.126.248",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:123.0) Gecko/20100101 Firefox/75.0",
+      "sessionId": "S6nmMWXCiDXLshPTyoaGQsyTRMWaejEC",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "country": "Belgium",
+      "city": "Dickenstown",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "organizationId": "4c4da63e-8530-48ef-a8af-7830cc52d07f",
+      "organizationName": "Leffler, Schiller and Kub",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "3fd4769b-59d1-47b1-ac22-dc96bd77ba86",
+      "traceId": "64063d2cbedecDeF3Ccecfb3e67f7AdC",
+      "spanId": "FaCbD47B5a5f5F0D",
+      "environment": "production",
+      "version": "2.18.16",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-20T01:14:40.919Z"
+  },
+  {
+    "externalRef": "d92bfc64-69d2-4320-8839-367b872e10d2",
+    "category": "compliance",
+    "subcategory": "audit_completed",
+    "log": "Audit completed: security. Findings: 8",
+    "meta": {
+      "username": "idell33",
+      "userId": "a1953096-9b3e-47bc-831a-dd191faa75a4",
+      "email": "idell33_Kuvalis@hotmail.com",
+      "ip": "7a2c:eb62:bbeb:1f99:c68f:0da8:eab4:56ee",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:132.0) Gecko/20100101 Firefox/102.0",
+      "sessionId": "VNlCVeqoUXEOq3IiuJ8g437P4i4d3a8P",
+      "deviceType": "mobile",
+      "browser": "Edge",
+      "os": "Windows 11",
+      "country": "Georgia",
+      "city": "West Chesley",
+      "timezone": "Africa/Ouagadougou",
+      "organizationId": "d9da71f4-0b3a-4858-a98b-26c04512ef6f",
+      "organizationName": "Vandervort and Sons",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "d3acce1a-047b-42d7-8e58-5cb77dc3a251",
+      "traceId": "34eFdbCaDC0ACd7eDB6eeC19F76Eb423",
+      "spanId": "beaE8CF5fAeA412e",
+      "environment": "staging",
+      "version": "9.12.11",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-16T14:36:54.796Z"
+  },
+  {
+    "externalRef": "3fa68312-54d2-451e-b61c-330f5c79077f",
+    "category": "communication",
+    "subcategory": "email_bounced",
+    "log": "Email bounced for Jon_Emmerich27@gmail.com: invalid_address",
+    "meta": {
+      "username": "frances.witting51",
+      "userId": "a854ca15-61ab-447a-986d-4ea99f9bf7ea",
+      "email": "frances.witting51.Macejkovic@hotmail.com",
+      "ip": "248.128.221.59",
+      "userAgent": "FakerBot/5.8.15",
+      "sessionId": "cEnjQU34A4kYgYeihUzCpLDmglkqky3W",
+      "deviceType": "tablet",
+      "browser": "Edge",
+      "os": "Android 14",
+      "country": "Tanzania",
+      "city": "Kulasboro",
+      "timezone": "Asia/Kuala_Lumpur",
+      "organizationId": "0e94af63-81e9-46c7-b6c3-c9446dfd582a",
+      "organizationName": "Hessel, Morissette and Hintz",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "9d939246-6747-4961-9e7b-169933ef8700",
+      "traceId": "07ea4e6eac9C7fb42Aa01E96d0Bd528A",
+      "spanId": "EA5a0DCbCad124Bd",
+      "environment": "production",
+      "version": "0.14.5",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-29T19:54:01.122Z"
+  },
+  {
+    "externalRef": "4e7d6bb8-4012-4b61-b6d8-39afd514785c",
+    "category": "workflow",
+    "subcategory": "task_created",
+    "log": "Task created by major_klocko: depraedor calco reprehenderit",
+    "meta": {
+      "username": "major_klocko",
+      "userId": "77b1f960-d803-4ffd-9199-9a70f8f371dc",
+      "email": "major_klocko19@yahoo.com",
+      "ip": "64.114.100.183",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/538.53.98 (KHTML, like Gecko) Chrome/87.8.10.1 Safari/558.10.39",
+      "sessionId": "cA2pZrfaakmHf8H1taeWs8n9gcTaWWcp",
+      "deviceType": "desktop",
+      "browser": "Edge",
+      "os": "Android 14",
+      "country": "Djibouti",
+      "city": "Woodbury",
+      "timezone": "Asia/Phnom_Penh",
+      "organizationId": "2c4a3368-202c-4f22-9508-6cbafb889c93",
+      "organizationName": "West Inc",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "2a2f3659-36fd-4747-a97b-d688998a457c",
+      "traceId": "d36A72b01CA712998C4d217c72cecd0B",
+      "spanId": "A938b6a3D1F222EF",
+      "environment": "staging",
+      "version": "7.11.10",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-07T05:29:09.068Z"
+  },
+  {
+    "externalRef": "666dcfaa-727a-4f74-9ad8-5b0375c40563",
+    "category": "document",
+    "subcategory": "permission_changed",
+    "log": "rosalie_weissnat88 changed permissions on political_usually.xlt",
+    "meta": {
+      "username": "rosalie_weissnat88",
+      "userId": "cb3c7ea4-e02d-49ad-b2c5-5812a595887f",
+      "email": "rosalie_weissnat88.Ruecker-Kozey96@yahoo.com",
+      "ip": "da0e:01c4:face:a382:1902:34a7:ad47:aafd",
+      "userAgent": "FakerBot/8.17.20",
+      "sessionId": "TnzIfap9tOHjdYxrjC0UGQKWLUMLUiUP",
+      "deviceType": "tablet",
+      "browser": "Firefox",
+      "os": "macOS Sonoma",
+      "country": "Botswana",
+      "city": "South Genevieveboro",
+      "timezone": "Asia/Sakhalin",
+      "organizationId": "377d3e6a-9f45-4880-9b91-8d00521f0bd4",
+      "organizationName": "Hoppe and Sons",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "2f738e63-7aff-4fcb-8c48-ad9f9a3de59c",
+      "traceId": "eeFade7985Bcc2aBf0F2a95d23ED9f14",
+      "spanId": "6acC4772D46bFC4A",
+      "environment": "production",
+      "version": "0.10.11",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-11T04:05:10.892Z"
+  },
+  {
+    "externalRef": "f2a53ada-4600-4347-bb21-8bc28e19ae2d",
+    "category": "data",
+    "subcategory": "query_executed",
+    "log": "Query executed by angelita24. Duration: 861ms",
+    "meta": {
+      "username": "angelita24",
+      "userId": "1db62feb-ab50-4e11-a5fb-c4d7d927bd52",
+      "email": "angelita24.Nicolas99@gmail.com",
+      "ip": "9.121.48.212",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/572.63.81 (KHTML, like Gecko) Version/14_2 Mobile/15E148 Safari/556.13",
+      "sessionId": "GWEDon4r8tO2eBLX7oC6bWQTnMjk78YZ",
+      "deviceType": "tablet",
+      "browser": "Edge",
+      "os": "Windows 11",
+      "country": "Maldives",
+      "city": "West Isidro",
+      "timezone": "Pacific/Midway",
+      "organizationId": "3bcae511-dabe-4706-803f-6b67676a60fb",
+      "organizationName": "VonRueden - Walker",
+      "role": "viewer",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "95c76f49-eec9-4bde-bfd8-4476ff4830f0",
+      "traceId": "5fdc2fD4b075ea4BEDFa42Cf474caaEB",
+      "spanId": "407a2919d7abeEb6",
+      "environment": "staging",
+      "version": "1.9.17",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-13T06:02:33.112Z"
+  },
+  {
+    "externalRef": "5031e2c0-0860-4212-aff4-dceeef140880",
+    "category": "data",
+    "subcategory": "anomaly_detected",
+    "log": "Anomaly detected in cpu_usage: 109%",
+    "meta": {
+      "username": "gertrude3",
+      "userId": "3a15e81c-d60a-4e46-83d6-a0d58349a8a4",
+      "email": "gertrude3_Lynch86@gmail.com",
+      "ip": "8f07:b30e:a2af:eeaa:be3a:0ff8:a947:df1f",
+      "userAgent": "Mozilla/5.0 (Linux; Android 10; SM-G998B) AppleWebKit/557.10 (KHTML, like Gecko) Chrome/105.4.15.12 Mobile Safari/539.2",
+      "sessionId": "a7xrZgfg7ZmtyDo3LjTrCVnyEbYGcUF7",
+      "deviceType": "mobile",
+      "browser": "Firefox",
+      "os": "macOS Sonoma",
+      "country": "Vanuatu",
+      "city": "Simonisstad",
+      "timezone": "Asia/Tomsk",
+      "organizationId": "f8d930a5-17fb-4229-bcf1-805036eb21b0",
+      "organizationName": "Konopelski - Kulas",
+      "role": "super_admin",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "b3cbdcdb-b6de-4e33-a958-a206dbef0ee7",
+      "traceId": "FA9EA9f341D8c5fb17fB5D2913d0F8a3",
+      "spanId": "c0E2Fdc6bE1cc6d3",
+      "environment": "staging",
+      "version": "1.12.18",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-31T02:48:40.677Z"
+  },
+  {
+    "externalRef": "7fb92c64-c5c4-4b75-b692-328fcdeb07cc",
+    "category": "communication",
+    "subcategory": "notification_sent",
+    "log": "Notification sent to armando40: email",
+    "meta": {
+      "username": "armando40",
+      "userId": "0a233f53-a7a6-46d4-a874-caf73caef673",
+      "email": "armando4045@hotmail.com",
+      "ip": "149.99.116.130",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/549.42.47 (KHTML, like Gecko) Chrome/106.6.19.9 Safari/571.72.86",
+      "sessionId": "OoxvteGB1ExkzCsrmIiHjbkeA0OVurRb",
+      "deviceType": "tablet",
+      "browser": "Chrome",
+      "os": "macOS Sonoma",
+      "country": "Peru",
+      "city": "Bristol",
+      "timezone": "America/Guyana",
+      "organizationId": "db7b18d9-8168-42cf-b17a-ba190f103554",
+      "organizationName": "Nader and Sons",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "1fb9b789-93b7-4532-91f5-bc7c7d454b5e",
+      "traceId": "7DAC03d2E259280905efD2A2eb28b9B3",
+      "spanId": "EFbBC40aCccbD0c0",
+      "environment": "development",
+      "version": "1.12.7",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-12T17:04:33.036Z"
+  },
+  {
+    "externalRef": "6720dc6e-9559-460c-9501-c5189466c4f3",
+    "category": "api",
+    "subcategory": "request_failed",
+    "log": "API request failed: /api/v1/users (201)",
+    "meta": {
+      "username": "lelah_ohara5",
+      "userId": "e2692a46-96bb-4c99-beed-64fd237f67a8",
+      "email": "lelah_ohara5.Kuhn86@hotmail.com",
+      "ip": "149.213.204.27",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:112.0) Gecko/20100101 Firefox/87.0",
+      "sessionId": "afw4gAkKD2fZro0i62JESRAMnG0RYVxy",
+      "deviceType": "tablet",
+      "browser": "Firefox",
+      "os": "Android 14",
+      "country": "Comoros",
+      "city": "Fort Marcos",
+      "timezone": "America/Araguaina",
+      "organizationId": "2fd60bd4-1f0a-4bca-b5f5-46ad1a60fc9c",
+      "organizationName": "Johnston, Wyman and Robel",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "ee9e17dd-f97e-42c2-a1d7-bd0f04bc1ca4",
+      "traceId": "74e13fbB54dd65FAeDE31E7ef0e4bd31",
+      "spanId": "eeBf3556DBD72E8D",
+      "environment": "development",
+      "version": "9.11.6",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-06T00:29:18.205Z"
+  },
+  {
+    "externalRef": "45e5a64c-3a4d-45eb-945a-8448fba27740",
+    "category": "data",
+    "subcategory": "report_generated",
+    "log": "bettie_west generated report: monthly_summary",
+    "meta": {
+      "username": "bettie_west",
+      "userId": "d6628cd6-c920-497c-a1ba-41b575d2d0f5",
+      "email": "bettie_west67@yahoo.com",
+      "ip": "164.168.167.175",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/99.0",
+      "sessionId": "ZrcbHrzqKDmeaCHwmyKBh36Td4jLHF5A",
+      "deviceType": "desktop",
+      "browser": "Edge",
+      "os": "Android 14",
+      "country": "Jamaica",
+      "city": "Garretcester",
+      "timezone": "America/Bahia_Banderas",
+      "organizationId": "473abc6f-f7ad-4b66-8c8e-f4c0b15e9322",
+      "organizationName": "Reichert Inc",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "11861f5d-3355-4e67-ad9f-95bfcc9c3815",
+      "traceId": "357b93BBA06684CBCB8F4FB29CDf82A0",
+      "spanId": "7e49Bf6488F94D9f",
+      "environment": "development",
+      "version": "6.7.1",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-10T14:04:06.546Z"
+  },
+  {
+    "externalRef": "63e0acf0-4824-481c-9020-92204e6f33a0",
+    "category": "user",
+    "subcategory": "avatar_changed",
+    "log": "User jessie_hettinger changed their avatar",
+    "meta": {
+      "username": "jessie_hettinger",
+      "userId": "9d959a4f-ea6e-4efb-a763-0eea3fb8f7d4",
+      "email": "jessie_hettinger_Schumm@gmail.com",
+      "ip": "114.64.88.171",
+      "userAgent": "Googlebot/2.1 (+http://www.google.com/bot.html)",
+      "sessionId": "vBbPAKFekSJr40iVKBhi6EhDPPPtK5AJ",
+      "deviceType": "mobile",
+      "browser": "Chrome",
+      "os": "macOS Sonoma",
+      "country": "Marshall Islands",
+      "city": "Crooksstead",
+      "timezone": "America/Indiana/Marengo",
+      "organizationId": "ea40daa4-d71e-4db6-85ac-e3a4413013f6",
+      "organizationName": "Moen, O'Kon and Dooley",
+      "role": "editor",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "32708b97-3a4b-411e-84f2-fcd2e55bce02",
+      "traceId": "20EA5836bbE3cD52041b3155D958Db42",
+      "spanId": "bD21938caabBACbf",
+      "environment": "staging",
+      "version": "6.11.13",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-13T18:37:51.164Z"
+  },
+  {
+    "externalRef": "eaf888df-eb6b-45ba-bfca-fc4b8d66f4c0",
+    "category": "billing",
+    "subcategory": "payment_refunded",
+    "log": "Refund of £4263.05 issued to terrell.hane45",
+    "meta": {
+      "username": "terrell.hane45",
+      "userId": "11c54353-0e44-40d0-b2ea-8ac908aef122",
+      "email": "terrell.hane4536@gmail.com",
+      "ip": "d2ca:1ffd:6f13:d3a8:f8de:48b0:ff92:b06a",
+      "userAgent": "FakerBot/7.18.11",
+      "sessionId": "FKmgZE9hAqGSEmHnGqaYw25wg57l51kg",
+      "deviceType": "mobile",
+      "browser": "Firefox",
+      "os": "Ubuntu 22.04",
+      "country": "United States of America",
+      "city": "East Gerryburgh",
+      "timezone": "Pacific/Pohnpei",
+      "organizationId": "6f4232a5-9f28-41a9-9f0b-9c9513887830",
+      "organizationName": "Grant and Sons",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "5fa465d3-efff-46c2-bb37-f713b98f48bb",
+      "traceId": "ED782cAa6ef5818bB3bbB44D3f08Ee44",
+      "spanId": "a29d54C4BE2f67b0",
+      "environment": "production",
+      "version": "4.12.7",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-20T17:00:41.058Z"
+  },
+  {
+    "externalRef": "a851fb75-1dd0-4467-bc7b-0830f36dbb68",
+    "category": "api",
+    "subcategory": "key_created",
+    "log": "API key created for regina67: XX5GvfaS...",
+    "meta": {
+      "username": "regina67",
+      "userId": "3fb4484e-0298-4012-841d-fac8d726dc13",
+      "email": "regina6777@hotmail.com",
+      "ip": "195.137.86.122",
+      "userAgent": "FakerBot/0.12.20",
+      "sessionId": "C8jpsQRcbT117o5fj0oXGaYDPUwAIVt2",
+      "deviceType": "tablet",
+      "browser": "Chrome",
+      "os": "macOS Sonoma",
+      "country": "Uzbekistan",
+      "city": "Carlsbad",
+      "timezone": "Europe/Belgrade",
+      "organizationId": "6dd18cf9-d862-445c-97ff-20d576c0edc9",
+      "organizationName": "Padberg - Trantow",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "2cc71be3-414d-40c5-bfab-bfed6cd9a908",
+      "traceId": "6Bb7B72e622D4c38cbDfEEFD7AD6BC02",
+      "spanId": "75dfdaceE36Ff4EF",
+      "environment": "development",
+      "version": "8.8.4",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-11T07:06:11.010Z"
+  },
+  {
+    "externalRef": "59e948c2-909b-413c-b0b4-e7d036fccc31",
+    "category": "data",
+    "subcategory": "report_generated",
+    "log": "sue_schimmel generated report: audit_log",
+    "meta": {
+      "username": "sue_schimmel",
+      "userId": "81d6ddb8-8ba0-4415-91ae-46151bf10642",
+      "email": "sue_schimmel.Daniel@hotmail.com",
+      "ip": "fbfc:d206:1cbf:26db:eabc:f29d:4bf2:2b9e",
+      "userAgent": "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/538.19 (KHTML, like Gecko) Chrome/76.5.5.15 Safari/578.52 Edg/115.4.6.19",
+      "sessionId": "ysZHATGebcmlGKGhW692GmmOcQDVUDD4",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "iOS 17",
+      "country": "Svalbard & Jan Mayen Islands",
+      "city": "Malden",
+      "timezone": "America/Indiana/Petersburg",
+      "organizationId": "6900cd15-9875-4214-bf93-a1e2e28bc578",
+      "organizationName": "Hermiston - Daniel",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "1b71b488-5032-44dd-8a67-ac25c07a107d",
+      "traceId": "C3035DEB82CB5Ce0ABE42Ad3ED3f1ebe",
+      "spanId": "F11f468A8ae94E18",
+      "environment": "development",
+      "version": "1.15.15",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-10T02:03:52.302Z"
+  },
+  {
+    "externalRef": "68310335-70bb-43a0-b6a8-49434fa045e7",
+    "category": "billing",
+    "subcategory": "payment_success",
+    "log": "Payment of £436.29 processed for brenda.parisian",
+    "meta": {
+      "username": "brenda.parisian",
+      "userId": "ac336b9c-2d96-4d14-ad78-10e9a13c74ee",
+      "email": "brenda.parisian_Parker0@gmail.com",
+      "ip": "130.196.6.182",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_4 like Mac OS X) AppleWebKit/568.74.4 (KHTML, like Gecko) Version/12_0 Mobile/15E148 Safari/597.28",
+      "sessionId": "7Tx6RjusCZLDUXJdaIbP9pCLIDf4rXAW",
+      "deviceType": "desktop",
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "country": "Malawi",
+      "city": "East Mayratown",
+      "timezone": "Africa/Nairobi",
+      "organizationId": "946fc59a-0fa6-49bb-ad8c-00aea792e17a",
+      "organizationName": "Goodwin Inc",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "7f3ef3cb-c788-46e1-8911-8750e109c23c",
+      "traceId": "aFe3FeFcbC36aF1Ad2f452FB97Eb7cB6",
+      "spanId": "cf6a143adeaa1600",
+      "environment": "production",
+      "version": "0.1.20",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-03T10:34:09.556Z"
+  },
+  {
+    "externalRef": "c7ce078e-c30f-4ea6-9eff-6b08e65f94d3",
+    "category": "communication",
+    "subcategory": "sms_sent",
+    "log": "SMS sent to 1-449-777-6006",
+    "meta": {
+      "username": "tabitha.fritsch-carroll55",
+      "userId": "c62bad8d-0940-4cf5-b69d-00ee7215a16a",
+      "email": "tabitha.fritsch-carroll55.Kiehn@gmail.com",
+      "ip": "164.101.245.218",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1 like Mac OS X) AppleWebKit/537.1.8 (KHTML, like Gecko) Version/16_3 Mobile/15E148 Safari/550.28",
+      "sessionId": "cv7hSZ1D0inL4E3AFREyWHqrzYZzLhER",
+      "deviceType": "tablet",
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "country": "San Marino",
+      "city": "Pansystead",
+      "timezone": "America/Argentina/Mendoza",
+      "organizationId": "c7046635-e435-4e01-826b-105d32122217",
+      "organizationName": "Gerlach, Anderson and Dickens",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "2074c19c-be3b-4cd4-ade2-1e182e18fc9e",
+      "traceId": "D0A833cDf2f1Cd82fb6cc1DbbFbd89Bf",
+      "spanId": "EeA3Aadc56FeA5Ed",
+      "environment": "staging",
+      "version": "2.3.20",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-27T16:48:16.115Z"
+  },
+  {
+    "externalRef": "22773d74-48fe-4446-83c2-3f1d548bf8a4",
+    "category": "api",
+    "subcategory": "key_revoked",
+    "log": "API key revoked for douglas_swaniawski: HjVFzvj4...",
+    "meta": {
+      "username": "douglas_swaniawski",
+      "userId": "1e930994-6eec-49ad-a13c-14bd4d323768",
+      "email": "douglas_swaniawski.Schumm@gmail.com",
+      "ip": "184.99.85.54",
+      "userAgent": "FakerBot/3.11.10",
+      "sessionId": "MiF55M6Ppb5KKq950Gse9kdcmyiAHla3",
+      "deviceType": "mobile",
+      "browser": "Chrome",
+      "os": "iOS 17",
+      "country": "Jersey",
+      "city": "West Websterview",
+      "timezone": "Africa/Monrovia",
+      "organizationId": "f3203ac6-970c-460a-8124-8d3ee6c7dd9c",
+      "organizationName": "Cronin - Gorczany",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "ed8a6638-84ab-479e-9a88-a725f042f0fa",
+      "traceId": "6cb380c1def573ddDCF96a3559dBDF49",
+      "spanId": "94cb2C19Aa4dfc8C",
+      "environment": "production",
+      "version": "9.3.1",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-17T01:03:43.748Z"
+  },
+  {
+    "externalRef": "fca26cbe-21eb-491e-aa1a-1f6cc3c0b52d",
+    "category": "user",
+    "subcategory": "suspended",
+    "log": "User jazmyn.stehr was suspended. Reason: user_request",
+    "meta": {
+      "username": "jazmyn.stehr",
+      "userId": "e2f9b4c5-bf06-4a1f-8681-9fd980e45a6d",
+      "email": "jazmyn.stehr.Morar@hotmail.com",
+      "ip": "bcc8:ce41:2ea4:aee1:5c7e:63f7:4ab3:1c3f",
+      "userAgent": "Mozilla/5.0 (Windows NT 5.2; Win64; x64) AppleWebKit/578.41 (KHTML, like Gecko) Chrome/59.6.13.4 Safari/574.14 Edg/127.5.19.8",
+      "sessionId": "lta2StIInXsbL6NjDEEvLVu3tH8AHNme",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "Android 14",
+      "country": "Samoa",
+      "city": "Menifee",
+      "timezone": "Europe/Vilnius",
+      "organizationId": "c703da48-afe8-48fc-a0c3-59a692a9d834",
+      "organizationName": "Waters - McCullough",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "7b3ac6de-6ad3-4841-a44a-7943632201b6",
+      "traceId": "38A7b1c20eca83fC5E26ADE36cDFA7E5",
+      "spanId": "CFCBDD7F85CF2c17",
+      "environment": "development",
+      "version": "2.6.20",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-05T17:13:16.470Z"
+  },
+  {
+    "externalRef": "554900f5-8efd-41de-af92-511dc4e86937",
+    "category": "user",
+    "subcategory": "deleted",
+    "log": "User loy81 was deleted by cheyenne.olson",
+    "meta": {
+      "username": "loy81",
+      "userId": "4329d6c2-2c58-4c95-bf13-82c1ac4d05d0",
+      "email": "loy81.Spencer@yahoo.com",
+      "ip": "172.48.247.97",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/586.37.71 (KHTML, like Gecko) Chrome/111.2.15.18 Safari/549.48.96",
+      "sessionId": "ekDTXgHuQ6hTIaCdsPUbhD74H91TYVKY",
+      "deviceType": "mobile",
+      "browser": "Edge",
+      "os": "Android 14",
+      "country": "Niger",
+      "city": "Aaliyahstead",
+      "timezone": "Africa/Lome",
+      "organizationId": "4cb17c1a-af94-4925-8155-eaac045da1d6",
+      "organizationName": "Schamberger, Hamill and Ondricka",
+      "role": "editor",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "8cac35ab-8a77-4e3f-aed2-c5883fcbf708",
+      "traceId": "fAF3A100EbeCef0dc92DFDFb2A39c3c3",
+      "spanId": "B977F49519Bc9b1D",
+      "environment": "development",
+      "version": "4.20.8",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-14T12:56:35.230Z"
+  },
+  {
+    "externalRef": "7686a1a1-159a-4c4a-82bc-30155b9e9c17",
+    "category": "document",
+    "subcategory": "downloaded",
+    "log": "luis24 downloaded whereas_incidentally_as.ogv",
+    "meta": {
+      "username": "luis24",
+      "userId": "ad47c414-4f38-4a14-b2c8-235b38b376b9",
+      "email": "luis2421@gmail.com",
+      "ip": "3995:f4b4:3fa3:d0ff:f27e:ea9b:6ced:785f",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/598.76.68 (KHTML, like Gecko) Chrome/110.5.2.9 Safari/567.85.4",
+      "sessionId": "1od2yZEeFKrhTbx7cebTAq7UX5od8Go8",
+      "deviceType": "mobile",
+      "browser": "Edge",
+      "os": "Ubuntu 22.04",
+      "country": "Barbados",
+      "city": "New Venastead",
+      "timezone": "Asia/Tehran",
+      "organizationId": "aa4c1bd2-b70e-49e5-bf8d-972a6acc8732",
+      "organizationName": "Emmerich, Witting and Zieme",
+      "role": "super_admin",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "d2aac023-bee7-462c-8f1b-8acb4c4d3f8e",
+      "traceId": "1b54d56b20B9A98Dbcac6A1ef295A485",
+      "spanId": "988CcBDCb97A70f5",
+      "environment": "development",
+      "version": "8.0.5",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-05T09:00:07.783Z"
+  },
+  {
+    "externalRef": "f135335c-f365-4e50-b017-fa20383a6f5d",
+    "category": "workflow",
+    "subcategory": "approval_denied",
+    "log": "Approval denied by sheldon39. Reason: security_concern",
+    "meta": {
+      "username": "natasha85",
+      "userId": "efea1024-3f28-4e86-9ad0-8e3ac9cb3303",
+      "email": "natasha85.Lockman@gmail.com",
+      "ip": "56b3:3fbb:ae9f:85e8:75bd:bdcd:788a:16d1",
+      "userAgent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 10.0; Trident/6.0)",
+      "sessionId": "BhgBVI4PJWy8iQ1K3VAIKbMwjQ2Lkhdr",
+      "deviceType": "desktop",
+      "browser": "Firefox",
+      "os": "Windows 11",
+      "country": "Russian Federation",
+      "city": "West Rickyborough",
+      "timezone": "Asia/Phnom_Penh",
+      "organizationId": "e0793f64-7e9c-481c-b9bf-d598626ee705",
+      "organizationName": "Keebler and Sons",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "7bddbe15-c362-4f20-8fc5-d8d080aca6d2",
+      "traceId": "9baABBe857B809FfAD14bBBF207cCcBF",
+      "spanId": "82feC0351F8C3737",
+      "environment": "production",
+      "version": "9.7.12",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-27T04:30:39.731Z"
+  },
+  {
+    "externalRef": "c2ef84ce-bc73-4a23-96c3-599aa3ec099e",
+    "category": "compliance",
+    "subcategory": "violation_detected",
+    "log": "Compliance violation detected: logging",
+    "meta": {
+      "username": "jessica55",
+      "userId": "bd4684ea-401a-47b6-918e-f57930a14ed7",
+      "email": "jessica55_Cronin@gmail.com",
+      "ip": "0ebe:8247:dcf8:ec86:ecc7:a37e:e8e6:1ecf",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/551.46.19 (KHTML, like Gecko) Chrome/126.1.7.18 Safari/552.20.82",
+      "sessionId": "sUYVOqTWCEwBZLKhAKQdGOhKGGuD3bDW",
+      "deviceType": "desktop",
+      "browser": "Safari",
+      "os": "Ubuntu 22.04",
+      "country": "Trinidad and Tobago",
+      "city": "Wehnerstad",
+      "timezone": "America/Thule",
+      "organizationId": "e489073d-5c05-4051-94f3-d7b056340fb2",
+      "organizationName": "Towne - Gerhold",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "f1ca86dc-8919-4e5a-a783-81a2e7c310c9",
+      "traceId": "Eb05a0cBEF2dddc98AA9A7b9A4fbB1cf",
+      "spanId": "2DC7150eBfD7c3fd",
+      "environment": "production",
+      "version": "2.11.11",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-02T01:12:48.781Z"
+  },
+  {
+    "externalRef": "8419a97d-c83f-4d08-8be9-8a2be33a4ab2",
+    "category": "communication",
+    "subcategory": "call_started",
+    "log": "Call started between carl24 and Meredith.Dickinson@gmail.com",
+    "meta": {
+      "username": "carl24",
+      "userId": "c82ed24e-fb4c-4f8f-a088-c0afab68e925",
+      "email": "carl24_Howell1@hotmail.com",
+      "ip": "109.49.73.13",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/572.27.49 (KHTML, like Gecko) Version/16.1 Safari/570.75.36",
+      "sessionId": "vlWpSTChJ2rCNGKtj6mWPT5E1pP03b6c",
+      "deviceType": "tablet",
+      "browser": "Chrome",
+      "os": "iOS 17",
+      "country": "Virgin Islands, U.S.",
+      "city": "Port Rudystad",
+      "timezone": "America/Caracas",
+      "organizationId": "6517f025-259c-4d72-8952-0e13b785542d",
+      "organizationName": "Osinski, Koch and Miller",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "fe4d99a4-edaf-4d5e-8fe5-68b29d64d3b7",
+      "traceId": "1f4cA57DfcBCF44efcfE46c7D6E60c96",
+      "spanId": "7A21e6F744A4b397",
+      "environment": "staging",
+      "version": "6.15.1",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-04T16:02:13.275Z"
+  },
+  {
+    "externalRef": "248cc7b6-db45-405b-9d92-df21a3d9f917",
+    "category": "billing",
+    "subcategory": "payment_success",
+    "log": "Payment of £4297.65 processed for tamara_hamill99",
+    "meta": {
+      "username": "tamara_hamill99",
+      "userId": "22226fa2-d101-4658-899e-f1646b4ae262",
+      "email": "tamara_hamill99.Cremin@gmail.com",
+      "ip": "106.18.44.8",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/559.3.24 (KHTML, like Gecko) Version/16.1 Safari/540.65.57",
+      "sessionId": "k7gWYlsiC9WY1Br8TXz38d4BOXnWajkD",
+      "deviceType": "tablet",
+      "browser": "Chrome",
+      "os": "macOS Sonoma",
+      "country": "Côte d'Ivoire",
+      "city": "Luciohaven",
+      "timezone": "Indian/Maldives",
+      "organizationId": "2167ca88-f090-463f-8d18-27f5dd826928",
+      "organizationName": "Carroll - Conn",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "5548d959-44d0-4c7c-ac30-05432371b1fe",
+      "traceId": "BCc9cb02Bd4f45D3B295f8AD8ee07Bb8",
+      "spanId": "Dc27C06781A8fb10",
+      "environment": "development",
+      "version": "5.20.7",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-16T05:17:54.124Z"
+  },
+  {
+    "externalRef": "bd8dd57e-ab8a-48ce-a4f6-eb8695d3d1cd",
+    "category": "compliance",
+    "subcategory": "audit_completed",
+    "log": "Audit completed: operational. Findings: 3",
+    "meta": {
+      "username": "rosalie.kulas72",
+      "userId": "74947487-89bc-4396-9b67-a8229e263c1c",
+      "email": "rosalie.kulas7279@gmail.com",
+      "ip": "139.157.180.179",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/536.59.23 (KHTML, like Gecko) Chrome/86.0.5.5 Safari/588.66.36",
+      "sessionId": "ty8lViyH7iJLzxrVLzno3q1rwzaM8nfi",
+      "deviceType": "mobile",
+      "browser": "Chrome",
+      "os": "Ubuntu 22.04",
+      "country": "Virgin Islands, British",
+      "city": "Hamilton",
+      "timezone": "America/Santo_Domingo",
+      "organizationId": "df232f90-6c4d-46c3-80f0-0f7991924ae0",
+      "organizationName": "Beier Group",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "5fb827a0-4656-4308-bf0d-14daf764326e",
+      "traceId": "2809b8317c4F9a7086ea91B5B5727E5B",
+      "spanId": "9E169818CeDAB877",
+      "environment": "production",
+      "version": "0.13.0",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-20T14:17:27.483Z"
+  },
+  {
+    "externalRef": "c8e5a850-032a-4f88-8821-8798ee9af1ce",
+    "category": "document",
+    "subcategory": "downloaded",
+    "log": "brandon39 downloaded yippee.list",
+    "meta": {
+      "username": "brandon39",
+      "userId": "ca69b729-2d30-47ea-b3cb-3523a72e899c",
+      "email": "brandon39_Terry7@yahoo.com",
+      "ip": "15.19.46.217",
+      "userAgent": "Googlebot/2.1 (+http://www.google.com/bot.html)",
+      "sessionId": "3l6wHWSxzAHw7GpdXjJJTxxGL9Kqgs6K",
+      "deviceType": "mobile",
+      "browser": "Firefox",
+      "os": "macOS Sonoma",
+      "country": "Palau",
+      "city": "Bossier City",
+      "timezone": "Africa/Asmara",
+      "organizationId": "1aea13ca-c42b-4dce-8f09-104605bcbaf2",
+      "organizationName": "Schamberger, Bednar and McCullough",
+      "role": "user",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "ee775bb4-aea8-4861-bd16-1255c1e9d5f5",
+      "traceId": "Bb3dD51935bA98b5D8Db1b9C74FfaE1E",
+      "spanId": "D4DBecdD9eFD8c3e",
+      "environment": "staging",
+      "version": "0.14.17",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-03T11:44:14.663Z"
+  },
+  {
+    "externalRef": "6616e9cf-885b-45af-a51b-8e531f69b917",
+    "category": "billing",
+    "subcategory": "invoice_created",
+    "log": "Invoice #INV-RCYB4GTR generated for maggie_goldner - €432.69",
+    "meta": {
+      "username": "maggie_goldner",
+      "userId": "aefa8777-c664-481f-a6d7-d23f52bafb13",
+      "email": "maggie_goldner.Hackett63@yahoo.com",
+      "ip": "223.112.221.137",
+      "userAgent": "Mozilla/5.0 (Linux; Android 12; SM-G998N) AppleWebKit/540.17 (KHTML, like Gecko) Chrome/116.2.14.7 Mobile Safari/585.16",
+      "sessionId": "0N4D2G1q92sVdhLoFGUlfXjNRD7bq7q7",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "iOS 17",
+      "country": "Bonaire, Sint Eustatius and Saba",
+      "city": "North Kevin",
+      "timezone": "Africa/Ndjamena",
+      "organizationId": "a427a4ae-039b-4ce0-9944-793288d55bb3",
+      "organizationName": "Denesik, Rosenbaum and Marvin",
+      "role": "super_admin",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "347b28a0-0e62-4e91-b681-f8a8bc159066",
+      "traceId": "5dB464CDeBEcAFcEb8c4D989E111E0eb",
+      "spanId": "e5e10DB04AbC1A4E",
+      "environment": "development",
+      "version": "0.19.17",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-04T20:18:34.219Z"
+  },
+  {
+    "externalRef": "c12c2518-9659-48af-a265-e54fbd7d0c11",
+    "category": "document",
+    "subcategory": "viewed",
+    "log": "curtis_graham viewed stormy.bz2",
+    "meta": {
+      "username": "curtis_graham",
+      "userId": "08ee0b29-adea-4365-a911-c201d0901829",
+      "email": "curtis_graham.Dietrich35@gmail.com",
+      "ip": "99.164.8.150",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:133.0) Gecko/20100101 Firefox/123.0",
+      "sessionId": "gSwaX2PjCAl3GIV07LTw0YVc7R19AEiR",
+      "deviceType": "desktop",
+      "browser": "Firefox",
+      "os": "Ubuntu 22.04",
+      "country": "Haiti",
+      "city": "South Prestonview",
+      "timezone": "America/Nassau",
+      "organizationId": "3ccb3c7d-c2e9-4e79-b247-95d20bfc8119",
+      "organizationName": "Altenwerth Inc",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "e77b7424-c89c-42fa-aed8-04e1a47e98e8",
+      "traceId": "65d55B5f05AEDDebf3BBfaaB2ec6335A",
+      "spanId": "cE9a353c7dcE23fF",
+      "environment": "staging",
+      "version": "7.4.13",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-22T20:14:46.947Z"
+  },
+  {
+    "externalRef": "7dfffbbb-3466-447b-b270-734835faf5cb",
+    "category": "billing",
+    "subcategory": "payment_refunded",
+    "log": "Refund of $3575.35 issued to jackie_schiller65",
+    "meta": {
+      "username": "jackie_schiller65",
+      "userId": "4bc97558-045d-46d6-82a8-0be25d01b130",
+      "email": "jackie_schiller6566@hotmail.com",
+      "ip": "ac16:cd9f:3847:ff16:1ede:cfdc:f84e:a2fb",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/585.60.16 (KHTML, like Gecko) Version/16.1 Safari/550.81.18",
+      "sessionId": "8RMsu2812E2OXbU3fCAyMyrd5Rs6o0s4",
+      "deviceType": "tablet",
+      "browser": "Firefox",
+      "os": "Windows 11",
+      "country": "Mauritius",
+      "city": "Charlotte",
+      "timezone": "Antarctica/Troll",
+      "organizationId": "a76c90f9-1e34-4c7c-93f3-63ace3c5e270",
+      "organizationName": "Dach LLC",
+      "role": "user",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "61efd398-c407-4292-90b4-fcd5ce2cafd8",
+      "traceId": "1Fc5FE3e071ccEcA9d43efdcFAd9c54F",
+      "spanId": "a1484f9da0f19BDd",
+      "environment": "staging",
+      "version": "9.12.0",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-15T20:19:57.948Z"
+  },
+  {
+    "externalRef": "6397b4e4-3a92-46ca-978f-32a9ca75ed85",
+    "category": "communication",
+    "subcategory": "email_sent",
+    "log": "Email sent to Anais3@gmail.com: \"Quas acidus sufficio apparatus bardus.\"",
+    "meta": {
+      "username": "johnny_keebler72",
+      "userId": "c45bd33e-2efa-4869-bde4-0987e65f02a7",
+      "email": "johnny_keebler72.Rice74@gmail.com",
+      "ip": "116.103.188.174",
+      "userAgent": "FakerBot/2.17.13",
+      "sessionId": "cpP2nCUCza6bH8uP4uXzkS12hOIJ3S49",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "Android 14",
+      "country": "Russian Federation",
+      "city": "Cornellchester",
+      "timezone": "Asia/Ashgabat",
+      "organizationId": "54ad7a83-cd50-4a5e-958b-172e32de11cd",
+      "organizationName": "Romaguera - Kreiger",
+      "role": "user",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "acf4af89-b179-4403-9ebf-6751fb90c1c7",
+      "traceId": "329e9dE8fd01FB20cbeEcE0E789391AE",
+      "spanId": "8d5BaC097763FC7E",
+      "environment": "staging",
+      "version": "6.10.7",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-19T17:10:53.780Z"
+  },
+  {
+    "externalRef": "3085c5b4-2e85-4d5b-942b-b667dd6c93e0",
+    "category": "api",
+    "subcategory": "request_failed",
+    "log": "API request failed: /api/v1/orders (201)",
+    "meta": {
+      "username": "lorenza7",
+      "userId": "5c8bd7ff-3d84-4b7c-93f0-2457ecfd59d9",
+      "email": "lorenza733@gmail.com",
+      "ip": "35.56.205.142",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/591.34.65 (KHTML, like Gecko) Version/16.1 Safari/585.56.6",
+      "sessionId": "ZXxvp1VwtxK00HxNSaoLBRX03SeOjQZT",
+      "deviceType": "desktop",
+      "browser": "Safari",
+      "os": "Android 14",
+      "country": "American Samoa",
+      "city": "Emmaleeberg",
+      "timezone": "Europe/Podgorica",
+      "organizationId": "95a43fa8-9e88-4152-ba3f-6b3f5dfeb967",
+      "organizationName": "Quitzon - Gerlach",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "e6300dfd-eafd-4094-aaaa-32978b930f20",
+      "traceId": "B0A2310821F1C496fE617bBc79BC3Cb1",
+      "spanId": "bc6e00b17CE8a9AD",
+      "environment": "production",
+      "version": "4.11.14",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-18T21:44:57.670Z"
+  },
+  {
+    "externalRef": "3a990c42-b6f0-4132-959d-687a245a64cb",
+    "category": "authentication",
+    "subcategory": "token_refreshed",
+    "log": "Access token refreshed for della.murphy",
+    "meta": {
+      "username": "della.murphy",
+      "userId": "165f9fd6-ffff-4d92-ac1e-932409e08ee4",
+      "email": "della.murphy21@gmail.com",
+      "ip": "106.111.239.42",
+      "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/578.83 (KHTML, like Gecko) Chrome/87.0.10.16 Safari/584.55 Edg/126.4.14.16",
+      "sessionId": "4d8VBjGDh1WQ1rpB5C69cZkj05ZjxVAK",
+      "deviceType": "desktop",
+      "browser": "Chrome",
+      "os": "Android 14",
+      "country": "Estonia",
+      "city": "Fort Carolynmouth",
+      "timezone": "Europe/Sarajevo",
+      "organizationId": "d2ba5fae-c5da-463c-b181-28609349865f",
+      "organizationName": "Wehner, Dicki and Torp",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "d0f8ca47-618d-46c5-84bb-3166883c3240",
+      "traceId": "D4D9722B1Cc1f095b2fCcaBF1Db85b9f",
+      "spanId": "930CCC85FeeAAb50",
+      "environment": "production",
+      "version": "9.9.20",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-07T12:00:28.263Z"
+  },
+  {
+    "externalRef": "f140599a-8827-4825-8113-cdacea2878e7",
+    "category": "document",
+    "subcategory": "moved",
+    "log": "paige.sauer-kertzmann moved too.zip to //opt/lib",
+    "meta": {
+      "username": "paige.sauer-kertzmann",
+      "userId": "03d58d44-206f-41ba-a24d-6abc3bf1b417",
+      "email": "paige.sauer-kertzmann50@yahoo.com",
+      "ip": "233.113.18.7",
+      "userAgent": "Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/548.96 (KHTML, like Gecko) Chrome/117.6.3.7 Safari/584.36 Edg/131.2.20.3",
+      "sessionId": "k7yzJjYZl6kjZ3886sQ11r2u202nSzeQ",
+      "deviceType": "tablet",
+      "browser": "Edge",
+      "os": "Ubuntu 22.04",
+      "country": "Comoros",
+      "city": "Davenport",
+      "timezone": "America/Creston",
+      "organizationId": "42802092-6903-46c9-b301-42966b2f4869",
+      "organizationName": "Price Group",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "da93daa3-a027-44e3-b634-e3676f9c5e8d",
+      "traceId": "9ec4d7ddbf3cF411fF7Bd60DD360cE1A",
+      "spanId": "42bc94f7D53Ba103",
+      "environment": "staging",
+      "version": "0.15.12",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-19T10:40:13.102Z"
+  },
+  {
+    "externalRef": "9f5f3188-28cf-442f-9904-51eed50b83da",
+    "category": "system",
+    "subcategory": "maintenance_completed",
+    "log": "Scheduled maintenance completed",
+    "meta": {
+      "username": "marian.kassulke99",
+      "userId": "8413413e-114c-4ee2-952e-e4bb8b1e8bea",
+      "email": "marian.kassulke9995@gmail.com",
+      "ip": "edb3:ddab:1abc:c2ed:bedd:a47a:74ea:3acb",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/572.47.68 (KHTML, like Gecko) Version/16.1 Safari/605.82.17",
+      "sessionId": "D4rHz5NJL5a9aaDRMoW1pDNQEA5KuocS",
+      "deviceType": "desktop",
+      "browser": "Chrome",
+      "os": "macOS Sonoma",
+      "country": "Gabon",
+      "city": "Asheville",
+      "timezone": "Europe/Copenhagen",
+      "organizationId": "5e27c317-2ffe-4d55-ae04-b2564d260e37",
+      "organizationName": "Koepp - Johnson",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "f217c717-f3cb-4e62-9adb-65c2ddf83eb4",
+      "traceId": "9Ee29C3D5DDD9f32bA79e3AEae5d11cd",
+      "spanId": "8EAbAf1bF1CB3cBe",
+      "environment": "development",
+      "version": "0.17.4",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-23T07:36:39.737Z"
+  },
+  {
+    "externalRef": "12afecf2-dff1-4b85-b71c-8985efa8c5e2",
+    "category": "system",
+    "subcategory": "config_changed",
+    "log": "Configuration updated: rate_limit",
+    "meta": {
+      "username": "sabrina3",
+      "userId": "005b3178-67d0-46a6-8d27-b7d91d18d4e5",
+      "email": "sabrina363@hotmail.com",
+      "ip": "101.91.182.203",
+      "userAgent": "Googlebot/2.1 (+http://www.google.com/bot.html)",
+      "sessionId": "imZDMBOaJ5hW2hWRcK8KoofGXqQHbk7j",
+      "deviceType": "desktop",
+      "browser": "Safari",
+      "os": "Android 14",
+      "country": "Democratic People's Republic of Korea",
+      "city": "Brakustown",
+      "timezone": "Asia/Dubai",
+      "organizationId": "6964ddb9-61fe-4d4d-a939-2aecdff54adb",
+      "organizationName": "VonRueden LLC",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "90053df3-dc83-4a9f-be60-ed70d3826b7e",
+      "traceId": "8Fcf8bD9d375eFADacBdb1cedA3Ca5B5",
+      "spanId": "6DCcEBb8d7CC6fA7",
+      "environment": "staging",
+      "version": "7.10.9",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-01T17:02:50.330Z"
+  },
+  {
+    "externalRef": "d60e2ccc-4dce-459e-935e-b18ec68e04eb",
+    "category": "system",
+    "subcategory": "maintenance_started",
+    "log": "Scheduled maintenance started. ETA: 63 minutes",
+    "meta": {
+      "username": "nikita_ruecker",
+      "userId": "21f4ae7b-b36f-4df5-af5b-aed2e892fc8f",
+      "email": "nikita_ruecker.Gerhold@yahoo.com",
+      "ip": "dd6f:ad61:fbee:8bf7:afb1:8b6c:22ee:a2b7",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/588.18.61 (KHTML, like Gecko) Version/16.1 Safari/593.61.2",
+      "sessionId": "yG3xDAdIunH3PEujF3osrv122wo8hNoM",
+      "deviceType": "desktop",
+      "browser": "Edge",
+      "os": "Android 14",
+      "country": "Samoa",
+      "city": "North Montanaborough",
+      "timezone": "America/Port_of_Spain",
+      "organizationId": "4e8fb34d-a4b1-4d71-843a-c4501cd5d868",
+      "organizationName": "Olson - Haag",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "287cbe7d-a1a2-41c5-bbe7-991684b7725e",
+      "traceId": "14b6EDcDFFEFAb3aDeBab3Dd138b49AA",
+      "spanId": "7Ab9b946B20B7aB7",
+      "environment": "development",
+      "version": "8.17.11",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-24T21:49:58.558Z"
+  },
+  {
+    "externalRef": "8eaf02b7-95e8-4e2a-8c25-b6f35b466042",
+    "category": "user",
+    "subcategory": "profile_viewed",
+    "log": "Profile of louis24 was viewed",
+    "meta": {
+      "username": "louis24",
+      "userId": "25410e3d-c130-4f18-b00c-44d347326de5",
+      "email": "louis2448@yahoo.com",
+      "ip": "105.201.170.59",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/599.18.8 (KHTML, like Gecko) Version/16.1 Safari/545.19.79",
+      "sessionId": "4LhDlhrgIR2U6KXJ0b1TuQp5M2snmk5Z",
+      "deviceType": "tablet",
+      "browser": "Edge",
+      "os": "Android 14",
+      "country": "Palestine",
+      "city": "West Citlalli",
+      "timezone": "Europe/Zagreb",
+      "organizationId": "48c82478-2c79-4147-919b-4ece318be074",
+      "organizationName": "Dibbert - Hammes",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "d95d913e-5753-4529-b0bd-cc1be4bd054f",
+      "traceId": "Cf39eD4F9ebFfA4599790d5e40fdbfc9",
+      "spanId": "E2b89CaD6Aa07F8F",
+      "environment": "development",
+      "version": "8.19.17",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-25T20:09:26.648Z"
+  },
+  {
+    "externalRef": "4045b230-4863-4765-8239-f56dbd411050",
+    "category": "communication",
+    "subcategory": "notification_sent",
+    "log": "Notification sent to vicki.bashirian59: sms",
+    "meta": {
+      "username": "vicki.bashirian59",
+      "userId": "a7f3ae6c-b3b4-4914-9295-f3cd4b06f087",
+      "email": "vicki.bashirian59.Swift65@hotmail.com",
+      "ip": "34.10.84.239",
+      "userAgent": "FakerBot/2.7.9",
+      "sessionId": "upHWOwhIwTGwizmUcKGcFnXSp9sLTTjz",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "country": "Honduras",
+      "city": "South Mackenzieworth",
+      "timezone": "America/Halifax",
+      "organizationId": "8fc68b0b-f3e9-462d-b40f-c97c96084243",
+      "organizationName": "Hodkiewicz - Kihn",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "8e587349-7a91-45d6-8eec-5f2b86eb50ff",
+      "traceId": "2c0B1fd02d0d4e2704Ba39af71392FF9",
+      "spanId": "cf1D6E76c25Ab073",
+      "environment": "development",
+      "version": "0.0.4",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-30T09:54:56.595Z"
+  },
+  {
+    "externalRef": "4e75e066-71b9-437a-8882-0dd077994c88",
+    "category": "data",
+    "subcategory": "alert_triggered",
+    "log": "Alert triggered: high_cpu",
+    "meta": {
+      "username": "lilla19",
+      "userId": "15028ee7-b140-4456-a925-36252721e03d",
+      "email": "lilla19.Murray@hotmail.com",
+      "ip": "d5ea:7205:1768:b73f:994b:5b82:b598:94f9",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/564.85 (KHTML, like Gecko) Chrome/123.2.6.8 Safari/591.50 Edg/118.8.4.16",
+      "sessionId": "4APZ1kaywORolFUcPlNpZu3GTelwtx2O",
+      "deviceType": "desktop",
+      "browser": "Chrome",
+      "os": "macOS Sonoma",
+      "country": "Congo",
+      "city": "College Station",
+      "timezone": "Asia/Ho_Chi_Minh",
+      "organizationId": "98011ed1-7b2a-452d-bd3a-7d36f3db3a79",
+      "organizationName": "Kling LLC",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "a377990e-9d41-4362-b9b8-4f90b9956652",
+      "traceId": "ef215389D3aBDba5282Cdd4006AA8D94",
+      "spanId": "FE6bADdcbBBD68d8",
+      "environment": "staging",
+      "version": "6.4.14",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-03T01:40:39.029Z"
+  },
+  {
+    "externalRef": "b053071c-1e7a-4145-a260-c9b0afdb1592",
+    "category": "compliance",
+    "subcategory": "consent_given",
+    "log": "roosevelt33 gave consent for marketing",
+    "meta": {
+      "username": "roosevelt33",
+      "userId": "dbc05e07-ea61-4c2c-ad61-0df77f11da48",
+      "email": "roosevelt33_Schneider80@gmail.com",
+      "ip": "16.234.118.125",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/543.49 (KHTML, like Gecko) Chrome/89.4.10.16 Safari/572.44 Edg/115.0.12.14",
+      "sessionId": "O6XBlCiM3EbPQhY72zF9LtsHeEOaz2ji",
+      "deviceType": "desktop",
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "country": "San Marino",
+      "city": "Lawrenceport",
+      "timezone": "America/Ojinaga",
+      "organizationId": "b95a1eeb-70fb-4880-bd39-b1fbc6456452",
+      "organizationName": "Metz Inc",
+      "role": "user",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "ef60ffff-280f-4865-8dc9-49e8e76cf664",
+      "traceId": "7f36B88a25c5c8DF877c60D9293E3cEf",
+      "spanId": "4F91E0AE8b075E7D",
+      "environment": "production",
+      "version": "4.10.19",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-08T02:47:07.096Z"
+  },
+  {
+    "externalRef": "3c2391f6-7585-4e4f-8d85-b988fd738523",
+    "category": "billing",
+    "subcategory": "trial_started",
+    "log": "zoie43 started 30-day trial",
+    "meta": {
+      "username": "zoie43",
+      "userId": "aadd646a-46c8-407d-9c35-b2fd74137af2",
+      "email": "zoie43.Turner-Kertzmann21@hotmail.com",
+      "ip": "d2fd:55f9:db8a:ea8d:d4be:0bab:cc4e:fb8f",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/102.0",
+      "sessionId": "DHYAMVeatEgDY1JPBzulcdL5AK3wTFgy",
+      "deviceType": "mobile",
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "country": "China",
+      "city": "Dareville",
+      "timezone": "Europe/Berlin",
+      "organizationId": "37cfee08-764f-4d3d-b02d-806ed117793d",
+      "organizationName": "Gulgowski Inc",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "6c294bc2-e617-460f-97e3-77f7a7ae0ffa",
+      "traceId": "3f2AcaEE52B482daE73C8b1EBFDDd00c",
+      "spanId": "1f35cd9d67BE186D",
+      "environment": "production",
+      "version": "4.1.9",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-27T14:26:04.659Z"
+  },
+  {
+    "externalRef": "d9633edc-ccda-402f-a313-cac0a7b90587",
+    "category": "authentication",
+    "subcategory": "logout",
+    "log": "User rosalind_schaden logged out",
+    "meta": {
+      "username": "rosalind_schaden",
+      "userId": "1c27ef31-9561-4f34-8d81-004c0f109855",
+      "email": "rosalind_schaden24@hotmail.com",
+      "ip": "eebf:7a8d:b6df:03fc:8bbc:39cf:e0bb:2bf5",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/570.96.9 (KHTML, like Gecko) Version/16.1 Safari/536.95.20",
+      "sessionId": "gEoCrwQyYiexUJTgccZO01RYGMGxAkXC",
+      "deviceType": "mobile",
+      "browser": "Chrome",
+      "os": "macOS Sonoma",
+      "country": "Saint Pierre and Miquelon",
+      "city": "New Margetown",
+      "timezone": "America/Montserrat",
+      "organizationId": "ec104ea5-edae-4795-9675-89dac4f8a7a1",
+      "organizationName": "Cole, Boyle and Okuneva",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "5478b75c-4822-4ab5-bdbf-d5500c3596de",
+      "traceId": "0c113AC6224A7f95751d0B34EeAFEA2C",
+      "spanId": "ADCF9e5b3763eA4a",
+      "environment": "development",
+      "version": "7.8.6",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-06T17:39:01.099Z"
+  },
+  {
+    "externalRef": "9074960c-fd9e-49f3-8494-e064d33c61b1",
+    "category": "compliance",
+    "subcategory": "data_request",
+    "log": "Data access request submitted by thora.nienow",
+    "meta": {
+      "username": "thora.nienow",
+      "userId": "a77e812c-6af8-4684-98b6-96560c217ab8",
+      "email": "thora.nienow84@hotmail.com",
+      "ip": "4e32:4d1d:b04e:f8ad:48cc:fd7c:1c53:9d0f",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.96.58 (KHTML, like Gecko) Version/16.1 Safari/591.39.76",
+      "sessionId": "sNemWMucoggsfYpzlDBFv94oS8OvtXRv",
+      "deviceType": "mobile",
+      "browser": "Edge",
+      "os": "Windows 11",
+      "country": "Cuba",
+      "city": "Peabody",
+      "timezone": "Asia/Yerevan",
+      "organizationId": "e3172663-3a44-426f-b80a-952e2b63ed81",
+      "organizationName": "Waelchi - Schaden",
+      "role": "super_admin",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "8a39abe3-8d33-4f6c-bb52-b1973a00de7c",
+      "traceId": "0ae7cDABEF9670ACadaa03D14Eb92856",
+      "spanId": "E47A205D867ca1E8",
+      "environment": "development",
+      "version": "4.11.5",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-17T01:08:23.228Z"
+  },
+  {
+    "externalRef": "efe445fe-f712-4186-87d4-454edef5b9c9",
+    "category": "document",
+    "subcategory": "downloaded",
+    "log": "jan_dooley45 downloaded pfft.xsl",
+    "meta": {
+      "username": "jan_dooley45",
+      "userId": "f101306f-1dbc-4aaa-913c-b7b7a66e1b21",
+      "email": "jan_dooley4537@yahoo.com",
+      "ip": "9a4a:ffec:ba45:2749:bcf6:9cd9:e9fc:b4b8",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:117.0) Gecko/20100101 Firefox/127.0",
+      "sessionId": "gDif69a6Z4ezNxSvRJyup6XQkYTCb3lf",
+      "deviceType": "desktop",
+      "browser": "Firefox",
+      "os": "Android 14",
+      "country": "Slovenia",
+      "city": "Brauntown",
+      "timezone": "America/Kentucky/Louisville",
+      "organizationId": "6680e9cb-d485-49b5-a697-5dcedac143d4",
+      "organizationName": "Wolff - Gulgowski",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "2109f28c-c7e9-4615-85bd-1e3801b82bc1",
+      "traceId": "D38cAae39f5900B4BCe9bfa7d6B5Ad0D",
+      "spanId": "5fB39bE5Ce3BA6F3",
+      "environment": "production",
+      "version": "7.19.11",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-26T17:37:50.075Z"
+  },
+  {
+    "externalRef": "839c59fc-9815-4386-8ef2-a7bdf702c783",
+    "category": "compliance",
+    "subcategory": "violation_detected",
+    "log": "Compliance violation detected: logging",
+    "meta": {
+      "username": "freida.hodkiewicz",
+      "userId": "5d856e14-49e4-4b1c-ad7d-1f7c2f6d79c1",
+      "email": "freida.hodkiewicz_Willms54@gmail.com",
+      "ip": "a33b:b3dd:fb5d:50cf:5531:cffb:3db4:d2fc",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/547.7.82 (KHTML, like Gecko) Version/16.1 Safari/578.47.84",
+      "sessionId": "Y2ftNvOqHRiEfS9FniPOVVUON3SZnfcJ",
+      "deviceType": "desktop",
+      "browser": "Safari",
+      "os": "Windows 11",
+      "country": "South Africa",
+      "city": "Port Loy",
+      "timezone": "Australia/Perth",
+      "organizationId": "01e21af5-2fc1-444a-bcf2-925d8e6b32b9",
+      "organizationName": "Harris Inc",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "fd47eab4-34c0-4e1e-a5fa-ec4dedc75bb4",
+      "traceId": "fCdF7Af0BC91cFdcdfAaA2B3F84047ba",
+      "spanId": "E7049f16eaDD5952",
+      "environment": "development",
+      "version": "9.6.20",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-07T10:27:03.229Z"
+  },
+  {
+    "externalRef": "9d63b184-b2a0-4c75-b988-b3850def5bfa",
+    "category": "user",
+    "subcategory": "created",
+    "log": "User account krystal_larkin was created by mitchell_littel23",
+    "meta": {
+      "username": "krystal_larkin",
+      "userId": "0f00c23a-6238-48f9-b1a4-2ee6a58e968c",
+      "email": "krystal_larkin.Wuckert@gmail.com",
+      "ip": "3d58:9e0d:dffd:eed0:3dae:b86c:627d:cf3d",
+      "userAgent": "Mozilla/5.0 (Linux; Android 9; SM-G998N) AppleWebKit/547.2 (KHTML, like Gecko) Chrome/57.9.17.14 Mobile Safari/570.79",
+      "sessionId": "Zr638IDvFw98tckOr08UrNmGUXvnwkf8",
+      "deviceType": "desktop",
+      "browser": "Chrome",
+      "os": "iOS 17",
+      "country": "Vanuatu",
+      "city": "Hudsontown",
+      "timezone": "America/Cayenne",
+      "organizationId": "f88ca6ee-411e-4e3e-8a80-94d7c34365a4",
+      "organizationName": "Walter - Kuhlman",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "089b6470-b2fb-4652-b84a-c11b99044f69",
+      "traceId": "a86f60df2aE8bebB641A1fd6239EA8E5",
+      "spanId": "fe33Ab33C5eaAecC",
+      "environment": "production",
+      "version": "9.19.18",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-06T22:00:11.902Z"
+  },
+  {
+    "externalRef": "7332d3f7-3af1-4a9a-a185-60ef1d2da3fa",
+    "category": "user",
+    "subcategory": "deleted",
+    "log": "User jamar.bogan24 was deleted by cortez6",
+    "meta": {
+      "username": "jamar.bogan24",
+      "userId": "b5c5c9b0-3aac-4437-bb2c-c6ef4d4d42c3",
+      "email": "jamar.bogan24.Stark@hotmail.com",
+      "ip": "254.24.187.176",
+      "userAgent": "Mozilla/5.0 (Linux; Android 6; SM-G998N) AppleWebKit/571.96 (KHTML, like Gecko) Chrome/73.2.16.5 Mobile Safari/553.31",
+      "sessionId": "FUX33tskUZa7BvN7dJr3F3WEyATqtyh9",
+      "deviceType": "desktop",
+      "browser": "Firefox",
+      "os": "Ubuntu 22.04",
+      "country": "Burkina Faso",
+      "city": "Kunzeberg",
+      "timezone": "Antarctica/Syowa",
+      "organizationId": "42659a82-5642-44b8-b775-1f9d3f5bc2b7",
+      "organizationName": "Aufderhar Inc",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "f40fd8dc-e4f3-4c95-947c-a755b0c01334",
+      "traceId": "8A901d77c955451EF01C3FFAdE4Fa8a4",
+      "spanId": "9F91E5fc93DbBA11",
+      "environment": "production",
+      "version": "5.3.6",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-04T23:00:11.174Z"
+  },
+  {
+    "externalRef": "f2da6360-d051-4cc4-bf0b-7b50ad53456c",
+    "category": "authentication",
+    "subcategory": "token_refreshed",
+    "log": "Access token refreshed for amina.lemke77",
+    "meta": {
+      "username": "amina.lemke77",
+      "userId": "09c83a71-145b-49f2-89c2-03866d8cbdc4",
+      "email": "amina.lemke77.Lakin13@hotmail.com",
+      "ip": "2758:a08d:bac4:9410:5cfc:8fc4:cfbf:7907",
+      "userAgent": "Mozilla/5.0 (Linux; Android 9; SM-G998N) AppleWebKit/590.24 (KHTML, like Gecko) Chrome/69.3.15.20 Mobile Safari/537.60",
+      "sessionId": "Z7QiNty5yIYPM0GCm7jM06py5KFaBm6R",
+      "deviceType": "mobile",
+      "browser": "Edge",
+      "os": "macOS Sonoma",
+      "country": "Guinea-Bissau",
+      "city": "Menifee",
+      "timezone": "America/Belem",
+      "organizationId": "94567967-f9e4-4706-8719-7c18761ecaff",
+      "organizationName": "Mueller, Kovacek and Yost",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "f081b5c8-5602-4b69-8c20-4e043bee3ff7",
+      "traceId": "83739a12f5EacbbEABB61CcBcDfB3E1D",
+      "spanId": "13d5Db0f81c1e29e",
+      "environment": "production",
+      "version": "3.8.4",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-27T03:28:33.573Z"
+  },
+  {
+    "externalRef": "6a2f11f9-a78a-4188-b43d-a011ba3b6ebc",
+    "category": "workflow",
+    "subcategory": "task_completed",
+    "log": "Task \"deleo agnitio advoco\" completed by andre43",
+    "meta": {
+      "username": "andre43",
+      "userId": "674f70b9-89f7-447d-a87c-e5bb7bba0844",
+      "email": "andre4314@yahoo.com",
+      "ip": "178.11.123.117",
+      "userAgent": "Mozilla/5.0 (Linux; Android 13; SM-G998U) AppleWebKit/538.24 (KHTML, like Gecko) Chrome/110.0.10.6 Mobile Safari/579.51",
+      "sessionId": "iyYnW40DPFO3BkrFmUpuEUsAAZVLfSAU",
+      "deviceType": "desktop",
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "country": "Iraq",
+      "city": "Mooreview",
+      "timezone": "Pacific/Pohnpei",
+      "organizationId": "cfbee48e-169d-40b8-b2ec-0cedd227b008",
+      "organizationName": "Johnston - Breitenberg",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "c2f761f8-d675-40b9-af6b-2f3687c82b08",
+      "traceId": "fa50EcD9aD8dbEBcC4a15b655338D9Ac",
+      "spanId": "45dA0D7819ACcF0F",
+      "environment": "production",
+      "version": "3.3.6",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-04T18:20:05.980Z"
+  },
+  {
+    "externalRef": "cfd3e60b-b3ff-42e9-95d0-f89ed4def74c",
+    "category": "document",
+    "subcategory": "copied",
+    "log": "maymie98 copied by_king_calculating.mjs to //tmp",
+    "meta": {
+      "username": "maymie98",
+      "userId": "d928ded4-7729-4852-83eb-2ac78f484f18",
+      "email": "maymie98_Grady4@yahoo.com",
+      "ip": "60de:af60:dabb:bd4b:b2b6:2058:eaa8:fb5a",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:81.0) Gecko/20100101 Firefox/95.0",
+      "sessionId": "9PXi0jN5P7BBDE7XfGsOgxuQF8QW5NJP",
+      "deviceType": "mobile",
+      "browser": "Edge",
+      "os": "Android 14",
+      "country": "Equatorial Guinea",
+      "city": "Lexiton",
+      "timezone": "America/St_Vincent",
+      "organizationId": "4fba3d32-6292-486e-917b-aa761a376482",
+      "organizationName": "Zulauf LLC",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "92aa8f3a-7cde-496b-9bc7-8651c4c0bc6c",
+      "traceId": "AE7ffD1D3E43ceDd12DDa26D2Bb6C789",
+      "spanId": "c6F92dd07643fEB6",
+      "environment": "staging",
+      "version": "3.7.3",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-19T23:37:33.250Z"
+  },
+  {
+    "externalRef": "35c6b72f-7b93-4b75-95a2-8cb47df2599a",
+    "category": "billing",
+    "subcategory": "payment_success",
+    "log": "Payment of £2544.53 processed for justina_franecki7",
+    "meta": {
+      "username": "justina_franecki7",
+      "userId": "02ad2ce1-5f7f-45bc-a840-dea41be789fc",
+      "email": "justina_franecki7.Kris87@yahoo.com",
+      "ip": "90db:dde5:dcb8:7b8b:fa5d:bda0:ad35:b2ec",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:75.0) Gecko/20100101 Firefox/117.0",
+      "sessionId": "T1dOukr9rJch3WKKayqNb68UvfGD01Qe",
+      "deviceType": "mobile",
+      "browser": "Firefox",
+      "os": "Android 14",
+      "country": "Burundi",
+      "city": "Tillmanton",
+      "timezone": "Asia/Yekaterinburg",
+      "organizationId": "fca8a0e0-9389-4a24-8be0-128d71d7ddb6",
+      "organizationName": "Becker - Hermann",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "508666ed-d3a9-4204-9f7d-35acc1c78b5b",
+      "traceId": "ceb47aD73c87f3292c4aa17182aA08a4",
+      "spanId": "F64b7fCA3bce46a2",
+      "environment": "staging",
+      "version": "6.16.10",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-30T20:08:32.276Z"
+  },
+  {
+    "externalRef": "b4f1dc66-9a37-45a3-b6bd-a74369633931",
+    "category": "authentication",
+    "subcategory": "session_expired",
+    "log": "Session expired for sierra75",
+    "meta": {
+      "username": "sierra75",
+      "userId": "efc4b46d-94fe-4e4c-b75f-cd6a22a5b638",
+      "email": "sierra75_Larkin@hotmail.com",
+      "ip": "fa5d:eea0:2f03:1ed9:b3a1:8a0c:dcfc:20ee",
+      "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/552.53 (KHTML, like Gecko) Chrome/57.4.4.18 Safari/552.8 Edg/123.6.12.18",
+      "sessionId": "uom8Z5q8eWW8xPz0oVVCy11uWPTFTpw6",
+      "deviceType": "desktop",
+      "browser": "Firefox",
+      "os": "Windows 11",
+      "country": "Curaçao",
+      "city": "South Maggie",
+      "timezone": "America/Guadeloupe",
+      "organizationId": "0569fe13-92be-43fa-8fd5-dd85947e64d8",
+      "organizationName": "McDermott and Sons",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "41c38f38-3d77-4a8d-ab1e-bc92f5d8317e",
+      "traceId": "0Dab97774a51bbeC3cf60cdCc6b1289b",
+      "spanId": "9Ed3638eBeB1B52e",
+      "environment": "development",
+      "version": "0.17.8",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-23T06:08:35.008Z"
+  },
+  {
+    "externalRef": "fccb4125-6cf5-4a8b-bb8f-78c86f766029",
+    "category": "communication",
+    "subcategory": "notification_sent",
+    "log": "Notification sent to tommie.torphy: email",
+    "meta": {
+      "username": "tommie.torphy",
+      "userId": "c794f2d2-1e0b-486c-9afa-cff99528a57d",
+      "email": "tommie.torphy.Bechtelar@hotmail.com",
+      "ip": "83.27.111.187",
+      "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/575.61 (KHTML, like Gecko) Chrome/105.6.9.13 Safari/542.33 Edg/110.1.16.19",
+      "sessionId": "7hn7XFDVNzNeEfelssNW7BjATlB3Po3R",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "country": "Bonaire, Sint Eustatius and Saba",
+      "city": "East Christ",
+      "timezone": "Africa/Conakry",
+      "organizationId": "3db10f0a-9545-4e61-a516-34e887b25a74",
+      "organizationName": "Haag, Nolan and Cormier",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "25b6f655-9338-47f4-b0cf-b40a8ae3a5fb",
+      "traceId": "bF66eBF29a6171CaBffe82BecE3D7fFa",
+      "spanId": "749A3ab2f5e2aa96",
+      "environment": "development",
+      "version": "9.1.10",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-25T09:17:59.518Z"
+  },
+  {
+    "externalRef": "a8002031-34d3-4781-9f91-3d47f0c0d5cb",
+    "category": "api",
+    "subcategory": "key_created",
+    "log": "API key created for sonia.durgan: sPgwhoel...",
+    "meta": {
+      "username": "sonia.durgan",
+      "userId": "6c16c7ae-1c7e-41d7-ba9c-6b9c1cf9415d",
+      "email": "sonia.durgan.Hettinger@yahoo.com",
+      "ip": "131.60.152.225",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/580.47.39 (KHTML, like Gecko) Chrome/61.4.11.1 Safari/603.59.12",
+      "sessionId": "uO5uc7oN2OvpnrJYXnByScYyqFljoLs2",
+      "deviceType": "tablet",
+      "browser": "Firefox",
+      "os": "Ubuntu 22.04",
+      "country": "Trinidad and Tobago",
+      "city": "East Delfinamouth",
+      "timezone": "America/Porto_Velho",
+      "organizationId": "0affede2-a0fc-4c06-bc61-0158382867d8",
+      "organizationName": "Ferry Inc",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "efd970c3-37b9-4b86-bef3-e26515ec05ed",
+      "traceId": "4aBf6F815d5C49543E927b9E41C9b3e3",
+      "spanId": "b3AfF3aA11dA9334",
+      "environment": "production",
+      "version": "5.2.0",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-01-25T13:13:21.651Z"
+  },
+  {
+    "externalRef": "92246bfd-7f27-46c3-b550-338494ef0dc5",
+    "category": "authentication",
+    "subcategory": "logout",
+    "log": "User jerel14 logged out",
+    "meta": {
+      "username": "jerel14",
+      "userId": "38665f1c-98cc-4e66-b5f0-d13306093032",
+      "email": "jerel1438@gmail.com",
+      "ip": "91.143.41.197",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_4 like Mac OS X) AppleWebKit/541.62.43 (KHTML, like Gecko) Version/17_0 Mobile/15E148 Safari/585.18",
+      "sessionId": "ukyDs24Rp05MFdOdYcFS3hAGbHwkyYZm",
+      "deviceType": "mobile",
+      "browser": "Edge",
+      "os": "Android 14",
+      "country": "Mongolia",
+      "city": "Greencester",
+      "timezone": "America/Bogota",
+      "organizationId": "3ca312ed-e536-4cb0-9cba-02d9adf115d0",
+      "organizationName": "Stracke Group",
+      "role": "editor",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "e85c615e-75ce-4bca-8d0f-7a7560dc6607",
+      "traceId": "4F019EbCcBe7A8FfeA7BfBFdc5caBef8",
+      "spanId": "EC099DCA7e1859fE",
+      "environment": "development",
+      "version": "3.18.10",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-05T05:32:21.771Z"
+  },
+  {
+    "externalRef": "f7c796bf-5002-41f2-9fd4-aee6ec3c3d11",
+    "category": "api",
+    "subcategory": "schema_changed",
+    "log": "API schema updated to version v5",
+    "meta": {
+      "username": "donnie_murazik",
+      "userId": "5070afff-c713-40c4-82e0-be85d6806c80",
+      "email": "donnie_murazik5@gmail.com",
+      "ip": "b38e:7869:dac4:e7ed:2bb9:52dd:e0fe:d547",
+      "userAgent": "Mozilla/5.0 (Linux; Android 5; SM-G998P) AppleWebKit/600.8 (KHTML, like Gecko) Chrome/83.6.2.9 Mobile Safari/570.33",
+      "sessionId": "HU7Z2SnDVuyFCIzgFYCIQv5w22VflouG",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "country": "Poland",
+      "city": "West Lauren",
+      "timezone": "America/Jamaica",
+      "organizationId": "a70d4762-c94e-46c0-af1e-459498b8fa33",
+      "organizationName": "Lebsack - Anderson",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "7e374467-540a-4085-9748-47fb9a8d3beb",
+      "traceId": "Ee3FA6aa2bF955BC118F8D11820FDEDD",
+      "spanId": "0104Bec7daAa791C",
+      "environment": "staging",
+      "version": "2.5.10",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-04T12:55:19.211Z"
+  },
+  {
+    "externalRef": "859dd6b3-8c82-40d4-9ecf-bf934d2ae3b2",
+    "category": "api",
+    "subcategory": "webhook_triggered",
+    "log": "Webhook triggered: https://steep-smog.org",
+    "meta": {
+      "username": "ernestine1",
+      "userId": "1b51a038-2161-4177-9fcb-879bd1d25a60",
+      "email": "ernestine12@yahoo.com",
+      "ip": "c4bd:ab48:d6c2:f937:df1d:80ad:e6a8:31ff",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/118.0",
+      "sessionId": "rIBoftwgnJ07w03WzEHVTnuO0l1b4V89",
+      "deviceType": "desktop",
+      "browser": "Safari",
+      "os": "Android 14",
+      "country": "Aruba",
+      "city": "North Chloe",
+      "timezone": "Asia/Famagusta",
+      "organizationId": "e968fbf5-c9b1-4da2-bf7d-e3fceb677282",
+      "organizationName": "Keebler and Sons",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "2b1d3d3e-1a37-46bd-b4dc-f38df38fb450",
+      "traceId": "878aD7707Df1aE38Eeea3d674cD9ac18",
+      "spanId": "A76E8DA2BcB60Ed6",
+      "environment": "production",
+      "version": "4.11.14",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-12T02:54:36.109Z"
+  },
+  {
+    "externalRef": "d65612b1-c39a-4f78-bbec-26674bba2ff1",
+    "category": "system",
+    "subcategory": "backup_created",
+    "log": "Backup created: BKP-6OVBAX4BOAFC (38 GB)",
+    "meta": {
+      "username": "rigoberto.reilly",
+      "userId": "a42d3f35-61d3-4907-8da0-0414780fec7f",
+      "email": "rigoberto.reilly.Hegmann19@gmail.com",
+      "ip": "133.46.52.170",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/578.7.37 (KHTML, like Gecko) Chrome/82.7.5.14 Safari/583.46.38",
+      "sessionId": "A3futL95hEFOPSvLrkbbXubgbuGEK0wb",
+      "deviceType": "tablet",
+      "browser": "Safari",
+      "os": "macOS Sonoma",
+      "country": "Norfolk Island",
+      "city": "Compton",
+      "timezone": "Europe/Zagreb",
+      "organizationId": "797c4e03-0992-4feb-a868-e68a37085c41",
+      "organizationName": "Durgan LLC",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "53f86c9b-e89e-4abb-afb1-c7130bcb0009",
+      "traceId": "28b361EDb89A8b9C1804AE1bBD7b2ab3",
+      "spanId": "bF27204aFeF0a821",
+      "environment": "staging",
+      "version": "1.18.2",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-23T10:08:37.302Z"
+  },
+  {
+    "externalRef": "a967c66e-4620-45c3-aa4d-eecebab1563b",
+    "category": "communication",
+    "subcategory": "email_opened",
+    "log": "Email opened by Rhoda89@yahoo.com: \"Viriliter solutio conitor valeo tamdiu.\"",
+    "meta": {
+      "username": "trey95",
+      "userId": "13ec957b-8524-40d0-8c75-cd4e1dc0c647",
+      "email": "trey9544@yahoo.com",
+      "ip": "8cfb:fcf4:a654:f394:d2e5:ca9a:faed:e62c",
+      "userAgent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_15_7) AppleWebKit/567.87.43 (KHTML, like Gecko) Chrome/114.5.13.14 Safari/546.67.38",
+      "sessionId": "fxr5oDcuxSkg7uzp0Mwk5QtmDJu1uc5V",
+      "deviceType": "mobile",
+      "browser": "Safari",
+      "os": "Android 14",
+      "country": "Aruba",
+      "city": "Sylvanfield",
+      "timezone": "America/Eirunepe",
+      "organizationId": "8e928428-ba17-489b-9a7b-02d9c40a0480",
+      "organizationName": "Romaguera, Huels and Dietrich",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "87b7f3c6-c7b0-47e5-b2a3-24d1fdfb4500",
+      "traceId": "eA4DEDFDeBFC60A0cA5FBac0e1abA9b4",
+      "spanId": "EF9250fc9Ae5d9c9",
+      "environment": "staging",
+      "version": "2.11.8",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-07T00:50:47.394Z"
+  },
+  {
+    "externalRef": "e8d5feee-38e8-4f1a-bd15-7bf91565fdf4",
+    "category": "system",
+    "subcategory": "config_changed",
+    "log": "Configuration updated: cache_ttl",
+    "meta": {
+      "username": "wyman_damore",
+      "userId": "b9d60f41-39fe-4921-be05-3ac8834ede4b",
+      "email": "wyman_damore_Friesen72@hotmail.com",
+      "ip": "e8ad:0b58:5b3b:460f:2a4f:d4bb:2cfd:ccb4",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:85.0) Gecko/20100101 Firefox/82.0",
+      "sessionId": "hN88Uy0LY2uhM4B0cQm4CyXLGpOQyALb",
+      "deviceType": "tablet",
+      "browser": "Chrome",
+      "os": "Windows 11",
+      "country": "Mauritius",
+      "city": "Oraport",
+      "timezone": "Africa/Ceuta",
+      "organizationId": "3cb9bfe8-3efe-463d-823d-ff2133fce804",
+      "organizationName": "Shields and Sons",
+      "role": "user",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "1ff5f930-3f72-4e22-b61d-2d28d1e190a4",
+      "traceId": "edA61aBAe3c8Eb057d848fE4FbdA1C8a",
+      "spanId": "1669Efd19e88864E",
+      "environment": "production",
+      "version": "8.9.17",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-04T02:53:40.354Z"
+  },
+  {
+    "externalRef": "7d13e2ce-fd22-4c30-b846-fc0c9dad3ac0",
+    "category": "user",
+    "subcategory": "role_changed",
+    "log": "User kip47 role changed from viewer to viewer",
+    "meta": {
+      "username": "kip47",
+      "userId": "bfffc061-f44f-4848-88de-77aecef4e04f",
+      "email": "kip47_Keeling26@yahoo.com",
+      "ip": "efcf:4adb:93cb:a0b2:6036:abef:efee:88ad",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:81.0) Gecko/20100101 Firefox/123.0",
+      "sessionId": "1MMt0T7CZQbTNiHIdTZy4ZWi7di8fNsL",
+      "deviceType": "desktop",
+      "browser": "Edge",
+      "os": "macOS Sonoma",
+      "country": "Belize",
+      "city": "North Rubie",
+      "timezone": "Africa/Lusaka",
+      "organizationId": "d096e63e-9e65-4075-9ec4-c07edc21d091",
+      "organizationName": "Aufderhar, Batz and Orn",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "7305fa09-b538-40f4-9581-121832244ddb",
+      "traceId": "0FaaDe260F8eCeA0Daf3d167B03C14d4",
+      "spanId": "7D97Fa4C8E0E195A",
+      "environment": "production",
+      "version": "6.14.7",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-11T06:09:51.830Z"
+  },
+  {
+    "externalRef": "a63e14cc-21db-4b4d-9e9d-7cf9e4a9ecfb",
+    "category": "billing",
+    "subcategory": "trial_started",
+    "log": "roderick9 started 14-day trial",
+    "meta": {
+      "username": "roderick9",
+      "userId": "647a522c-623f-47b3-b113-af7bbf4b3d81",
+      "email": "roderick9.Jacobi2@hotmail.com",
+      "ip": "7ead:f3cc:ee26:79b0:feff:8ee3:519a:e5e9",
+      "userAgent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 10.0; Trident/5.0)",
+      "sessionId": "mteKnj1jj5ds5ELnx1QX2sbE8qGZnKpo",
+      "deviceType": "mobile",
+      "browser": "Safari",
+      "os": "Ubuntu 22.04",
+      "country": "Norfolk Island",
+      "city": "Ludiestad",
+      "timezone": "America/Bahia_Banderas",
+      "organizationId": "b8b1b8d3-d66e-4301-9045-94ce63b94382",
+      "organizationName": "Lemke, D'Amore and Wuckert",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "83d03421-e476-4b80-8bdc-2884e6ed4817",
+      "traceId": "cf40d3aede2fcd0FaaDfC49AC2D2E3d7",
+      "spanId": "5e7F3D9F85beAd8C",
+      "environment": "development",
+      "version": "3.14.0",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-12T17:59:04.157Z"
+  },
+  {
+    "externalRef": "e026f358-01af-4dfe-8d95-fc4bee052552",
+    "category": "authentication",
+    "subcategory": "failed_login",
+    "log": "Failed login attempt for jerald.schowalter43 from 0ba1:69de:dbb7:4ad3:006a:dfa4:16e4:119e",
+    "meta": {
+      "username": "jerald.schowalter43",
+      "userId": "e20ded62-3e61-409a-9759-6ee80f4806cb",
+      "email": "jerald.schowalter43.Bauch82@gmail.com",
+      "ip": "252.86.250.62",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/602.84.19 (KHTML, like Gecko) Version/16.1 Safari/592.19.49",
+      "sessionId": "rlBEw4oZbFU1kUzKRPdZF9XfSthjmVuJ",
+      "deviceType": "mobile",
+      "browser": "Safari",
+      "os": "Windows 11",
+      "country": "Albania",
+      "city": "Haltom City",
+      "timezone": "Africa/Douala",
+      "organizationId": "a1ef64a3-1d25-49cc-8f28-b3810a9a77a9",
+      "organizationName": "Deckow Inc",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete"
+      ],
+      "requestId": "a13d3cec-c489-4ad8-87fe-5e58b4278077",
+      "traceId": "bdd6Fde50FfBfAfcACDdfF7f0c4E5d65",
+      "spanId": "AD0A88C4dF1E81e7",
+      "environment": "development",
+      "version": "1.10.15",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-08T22:50:57.605Z"
+  },
+  {
+    "externalRef": "f7042f34-e721-4bf7-a20f-7f3134e36b9b",
+    "category": "workflow",
+    "subcategory": "task_completed",
+    "log": "Task \"vorax abscido illo\" completed by tommie.bernhard-damore",
+    "meta": {
+      "username": "tommie.bernhard-damore",
+      "userId": "85c9b9e7-9fa0-4ff6-8734-625b0c3fef38",
+      "email": "tommie.bernhard-damore_Wolf@yahoo.com",
+      "ip": "149.211.253.166",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/91.0",
+      "sessionId": "cgKegwLKsAX66bg18BBWN53PkkGPTmHH",
+      "deviceType": "tablet",
+      "browser": "Edge",
+      "os": "iOS 17",
+      "country": "Mali",
+      "city": "La Mirada",
+      "timezone": "Asia/Qatar",
+      "organizationId": "6bb84b62-ca3d-4334-b369-be5b34f7663f",
+      "organizationName": "Konopelski, Ortiz and Schimmel",
+      "role": "viewer",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "29d8cd2d-c5ab-4351-ad95-3073ed47c242",
+      "traceId": "2feADCc8cE002FFbE6d683fdCc8E22C9",
+      "spanId": "188F16aE209FD9c8",
+      "environment": "development",
+      "version": "8.8.14",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-14T02:38:48.884Z"
+  },
+  {
+    "externalRef": "983d143f-a7b2-4672-b670-879151cdbc28",
+    "category": "document",
+    "subcategory": "copied",
+    "log": "delmer18 copied fuzzy_solution_when.docx to //var/yp",
+    "meta": {
+      "username": "delmer18",
+      "userId": "a7c199b1-ebbf-4afe-a484-adca9d9178c4",
+      "email": "delmer18_Cummings@gmail.com",
+      "ip": "138.154.107.227",
+      "userAgent": "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.3; Trident/5.0)",
+      "sessionId": "eEi4HRAPCjn8suYqD4PJQyVbvIpXRmTE",
+      "deviceType": "desktop",
+      "browser": "Firefox",
+      "os": "macOS Sonoma",
+      "country": "Ghana",
+      "city": "Sporerboro",
+      "timezone": "America/Dawson",
+      "organizationId": "53176095-4a7c-4feb-be4a-80ad41cefb5b",
+      "organizationName": "Rowe - Watsica",
+      "role": "viewer",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "3ae699f2-3213-44bd-90fe-68faac739fb7",
+      "traceId": "0A40dFA0F59dBe57cBB542bb60AC9BcC",
+      "spanId": "BE4B17bE2d35C929",
+      "environment": "staging",
+      "version": "9.1.0",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-17T03:38:46.312Z"
+  },
+  {
+    "externalRef": "b43573f7-4fcf-45ce-a4ce-573f92087082",
+    "category": "user",
+    "subcategory": "avatar_changed",
+    "log": "User rodolfo60 changed their avatar",
+    "meta": {
+      "username": "rodolfo60",
+      "userId": "e5853958-1238-44c7-a7bd-a1493fca3a05",
+      "email": "rodolfo60.Hamill12@gmail.com",
+      "ip": "43.133.97.223",
+      "userAgent": "Mozilla/5.0 (Linux; Android 6; SM-G998N) AppleWebKit/569.2 (KHTML, like Gecko) Chrome/106.1.18.1 Mobile Safari/563.62",
+      "sessionId": "5v10CeADRqXwxHcuk4dwlcwut9tsVST8",
+      "deviceType": "mobile",
+      "browser": "Safari",
+      "os": "iOS 17",
+      "country": "United States Minor Outlying Islands",
+      "city": "Port Ethel",
+      "timezone": "Pacific/Pohnpei",
+      "organizationId": "352414ae-0492-4d51-a7fa-cddc0e5f0710",
+      "organizationName": "Ferry and Sons",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "5aac6611-8f78-4a9e-9144-2940909e083e",
+      "traceId": "21CbD053f9aE7e10cE34dBFDF8Da2fef",
+      "spanId": "aecAE3cffc4CF92b",
+      "environment": "staging",
+      "version": "7.8.5",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-29T19:16:45.497Z"
+  },
+  {
+    "externalRef": "5395470c-8856-4f05-b396-8f5599d1ca61",
+    "category": "user",
+    "subcategory": "role_changed",
+    "log": "User frieda90 role changed from editor to admin",
+    "meta": {
+      "username": "frieda90",
+      "userId": "96387b42-56b9-4ed3-b4fe-e7b1dbaac3c0",
+      "email": "frieda90.Maggio1@gmail.com",
+      "ip": "14.63.57.187",
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_4 like Mac OS X) AppleWebKit/543.38.80 (KHTML, like Gecko) Version/15_3 Mobile/15E148 Safari/553.71",
+      "sessionId": "p009I96ugvRDCCrDpMKma3yOiqj9lxea",
+      "deviceType": "tablet",
+      "browser": "Firefox",
+      "os": "Ubuntu 22.04",
+      "country": "Burkina Faso",
+      "city": "Lake Forest",
+      "timezone": "Africa/Addis_Ababa",
+      "organizationId": "8dfee0d9-a2c9-42c2-b037-bfe3bc0edf3b",
+      "organizationName": "Kunze and Sons",
+      "role": "super_admin",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "008a648d-7195-43a5-84bc-3affd72cf0d6",
+      "traceId": "60ac5cDE896aA7Cae031a2Ad19ffcDf1",
+      "spanId": "Eb85c561c8aAefBf",
+      "environment": "development",
+      "version": "2.18.6",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": false,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-02-16T17:25:56.786Z"
+  },
+  {
+    "externalRef": "ffa0aace-0cd4-4871-8e91-b305a49f1ea2",
+    "category": "communication",
+    "subcategory": "call_ended",
+    "log": "Call ended. Duration: 41m 5s",
+    "meta": {
+      "username": "sarina.schultz51",
+      "userId": "dce991ca-bed5-4276-8270-5a497954ed46",
+      "email": "sarina.schultz51_Schroeder59@yahoo.com",
+      "ip": "123.202.169.209",
+      "userAgent": "Mozilla/5.0 (Linux; Android 6; SM-G998N) AppleWebKit/598.42 (KHTML, like Gecko) Chrome/81.4.11.10 Mobile Safari/602.67",
+      "sessionId": "BTeJhlurjtTajiQTJbkspINUjYX0Gnid",
+      "deviceType": "tablet",
+      "browser": "Chrome",
+      "os": "Android 14",
+      "country": "Virgin Islands, British",
+      "city": "El Dorado Hills",
+      "timezone": "Indian/Cocos",
+      "organizationId": "c4020612-61d4-4de1-8fbe-a10d9feaf51a",
+      "organizationName": "Dicki Inc",
+      "role": "user",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "requestId": "cb4d0ae6-106f-4360-9c27-8daf93cd5bc7",
+      "traceId": "c8FFac76ad48a8B60AcDa397D9ecfEAd",
+      "spanId": "46E0A1b07aFe0EF0",
+      "environment": "production",
+      "version": "5.4.13",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": true
+      }
+    },
+    "createdAt": "2026-02-15T17:51:39.533Z"
+  },
+  {
+    "externalRef": "70452bae-a2e3-480b-af5a-17498b1271a2",
+    "category": "data",
+    "subcategory": "report_generated",
+    "log": "cecilia28 generated report: revenue_report",
+    "meta": {
+      "username": "cecilia28",
+      "userId": "5ad4da88-464f-418d-ab38-e4874ec432ab",
+      "email": "cecilia2823@gmail.com",
+      "ip": "7ec7:3a2a:ed7e:07dd:ccc3:d27b:c2cf:1dc5",
+      "userAgent": "Mozilla/5.0 (Linux; Android 11; SM-G998U) AppleWebKit/589.33 (KHTML, like Gecko) Chrome/87.1.15.19 Mobile Safari/544.34",
+      "sessionId": "lAbl9NzdWXKdOeQ063QZ7HjHQJ1UryHj",
+      "deviceType": "tablet",
+      "browser": "Chrome",
+      "os": "macOS Sonoma",
+      "country": "Norfolk Island",
+      "city": "Wisokyland",
+      "timezone": "Indian/Maldives",
+      "organizationId": "c11a70fc-e939-4b2d-8a45-77d9ce5affad",
+      "organizationName": "Macejkovic, Dooley and Parker",
+      "role": "admin",
+      "permissions": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "requestId": "87b382b7-02d4-42e8-bba5-95f532a99044",
+      "traceId": "a3deccE5c37FB9cD68aAb0D9A71cdDBd",
+      "spanId": "E50B23E50e5BD97a",
+      "environment": "production",
+      "version": "2.10.6",
+      "feature_flags": {
+        "new_dashboard": false,
+        "beta_features": true,
+        "dark_mode": true,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-25T21:09:42.509Z"
+  },
+  {
+    "externalRef": "e578f7f5-f264-45fb-925d-ae65b7923968",
+    "category": "document",
+    "subcategory": "downloaded",
+    "log": "teresa48 downloaded though.pot",
+    "meta": {
+      "username": "teresa48",
+      "userId": "f854ce86-d8f2-4794-94be-301c5324b758",
+      "email": "teresa4870@gmail.com",
+      "ip": "bcc5:af1f:83cf:7262:bebb:8eaf:4aeb:6d3c",
+      "userAgent": "Mozilla/5.0 (Linux; Android 8; SM-G998U) AppleWebKit/576.31 (KHTML, like Gecko) Chrome/119.0.14.20 Mobile Safari/579.33",
+      "sessionId": "bKJCHsKxfJvlI1J0fFz027DzJa4u6qOV",
+      "deviceType": "mobile",
+      "browser": "Firefox",
+      "os": "Windows 11",
+      "country": "Guernsey",
+      "city": "Lake Jerryport",
+      "timezone": "America/Montevideo",
+      "organizationId": "044ce574-bff6-410e-9530-015e5a2f21b3",
+      "organizationName": "Hintz, Wilderman and Rowe",
+      "role": "editor",
+      "permissions": [
+        "read"
+      ],
+      "requestId": "a541d09f-dc4d-4188-9aff-ab4c9077c707",
+      "traceId": "02ab427eCc791E5bdc5E192ADfAA362f",
+      "spanId": "2CdcDBB7D004Bb81",
+      "environment": "staging",
+      "version": "4.6.3",
+      "feature_flags": {
+        "new_dashboard": true,
+        "beta_features": false,
+        "dark_mode": false,
+        "ai_assistant": false
+      }
+    },
+    "createdAt": "2026-01-31T09:35:26.373Z"
+  }
+]

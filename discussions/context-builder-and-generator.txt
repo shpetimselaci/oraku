@@ -1,0 +1,60 @@
+abstract class ContextBuilder {}
+
+
+AnomalyDetector extends ContextBuilder{}
+
+TimeBasedEventsDetector extends ContextBuilder {}
+
+ThresholdBasedEventsDetector extends ContextBuilder {}
+
+RandomEngagementEventsDetector extends ContextBuilder {}
+
+
+DecetorBuilder  ^^^^
+
+
+DecetorManager - will say to detectors go find relevant information
+
+
+
+DecetorManager -> Decetor -> Relevant Activity Events -> Stitch information -> Saved daily context <SDC> -> EngagementGenerator (Engagement Structure Output - ESC - DEfault JSON that we agree on)
+
+args: category, structureOutputSettings: { format: 'json' | 'yaml' | 'md', schema: { name: '', description: '' } }
+switch (category) {
+  case 'teacher':
+     switch (subcategory): {
+        case 'learning': {
+            switch (mark): {
+                case 'extra-corriculum': {
+                    const rows = sdk.from('activity-log').where({
+                        categiry: {
+                            in: ['teacher', 'human', 'therapist'],
+                            
+                        },
+                        externalRef: 'userID',
+                        subcategory: {
+                            in: ['learning', 'certifications', 'sports']
+                        },
+                        mark: {
+                            in: ['extra-corriculum', 'free-time', 'relax', 'irregular', 'non-mandatory']
+                        },
+                        createdAt: { gte: new Date('17-02-2026'), lte: new Date('17-02-2026') },
+                    }, )
+
+                    const stitchedInfo = new InformationStitcher(rows);
+                    const generator = new EngagementGenerator(stitchedInfo, structureOutputSettings);
+
+                    return generator.generate().limit(10);
+                }
+            }
+        }
+     }
+
+}
+
+
+{
+    
+}
+
+
