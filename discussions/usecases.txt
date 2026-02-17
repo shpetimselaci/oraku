@@ -32,7 +32,7 @@ const manager = new DetecorManager();
 manager.buildDailyContext(idsToBuildDailyContext);
 
 
-// IN DetecorManager;  
+// DetecorManager uses;  
 // abstract class MechanismToFilterDecetors{}
 // class AllDecetors implements MechanismToFilterDecetors{}
 // 

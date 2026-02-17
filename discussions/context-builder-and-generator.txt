@@ -58,3 +58,27 @@ switch (category) {
 }
 
 
+how to stitch information
+
+get rows as json and output to .md file that is compressed
+
+abstract class EngagementGenerator {}
+
+let defaultSetting = [{ title: '', description: '' }]
+class GeminiEngagementGenerator {
+
+    constructur() {
+
+        geminisdk = new geminisdk();
+    }
+
+    generate(mdText, jsengagementStrucutureOutput = defaultSetting) {
+        this.geminisdk.send(mdText).output(engagementStrucutureOutput);
+    }
+}
+
+about generation
+
+Lets use gemini 2.5 with 1 milion context to analyze stitched data
+
+
