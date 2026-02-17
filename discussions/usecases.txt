@@ -1,0 +1,48 @@
+
+
+app.post('/activity-events, (req) => {
+    const urlToUseToLoadContext = req.body.url;
+
+
+
+})
+
+...
+
+const project = sdk.select(*).from('projects');
+
+const loadedContext = fetch(project.urlToUseToLoadContextFrom).options({ limit: 100, page:0 });
+
+
+
+
+...
+
+Detector DAILY CRON
+buildDailyContext for externalRef - userId
+
+--
+
+const project = sdk.select(*).from('projects');
+
+const idsToBuildDailyContext = project.findSavedExternalRefs();
+
+const manager = new DetecorManager();
+
+manager.buildDailyContext(idsToBuildDailyContext);
+
+
+// IN DetecorManager;  
+// abstract class MechanismToFilterDecetors{}
+// class AllDecetors implements MechanismToFilterDecetors{}
+// 
+
+
+1. list all decetors
+2. Run decetors in sequence
+3. generate options
+4. send to webhook V
+
+const url = project.webhookUrl;
+
+axios.post(url, { body: { generatedOptions }});

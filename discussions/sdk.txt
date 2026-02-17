@@ -1,0 +1,21 @@
+import orakusdk from 'oraku';
+
+
+orakusdk.loadInformation(rows); // rows are anything - basically of ActivityEvent structure
+
+
+const notifications = orakusdk.generateEngagementPulls({ externalRef: '[remzieUUUID]', category: 'elementary'}, 'notifications', { limit: 10 });
+
+
+fcm.send(notifications.map(notification => ({...notification, pushId: '[remzieUUUID]'})));
+
+
+orakusdk.project.setSettings({
+    webhookUrl: 'dido.com/engagement-events'
+    webhookAuthKey: 'xi8ue812hjeunewujnqw',
+})
+
+orakusdk.project.setCron({
+    cron: '* * 1 * *',
+    type: 'daily',
+})
