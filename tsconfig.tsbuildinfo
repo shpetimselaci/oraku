@@ -1,0 +1,1 @@
+{"root":["./src/types.ts","./src/cli/stitch.ts","./src/core/informationstitcher.ts","./src/ingest/index.ts"],"errors":true,"version":"5.9.3"}

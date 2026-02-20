@@ -1,0 +1,377 @@
+[
+  {
+    "id": "engage-efe261e7-a6b0-4f1a-9fff-61f14d684a2f",
+    "key": "efe261e7-a6b0-4f1a-9fff-61f14d684a2f",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Interest evidence per event",
+    "topicData": {
+      "interest": [
+        {
+          "externalRef": "30b7db31-13fc-4bd7-9cf1-ab2794aef78d",
+          "name": "joyce_stark viewed pluck_switchboard_behind.xml",
+          "interests": [
+            "viewed",
+            "document",
+            "joyce_stark",
+            "view",
+            "pluck_switchboard_behind",
+            "xml",
+            "document"
+          ],
+          "actionVerbs": [
+            "view"
+          ],
+          "createdAt": "2026-01-21T22:04:51.112Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "engage-cd54610d-3f94-4deb-9de0-d2e3036d8f51",
+    "key": "cd54610d-3f94-4deb-9de0-d2e3036d8f51",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Interest evidence per event",
+    "topicData": {
+      "interest": [
+        {
+          "externalRef": "fbbf4896-5287-4660-b8fd-5854c470896a",
+          "name": "Email opened by Kristy_Ratke33@gmail.com: \"Tandem aptus numquam sophismata spoliatio.\"",
+          "interests": [
+            "email_opened",
+            "communication",
+            "email",
+            "open",
+            "kristy_ratke33",
+            "gmail",
+            "com",
+            "tandem",
+            "aptu",
+            "numquam",
+            "sophismata",
+            "spoliatio",
+            "commun"
+          ],
+          "actionVerbs": [
+            "open"
+          ],
+          "createdAt": "2026-02-12T14:11:41.156Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "engage-62d10a07-3ac1-454d-91fb-e618cb0bfd6b",
+    "key": "62d10a07-3ac1-454d-91fb-e618cb0bfd6b",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Interest evidence per event",
+    "topicData": {
+      "interest": [
+        {
+          "externalRef": "88755ba5-7500-4a22-b33b-210481611f55",
+          "name": "callie62 downloaded marten_airbrush_common.deb",
+          "interests": [
+            "downloaded",
+            "document",
+            "callie62",
+            "download",
+            "marten_airbrush_common",
+            "deb",
+            "document"
+          ],
+          "actionVerbs": [
+            "download"
+          ],
+          "createdAt": "2026-02-05T08:25:34.012Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "engage-ad47c414-4f38-4a14-b2c8-235b38b376b9",
+    "key": "ad47c414-4f38-4a14-b2c8-235b38b376b9",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Interest evidence per event",
+    "topicData": {
+      "interest": [
+        {
+          "externalRef": "7686a1a1-159a-4c4a-82bc-30155b9e9c17",
+          "name": "luis24 downloaded whereas_incidentally_as.ogv",
+          "interests": [
+            "downloaded",
+            "document",
+            "luis24",
+            "download",
+            "whereas_incidentally_a",
+            "ogv",
+            "document"
+          ],
+          "actionVerbs": [
+            "download"
+          ],
+          "createdAt": "2026-02-05T09:00:07.783Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "engage-ca69b729-2d30-47ea-b3cb-3523a72e899c",
+    "key": "ca69b729-2d30-47ea-b3cb-3523a72e899c",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Interest evidence per event",
+    "topicData": {
+      "interest": [
+        {
+          "externalRef": "c8e5a850-032a-4f88-8821-8798ee9af1ce",
+          "name": "brandon39 downloaded yippee.list",
+          "interests": [
+            "downloaded",
+            "document",
+            "brandon39",
+            "download",
+            "yippe",
+            "list",
+            "document"
+          ],
+          "actionVerbs": [
+            "download"
+          ],
+          "createdAt": "2026-02-03T11:44:14.663Z"
+        },
+        {
+          "externalRef": "new-ca69b1-0001-aaaa-111111111111",
+          "name": "brandon39 viewed yippee.list",
+          "interests": [
+            "viewed",
+            "document",
+            "brandon39",
+            "view",
+            "yippe",
+            "list",
+            "document"
+          ],
+          "actionVerbs": [
+            "view"
+          ],
+          "createdAt": "2026-02-18T10:15:00.000Z"
+        },
+        {
+          "externalRef": "new-ca69b2-0002-bbbb-222222222222",
+          "name": "brandon39 downloaded report.csv",
+          "interests": [
+            "downloaded",
+            "data",
+            "brandon39",
+            "download",
+            "report",
+            "csv",
+            "data"
+          ],
+          "actionVerbs": [
+            "download"
+          ],
+          "createdAt": "2026-02-18T10:16:00.000Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "engage-08ee0b29-adea-4365-a911-c201d0901829",
+    "key": "08ee0b29-adea-4365-a911-c201d0901829",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Interest evidence per event",
+    "topicData": {
+      "interest": [
+        {
+          "externalRef": "c12c2518-9659-48af-a265-e54fbd7d0c11",
+          "name": "curtis_graham viewed stormy.bz2",
+          "interests": [
+            "viewed",
+            "document",
+            "curtis_graham",
+            "view",
+            "stormi",
+            "bz2",
+            "document"
+          ],
+          "actionVerbs": [
+            "view"
+          ],
+          "createdAt": "2026-01-22T20:14:46.947Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "engage-25410e3d-c130-4f18-b00c-44d347326de5",
+    "key": "25410e3d-c130-4f18-b00c-44d347326de5",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Interest evidence per event",
+    "topicData": {
+      "interest": [
+        {
+          "externalRef": "8eaf02b7-95e8-4e2a-8c25-b6f35b466042",
+          "name": "Profile of louis24 was viewed",
+          "interests": [
+            "profile_viewed",
+            "user",
+            "profil",
+            "louis24",
+            "view",
+            "user"
+          ],
+          "actionVerbs": [
+            "view"
+          ],
+          "createdAt": "2026-01-25T20:09:26.648Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "engage-f101306f-1dbc-4aaa-913c-b7b7a66e1b21",
+    "key": "f101306f-1dbc-4aaa-913c-b7b7a66e1b21",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Interest evidence per event",
+    "topicData": {
+      "interest": [
+        {
+          "externalRef": "efe445fe-f712-4186-87d4-454edef5b9c9",
+          "name": "jan_dooley45 downloaded pfft.xsl",
+          "interests": [
+            "downloaded",
+            "document",
+            "jan_dooley45",
+            "download",
+            "pfft",
+            "xsl",
+            "document"
+          ],
+          "actionVerbs": [
+            "download"
+          ],
+          "createdAt": "2026-01-26T17:37:50.075Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "engage-13ec957b-8524-40d0-8c75-cd4e1dc0c647",
+    "key": "13ec957b-8524-40d0-8c75-cd4e1dc0c647",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Interest evidence per event",
+    "topicData": {
+      "interest": [
+        {
+          "externalRef": "a967c66e-4620-45c3-aa4d-eecebab1563b",
+          "name": "Email opened by Rhoda89@yahoo.com: \"Viriliter solutio conitor valeo tamdiu.\"",
+          "interests": [
+            "email_opened",
+            "communication",
+            "email",
+            "open",
+            "rhoda89",
+            "yahoo",
+            "com",
+            "virilit",
+            "solutio",
+            "conitor",
+            "valeo",
+            "tamdiu",
+            "commun"
+          ],
+          "actionVerbs": [
+            "open"
+          ],
+          "createdAt": "2026-02-07T00:50:47.394Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "engage-f854ce86-d8f2-4794-94be-301c5324b758",
+    "key": "f854ce86-d8f2-4794-94be-301c5324b758",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Interest evidence per event",
+    "topicData": {
+      "interest": [
+        {
+          "externalRef": "e578f7f5-f264-45fb-925d-ae65b7923968",
+          "name": "teresa48 downloaded though.pot",
+          "interests": [
+            "downloaded",
+            "document",
+            "teresa48",
+            "download",
+            "though",
+            "pot",
+            "document"
+          ],
+          "actionVerbs": [
+            "download"
+          ],
+          "createdAt": "2026-01-31T09:35:26.373Z"
+        }
+      ]
+    }
+  },
+  {
+    "id": "recurring-8a2f9b72-1111-4a2b-9cde-000000000001",
+    "key": "8a2f9b72-1111-4a2b-9cde-000000000001",
+    "detector": "RecurringEventDetector",
+    "severity": "info",
+    "message": "Predicted next recurring event date",
+    "predictedNextDate": "2026-01-26T08:30:00.000Z",
+    "evidence": [
+      {
+        "externalRef": "kg-0001-01",
+        "createdAt": "2026-01-05T08:30:00.000Z",
+        "log": "maria_parent attended kindergarten dropoff for child (morning session)"
+      },
+      {
+        "externalRef": "kg-0001-02",
+        "createdAt": "2026-01-12T08:30:00.000Z",
+        "log": "maria_parent attended kindergarten dropoff for child (morning session)"
+      },
+      {
+        "externalRef": "kg-0001-03",
+        "createdAt": "2026-01-19T08:30:00.000Z",
+        "log": "maria_parent attended kindergarten dropoff for child (morning session)"
+      }
+    ]
+  },
+  {
+    "id": "recurring-9b3c2d84-2222-4b3c-8f12-000000000002",
+    "key": "9b3c2d84-2222-4b3c-8f12-000000000002",
+    "detector": "RecurringEventDetector",
+    "severity": "info",
+    "message": "Predicted next recurring event date",
+    "predictedNextDate": "2026-02-13T04:00:00.000Z",
+    "evidence": [
+      {
+        "externalRef": "kg-0002-01",
+        "createdAt": "2026-02-02T16:00:00.000Z",
+        "log": "oliver_guardian attended kindergarten pickup (afternoon session)"
+      },
+      {
+        "externalRef": "kg-0002-02",
+        "createdAt": "2026-02-05T16:00:00.000Z",
+        "log": "oliver_guardian attended kindergarten pickup (afternoon session)"
+      },
+      {
+        "externalRef": "kg-0002-03",
+        "createdAt": "2026-02-09T16:00:00.000Z",
+        "log": "oliver_guardian attended kindergarten pickup (afternoon session)"
+      }
+    ]
+  }
+]

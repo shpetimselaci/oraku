@@ -19,3 +19,4 @@ orakusdk.project.setCron({
     cron: '* * 1 * *',
     type: 'daily',
 })
+
