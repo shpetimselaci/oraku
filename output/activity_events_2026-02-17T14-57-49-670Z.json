@@ -3956,4 +3956,126 @@
     },
     "createdAt": "2026-01-31T09:35:26.373Z"
   }
+  ,
+  {
+    "externalRef": "new-ca69b1-0001-aaaa-111111111111",
+    "category": "document",
+    "subcategory": "viewed",
+    "log": "brandon39 viewed yippee.list",
+    "meta": {
+      "username": "brandon39",
+      "userId": "ca69b729-2d30-47ea-b3cb-3523a72e899c",
+      "email": "brandon39_Terry7@yahoo.com"
+    },
+    "createdAt": "2026-02-18T10:15:00.000Z"
+  },
+  {
+    "externalRef": "new-ca69b2-0002-bbbb-222222222222",
+    "category": "data",
+    "subcategory": "downloaded",
+    "log": "brandon39 downloaded report.csv",
+    "meta": {
+      "username": "brandon39",
+      "userId": "ca69b729-2d30-47ea-b3cb-3523a72e899c",
+      "email": "brandon39_Terry7@yahoo.com"
+    },
+    "createdAt": "2026-02-18T10:16:00.000Z"
+  },
+  {
+    "externalRef": "new-21f4b1-0003-cccc-333333333333",
+    "category": "system",
+    "subcategory": "maintenance_update",
+    "log": "Scheduled maintenance progress updated",
+    "meta": {
+      "username": "nikita_ruecker",
+      "userId": "21f4ae7b-b36f-4df5-af5b-aed2e892fc8f",
+      "email": "nikita_ruecker.Gerhold@yahoo.com"
+    },
+    "createdAt": "2026-02-18T11:00:00.000Z"
+  },
+  {
+    "externalRef": "new-21f4b2-0004-dddd-444444444444",
+    "category": "system",
+    "subcategory": "maintenance_completed",
+    "log": "Scheduled maintenance completed successfully",
+    "meta": {
+      "username": "nikita_ruecker",
+      "userId": "21f4ae7b-b36f-4df5-af5b-aed2e892fc8f",
+      "email": "nikita_ruecker.Gerhold@yahoo.com"
+    },
+    "createdAt": "2026-02-18T12:30:00.000Z"
+  }
+  ,
+  {
+    "externalRef": "kg-0001-01",
+    "category": "attendance",
+    "subcategory": "kindergarten_attendance",
+    "log": "maria_parent attended kindergarten dropoff for child (morning session)",
+    "meta": {
+      "username": "maria_parent",
+      "userId": "8a2f9b72-1111-4a2b-9cde-000000000001",
+      "email": "maria.parent@example.com"
+    },
+    "createdAt": "2026-01-05T08:30:00.000Z"
+  },
+  {
+    "externalRef": "kg-0001-02",
+    "category": "attendance",
+    "subcategory": "kindergarten_attendance",
+    "log": "maria_parent attended kindergarten dropoff for child (morning session)",
+    "meta": {
+      "username": "maria_parent",
+      "userId": "8a2f9b72-1111-4a2b-9cde-000000000001",
+      "email": "maria.parent@example.com"
+    },
+    "createdAt": "2026-01-12T08:30:00.000Z"
+  },
+  {
+    "externalRef": "kg-0001-03",
+    "category": "attendance",
+    "subcategory": "kindergarten_attendance",
+    "log": "maria_parent attended kindergarten dropoff for child (morning session)",
+    "meta": {
+      "username": "maria_parent",
+      "userId": "8a2f9b72-1111-4a2b-9cde-000000000001",
+      "email": "maria.parent@example.com"
+    },
+    "createdAt": "2026-01-19T08:30:00.000Z"
+  },
+  {
+    "externalRef": "kg-0002-01",
+    "category": "attendance",
+    "subcategory": "kindergarten_attendance",
+    "log": "oliver_guardian attended kindergarten pickup (afternoon session)",
+    "meta": {
+      "username": "oliver_guardian",
+      "userId": "9b3c2d84-2222-4b3c-8f12-000000000002",
+      "email": "oliver.guardian@example.com"
+    },
+    "createdAt": "2026-02-02T16:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-0002-02",
+    "category": "attendance",
+    "subcategory": "kindergarten_attendance",
+    "log": "oliver_guardian attended kindergarten pickup (afternoon session)",
+    "meta": {
+      "username": "oliver_guardian",
+      "userId": "9b3c2d84-2222-4b3c-8f12-000000000002",
+      "email": "oliver.guardian@example.com"
+    },
+    "createdAt": "2026-02-05T16:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-0002-03",
+    "category": "attendance",
+    "subcategory": "kindergarten_attendance",
+    "log": "oliver_guardian attended kindergarten pickup (afternoon session)",
+    "meta": {
+      "username": "oliver_guardian",
+      "userId": "9b3c2d84-2222-4b3c-8f12-000000000002",
+      "email": "oliver.guardian@example.com"
+    },
+    "createdAt": "2026-02-09T16:00:00.000Z"
+  }
 ]

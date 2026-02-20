@@ -1,7 +1,8 @@
 plan to get a working mvp:
 
-[ ] data set
-[ ] data ingestion part
+[✅] data set
+[✅] data ingestion part
+[✅] stitch info
 [ ] Detectors
     [ ] Building 5 starting Detectors
     [ ] DetectorManager
@@ -13,12 +14,12 @@ plan to get a working mvp:
 [ ] get generated data, and send back to request being made
 
 
-
 NEAR FUTURE
 [ ] this api call we make to the backend will be wrapped on an sdk
 [ ] project settings will be set on another endpoint
 [ ] webhook support
 [ ] cron support
+
 
 LATE FUTURE
 [ ] DetectorBuilder
