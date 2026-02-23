@@ -4078,4 +4078,317 @@
     },
     "createdAt": "2026-02-09T16:00:00.000Z"
   }
+  ,
+  {
+    "externalRef": "kg-msj-uploads-2026-01-05",
+    "category": "curriculum",
+    "subcategory": "upload_activity_sheet",
+    "log": "ms_jones uploaded 'Counting with Beads' activity sheet as part of the numeracy curriculum",
+    "meta": {
+      "username": "ms_jones",
+      "userId": "d1a2b3c4-1111-4a5b-9cde-000000000101",
+      "email": "ms.jones@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-01-05T09:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-msj-uploads-2026-01-12",
+    "category": "curriculum",
+    "subcategory": "upload_activity_sheet",
+    "log": "ms_jones uploaded 'Color Sorting' activity sheet as part of the fine motor curriculum",
+    "meta": {
+      "username": "ms_jones",
+      "userId": "d1a2b3c4-1111-4a5b-9cde-000000000101",
+      "email": "ms.jones@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-01-12T09:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-msj-uploads-2026-01-19",
+    "category": "curriculum",
+    "subcategory": "upload_activity_sheet",
+    "log": "ms_jones uploaded 'Nature Walk Checklist' activity sheet for the outdoor curriculum",
+    "meta": {
+      "username": "ms_jones",
+      "userId": "d1a2b3c4-1111-4a5b-9cde-000000000101",
+      "email": "ms.jones@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-01-19T09:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-msj-uploads-2026-01-26",
+    "category": "curriculum",
+    "subcategory": "upload_activity_sheet",
+    "log": "ms_jones uploaded 'Playdough Letters' activity sheet for literacy play",
+    "meta": {
+      "username": "ms_jones",
+      "userId": "d1a2b3c4-1111-4a5b-9cde-000000000101",
+      "email": "ms.jones@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-01-26T09:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-msj-uploads-2026-02-02",
+    "category": "curriculum",
+    "subcategory": "upload_activity_sheet",
+    "log": "ms_jones uploaded 'Counting Games' activity sheet — regular weekly upload",
+    "meta": {
+      "username": "ms_jones",
+      "userId": "d1a2b3c4-1111-4a5b-9cde-000000000101",
+      "email": "ms.jones@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-02T09:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-mss-read-2026-01-10",
+    "category": "activity",
+    "subcategory": "read_story",
+    "log": "ms_sanders read 'The Little Red Hen' to Group A as part of the literacy curriculum",
+    "meta": {
+      "username": "ms_sanders",
+      "userId": "e2f3g4h5-2222-4b6c-8def-000000000202",
+      "email": "sanders@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-01-10T10:15:00.000Z"
+  },
+  {
+    "externalRef": "kg-mss-read-2026-01-17",
+    "category": "activity",
+    "subcategory": "read_story",
+    "log": "ms_sanders read 'Brown Bear' to Group B during circle time",
+    "meta": {
+      "username": "ms_sanders",
+      "userId": "e2f3g4h5-2222-4b6c-8def-000000000202",
+      "email": "sanders@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-01-17T10:15:00.000Z"
+  },
+  {
+    "externalRef": "kg-mss-read-2026-01-24",
+    "category": "activity",
+    "subcategory": "read_story",
+    "log": "ms_sanders read 'Goodnight Moon' and did comprehension questions",
+    "meta": {
+      "username": "ms_sanders",
+      "userId": "e2f3g4h5-2222-4b6c-8def-000000000202",
+      "email": "sanders@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-01-24T10:15:00.000Z"
+  },
+  {
+    "externalRef": "kg-mss-read-2026-01-31",
+    "category": "activity",
+    "subcategory": "read_story",
+    "log": "ms_sanders read 'Where the Wild Things Are' and led a dramatization",
+    "meta": {
+      "username": "ms_sanders",
+      "userId": "e2f3g4h5-2222-4b6c-8def-000000000202",
+      "email": "sanders@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-01-31T10:15:00.000Z"
+  },
+  {
+    "externalRef": "kg-mss-read-2026-02-07",
+    "category": "activity",
+    "subcategory": "read_story",
+    "log": "ms_sanders read 'The Very Hungry Caterpillar' and did sequencing activity",
+    "meta": {
+      "username": "ms_sanders",
+      "userId": "e2f3g4h5-2222-4b6c-8def-000000000202",
+      "email": "sanders@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-07T10:15:00.000Z"
+  },
+  {
+    "externalRef": "kg-mss-read-2026-02-14",
+    "category": "activity",
+    "subcategory": "read_story",
+    "log": "ms_sanders read 'We're Going on a Bear Hunt' and sang action songs",
+    "meta": {
+      "username": "ms_sanders",
+      "userId": "e2f3g4h5-2222-4b6c-8def-000000000202",
+      "email": "sanders@littlestars.edu",
+      "role": "teacher",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-14T10:15:00.000Z"
+  },
+  {
+    "externalRef": "kg-child-emily-2026-02-10",
+    "category": "activity",
+    "subcategory": "participation",
+    "log": "emily_park completed the painting activity and showed improved fine motor control",
+    "meta": {
+      "username": "emily_park",
+      "userId": "f3g4h5i6-3333-4c7d-9ef0-000000000303",
+      "role": "child",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-10T14:30:00.000Z"
+  },
+  {
+    "externalRef": "kg-child-emily-2026-02-12",
+    "category": "activity",
+    "subcategory": "participation",
+    "log": "emily_park participated in group counting and recited numbers to 10",
+    "meta": {
+      "username": "emily_park",
+      "userId": "f3g4h5i6-3333-4c7d-9ef0-000000000303",
+      "role": "child",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-12T09:45:00.000Z"
+  }
+  ,
+  {
+    "externalRef": "kg-menu-2026-02-18",
+    "category": "menu",
+    "subcategory": "served",
+    "log": "Served lunch: rice, chicken, carrot",
+    "meta": {
+      "username": "littlestars_kitchen",
+      "userId": "kitchen-0001",
+      "role": "staff",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-18T12:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-menu-2026-02-19",
+    "category": "menu",
+    "subcategory": "served",
+    "log": "Served breakfast: milk, banana, bread",
+    "meta": {
+      "username": "littlestars_kitchen",
+      "userId": "kitchen-0001",
+      "role": "staff",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-19T08:30:00.000Z"
+  },
+  {
+    "externalRef": "kg-menu-2026-02-20",
+    "category": "menu",
+    "subcategory": "served",
+    "log": "Served snack: apple, yogurt",
+    "meta": {
+      "username": "littlestars_kitchen",
+      "userId": "kitchen-0001",
+      "role": "staff",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-20T15:30:00.000Z"
+  },
+  {
+    "externalRef": "kg-menu-2026-02-21",
+    "category": "menu",
+    "subcategory": "served",
+    "log": "Served lunch: salmon, potato, spinach",
+    "meta": {
+      "username": "littlestars_kitchen",
+      "userId": "kitchen-0001",
+      "role": "staff",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-21T12:15:00.000Z"
+  },
+  {
+    "externalRef": "kg-menu-2026-02-22",
+    "category": "menu",
+    "subcategory": "served",
+    "log": "Served lunch: rice, beans, tomato",
+    "meta": {
+      "username": "littlestars_kitchen",
+      "userId": "kitchen-0001",
+      "role": "staff",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-22T12:00:00.000Z"
+  }
+  ,
+  {
+    "externalRef": "kg-registered-2026-02-18",
+    "category": "menu",
+    "subcategory": "food_registered",
+    "log": "Registered foods for 2026-02-18: rice, chicken, carrot",
+    "meta": {
+      "username": "littlestars_kitchen",
+      "userId": "kitchen-0001",
+      "role": "staff",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-18T08:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-registered-2026-02-19",
+    "category": "menu",
+    "subcategory": "food_registered",
+    "log": "Registered foods for 2026-02-19: milk, banana, bread",
+    "meta": {
+      "username": "littlestars_kitchen",
+      "userId": "kitchen-0001",
+      "role": "staff",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-19T08:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-registered-2026-02-20",
+    "category": "menu",
+    "subcategory": "food_registered",
+    "log": "Registered foods for 2026-02-20: apple, yogurt",
+    "meta": {
+      "username": "littlestars_kitchen",
+      "userId": "kitchen-0001",
+      "role": "staff",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-20T08:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-registered-2026-02-21",
+    "category": "menu",
+    "subcategory": "food_registered",
+    "log": "Registered foods for 2026-02-21: salmon, potato, spinach",
+    "meta": {
+      "username": "littlestars_kitchen",
+      "userId": "kitchen-0001",
+      "role": "staff",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-21T08:00:00.000Z"
+  },
+  {
+    "externalRef": "kg-registered-2026-02-22",
+    "category": "menu",
+    "subcategory": "food_registered",
+    "log": "Registered foods for 2026-02-22: rice, beans, tomato",
+    "meta": {
+      "username": "littlestars_kitchen",
+      "userId": "kitchen-0001",
+      "role": "staff",
+      "organizationName": "Little Stars Kindergarten"
+    },
+    "createdAt": "2026-02-22T08:00:00.000Z"
+  }
 ]

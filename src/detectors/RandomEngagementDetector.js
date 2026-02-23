@@ -1,15 +1,17 @@
-const natural = require('natural')
+const nlp = require('compromise')
 
-const tokenizer = new natural.WordTokenizer()
-const wordRootExtractor = natural.PorterStemmer // Turn words into their root form (e.g. "coding" -> "code") to improve matching against keywords
-const stopwords = natural.stopwords || natural.ignoredWords || []
-const ignoredWords = new Set(stopwords)
+function extractNames(text) {
+  if (!text) return []
 
-function tokenize(text) {
-  return tokenizer
-    .tokenize(text.toLowerCase())
-    .filter(word => word && !ignoredWords.has(word) && word.length > 2)
-    .map(word => wordRootExtractor.stem(word))
+  const tokens = text
+    .split(/\s+/) // split by whitespace
+    .map(t => t.trim().replace(/^[',"]+|[',"]+$/g, '')) // trim punctuation/quotes
+    .filter(Boolean)
+    .filter(t => /^[a-z]/.test(t)) // start with lowercase
+
+  const meaningful = tokens.filter(t => /[\d_@.]/.test(t) || t.length > 3)
+
+  return Array.from(new Set(meaningful))
 }
 
 const NAME = 'RandomEngagementDetector'
@@ -18,64 +20,40 @@ module.exports = {
   name: NAME,
 
   async detect(entry) {
-    const events = Array.isArray(entry?.events) ? entry.events : []
-    if (!events.length) return [] // no activity
+  const events = Array.isArray(entry?.events) ? entry.events : []
+  if (!events.length) return []
 
-    // Single interest bucket collecting compact tokens and action verbs
-    const topicData = { interest: [] }
+  const findings = []
 
-    for (const event of events) {
-      // Combine all text from current event into one string for keyword matching
-      const eventText = [
-        event.title,
-        event.log,
-        event.category,
-        Array.isArray(event.tags) ? event.tags.join(' ') : event.tags
-      ]
-        .filter(Boolean)
-        .map(v => (typeof v === 'string' ? v : String(v)))
-        .join(' ')
+  for (const event of events) {
+    const eventText = [
+      event.title,
+      event.log,
+      event.category,
+      Array.isArray(event.tags) ? event.tags.join(' ') : event.tags
+    ]
+      .filter(Boolean)
+      .join(' ')
 
-      const tokens = tokenize(eventText)
+    const names = extractNames(eventText)
+    if (!names.length) continue
 
-      // detect generic engagement actions (install/download/view/etc.) and record interest
-      const ACTION_VERBS = ['download','install','view','open','click','subscribe','signup','purchase']
-      const STEMMED_ACTIONS = ACTION_VERBS.map(a => wordRootExtractor.stem(a))
-      const matchedActions = STEMMED_ACTIONS.filter(av => tokens.includes(av))
+    findings.push({
+      externalRef: event.externalRef || null,
+      names,
+      createdAt: event.createdAt || null
+    })
+  }
 
-      // derive compact interest tokens from the event text (keep up to 12)
-      const interestTokens = Array.from(new Set(tokens.filter(t => !ignoredWords.has(t) && t.length > 2))).slice(0,12)
+  if (!findings.length) return []
 
-      // include category/subcategory and username as lightweight metadata
-      const displayName = (event && event.log) || (event && event.meta && event.meta.username) || null
-      const metaCategory = event && event.category ? String(event.category) : null
-      const metaSubcategory = event && event.subcategory ? String(event.subcategory) : null
-      if (metaCategory) interestTokens.unshift(metaCategory)
-      if (metaSubcategory) interestTokens.unshift(metaSubcategory)
-
-      // only record interest when we detected an explicit action verb
-      if (matchedActions.length > 0) {
-        topicData.interest.push({
-          externalRef: event && event.externalRef ? event.externalRef : null,
-          name: displayName,
-          interests: interestTokens,
-          actionVerbs: matchedActions,
-          createdAt: event && event.createdAt ? event.createdAt : null
-        })
-      }
-    }
-    // If nothing was captured, don't emit a finding
-    if (!Array.isArray(topicData.interest) || topicData.interest.length === 0) return []
-
-    const ref = entry?.externalRef || entry?.id || `${Date.now()}`
-
-    return [{
-      id: `engage-${ref}`,
-      key: ref,
-      detector: NAME,
-      severity: 'info',
-      message: 'Interest evidence per event',
-      topicData
-    }]
+  return [{
+    id: `engage-${entry.externalRef || Date.now()}`,
+    key: entry.externalRef || null,
+    detector: NAME,
+    severity: 'info',
+    message: 'Detected potential engagement based on names mentioned in events',
+    evidence: findings
+  }]
   }
 }
