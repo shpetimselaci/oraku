@@ -1,0 +1,18 @@
+{
+  "Lunch": {
+    "externalRef": "Lunch",
+    "events": [
+      {
+        "date": "2026-02-23",
+        "meal": "Lunch",
+        "items": [
+          "Apple Slices",
+          "Milk"
+        ]
+      }
+    ],
+    "first": null,
+    "last": null,
+    "count": 1
+  }
+}

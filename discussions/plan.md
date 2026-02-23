@@ -5,7 +5,7 @@ plan to get a working mvp:
 [✅] stitch info
 [ ] Detectors
     [ ] Building 5 starting Detectors
-    [ ] DetectorManager
+    [✅] DetectorManager
     [ ] use MechanismToFilterDecetors
         [ ] AllDetectorsFilter extends MechanismToFilterDecetors
     [ ] Bulding a loop to get data through all

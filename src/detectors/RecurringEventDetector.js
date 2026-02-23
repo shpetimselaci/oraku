@@ -13,6 +13,9 @@ function calculateMedianInterval(intervals) {
 }
 
 const DETECTOR_NAME = 'RecurringEventDetector'
+const EventCounter = require('./EventCounter')
+// set the minimal number of repeated events to consider recurring
+const recurringThreshold = 3
 
 module.exports = {
   name: DETECTOR_NAME,
@@ -20,51 +23,21 @@ module.exports = {
 
   async detect(entry) {
     const events = Array.isArray(entry?.events) ? entry.events : []
-    if (events.length < 2) return []
+    if (events.length < recurringThreshold) return []
 
     // Require repeated, similar actions: pick the most common (category, subcategory)
-    const typeCounts = {}
-    for (const ev of events) {
-      const cat = (ev && ev.category) || ''
-      const sub = (ev && ev.subcategory) || ''
-      const k = `${cat}|${sub}`
-      typeCounts[k] = (typeCounts[k] || 0) + 1
-    }
+    const typeCounts = EventCounter.getTypeCounts(events)
+    const { mostCommonKey, mostCommonCount } = EventCounter.getMostCommon(typeCounts)
 
-    let mostCommonKey = null
-    let mostCommonCount = 0
-    for (const [k, c] of Object.entries(typeCounts)) {
-      if (c > mostCommonCount) { mostCommonKey = k; mostCommonCount = c }
-    }
+    // if no action type appears at least `recurringThreshold`, don't consider it recurring
+    if (!mostCommonKey || mostCommonCount < recurringThreshold) return []
 
-    // if no action type appears at least twice, don't consider it recurring
-    if (!mostCommonKey || mostCommonCount < 2) return []
+    const matchedRecurringEvents = EventCounter.matchedEventsForKey(events, mostCommonKey)
 
-    const [commonCategory, commonSubcategory] = mostCommonKey.split('|')
-    const matchedRecurringEvents = events.filter(ev =>
-      (((ev && ev.category) || '') === commonCategory) && (((ev && ev.subcategory) || '') === commonSubcategory)
-    )
+    if (matchedRecurringEvents.length < recurringThreshold) return []
 
-    if (matchedRecurringEvents.length < 2) return []
-
-    const eventDates = matchedRecurringEvents
-      .map(e => safeParseDate(e.createdAt))
-      .filter(Boolean)
-      .sort((a,b) => a - b)
-
-    if (eventDates.length < 2) return []
-
-    const eventIntervals = []
-    for (let i = 1; i < eventDates.length; i++) {
-      eventIntervals.push(eventDates[i] - eventDates[i - 1])
-    }
-
-    const medianInterval = calculateMedianInterval(eventIntervals)
-    if (!medianInterval) return []
-
-    const lastEventDate = eventDates[eventDates.length - 1]
-    const predictedNextEventDate =
-      new Date(lastEventDate.getTime() + medianInterval)
+    const predictedNextEventDate = EventCounter.predictNextDateFromEvents(matchedRecurringEvents)
+    if (!predictedNextEventDate) return []
 
     return [{
       id: `recurring-${entry.externalRef}`,
