@@ -1,61 +1,54 @@
-function safeParseDate(dateValue) {
+function parseDateSafely(dateValue) {
   const d = new Date(dateValue)
   return isNaN(d.getTime()) ? null : d
 }
 
-function getTypeCounts(events) {
-  const typeCounts = {}
+function countEventsByType(events) {
+  const counts = {}
   for (const ev of events) {
     const cat = (ev && ev.category) || ''
     const sub = (ev && ev.subcategory) || ''
-    const k = `${cat}|${sub}`
-    typeCounts[k] = (typeCounts[k] || 0) + 1
+    const key = `${cat}|${sub}`
+    counts[key] = (counts[key] || 0) + 1
   }
-  return typeCounts
+  return counts
 }
 
-function getMostCommon(typeCounts) {
-  let mostCommonKey = null
-  let mostCommonCount = 0
-  for (const [k, c] of Object.entries(typeCounts)) {
-    if (c > mostCommonCount) { mostCommonKey = k; mostCommonCount = c }
+function findMostFrequentType(countsByType) {
+  let mostFrequentKey = null
+  let highestCount = 0
+  for (const [key, count] of Object.entries(countsByType)) {
+    if (count > highestCount) {
+      mostFrequentKey = key
+      highestCount = count
+    }
   }
-  return { mostCommonKey, mostCommonCount }
+  return { mostFrequentKey, highestCount }
 }
 
-function matchedEventsForKey(events, key) {
-  const [commonCategory, commonSubcategory] = (key || '').split('|')
-  return events.filter(ev => (((ev && ev.category) || '') === commonCategory) && (((ev && ev.subcategory) || '') === commonSubcategory))
+function filterEventsByTypeKey(events, key) {
+  const [cat, sub] = (key || '').split('|')
+  return events.filter(ev => ((ev && ev.category) || '') === cat && ((ev && ev.subcategory) || '') === sub)
 }
 
-function predictNextDateFromEvents(matchedEvents) {
-  const eventDates = matchedEvents
-    .map(e => safeParseDate(e.createdAt))
-    .filter(Boolean)
-    .sort((a,b) => a - b)
+function predictNextOccurrenceFromEvents(events) {
+  const dates = events.map(e => parseDateSafely(e.createdAt)).filter(Boolean).sort((a,b) => a - b)
+  if (dates.length < 2) return null
 
-  if (eventDates.length < 2) return null
+  const intervals = []
+  for (let i = 1; i < dates.length; i++) intervals.push(dates[i] - dates[i-1])
+  if (!intervals.length) return null
 
-  const eventIntervals = []
-  for (let i = 1; i < eventDates.length; i++) {
-    eventIntervals.push(eventDates[i] - eventDates[i - 1])
-  }
-
-  if (!eventIntervals.length) return null
-
-  const sorted = eventIntervals.slice().sort((a,b)=>a-b)
-  const mid = Math.floor(sorted.length / 2)
-  const medianInterval = sorted.length % 2 ? sorted[mid] : (sorted[mid-1] + sorted[mid]) / 2
-  if (!medianInterval) return null
-
-  const lastEventDate = eventDates[eventDates.length - 1]
-  return new Date(lastEventDate.getTime() + medianInterval)
+  intervals.sort((a,b) => a-b)
+  const mid = Math.floor(intervals.length / 2)
+  const medianInterval = intervals.length % 2 ? intervals[mid] : (intervals[mid-1] + intervals[mid]) / 2
+  return new Date(dates[dates.length-1].getTime() + medianInterval)
 }
 
 module.exports = {
-  safeParseDate,
-  getTypeCounts,
-  getMostCommon,
-  matchedEventsForKey,
-  predictNextDateFromEvents
+  parseDateSafely,
+  countEventsByType,
+  findMostFrequentType,
+  filterEventsByTypeKey,
+  predictNextOccurrenceFromEvents
 }

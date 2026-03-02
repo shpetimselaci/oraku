@@ -5,6 +5,7 @@
   "dependencies": {
     "@faker-js/faker": "^10.3.0",
     "compromise": "^14.14.5",
+    "dotenv": "^17.3.1",
     "natural": "^8.1.0",
     "node-fetch": "^2.7.0",
     "stopword": "^3.1.5"
@@ -20,6 +21,7 @@
     "stitch:js": "node src/cli/stitch.js",
     "query": "node src/cli/query.js",
     "trace": "node src/cli/trace.js",
-    "detect": "node src/cli/run-detectors.js"
+    "detect": "node src/cli/run-detectors.js",
+    "reminders": "node src/cli/generate-reminders.js"
   }
 }

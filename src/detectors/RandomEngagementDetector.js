@@ -1,4 +1,20 @@
 const nlp = require('compromise')
+const fs = require('fs')
+const path = require('path')
+
+// Collected findings for separate output file
+const collectedFindings = []
+const OUT_PATH = path.resolve('output', 'findings_random_engagement.json')
+
+function flushToFile() {
+  try {
+    fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true })
+    fs.writeFileSync(OUT_PATH, JSON.stringify(collectedFindings, null, 2))
+  } catch (e) {
+    // best-effort logging
+    console.error('RandomEngagementDetector: failed to write separate findings file', e && e.message)
+  }
+}
 
 function extractNames(text) {
   if (!text) return []
@@ -45,15 +61,28 @@ module.exports = {
     })
   }
 
-  if (!findings.length) return []
+    if (!findings.length) return []
 
-  return [{
-    id: `engage-${entry.externalRef || Date.now()}`,
-    key: entry.externalRef || null,
-    detector: NAME,
-    severity: 'info',
-    message: 'Detected potential engagement based on names mentioned in events',
-    evidence: findings
-  }]
+    const result = {
+      id: `engage-${entry.externalRef || Date.now()}`,
+      key: entry.externalRef || null,
+      detector: NAME,
+      severity: 'info',
+      message: 'Detected potential engagement based on names mentioned in events',
+      evidence: findings
+    }
+
+    // store and flush to separate file immediately
+    try {
+      collectedFindings.push(result)
+      flushToFile()
+    } catch (e) {
+      console.error('RandomEngagementDetector: error saving separate finding', e && e.message)
+    }
+
+    // Return no findings so this detector's results are NOT included in the
+    // main `output/findings.json`. The results remain available in
+    // `output/findings_random_engagement.json`.
+    return []
   }
 }
