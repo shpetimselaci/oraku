@@ -1,6 +1,6 @@
 {
-  "Morning Story Reading": {
-    "externalRef": "Morning Story Reading",
+  "unknown": {
+    "externalRef": "unknown",
     "events": [
       {
         "externalRef": "cur-1",
@@ -14,16 +14,8 @@
           "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
           "organizationName": "Boyer LLC"
         },
-        "createdAt": "2026-03-02T08:30:00.000Z"
-      }
-    ],
-    "first": "2026-03-02T08:30:00.000Z",
-    "last": "2026-03-02T08:30:00.000Z",
-    "count": 1
-  },
-  "Outdoor Free Play": {
-    "externalRef": "Outdoor Free Play",
-    "events": [
+        "createdAt": "2026-02-26T08:30:00.000Z"
+      },
       {
         "externalRef": "cur-2",
         "category": "curriculum",
@@ -36,16 +28,8 @@
           "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
           "organizationName": "Boyer LLC"
         },
-        "createdAt": "2026-03-02T10:00:00.000Z"
-      }
-    ],
-    "first": "2026-03-02T10:00:00.000Z",
-    "last": "2026-03-02T10:00:00.000Z",
-    "count": 1
-  },
-  "Alphabet Letters Practice": {
-    "externalRef": "Alphabet Letters Practice",
-    "events": [
+        "createdAt": "2026-02-26T10:00:00.000Z"
+      },
       {
         "externalRef": "cur-3",
         "category": "curriculum",
@@ -58,16 +42,8 @@
           "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
           "organizationName": "Boyer LLC"
         },
-        "createdAt": "2026-03-02T11:30:00.000Z"
-      }
-    ],
-    "first": "2026-03-02T11:30:00.000Z",
-    "last": "2026-03-02T11:30:00.000Z",
-    "count": 1
-  },
-  "Running and Movement Games": {
-    "externalRef": "Running and Movement Games",
-    "events": [
+        "createdAt": "2026-02-26T11:30:00.000Z"
+      },
       {
         "externalRef": "cur-4",
         "category": "curriculum",
@@ -80,16 +56,8 @@
           "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
           "organizationName": "Boyer LLC"
         },
-        "createdAt": "2026-03-02T13:00:00.000Z"
-      }
-    ],
-    "first": "2026-03-02T13:00:00.000Z",
-    "last": "2026-03-02T13:00:00.000Z",
-    "count": 1
-  },
-  "nutrition": {
-    "externalRef": "nutrition",
-    "events": [
+        "createdAt": "2026-02-26T13:00:00.000Z"
+      },
       {
         "externalRef": "nut-1",
         "category": "nutrition",
@@ -101,42 +69,8 @@
           "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
           "organizationName": "Boyer LLC"
         },
-        "createdAt": "2026-03-02T12:00:00.000Z"
+        "createdAt": "2026-02-26T12:00:00.000Z"
       },
-      {
-        "externalRef": "nut-2",
-        "category": "nutrition",
-        "subcategory": "snack_served",
-        "log": "Afternoon snack: apples, crackers",
-        "meta": {
-          "username": "michelle70",
-          "userId": "b4c459d4-965a-427b-bd36-b0c8b132897f",
-          "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
-          "organizationName": "Boyer LLC"
-        },
-        "createdAt": "2026-03-02T16:00:00.000Z"
-      },
-      {
-        "externalRef": "nut-4",
-        "category": "nutrition",
-        "subcategory": "lunch",
-        "log": "Lunch: grilled steak, origami, broccoli",
-        "meta": {
-          "username": "michelle70",
-          "userId": "b4c459d4-965a-427b-bd36-b0c8b132897f",
-          "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
-          "organizationName": "Boyer LLC"
-        },
-        "createdAt": "2026-03-02T16:00:00.000Z"
-      }
-    ],
-    "first": "2026-03-02T12:00:00.000Z",
-    "last": "2026-03-02T16:00:00.000Z",
-    "count": 3
-  },
-  "engagement": {
-    "externalRef": "engagement",
-    "events": [
       {
         "externalRef": "eng-1",
         "category": "engagement",
@@ -148,36 +82,15 @@
           "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
           "organizationName": "Boyer LLC"
         },
-        "createdAt": "2026-03-02T14:20:00.000Z"
+        "createdAt": "2026-02-26T14:20:00.000Z"
       },
-      {
-        "externalRef": "eng-2",
-        "category": "engagement",
-        "subcategory": "creative_activity",
-        "log": "Painting Session",
-        "meta": {
-          "username": "michelle70",
-          "userId": "b4c459d4-965a-427b-bd36-b0c8b132897f",
-          "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
-          "organizationName": "Boyer LLC"
-        },
-        "createdAt": "2026-03-02T17:00:00.000Z"
-      }
-    ],
-    "first": "2026-03-02T14:20:00.000Z",
-    "last": "2026-03-02T17:00:00.000Z",
-    "count": 2
-  },
-  "Morning Attendance": {
-    "externalRef": "Morning Attendance",
-    "events": [
       {
         "externalRef": "recurring-1-1",
         "category": "routine",
         "subcategory": "attendance",
         "log": "Morning Attendance",
         "name": "Morning Attendance",
-        "createdAt": "2026-02-29T08:00:00.000Z"
+        "createdAt": "2026-02-22T08:00:00.000Z"
       },
       {
         "externalRef": "recurring-1-2",
@@ -185,7 +98,7 @@
         "subcategory": "attendance",
         "log": "Morning Attendance",
         "name": "Morning Attendance",
-        "createdAt": "2026-03-01T08:00:00.000Z"
+        "createdAt": "2026-02-23T08:00:00.000Z"
       },
       {
         "externalRef": "recurring-1-3",
@@ -193,31 +106,15 @@
         "subcategory": "attendance",
         "log": "Morning Attendance",
         "name": "Morning Attendance",
-        "createdAt": "2026-03-02T08:00:00.000Z"
+        "createdAt": "2026-02-24T08:00:00.000Z"
       },
-      {
-        "externalRef": "recurring-1-4",
-        "category": "routine",
-        "subcategory": "attendance",
-        "log": "Morning Attendance",
-        "name": "Morning Attendance",
-        "createdAt": "2026-03-02T08:00:00.000Z"
-      }
-    ],
-    "first": "2026-03-01T08:00:00.000Z",
-    "last": "2026-03-02T08:00:00.000Z",
-    "count": 4
-  },
-  "Classroom Cleanup Time": {
-    "externalRef": "Classroom Cleanup Time",
-    "events": [
       {
         "externalRef": "anomaly-1-1",
         "category": "routine",
         "subcategory": "cleanup",
         "log": "Classroom Cleanup Time",
         "name": "Classroom Cleanup Time",
-        "createdAt": "2026-02-26T15:30:00.000Z"
+        "createdAt": "2026-02-17T15:30:00.000Z"
       },
       {
         "externalRef": "anomaly-1-2",
@@ -225,7 +122,7 @@
         "subcategory": "cleanup",
         "log": "Classroom Cleanup Time",
         "name": "Classroom Cleanup Time",
-        "createdAt": "2026-02-27T15:30:00.000Z"
+        "createdAt": "2026-02-18T15:30:00.000Z"
       },
       {
         "externalRef": "anomaly-1-3",
@@ -233,7 +130,7 @@
         "subcategory": "cleanup",
         "log": "Classroom Cleanup Time",
         "name": "Classroom Cleanup Time",
-        "createdAt": "2026-02-28T15:30:00.000Z"
+        "createdAt": "2026-02-19T15:30:00.000Z"
       },
       {
         "externalRef": "anomaly-1-4",
@@ -241,7 +138,7 @@
         "subcategory": "cleanup",
         "log": "Classroom Cleanup Time",
         "name": "Classroom Cleanup Time",
-        "createdAt": "2026-03-01T15:30:00.000Z"
+        "createdAt": "2026-02-20T15:30:00.000Z"
       },
       {
         "externalRef": "anomaly-1-5",
@@ -249,16 +146,8 @@
         "subcategory": "cleanup",
         "log": "Classroom Cleanup Time",
         "name": "Classroom Cleanup Time",
-        "createdAt": "2026-03-02T15:30:00.000Z"
-      }
-    ],
-    "first": "2026-02-26T15:30:00.000Z",
-    "last": "2026-03-02T15:30:00.000Z",
-    "count": 5
-  },
-  "Science Experiment": {
-    "externalRef": "Science Experiment",
-    "events": [
+        "createdAt": "2026-02-21T15:30:00.000Z"
+      },
       {
         "externalRef": "cur-5",
         "category": "curriculum",
@@ -271,27 +160,66 @@
           "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
           "organizationName": "Boyer LLC"
         },
-        "createdAt": "2026-03-02T15:00:00.000Z"
-      }
-    ],
-    "first": "2026-03-02T15:00:00.000Z",
-    "last": "2026-03-02T15:00:00.000Z",
-    "count": 1
-  },
-  "Math Homework": {
-    "externalRef": "Math Homework",
-    "events": [
+        "createdAt": "2026-02-26T15:00:00.000Z"
+      },
+      {
+        "externalRef": "nut-2",
+        "category": "nutrition",
+        "subcategory": "snack_served",
+        "log": "Afternoon snack: apples, crackers",
+        "meta": {
+          "username": "michelle70",
+          "userId": "b4c459d4-965a-427b-bd36-b0c8b132897f",
+          "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
+          "organizationName": "Boyer LLC"
+        },
+        "createdAt": "2026-02-26T16:00:00.000Z"
+      },
+      {
+        "externalRef": "nut-4",
+        "category": "nutrition",
+        "subcategory": "lunch",
+        "log": "Lunch: grilled steak, origami, broccoli",
+        "meta": {
+          "username": "michelle70",
+          "userId": "b4c459d4-965a-427b-bd36-b0c8b132897f",
+          "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
+          "organizationName": "Boyer LLC"
+        },
+        "createdAt": "2026-02-26T16:00:00.000Z"
+      },
+      {
+        "externalRef": "eng-2",
+        "category": "engagement",
+        "subcategory": "creative_activity",
+        "log": "Painting Session",
+        "meta": {
+          "username": "michelle70",
+          "userId": "b4c459d4-965a-427b-bd36-b0c8b132897f",
+          "organizationId": "5fb44952-2781-463f-a0d9-5736a3b53925",
+          "organizationName": "Boyer LLC"
+        },
+        "createdAt": "2026-02-26T17:00:00.000Z"
+      },
+      {
+        "externalRef": "recurring-1-4",
+        "category": "routine",
+        "subcategory": "attendance",
+        "log": "Morning Attendance",
+        "name": "Morning Attendance",
+        "createdAt": "2026-02-25T08:00:00.000Z"
+      },
       {
         "externalRef": "hw-1",
         "category": "routine",
         "subcategory": "homework",
         "log": "Math Homework",
         "name": "Math Homework",
-        "createdAt": "2026-03-01T18:00:00.000Z"
+        "createdAt": "2026-02-24T18:00:00.000Z"
       }
     ],
-    "first": "2026-03-01T18:00:00.000Z",
-    "last": "2026-03-01T18:00:00.000Z",
-    "count": 1
+    "first": "2026-02-17T15:30:00.000Z",
+    "last": "2026-02-26T17:00:00.000Z",
+    "count": 20
   }
 }

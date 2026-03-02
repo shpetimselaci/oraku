@@ -4,13 +4,13 @@ plan to get a working mvp:
 [✅] data ingestion part
 [✅] stitch info
 [ ] Detectors
-    [ ] Building 5 starting Detectors
+    [✅] Building 5 starting Detectors
     [✅] DetectorManager
-    [ ] use MechanismToFilterDecetors
-        [ ] AllDetectorsFilter extends MechanismToFilterDecetors
-    [ ] Bulding a loop to get data through all
-    [ ] for each dectector stitch info
-    [ ] generate
+    [✅] use MechanismToFilterDecetors
+        [✅] AllDetectorsFilter extends MechanismToFilterDecetors
+    [✅] Bulding a loop to get data through all
+    [✅] for each dectector stitch info
+    [✅] generate
 [ ] get generated data, and send back to request being made
 
 
@@ -23,5 +23,22 @@ NEAR FUTURE
 
 LATE FUTURE
 [ ] DetectorBuilder
+    [ ] create special syntax to filter by markers
+    [ ] make builders composable(can intertwine) by nature
+    [ ] make sure to follow builder pattern ()
+    [ ] 
 [ ] MechanismToFilterDecetors
 [ ] MechanismToFilterDecetors Builder
+
+
+
+
+Code for DetectorBuilder:
+builder1 = new DetectorBuilder(seedData1);
+builder2 = new DetectorBuilder(seedData2);
+builder1.addMarker(`x or y`);
+builder2.addMarker(`z or d`);
+
+const builder3 = builder1.compose(builder2);  // returns a new instance of DetectorBuilder;
+
+const builder4 = builder3.clone().addMarker(`x or y`).build();

@@ -82,3 +82,10 @@ about generation
 Lets use gemini 2.5 with 1 milion context to analyze stitched data
 
 
+
+app=> enter foods under x table => enter name to detectorbuilder("x table", "info from x table", "compare info to", return difference)
+detectorbuiler (count>5)
+
+if (x.count>5){
+    return x 
+}

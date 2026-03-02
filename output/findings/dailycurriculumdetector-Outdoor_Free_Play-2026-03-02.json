@@ -1,0 +1,12 @@
+{
+  "id": "dailycurriculumdetector-Outdoor Free Play-2026-03-02",
+  "detector": "DailyCurriculumDetector",
+  "severity": "suggestion",
+  "message": "Today’s curriculum did not include: reading, movement, music, art, basics. Consider doing one of these activities at home.",
+  "evidence": [
+    {
+      "name": "Outdoor Free Play",
+      "createdAt": "2026-03-02T10:00:00.000Z"
+    }
+  ]
+}

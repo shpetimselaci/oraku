@@ -1,0 +1,30 @@
+{
+  "id": "dailynutritiondetector-nutrition-grilled_chicken-rice-broccoli-afternoon_snack:_apples-crackers-grilled_steak-origami",
+  "key": "nutrition",
+  "detector": "DailyNutritionDetector",
+  "severity": "info",
+  "message": "Menu check for 2026-03-02: Missing Vitamin A, Vitamin C, Vitamin D, Vitamin B12, Vitamin B6, Calcium, Iron, Potassium, Magnesium, Zinc",
+  "evidence": {
+    "servedToday": [
+      "grilled chicken",
+      "rice",
+      "broccoli",
+      "afternoon snack: apples",
+      "crackers",
+      "grilled steak",
+      "origami"
+    ],
+    "missingNutrients": [
+      "Vitamin A",
+      "Vitamin C",
+      "Vitamin D",
+      "Vitamin B12",
+      "Vitamin B6",
+      "Calcium",
+      "Iron",
+      "Potassium",
+      "Magnesium",
+      "Zinc"
+    ]
+  }
+}

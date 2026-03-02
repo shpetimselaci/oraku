@@ -1,0 +1,244 @@
+[
+  {
+    "id": "engage-Morning Story Reading",
+    "key": "Morning Story Reading",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Detected potential engagement based on names mentioned in events",
+    "evidence": [
+      {
+        "externalRef": "cur-1",
+        "names": [
+          "curriculum"
+        ],
+        "createdAt": "2026-03-02T08:30:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "engage-Outdoor Free Play",
+    "key": "Outdoor Free Play",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Detected potential engagement based on names mentioned in events",
+    "evidence": [
+      {
+        "externalRef": "cur-2",
+        "names": [
+          "curriculum"
+        ],
+        "createdAt": "2026-03-02T10:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "engage-Alphabet Letters Practice",
+    "key": "Alphabet Letters Practice",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Detected potential engagement based on names mentioned in events",
+    "evidence": [
+      {
+        "externalRef": "cur-3",
+        "names": [
+          "curriculum"
+        ],
+        "createdAt": "2026-03-02T11:30:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "engage-Running and Movement Games",
+    "key": "Running and Movement Games",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Detected potential engagement based on names mentioned in events",
+    "evidence": [
+      {
+        "externalRef": "cur-4",
+        "names": [
+          "curriculum"
+        ],
+        "createdAt": "2026-03-02T13:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "engage-nutrition",
+    "key": "nutrition",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Detected potential engagement based on names mentioned in events",
+    "evidence": [
+      {
+        "externalRef": "nut-1",
+        "names": [
+          "lunch:",
+          "grilled",
+          "chicken",
+          "rice",
+          "broccoli",
+          "nutrition"
+        ],
+        "createdAt": "2026-03-02T12:00:00.000Z"
+      },
+      {
+        "externalRef": "nut-2",
+        "names": [
+          "snack:",
+          "apples",
+          "crackers",
+          "nutrition"
+        ],
+        "createdAt": "2026-03-02T16:00:00.000Z"
+      },
+      {
+        "externalRef": "nut-4",
+        "names": [
+          "grilled",
+          "steak",
+          "origami",
+          "broccoli",
+          "nutrition"
+        ],
+        "createdAt": "2026-03-02T16:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "engage-engagement",
+    "key": "engagement",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Detected potential engagement based on names mentioned in events",
+    "evidence": [
+      {
+        "externalRef": "eng-1",
+        "names": [
+          "engagement"
+        ],
+        "createdAt": "2026-03-02T14:20:00.000Z"
+      },
+      {
+        "externalRef": "eng-2",
+        "names": [
+          "engagement"
+        ],
+        "createdAt": "2026-03-02T17:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "engage-Morning Attendance",
+    "key": "Morning Attendance",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Detected potential engagement based on names mentioned in events",
+    "evidence": [
+      {
+        "externalRef": "recurring-1-1",
+        "names": [
+          "routine"
+        ],
+        "createdAt": "2026-02-29T08:00:00.000Z"
+      },
+      {
+        "externalRef": "recurring-1-2",
+        "names": [
+          "routine"
+        ],
+        "createdAt": "2026-03-01T08:00:00.000Z"
+      },
+      {
+        "externalRef": "recurring-1-3",
+        "names": [
+          "routine"
+        ],
+        "createdAt": "2026-03-02T08:00:00.000Z"
+      },
+      {
+        "externalRef": "recurring-1-4",
+        "names": [
+          "routine"
+        ],
+        "createdAt": "2026-03-02T08:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "engage-Classroom Cleanup Time",
+    "key": "Classroom Cleanup Time",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Detected potential engagement based on names mentioned in events",
+    "evidence": [
+      {
+        "externalRef": "anomaly-1-1",
+        "names": [
+          "routine"
+        ],
+        "createdAt": "2026-02-26T15:30:00.000Z"
+      },
+      {
+        "externalRef": "anomaly-1-2",
+        "names": [
+          "routine"
+        ],
+        "createdAt": "2026-02-27T15:30:00.000Z"
+      },
+      {
+        "externalRef": "anomaly-1-3",
+        "names": [
+          "routine"
+        ],
+        "createdAt": "2026-02-28T15:30:00.000Z"
+      },
+      {
+        "externalRef": "anomaly-1-4",
+        "names": [
+          "routine"
+        ],
+        "createdAt": "2026-03-01T15:30:00.000Z"
+      },
+      {
+        "externalRef": "anomaly-1-5",
+        "names": [
+          "routine"
+        ],
+        "createdAt": "2026-03-02T15:30:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "engage-Science Experiment",
+    "key": "Science Experiment",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Detected potential engagement based on names mentioned in events",
+    "evidence": [
+      {
+        "externalRef": "cur-5",
+        "names": [
+          "curriculum"
+        ],
+        "createdAt": "2026-03-02T15:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "engage-Math Homework",
+    "key": "Math Homework",
+    "detector": "RandomEngagementDetector",
+    "severity": "info",
+    "message": "Detected potential engagement based on names mentioned in events",
+    "evidence": [
+      {
+        "externalRef": "hw-1",
+        "names": [
+          "routine"
+        ],
+        "createdAt": "2026-03-01T18:00:00.000Z"
+      }
+    ]
+  }
+]
