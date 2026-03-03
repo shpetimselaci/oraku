@@ -1,102 +1,85 @@
 [
   {
-    "id": "recurring-Morning Attendance",
-    "key": "Morning Attendance",
-    "detector": "RecurringEventDetector",
-    "severity": "info",
-    "message": "Predicted next recurring event date",
-    "predictedNextDate": "2026-02-26T08:00:00.000Z",
-    "evidence": [
-      {
-        "externalRef": "recurring-1-1",
-        "createdAt": "2026-02-22T08:00:00.000Z",
-        "log": "Morning Attendance"
-      },
-      {
-        "externalRef": "recurring-1-2",
-        "createdAt": "2026-02-23T08:00:00.000Z",
-        "log": "Morning Attendance"
-      },
-      {
-        "externalRef": "recurring-1-3",
-        "createdAt": "2026-02-24T08:00:00.000Z",
-        "log": "Morning Attendance"
-      },
-      {
-        "externalRef": "recurring-1-4",
-        "createdAt": "2026-02-25T08:00:00.000Z",
-        "log": "Morning Attendance"
-      }
-    ]
-  },
-  {
-    "id": "anomaly-stop-Classroom Cleanup Time",
-    "key": "Classroom Cleanup Time",
-    "detector": "AnomalyDetector",
-    "severity": "warning",
-    "message": "Recurring action routine/cleanup stopped unexpectedly",
-    "expectedAt": "2026-02-22T15:30:00.000Z",
-    "evidence": [
-      {
-        "externalRef": "anomaly-1-1",
-        "createdAt": "2026-02-17T15:30:00.000Z",
-        "log": "Classroom Cleanup Time"
-      },
-      {
-        "externalRef": "anomaly-1-2",
-        "createdAt": "2026-02-18T15:30:00.000Z",
-        "log": "Classroom Cleanup Time"
-      },
-      {
-        "externalRef": "anomaly-1-3",
-        "createdAt": "2026-02-19T15:30:00.000Z",
-        "log": "Classroom Cleanup Time"
-      },
-      {
-        "externalRef": "anomaly-1-4",
-        "createdAt": "2026-02-20T15:30:00.000Z",
-        "log": "Classroom Cleanup Time"
-      },
-      {
-        "externalRef": "anomaly-1-5",
-        "createdAt": "2026-02-21T15:30:00.000Z",
-        "log": "Classroom Cleanup Time"
-      }
-    ]
-  },
-  {
     "id": "recurring-Classroom Cleanup Time",
-    "key": "Classroom Cleanup Time",
     "detector": "RecurringEventDetector",
     "severity": "info",
-    "message": "Predicted next recurring event date",
-    "predictedNextDate": "2026-02-22T15:30:00.000Z",
+    "message": "🔄 \"routine/cleanup\" repeats regularly. Next expected: 2026-03-03",
     "evidence": [
       {
-        "externalRef": "anomaly-1-1",
-        "createdAt": "2026-02-17T15:30:00.000Z",
+        "ref": "anomaly-1-1",
+        "date": "2026-02-26T15:30:00.000Z",
         "log": "Classroom Cleanup Time"
       },
       {
-        "externalRef": "anomaly-1-2",
-        "createdAt": "2026-02-18T15:30:00.000Z",
+        "ref": "anomaly-1-2",
+        "date": "2026-02-27T15:30:00.000Z",
         "log": "Classroom Cleanup Time"
       },
       {
-        "externalRef": "anomaly-1-3",
-        "createdAt": "2026-02-19T15:30:00.000Z",
+        "ref": "anomaly-1-3",
+        "date": "2026-02-28T15:30:00.000Z",
         "log": "Classroom Cleanup Time"
       },
       {
-        "externalRef": "anomaly-1-4",
-        "createdAt": "2026-02-20T15:30:00.000Z",
+        "ref": "anomaly-1-4",
+        "date": "2026-03-01T15:30:00.000Z",
         "log": "Classroom Cleanup Time"
       },
       {
-        "externalRef": "anomaly-1-5",
-        "createdAt": "2026-02-21T15:30:00.000Z",
+        "ref": "anomaly-1-5",
+        "date": "2026-03-02T15:30:00.000Z",
         "log": "Classroom Cleanup Time"
       }
-    ]
+    ],
+    "key": "Classroom Cleanup Time",
+    "predicted": "2026-03-03T15:30:00.000Z"
+  },
+  {
+    "id": "engagement-summary",
+    "key": "engagement-summary",
+    "detector": "RecommendationDetector",
+    "severity": "info",
+    "message": "📊 Engagement: 1 user(s), 10 activities tracked",
+    "data": {
+      "totalUsers": 1,
+      "totalActivities": 10,
+      "topActivities": [
+        "Morning Story Reading",
+        "Outdoor Free Play",
+        "Alphabet Letters Practice",
+        "Running and Movement Games",
+        "Foods for lunch: grilled chicken, rice, broccoli"
+      ]
+    }
+  },
+  {
+    "id": "profile-b4c459d4-965a-427b-bd36-b0c8b132897f",
+    "key": "b4c459d4-965a-427b-bd36-b0c8b132897f",
+    "detector": "RecommendationDetector",
+    "severity": "info",
+    "message": "👤 User Profile: b4c459d4...",
+    "data": {
+      "userId": "b4c459d4-965a-427b-bd36-b0c8b132897f",
+      "totalActivities": 10,
+      "topInterests": [
+        "activity_logged(5)",
+        "creative_activity(2)",
+        "morning(1)",
+        "snack_served(1)",
+        "lunch(1)"
+      ],
+      "activitiesList": [
+        "Morning Story Reading",
+        "Outdoor Free Play",
+        "Alphabet Letters Practice",
+        "Running and Movement Games",
+        "Foods for lunch: grilled chicken, rice, broccoli",
+        "Afternoon snack: apples, crackers",
+        "Lunch: grilled steak, origami, broccoli",
+        "Telescope Exploration",
+        "Painting Session",
+        "Science Experiment"
+      ]
+    }
   }
 ]

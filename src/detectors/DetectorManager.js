@@ -59,18 +59,10 @@ class DetectorManager {
         }
 
         try {
-          const start = process.hrtime()
           const results = await detector.detect(stitchedEntry)
-          const diff = process.hrtime(start)
-          const ms = diff[0] * 1e3 + diff[1] / 1e6
-          console.debug(`detector ${detector.name||detector.detector} for category=${detector.dataSource||context.category||'any'} took ${ms.toFixed(2)}ms`)
           return Array.isArray(results) ? results : []
         } catch (err) {
-          console.error(
-            'Detector error',
-            detector.name || detector.detector,
-            err?.message
-          )
+          console.error('Detector error', detector.name || detector.detector, err?.message)
           return []
         }
       })
@@ -80,7 +72,21 @@ class DetectorManager {
     })
 
     const findingsNested = await Promise.all(entryPromises)
-    return findingsNested.flat()
+    let findings = findingsNested.flat()
+
+    // Call finalize() on aggregate detectors
+    for (const detector of this.detectors) {
+      if (detector.finalize) {
+        try {
+          const finalFindings = await detector.finalize()
+          if (Array.isArray(finalFindings)) findings = findings.concat(finalFindings)
+        } catch (err) {
+          console.error('Detector finalize error', detector.name, err?.message)
+        }
+      }
+    }
+
+    return findings
   }
 }
 
