@@ -42,7 +42,7 @@ async function stitchAndSave(options) {
 
 module.exports = { loadJsonRecords, loadJsonRecordsSync, stitchAndSave }
 
-// CLI when run directlyc
+// CLI when run directly
 if (require.main === module) {
   ;(async () => {
     const argv = process.argv.slice(2)

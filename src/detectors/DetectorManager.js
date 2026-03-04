@@ -10,10 +10,7 @@ class DetectorManager {
 
     // Optional: filter by specific detector name
     if (this.options.only) {
-      detectors = detectors.filter(detector =>
-        detector.name === this.options.only ||
-        detector.detector === this.options.only
-      )
+      detectors = detectors.filter(detector => detector.name === this.options.only)
     }
 
     this.detectors = detectors
@@ -23,6 +20,9 @@ class DetectorManager {
   }
 
   async runOnStitched(stitchedData) {
+    // Track which detectors actually ran (for finalize)
+    const executedDetectors = new Set()
+
     const entryPromises = Object.values(stitchedData).map(async (stitchedEntry) => {
 
       const events = Array.isArray(stitchedEntry?.events)
@@ -49,20 +49,12 @@ class DetectorManager {
       )
 
       const detectorPromises = selectedDetectors.map(async (detector) => {
-
-        // Respect detector dataSource
-        if (detector.dataSource) {
-          const hasCategory = events.some(
-            ev => (ev && ev.category) === detector.dataSource
-          )
-          if (!hasCategory) return []
-        }
-
         try {
+          executedDetectors.add(detector)
           const results = await detector.detect(stitchedEntry)
           return Array.isArray(results) ? results : []
         } catch (err) {
-          console.error('Detector error', detector.name || detector.detector, err?.message)
+          console.error('Detector error', detector.name, err?.message)
           return []
         }
       })
@@ -74,8 +66,8 @@ class DetectorManager {
     const findingsNested = await Promise.all(entryPromises)
     let findings = findingsNested.flat()
 
-    // Call finalize() on aggregate detectors
-    for (const detector of this.detectors) {
+    // Call finalize() only on detectors that actually ran
+    for (const detector of executedDetectors) {
       if (detector.finalize) {
         try {
           const finalFindings = await detector.finalize()
@@ -85,6 +77,14 @@ class DetectorManager {
         }
       }
     }
+
+    // Deduplicate findings by id
+    const seen = new Set()
+    findings = findings.filter(finding => {
+      if (!finding?.id || seen.has(finding.id)) return false
+      seen.add(finding.id)
+      return true
+    })
 
     return findings
   }

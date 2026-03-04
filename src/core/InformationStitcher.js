@@ -1,5 +1,3 @@
-const types = require('../types')
-
 class InformationStitcher {
   constructor(events = [], options = {}) {
     this.events = events
