@@ -1,113 +1,166 @@
-# Daycare Activity Events Generator
+# Oraku
 
-A TypeScript-based synthetic data generator for daycare/childcare activity events. Generates realistic activity logs for children, teachers, parents, and facilities using Faker.js.
+A TypeScript SDK for detecting behavioral patterns in activity data and generating structured findings. Built for institutions like daycares, gyms, clinics, schools, and hotels.
+
+## What it does
+
+You feed Oraku raw activity events. It groups them by user, runs a layered set of detectors, and returns structured findings — recurring patterns, missed activities, dormant categories, cross-user insights.
+
+```ts
+import { EventStitcher, DetectorManager } from 'oraku'
+
+const stitcher = new EventStitcher(events)
+const groups = stitcher.stitchByField('meta.userId')
+
+const manager = new DetectorManager()
+const findings = await manager.runDetectorsOn(groups)
+```
 
 ## Installation
 
 ```bash
-npm install
+npm install oraku
 ```
 
-## Usage
+## The Pipeline
+
+```
+Raw Events (JSON)
+      ↓
+EventStitcher        — group events by user (or any field)
+      ↓
+DetectorManager      — run detectors, collect findings
+      ↓
+Finding[]            — structured output, ready for your use
+```
+
+### CLI
 
 ```bash
-npx ts-node generate-activity-events.ts [options]
+npm run generate:events   # generate synthetic test data
+npm run stitch            # group events by userId
+npm run detect            # run detectors, output findings.json
+npm run reminders         # convert findings to push notifications via Groq
 ```
 
-### Options
+## Detectors
 
-| Option | Alias | Description | Default |
-|--------|-------|-------------|---------|
-| `--count` | `-c` | Number of events to generate | `100` |
-| `--format` | `-f` | Output format | `all` |
-| `--output` | `-o` | Output directory | `./output` |
+### Built-in
 
-### Output Formats
+| Detector | What it detects |
+|---|---|
+| `ActivityPatternAnalyzer` | Recurring streaks, broken streaks, dormant categories, recent activity summary |
+| `StreakDetector` | A single pattern repeating at a regular interval — predicts next occurrence or flags a missed one |
+| `ChecklistDetector` | Whether a set of expected activities happened within a time window |
+| `RecommendationDetector` | Cross-user activity trends — what's popular, what a specific user is missing |
+| `GroqFallbackDetector` | LLM-based fallback via Groq — only runs if all primary detectors find nothing |
 
-| Format | Description |
-|--------|-------------|
-| `json` | Pretty-printed JSON array |
-| `ndjson` | Newline-delimited JSON (one event per line) |
-| `csv` | Flattened CSV with all metadata fields |
-| `llm` | Token-compact format optimized for LLM ingestion |
-| `llm-grouped` | Events grouped by child (very token-efficient) |
-| `llm-pipe` | Ultra-compact pipe-delimited format |
-| `all` | Generates all formats (default) |
+### Custom detectors
 
-### Examples
+Register your own in one line:
 
-```bash
-# Generate 100 events in all formats
-npx ts-node generate-activity-events.ts
+```ts
+import { createDetector } from 'oraku'
 
-# Generate 500 events in JSON format
-npx ts-node generate-activity-events.ts -c 500 -f json
+createDetector('MedicationCheck', 'checklist', {
+  expectedItems: [{ key: 'medication', keywords: ['medication', 'medicine'] }],
+  message: (missing) => `Medication log missing: ${missing.join(', ')}`
+})
 
-# Generate 1000 events to custom directory
-npx ts-node generate-activity-events.ts -c 1000 -o ./data
+createDetector('WeeklyCheckup', 'streak-break', { minRepeat: 3 })
 ```
 
-## Event Categories
+`DetectorManager` picks them up automatically — no registration step needed.
 
-The generator produces events across 10 categories:
+## Event shape
 
-| Category | Description |
-|----------|-------------|
-| `child_action` | Child-initiated activities (playing, drawing, crafts, etc.) |
-| `child_physical` | Physical activities (running, climbing, sports, etc.) |
-| `child_social` | Social interactions (sharing, helping, making friends) |
-| `child_learning` | Learning achievements (letters, numbers, colors, shapes) |
-| `teacher_action` | Teacher activities (feeding, reading stories, assessments) |
-| `assessment` | Developmental assessments and milestones |
-| `parent_home` | Home activities logged by parents |
-| `parent_teacher` | Parent-teacher communication events |
-| `daily_routine` | Routine events (arrival, meals, naps, departure) |
-| `health` | Health observations (temperature, mood, symptoms) |
-
-## Event Structure
-
-Each event contains:
-
-```typescript
-{
-  externalRef: string;      // Unique event ID
-  category: string;         // Event category
-  subcategory: string;      // Specific event type
-  log: string;              // Human-readable description
-  meta: MetaData;           // Rich metadata object
-  createdAt: Date;          // Event timestamp
+```ts
+interface Event {
+  externalRef?: string             // unique event ID
+  category?: string                // e.g. "health"
+  subcategory?: string             // e.g. "checkup"
+  log?: string                     // human-readable description
+  createdAt?: string               // ISO timestamp
+  meta?: Record<string, unknown>   // userId, childId, or anything else
 }
 ```
 
-### Metadata Fields
+## Finding shape
 
-- **Child info**: name, ID, age, classroom, age group
-- **People**: teacher, parent, friend references
-- **Activity details**: duration, mood, specific items (songs, books, foods)
-- **Learning specifics**: letters, numbers, colors, shapes
-- **Health data**: temperature, symptoms, injuries, medications
-- **Meal/sleep data**: consumption levels, nap duration, bottle amounts
-- **Session info**: source app, version, facility, location
-
-## Sample Output
-
-### LLM Compact Format
-```
-[09:15] Emma(18m,Ladybugs) act:drew_picture by:Ms. Johnson | mood:Happy
-[09:32] Liam(36m,Dragonflies) learn:recognized_letter by:Ms. Garcia | letter:B
-[10:00] Olivia(8m,Butterflies) daily:drank_bottle by:Ms. Williams | bottle:6oz
+```ts
+interface Finding {
+  id: string          // e.g. "recurring-user123-health|checkup"
+  detector: string    // which detector fired
+  severity: 'info' | 'warning' | 'success' | 'error'
+  message: string
+  evidence: Record<string, unknown>
+}
 ```
 
-### LLM Grouped Format
+Finding IDs follow a naming convention:
+- `recurring-*` — upcoming pattern (streak ongoing)
+- `anomaly-*` — missed pattern (streak broken)
+- `variety-*` — dormant category
+- `summary-*` — recent activity digest
+- `profile-*` — user interest profile
+
+## Grouping
+
+Events can be grouped by any field, including nested ones:
+
+```ts
+stitcher.stitchByField('meta.userId')     // group by user
+stitcher.stitchByField('meta.childId')    // group by child
+stitcher.stitchByField('meta.roomId')     // group by room
 ```
-## Emma (18m, Ladybugs)
-- 09:15 drew_picture
-- 09:45 shared_with_friend (w/Liam)
-- 10:30 ate_snack (ate:most, Crackers)
+
+## Detector filtering
+
+By default, `ContextBasedFilter` decides which detectors run on each group based on event context. You can swap in your own:
+
+```ts
+const manager = new DetectorManager({
+  filterMechanism: myCustomFilter,
+  only: 'StreakDetector'            // run only one detector by name
+})
+```
+
+## Exports
+
+```ts
+// Core
+EventStitcher
+DetectorManager
+createDetector
+
+// Detectors
+BaseDetector
+StreakDetector
+ChecklistDetector
+ActivityPatternAnalyzer
+RecommendationDetector
+GroqFallbackDetector
+
+// Filters
+BaseDetectorFilter
+ContextBasedFilter
+
+// Ingest
+loadJsonRecords
+loadJsonRecordsSync
+stitchAndSave
+
+// All types
+Event, EventGroup, EventGroupMap
+Finding, FindingData, Severity
+Detector, DetectorConfig
+ChecklistConfig, StreakConfig
+BuiltinDetectorType
 ```
 
 ## Dependencies
 
-- `@faker-js/faker` - Realistic fake data generation
-- `typescript` - TypeScript support
-- `ts-node` - TypeScript execution
+- `dotenv` — environment variable loading
+- `typescript` — TypeScript support
+- `ts-node` — TypeScript execution
+- `vitest` — test runner
