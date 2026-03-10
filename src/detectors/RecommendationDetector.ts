@@ -13,6 +13,7 @@ interface ActivityPopularity {
 
 export class RecommendationDetector extends BaseDetector {
   private userProfiles: Record<string, UserProfile> = {}
+  private usernames: Record<string, string> = {}
   private activityPopularity: Record<string, Set<string>> = {}
 
   constructor() {
@@ -33,6 +34,8 @@ export class RecommendationDetector extends BaseDetector {
 
       if (!this.userProfiles[userId]) {
         this.userProfiles[userId] = { interests: {}, activities: new Set() }
+        const username = meta?.username || meta?.name || meta?.displayName
+        this.usernames[userId] = typeof username === 'string' ? username : userId
       }
 
       const profile = this.userProfiles[userId]
@@ -63,41 +66,52 @@ export class RecommendationDetector extends BaseDetector {
       .sort((a, b) => b.popularity - a.popularity)
 
     for (const [userId, profile] of Object.entries(this.userProfiles)) {
-      const topInterests = Object.entries(profile.interests)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5)
-        .map(([cat, count]) => `${cat}(${count})`)
+      const displayName = this.usernames[userId] ?? userId
 
-      const suggestions = users.length > 1
+      // Activities logged by other staff that this user has never logged
+      const gaps = users.length > 1
         ? popularActivities
             .filter(({ activity }) => !profile.activities.has(activity))
             .slice(0, 3)
-            .map(s => `${s.activity} (${s.popularity}/${users.length} users)`)
+            .map(s => {
+              const otherNames = [...this.activityPopularity[s.activity]]
+                .map(uid => this.usernames[uid] ?? uid)
+                .filter(n => n !== displayName)
+                .slice(0, 2)
+              return `${s.activity} (logged by ${otherNames.join(', ')})`
+            })
         : []
+
+      const topCategories = Object.entries(profile.interests)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([cat, count]) => `${cat} (${count}x)`)
 
       const evidenceData: Record<string, unknown> = {
         userId,
-        totalActivities: profile.activities.size,
-        topInterests,
-        activitiesList: [...profile.activities].slice(0, 10)
+        username: displayName,
+        totalLogged: profile.activities.size,
+        mostLoggedCategories: topCategories,
+        loggedActivities: [...profile.activities].slice(0, 10)
       }
 
-      if (suggestions.length) evidenceData.suggestions = suggestions
+      if (gaps.length) evidenceData.notYetLoggedByThisUser = gaps
 
       findings.push(this.createFinding({
         id: `profile-${userId}`,
-        message: `User Profile: ${userId.slice(0, 8)}...`,
+        message: `${displayName} has logged ${profile.activities.size} unique activities — most in: ${topCategories.slice(0, 2).join(', ') || 'none yet'}`,
         evidence: evidenceData
       }))
     }
 
+    const topActivities = popularActivities.slice(0, 3).map(p => p.activity)
     findings.unshift(this.createFinding({
       id: 'engagement-summary',
-      message: `Engagement: ${users.length} user(s), ${Object.keys(this.activityPopularity).length} activities tracked`,
+      message: `${users.length} users tracked, ${Object.keys(this.activityPopularity).length} unique activities${topActivities.length ? ` — most popular: ${topActivities.join(', ')}` : ''}`,
       evidence: {
         totalUsers: users.length,
         totalActivities: Object.keys(this.activityPopularity).length,
-        topActivities: popularActivities.slice(0, 5).map(p => p.activity)
+        topActivities
       }
     }))
 
