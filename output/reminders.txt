@@ -1,0 +1,50 @@
+1. StreakDetector 
+No health checks logged this week — make sure temperatures and diaper changes are up to date before parents pick up
+
+2. StreakDetector 
+Routine/nap stopped unexpectedly - please ensure this activity continues as scheduled
+
+3. StreakDetector 
+Health/incident stopped unexpectedly - please check the child's well-being and log any incidents that occurred
+
+4. StreakDetector 
+Nutrition/morning stopped unexpectedly - please remember to provide meals and snacks as scheduled
+
+5. StreakDetector 
+Alphabet practice was scheduled and hasn't been logged yet — the kids are waiting!
+
+6. ActivityPatternAnalyzer 
+Not seen this week: routine, health - remember to log these activities to keep track of the child's daily routine and health
+
+7. StreakDetector 
+Health/incident stopped unexpectedly - please check the child's well-being and log any incidents that occurred
+
+8. StreakDetector 
+Routine/nap stopped unexpectedly - please ensure this activity continues as scheduled
+
+9. StreakDetector 
+Circle time was scheduled and hasn't been logged yet — the kids are waiting!
+
+10. StreakDetector 
+Nutrition/morning stopped unexpectedly - please remember to provide meals and snacks as scheduled
+
+11. ActivityPatternAnalyzer 
+Not seen this week: health, routine, curriculum - remember to log these activities to keep track of the child's daily routine, health, and educational progress
+
+12. StreakDetector 
+Nutrition/afternoon stopped unexpectedly - please remember to provide meals and snacks as scheduled
+
+13. StreakDetector 
+Creative activity was scheduled and hasn't been logged yet — the kids are waiting!
+
+14. StreakDetector 
+Routine/attendance stopped unexpectedly - please ensure attendance is recorded accurately
+
+15. StreakDetector 
+Nutrition/morning stopped unexpectedly - please remember to provide meals and snacks as scheduled
+
+16. StreakDetector 
+Health check stopped unexpectedly - please ensure this is logged regularly for the child's well-being
+
+17. ActivityPatternAnalyzer 
+Not seen this week: engagement, routine - remember to log these activities to keep track of the child's engagement and daily routine
