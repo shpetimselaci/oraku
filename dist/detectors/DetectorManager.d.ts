@@ -1,11 +1,10 @@
-import type { DetectorManagerOptions, Finding, StitchedData } from '../types';
+import type { DetectorManagerConfig, Finding, EventGroupMap } from '../types';
 export declare class DetectorManager {
-    private options;
     private detectors;
     private filterMechanism;
-    private globalContext;
-    constructor(options?: DetectorManagerOptions);
-    runOnStitched(stitchedData: StitchedData): Promise<Finding[]>;
+    private context;
+    constructor(options?: DetectorManagerConfig);
+    runDetectorsOn(eventGroups: EventGroupMap): Promise<Finding[]>;
 }
 export default DetectorManager;
 //# sourceMappingURL=DetectorManager.d.ts.map

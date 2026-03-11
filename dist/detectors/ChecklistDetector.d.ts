@@ -1,26 +1,26 @@
 import { BaseDetector } from './BaseDetector';
-import type { Event, StitchedEntry, Finding, ExpectedItem, ChecklistConfig } from '../types';
+import type { Event, EventGroup, Finding, ExpectedItem, ChecklistConfig } from '../types';
 export declare class ChecklistDetector extends BaseDetector {
     expectedItems: ExpectedItem[];
-    extractActual: (event: Event) => string | string[];
-    matchFn: ((actual: string, expected: ExpectedItem) => boolean) | null;
-    compareFn: ((items: string[], expected: ExpectedItem[], results: unknown[]) => Promise<{
+    extractItems: (event: Event) => string | string[];
+    itemMatcher: ((actual: string, expected: ExpectedItem) => boolean) | null;
+    itemComparer: ((items: string[], expected: ExpectedItem[], results: unknown[]) => Promise<{
         covered: Set<string>;
         missing: string[];
     }>) | null;
-    messageFn: string | ((missing: string[]) => string);
+    messageFormatter: string | ((missing: string[]) => string);
     todayOnly: boolean;
     dateFilter: {
-        unit: 'day' | 'month' | 'year';
+        unit: 'day' | 'week' | 'month' | 'year';
         value: number;
     } | null;
     aggregate: boolean;
-    private _aggregatedItems;
+    private pendingItems;
     constructor(config: ChecklistConfig);
-    detect(entry: StitchedEntry): Promise<Finding[]>;
+    detect(entry: EventGroup): Promise<Finding[]>;
     finalize(): Promise<Finding[]>;
-    private _buildFindings;
-    private _filterByDateRange;
+    private buildFindings;
+    private filterByDateOffset;
 }
 export default ChecklistDetector;
 //# sourceMappingURL=ChecklistDetector.d.ts.map

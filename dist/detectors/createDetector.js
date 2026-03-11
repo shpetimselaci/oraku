@@ -39,47 +39,44 @@ const ChecklistDetector_1 = require("./ChecklistDetector");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const detectors = [];
-const CACHE_PATH = path.resolve('output', 'api_cache.json');
-let apiCache = {};
-try {
-    apiCache = JSON.parse(fs.readFileSync(CACHE_PATH, 'utf8') || '{}');
-}
-catch {
-    // Ignore cache load errors
-}
-function persistCache() {
+function buildApiItemMatcher(apiConfig) {
+    const { url, transform, match, maxItems = 5, timeout = 3000, cacheKey, cachePath = path.resolve(process.cwd(), 'output', 'api_cache.json') } = apiConfig;
+    let cache = {};
     try {
-        fs.mkdirSync(path.dirname(CACHE_PATH), { recursive: true });
-        fs.writeFileSync(CACHE_PATH, JSON.stringify(apiCache, null, 2));
+        cache = JSON.parse(fs.readFileSync(cachePath, 'utf8') || '{}');
     }
     catch {
-        // Ignore cache persist errors
+        // cache file doesn't exist yet, start empty
     }
-}
-function buildApiCompareFn(apiConfig) {
-    const { url, transform, match, maxItems = 5, timeout = 3000, cacheKey } = apiConfig;
+    function saveCacheToDisk() {
+        try {
+            fs.mkdirSync(path.dirname(cachePath), { recursive: true });
+            fs.writeFileSync(cachePath, JSON.stringify(cache, null, 2));
+        }
+        catch {
+            // ignore persist errors
+        }
+    }
     return async (items, expectedItems) => {
         const covered = new Set();
         const uniqueItems = [...new Set(items)].slice(0, maxItems);
         const results = await Promise.all(uniqueItems.map(async (item) => {
             const key = cacheKey ? cacheKey(item) : item;
-            if (apiCache[key])
-                return apiCache[key];
+            if (cache[key])
+                return cache[key];
             if (process.env.FAST_MODE)
                 return null;
             try {
                 const abortController = new AbortController();
                 setTimeout(() => abortController.abort(), timeout);
-                const response = await fetch(url(item), {
-                    signal: abortController.signal
-                });
+                const response = await fetch(url(item), { signal: abortController.signal });
                 if (!response.ok)
                     return null;
                 const data = await response.json();
                 const result = transform ? transform(data) : data;
                 if (result) {
-                    apiCache[key] = result;
-                    persistCache();
+                    cache[key] = result;
+                    saveCacheToDisk();
                 }
                 return result;
             }
@@ -95,16 +92,13 @@ function buildApiCompareFn(apiConfig) {
         });
         return {
             covered,
-            missing: expectedItems
-                .map((item) => item.key)
-                .filter((key) => !covered.has(key))
+            missing: expectedItems.map((item) => item.key).filter((key) => !covered.has(key))
         };
     };
 }
 function createChecklistDetector(name, config) {
     const expectedItems = (config.expected || []).map((item) => typeof item === 'string' ? { key: item } : item);
-    const compareFn = config.compare ||
-        (config.api ? buildApiCompareFn(config.api) : undefined);
+    const compareFn = config.compare || (config.api ? buildApiItemMatcher(config.api) : undefined);
     return new ChecklistDetector_1.ChecklistDetector({
         name,
         dataSource: config.dataSource,
@@ -145,8 +139,6 @@ function createDetector(name, type, config = {}) {
     return detector;
 }
 createDetector.getAll = () => detectors;
-createDetector.clear = () => {
-    detectors.length = 0;
-};
+createDetector.clear = () => { detectors.length = 0; };
 exports.default = createDetector;
 //# sourceMappingURL=createDetector.js.map
