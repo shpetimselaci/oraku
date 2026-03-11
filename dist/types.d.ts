@@ -10,14 +10,14 @@ export interface Event {
     date?: string;
     meta?: Record<string, unknown>;
 }
-export interface StitchedEntry {
+export interface EventGroup {
     externalRef: string;
     events: Event[];
     first?: string;
     last?: string;
     count: number;
 }
-export type StitchedData = Record<string, StitchedEntry>;
+export type EventGroupMap = Record<string, EventGroup>;
 export type Severity = 'info' | 'warning' | 'success' | 'error';
 export interface Finding {
     id: string;
@@ -27,7 +27,7 @@ export interface Finding {
     evidence: Record<string, unknown>;
     [key: string]: unknown;
 }
-export interface FindingInput {
+export interface FindingData {
     id?: string;
     severity?: Severity;
     message: string;
@@ -46,7 +46,7 @@ export interface Detector {
     dataSource: string | null;
     severity: Severity;
     isFallback?: boolean;
-    detect(entry: StitchedEntry): Promise<Finding[]>;
+    detect(entry: EventGroup): Promise<Finding[]>;
     finalize?(): Promise<Finding[]>;
 }
 export interface ExpectedItem {
@@ -66,18 +66,18 @@ export interface ChecklistConfig extends DetectorConfig {
     message?: string | ((missing: string[]) => string);
     todayOnly?: boolean;
     dateFilter?: {
-        unit: 'day' | 'month' | 'year';
+        unit: 'day' | 'week' | 'month' | 'year';
         value: number;
     } | null;
     aggregate?: boolean;
 }
-export type TriggerMode = 'ongoing' | 'break';
+export type StreakTrigger = 'ongoing' | 'break';
 export interface StreakConfig extends DetectorConfig {
     minRepeat?: number;
-    triggerOn?: TriggerMode;
+    triggerOn?: StreakTrigger;
     message?: (pattern: string) => string;
 }
-export interface AnalyzerConfig extends DetectorConfig {
+export interface ActivityPatternAnalyzerConfig extends DetectorConfig {
     minStreakLength?: number;
     breakThresholdDays?: number;
 }
@@ -91,38 +91,25 @@ export interface EventAnalysis {
         activityName: string;
     }>;
 }
-export interface AutoDetectorConfig extends DetectorConfig {
+export interface LLMDetectorConfig extends DetectorConfig {
     apiKey?: string;
     model?: string;
     maxEvents?: number;
     timeout?: number;
 }
-export interface LLMFinding {
+export interface RawLLMFinding {
     severity: Severity;
     message: string;
     category: string;
     evidence: string;
 }
-export interface DetectorManagerOptions {
+export interface DetectorManagerConfig {
     only?: string;
     filterMechanism?: DetectorFilter;
     context?: Record<string, unknown>;
 }
 export interface DetectorFilter {
-    filter(detectors: Detector[], entry: StitchedEntry, context: Record<string, unknown>): Detector[];
+    filter(detectors: Detector[], entry: EventGroup, context: Record<string, unknown>): Detector[];
 }
-export interface DetectConfig {
-    name?: string;
-    source?: string;
-    when?: 'today' | 'week' | 'month';
-    missing?: string[];
-    expected?: ExpectedItem[];
-    repeats?: number;
-    breaks?: number;
-    severity?: Severity;
-    message?: string;
-    extract?: (event: Event) => string | string[];
-    match?: (actual: string, expected: ExpectedItem) => boolean;
-}
-export type DetectorType = 'checklist' | 'streak-ongoing' | 'streak-break';
+export type BuiltinDetectorType = 'checklist' | 'streak-ongoing' | 'streak-break';
 //# sourceMappingURL=types.d.ts.map

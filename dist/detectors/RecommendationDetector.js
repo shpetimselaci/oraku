@@ -1,97 +1,99 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecommendationDetector = void 0;
-const NAME = 'RecommendationDetector';
-// Aggregate data across all entries
-const userProfiles = {};
-const activityPopularity = {};
-exports.RecommendationDetector = {
-    name: NAME,
-    description: 'Generates user profiles and activity recommendations',
-    dataSource: null,
-    severity: 'info',
-    aggregate: true, // processes all entries, outputs at end
+const BaseDetector_1 = require("./BaseDetector");
+class RecommendationDetector extends BaseDetector_1.BaseDetector {
+    userProfiles = {};
+    usernames = {};
+    activityPopularity = {};
+    constructor() {
+        super({
+            name: 'RecommendationDetector',
+            severity: 'info',
+            description: 'Builds user profiles and generates activity recommendations'
+        });
+    }
     async detect(entry) {
         const events = entry?.events || [];
         for (const event of events) {
-            // Get userId from event metadata - skip if no valid user
             const meta = event.meta;
             const userId = meta?.userId || meta?.user_id || event.userId;
             if (!userId || typeof userId !== 'string')
                 continue;
-            // Initialize user profile
-            if (!userProfiles[userId]) {
-                userProfiles[userId] = { interests: {}, activities: new Set() };
+            if (!this.userProfiles[userId]) {
+                this.userProfiles[userId] = { interests: {}, activities: new Set() };
+                const username = meta?.username || meta?.name || meta?.displayName;
+                this.usernames[userId] = typeof username === 'string' ? username : userId;
             }
-            const profile = userProfiles[userId];
-            // Track interests by category/subcategory
+            const profile = this.userProfiles[userId];
             const category = event.subcategory || event.category || 'general';
             profile.interests[category] = (profile.interests[category] || 0) + 1;
-            // Track specific activities
             const activity = event.name || event.log || event.title;
             if (activity) {
                 profile.activities.add(activity);
-                if (!activityPopularity[activity]) {
-                    activityPopularity[activity] = new Set();
+                if (!this.activityPopularity[activity]) {
+                    this.activityPopularity[activity] = new Set();
                 }
-                activityPopularity[activity].add(userId);
+                this.activityPopularity[activity].add(userId);
             }
         }
-        return []; // findings generated in finalize()
-    },
+        return [];
+    }
     async finalize() {
-        const users = Object.keys(userProfiles);
+        const users = Object.keys(this.userProfiles);
         if (!users.length)
             return [];
         const findings = [];
-        // Find popular activities (done by multiple users or frequently by one)
-        const popularActivities = Object.entries(activityPopularity)
+        const popularActivities = Object.entries(this.activityPopularity)
             .map(([activity, userSet]) => ({ activity, popularity: userSet.size }))
             .sort((a, b) => b.popularity - a.popularity);
-        // Generate profile for each user
-        for (const [userId, profile] of Object.entries(userProfiles)) {
-            const topInterests = Object.entries(profile.interests)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 5)
-                .map(([cat, count]) => `${cat}(${count})`);
-            // Find activities this user hasn't tried (if we have multiple users)
-            const suggestions = users.length > 1
+        for (const [userId, profile] of Object.entries(this.userProfiles)) {
+            const displayName = this.usernames[userId] ?? userId;
+            // Activities logged by other staff that this user has never logged
+            const gaps = users.length > 1
                 ? popularActivities
                     .filter(({ activity }) => !profile.activities.has(activity))
                     .slice(0, 3)
-                    .map((s) => `${s.activity} (${s.popularity}/${users.length} users)`)
+                    .map(s => {
+                    const otherNames = [...this.activityPopularity[s.activity]]
+                        .map(uid => this.usernames[uid] ?? uid)
+                        .filter(n => n !== displayName)
+                        .slice(0, 2);
+                    return `${s.activity} (logged by ${otherNames.join(', ')})`;
+                })
                 : [];
-            const findingData = {
+            const topCategories = Object.entries(profile.interests)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 3)
+                .map(([cat, count]) => `${cat} (${count}x)`);
+            const evidenceData = {
                 userId,
-                totalActivities: profile.activities.size,
-                topInterests,
-                activitiesList: [...profile.activities].slice(0, 10)
+                username: displayName,
+                totalLogged: profile.activities.size,
+                mostLoggedCategories: topCategories,
+                loggedActivities: [...profile.activities].slice(0, 10)
             };
-            if (suggestions.length) {
-                findingData.suggestions = suggestions;
-            }
-            findings.push({
+            if (gaps.length)
+                evidenceData.notYetLoggedByThisUser = gaps;
+            findings.push(this.createFinding({
                 id: `profile-${userId}`,
-                detector: NAME,
-                severity: 'info',
-                message: `👤 User Profile: ${userId.slice(0, 8)}...`,
-                evidence: findingData
-            });
+                message: `${displayName} has logged ${profile.activities.size} unique activities — most in: ${topCategories.slice(0, 2).join(', ') || 'none yet'}`,
+                evidence: evidenceData
+            }));
         }
-        // Add summary
-        findings.unshift({
+        const topActivities = popularActivities.slice(0, 3).map(p => p.activity);
+        findings.unshift(this.createFinding({
             id: 'engagement-summary',
-            detector: NAME,
-            severity: 'info',
-            message: `📊 Engagement: ${users.length} user(s), ${Object.keys(activityPopularity).length} activities tracked`,
+            message: `${users.length} users tracked, ${Object.keys(this.activityPopularity).length} unique activities${topActivities.length ? ` — most popular: ${topActivities.join(', ')}` : ''}`,
             evidence: {
                 totalUsers: users.length,
-                totalActivities: Object.keys(activityPopularity).length,
-                topActivities: popularActivities.slice(0, 5).map((p) => p.activity)
+                totalActivities: Object.keys(this.activityPopularity).length,
+                topActivities
             }
-        });
+        }));
         return findings;
     }
-};
-exports.default = exports.RecommendationDetector;
+}
+exports.RecommendationDetector = RecommendationDetector;
+exports.default = RecommendationDetector;
 //# sourceMappingURL=RecommendationDetector.js.map

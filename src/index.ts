@@ -1,7 +1,8 @@
 // ─── Core ────────────────────────────────────────────────────────────────────
 export { EventStitcher } from './core/EventStitcher'
-export { loadJsonRecords, loadJsonRecordsSync, stitchAndSave } from './ingest'
-export type { StitchAndSaveOptions, StitchAndSaveResult } from './ingest'
+export { runPipeline } from './core/pipeline'
+export type { PipelineOptions, PipelineResult } from './core/pipeline'
+export { loadJsonRecords, loadJsonRecordsSync } from './ingest'
 
 // ─── Detectors ───────────────────────────────────────────────────────────────
 export { BaseDetector } from './detectors/BaseDetector'
@@ -17,6 +18,10 @@ export { countPatterns, getTopPattern, filterByPattern } from './detectors/Event
 // ─── Filters ─────────────────────────────────────────────────────────────────
 export { BaseDetectorFilter } from './detectors-filter/BaseDetectorFilter'
 export { ContextBasedFilter } from './detectors-filter/ContextBasedFilter'
+
+// ─── Notifications ───────────────────────────────────────────────────────────
+export { generateNotifications } from './notifications'
+export type { NotificationOptions, Notification } from './notifications'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 export type {

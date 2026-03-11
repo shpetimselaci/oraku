@@ -1,4 +1,3 @@
-export { MechanismToFilterDetectors } from './MechanismToFilterDetectors';
-export { AllDetectorsFilter } from './AllDetectorsFilter';
+export { BaseDetectorFilter } from './BaseDetectorFilter';
 export { ContextBasedFilter } from './ContextBasedFilter';
 //# sourceMappingURL=index.d.ts.map
