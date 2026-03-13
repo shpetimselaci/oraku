@@ -72,9 +72,11 @@ export interface ChecklistConfig extends DetectorConfig {
     aggregate?: boolean;
 }
 export type StreakTrigger = 'ongoing' | 'break';
+export type StreakFrequency = 'daily' | 'weekdays' | 'weekly' | 'monthly';
 export interface StreakConfig extends DetectorConfig {
     minRepeat?: number;
     triggerOn?: StreakTrigger;
+    frequency?: StreakFrequency;
     message?: (pattern: string) => string;
 }
 export interface ActivityPatternAnalyzerConfig extends DetectorConfig {

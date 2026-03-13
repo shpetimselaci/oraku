@@ -69,7 +69,8 @@ export class DetectorManager {
           }
         }
 
-        return groupFindings
+        // tag each finding with its group so the pipeline can route notifications per user
+        return groupFindings.map(f => ({ ...f, groupKey: group.externalRef }))
       }
     )
 

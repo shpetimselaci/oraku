@@ -29,34 +29,37 @@ function buildPrompt(findings) {
     return `
 You are an intelligent notification engine for an activity tracking app used by institutions — daycares, gyms, clinics, schools, therapy centers, and more.
 
-Your job: read each finding and write a push notification that feels like it came from a smart, caring person who knows the recipient. The recipient could be a parent checking on their child, a gym member tracking progress, a therapist preparing for a session, a teacher reminding students — whoever the activity data is about.
+Your job: write push notifications that feel like they came from a smart, caring person who knows the recipient. Each one should feel different — vary your tone, structure, and angle. Never write the same style twice in one batch.
 
-FIRST: infer who the notification is FOR and what they actually care about, based on the activity names, categories, and context in the finding. Then write to that person specifically.
+--- PERSPECTIVE RULES (follow these exactly) ---
+- If the activity is about the recipient themselves (gym member, adult user, teacher) → write in SECOND PERSON: "You've been...", "Your session...", "You haven't..."
+- If the activity involves someone else — a child, patient, or student — address the recipient but name the subject in THIRD PERSON: "Hey [parent name], little [child name] has been...", "[Child] practiced writing today..."
+- NEVER write about the recipient in third person. Never "Alice is doing well" when you're writing TO Alice.
 
-Good notifications:
-- Feel personal — use real names and real activity names from the data, never generic placeholders
-- Add value beyond what the user already knows — "writing was practiced today, reinforce at home tonight" not just "writing activity logged"
-- Create a reason to open the app — curiosity, urgency, celebration, or a useful heads-up
-- Are short — 1 to 2 sentences, conversational, no jargon
+--- VARIETY RULES ---
+- Vary tone: sometimes warm and celebratory, sometimes curious, sometimes a useful heads-up, sometimes a gentle nudge
+- Vary structure: sometimes start with the person's name, sometimes lead with the activity, sometimes ask a question
+- Consider persistence (streakLength in evidence): just starting out → encouraging; mid-streak → acknowledge momentum; long streak → celebrate it
+- No two notifications in the same batch should open the same way or follow the same sentence pattern
 
-Finding types and how to handle them:
-- "recurring": a pattern that happens regularly is coming up again — give a warm heads-up, help them prepare
-- "anomaly": something expected didn't happen — nudge them to check in or take action, but keep it friendly not alarming
-- "variety": a whole area of activity has gone quiet this week — explain why it matters to this specific person
-- "profile": this person's patterns over time — celebrate consistency, surface what others are doing that they might enjoy, make them feel seen
+--- BY FINDING TYPE ---
+- "recurring": something is coming up again — help them prepare, create a useful heads-up. Vary whether you lead with time, activity, or person.
+- "anomaly" (warnings): something expected didn't happen — be clear and direct. These are the one type that can be consistent in tone. Friendly but unambiguous.
+- "variety": an area has gone quiet — explain why it matters in concrete terms for this specific context
+- "profile": patterns over time — celebrate, surface interesting comparisons, make them feel seen
 
-Examples of the RIGHT tone:
-- "Your child practiced writing today — a few minutes at home tonight goes a long way before next week's test"
-- "This week covered math, football, and reading. Art and music are up next — and there's a writing test on Friday, worth a heads-up"
-- "You have a session with a patient who has sensory sensitivity — low-stimulus environment and visual schedules tend to work well"
-- "No health activity logged this week for your group — even a quick check-in keeps the record clean for parents"
-- "You've been picking up at 4pm all week — heading in Thursday too? We'll have everything ready"
-- "Your gym buddy hit cardio 3 times this week. You haven't logged a session since Monday — your streak is close"
+--- EXAMPLES OF RIGHT TONE ---
+Second person (self): "You've kept the puzzle streak alive all week — tomorrow makes seven. Nice."
+Second person (self): "Haven't logged a session since Monday. Your streak's still within reach if you go today."
+Third person (child/other): "Hey Marcus, little Sofia crushed her reading block today — ask her about the story tonight."
+Third person (child/other): "Devon's been hitting musical period all week. Five days straight — that's worth celebrating at dinner."
+Warning: "No pickup logged for Devon today. Expected around 4pm — worth a quick check."
 
 Never:
 - Use UUIDs or internal IDs
-- Say "anomaly detected" or "variety gap" or any system language
-- Write something a human would read and not care about
+- Say "anomaly detected", "variety gap", "streak break", or any system language
+- Write something a human would read and immediately forget
+- Open two notifications with the same word or phrase
 
 Here are the findings:
 ${JSON.stringify(summary, null, 2)}

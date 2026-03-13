@@ -6,12 +6,23 @@ const EventCounter_1 = require("./EventCounter");
 class StreakDetector extends BaseDetector_1.BaseDetector {
     minRepeat;
     triggerOn;
+    frequency;
     messageFormatter;
     constructor(config) {
         super(config);
         this.minRepeat = config.minRepeat || 3;
         this.triggerOn = config.triggerOn || 'ongoing';
+        this.frequency = config.frequency ?? 'daily';
         this.messageFormatter = config.message;
+    }
+    advancePastWeekend(date) {
+        const d = new Date(date);
+        while (d.getDay() === 0 || d.getDay() === 6)
+            d.setDate(d.getDate() + 1);
+        return d;
+    }
+    isWeekend(date) {
+        return date.getDay() === 0 || date.getDay() === 6;
     }
     predictNextDate(sortedEvents) {
         if (sortedEvents.length < 2)
@@ -54,9 +65,12 @@ class StreakDetector extends BaseDetector_1.BaseDetector {
                 .sort((a, b) => a._date.getTime() - b._date.getTime());
             if (sorted.length < this.minRepeat)
                 continue;
-            const predicted = this.predictNextDate(sorted);
+            let predicted = this.predictNextDate(sorted);
             if (!predicted)
                 continue;
+            // For weekday-only streaks, push predicted date past any weekend
+            if (this.frequency === 'weekdays')
+                predicted = this.advancePastWeekend(predicted);
             const [category, subcategory] = patternKey.split('|');
             const messageData = { category, subcategory, predictedDate: predicted.toISOString() };
             const evidence = sorted.map((e) => ({ ref: e.externalRef, date: e.createdAt, log: e.log }));
@@ -65,19 +79,20 @@ class StreakDetector extends BaseDetector_1.BaseDetector {
                 findings.push(this.createFinding({
                     id: `recurring-${entry.externalRef}-${safeKey}`,
                     message: this.buildMessage(messageData),
-                    evidence: { key: entry.externalRef, predicted: predicted.toISOString(), events: evidence }
+                    evidence: { key: entry.externalRef, predicted: predicted.toISOString(), events: evidence, frequency: this.frequency, streakLength: sorted.length }
                 }));
             }
             if (this.triggerOn === 'break' && predicted < now) {
-                const hasEventAfterPredicted = sorted.some((e) => {
-                    return e._date > predicted;
-                });
+                // For weekday-only streaks, don't fire a break on weekends
+                if (this.frequency === 'weekdays' && this.isWeekend(now))
+                    continue;
+                const hasEventAfterPredicted = sorted.some((e) => e._date > predicted);
                 if (!hasEventAfterPredicted) {
                     findings.push(this.createFinding({
                         id: `anomaly-${entry.externalRef}-${safeKey}`,
                         severity: 'warning',
                         message: this.buildMessage(messageData),
-                        evidence: { key: entry.externalRef, expected: predicted.toISOString(), events: evidence }
+                        evidence: { key: entry.externalRef, expected: predicted.toISOString(), events: evidence, frequency: this.frequency, streakLength: sorted.length }
                     }));
                 }
             }

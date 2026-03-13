@@ -1,4 +1,6 @@
 export { EventStitcher } from './core/EventStitcher';
+export { runPipeline } from './core/pipeline';
+export type { PipelineOptions, PipelineResult } from './core/pipeline';
 export { loadJsonRecords, loadJsonRecordsSync } from './ingest';
 export { BaseDetector } from './detectors/BaseDetector';
 export { StreakDetector } from './detectors/StreakDetector';
