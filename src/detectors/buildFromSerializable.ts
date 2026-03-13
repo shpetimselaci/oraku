@@ -1,0 +1,65 @@
+import type { Detector, ExpectedItem, Event, SerializableDetectorConfig } from '../types'
+import type { ApiMatcherConfig } from './apiMatcher'
+
+function resolvePath(obj: unknown, dotPath: string): unknown {
+  return dotPath.split('.').reduce((curr, key) => {
+    if (curr == null) return undefined
+    return (curr as Record<string, unknown>)[key]
+  }, obj)
+}
+
+export function buildFromSerializable(
+  config: SerializableDetectorConfig,
+  createChecklistDetector: (name: string, config: object) => Detector,
+  createStreakDetector: (name: string, type: 'streak-ongoing' | 'streak-break', config: object) => Detector
+): Detector {
+  if (config.type === 'checklist') {
+    const extract = config.extract?.path
+      ? (event: Event): string | string[] => {
+          const val = resolvePath(event, config.extract!.path)
+          if (Array.isArray(val)) return val.map(String)
+          if (val != null) return String(val)
+          return []
+        }
+      : undefined
+
+    const apiConfig: ApiMatcherConfig | undefined = config.api
+      ? {
+          url: (item: string) =>
+            config.api!.urlTemplate.replace('{item}', encodeURIComponent(item)),
+          transform: config.api.responsePath
+            ? (data: unknown) => resolvePath(data, config.api!.responsePath!)
+            : undefined,
+          match: (result: unknown, expected: ExpectedItem) => {
+            if (!config.api?.matchKey) {
+              return String(result).toLowerCase().includes(expected.key.toLowerCase())
+            }
+            const val = resolvePath(result, config.api.matchKey)
+            const values = Array.isArray(val) ? val : [val]
+            return values.some(v => String(v).toLowerCase().includes(expected.key.toLowerCase()))
+          },
+          timeout: config.api.timeout
+        }
+      : undefined
+
+    return createChecklistDetector(config.name, {
+      dataSource: config.dataSource,
+      severity: config.severity,
+      expected: config.expected ?? [],
+      extract,
+      api: apiConfig,
+      todayOnly: config.todayOnly,
+      message: config.message
+    })
+  }
+
+  if (config.type === 'streak-ongoing' || config.type === 'streak-break') {
+    return createStreakDetector(config.name, config.type, {
+      dataSource: config.dataSource,
+      severity: config.severity,
+      minRepeat: config.minRepeat
+    })
+  }
+
+  throw new Error(`Unknown detector type: ${config.type}`)
+}

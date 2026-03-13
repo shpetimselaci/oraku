@@ -135,6 +135,7 @@ export interface DetectorManagerConfig {
   only?: string
   filterMechanism?: DetectorFilter
   context?: Record<string, unknown>
+  extraDetectors?: Detector[]
 }
 
 export interface DetectorFilter {
@@ -146,3 +147,29 @@ export interface DetectorFilter {
 }
 
 export type BuiltinDetectorType = 'checklist' | 'streak-ongoing' | 'streak-break'
+
+// ============ SERIALIZABLE DETECTOR CONFIG ============
+
+export interface SerializableExtractConfig {
+  path: string  // dot-notation path into the event object e.g. 'meta.genres'
+}
+
+export interface SerializableApiConfig {
+  urlTemplate: string   // {item} is replaced with each expected item
+  responsePath?: string // dot-notation into the API response to get the results array
+  matchKey?: string     // field on each result to match against the expected item
+  timeout?: number
+}
+
+export interface SerializableDetectorConfig {
+  name: string
+  type: 'checklist' | 'streak-ongoing' | 'streak-break'
+  dataSource?: string
+  severity?: Severity
+  expected?: string[]
+  extract?: SerializableExtractConfig
+  api?: SerializableApiConfig
+  todayOnly?: boolean
+  minRepeat?: number
+  message?: string
+}
