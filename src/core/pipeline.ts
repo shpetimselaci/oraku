@@ -3,12 +3,14 @@ import dotenv from 'dotenv'
 dotenv.config({ path: path.resolve(__dirname, '../../.env') })
 import { EventStitcher } from './EventStitcher'
 import { DetectorManager } from '../detectors/DetectorManager'
+import { createDetector } from '../detectors/createDetector'
 import { generateNotifications } from '../notifications'
-import type { Event, Finding } from '../types'
+import type { Event, Finding, SerializableDetectorConfig } from '../types'
 
 export interface PipelineOptions {
   groupBy?: string | string[]
   apiKey?: string
+  detectorConfigs?: SerializableDetectorConfig[]
 }
 
 export interface PipelineResult {
@@ -22,7 +24,8 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
   const { groupBy = 'meta.userId' } = options
 
   const groups = new EventStitcher(events).stitchByField(groupBy)
-  const findings = await new DetectorManager().runDetectorsOn(groups)
+  const extraDetectors = (options.detectorConfigs ?? []).map(c => createDetector.buildFromSerializable(c))
+  const findings = await new DetectorManager({ extraDetectors }).runDetectorsOn(groups)
 
   const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) throw new Error('GROQ_API_KEY not set in oraku-main environment')

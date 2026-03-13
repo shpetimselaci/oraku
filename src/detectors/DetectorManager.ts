@@ -16,7 +16,7 @@ export class DetectorManager {
   private context: Record<string, unknown>
 
   constructor(options: DetectorManagerConfig = {}) {
-    let detectors: Detector[] = [...availableDetectors, ...createDetector.getAll()]
+    let detectors: Detector[] = [...availableDetectors, ...createDetector.getAll(), ...(options.extraDetectors ?? [])]
 
     if (options.only) {
       detectors = detectors.filter((d) => d.name === options.only)
