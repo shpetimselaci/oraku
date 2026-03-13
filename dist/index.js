@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateNotifications = exports.ContextBasedFilter = exports.BaseDetectorFilter = exports.filterByPattern = exports.getTopPattern = exports.countPatterns = exports.createDetector = exports.DetectorManager = exports.GroqFallbackDetector = exports.RecommendationDetector = exports.ActivityPatternAnalyzer = exports.ChecklistDetector = exports.StreakDetector = exports.BaseDetector = exports.loadJsonRecordsSync = exports.loadJsonRecords = exports.EventStitcher = void 0;
+exports.generateNotifications = exports.ContextBasedFilter = exports.BaseDetectorFilter = exports.filterByPattern = exports.getTopPattern = exports.countPatterns = exports.createDetector = exports.DetectorManager = exports.GroqFallbackDetector = exports.RecommendationDetector = exports.ActivityPatternAnalyzer = exports.ChecklistDetector = exports.StreakDetector = exports.BaseDetector = exports.loadJsonRecordsSync = exports.loadJsonRecords = exports.runPipeline = exports.EventStitcher = void 0;
 // ─── Core ────────────────────────────────────────────────────────────────────
 var EventStitcher_1 = require("./core/EventStitcher");
 Object.defineProperty(exports, "EventStitcher", { enumerable: true, get: function () { return EventStitcher_1.EventStitcher; } });
+var pipeline_1 = require("./core/pipeline");
+Object.defineProperty(exports, "runPipeline", { enumerable: true, get: function () { return pipeline_1.runPipeline; } });
 var ingest_1 = require("./ingest");
 Object.defineProperty(exports, "loadJsonRecords", { enumerable: true, get: function () { return ingest_1.loadJsonRecords; } });
 Object.defineProperty(exports, "loadJsonRecordsSync", { enumerable: true, get: function () { return ingest_1.loadJsonRecordsSync; } });

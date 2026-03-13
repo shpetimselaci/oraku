@@ -5,6 +5,7 @@ import type {
   EventGroup,
   Finding,
   StreakConfig,
+  StreakFrequency,
   StreakTrigger
 } from '../types'
 
@@ -15,13 +16,25 @@ interface TimestampedEvent extends Event {
 export class StreakDetector extends BaseDetector {
   minRepeat: number
   triggerOn: StreakTrigger
+  frequency: StreakFrequency
   private messageFormatter?: (pattern: string) => string
 
   constructor(config: StreakConfig) {
     super(config)
     this.minRepeat = config.minRepeat || 3
     this.triggerOn = config.triggerOn || 'ongoing'
+    this.frequency = config.frequency ?? 'daily'
     this.messageFormatter = config.message
+  }
+
+  private advancePastWeekend(date: Date): Date {
+    const d = new Date(date)
+    while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1)
+    return d
+  }
+
+  private isWeekend(date: Date): boolean {
+    return date.getDay() === 0 || date.getDay() === 6
   }
 
   private predictNextDate(sortedEvents: TimestampedEvent[]): Date | null {
@@ -74,8 +87,11 @@ export class StreakDetector extends BaseDetector {
 
       if (sorted.length < this.minRepeat) continue
 
-      const predicted = this.predictNextDate(sorted)
+      let predicted = this.predictNextDate(sorted)
       if (!predicted) continue
+
+      // For weekday-only streaks, push predicted date past any weekend
+      if (this.frequency === 'weekdays') predicted = this.advancePastWeekend(predicted)
 
       const [category, subcategory] = patternKey.split('|')
       const messageData = { category, subcategory, predictedDate: predicted.toISOString() }
@@ -86,20 +102,21 @@ export class StreakDetector extends BaseDetector {
         findings.push(this.createFinding({
           id: `recurring-${entry.externalRef}-${safeKey}`,
           message: this.buildMessage(messageData),
-          evidence: { key: entry.externalRef, predicted: predicted.toISOString(), events: evidence }
+          evidence: { key: entry.externalRef, predicted: predicted.toISOString(), events: evidence, frequency: this.frequency, streakLength: sorted.length }
         }))
       }
 
       if (this.triggerOn === 'break' && predicted < now) {
-        const hasEventAfterPredicted = sorted.some((e) => {
-          return e._date > predicted
-        })
+        // For weekday-only streaks, don't fire a break on weekends
+        if (this.frequency === 'weekdays' && this.isWeekend(now)) continue
+
+        const hasEventAfterPredicted = sorted.some((e) => e._date > predicted!)
         if (!hasEventAfterPredicted) {
           findings.push(this.createFinding({
             id: `anomaly-${entry.externalRef}-${safeKey}`,
             severity: 'warning',
             message: this.buildMessage(messageData),
-            evidence: { key: entry.externalRef, expected: predicted.toISOString(), events: evidence }
+            evidence: { key: entry.externalRef, expected: predicted.toISOString(), events: evidence, frequency: this.frequency, streakLength: sorted.length }
           }))
         }
       }
