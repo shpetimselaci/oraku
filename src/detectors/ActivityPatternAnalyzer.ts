@@ -10,32 +10,43 @@ const MAX_ACTIVITIES_IN_SUMMARY = 3
 export class ActivityPatternAnalyzer extends BaseDetector {
   private ongoingStreakDetector: StreakDetector
   private breakStreakDetector: StreakDetector
+  private dataSources: Set<string> | null
 
   constructor(config: ActivityPatternAnalyzerConfig = {}) {
     super({ name: 'ActivityPatternAnalyzer', severity: 'info', ...config })
 
     const minRepeat = config.minStreakLength ?? 3
+    this.dataSources = config.dataSources?.length ? new Set(config.dataSources) : null
 
     this.ongoingStreakDetector = new StreakDetector({ minRepeat, triggerOn: 'ongoing' })
     this.breakStreakDetector = new StreakDetector({ minRepeat, triggerOn: 'break' })
   }
 
   async detect(entry: EventGroup): Promise<Finding[]> {
-    const events = this.getEvents(entry)
+    let events = this.getEvents(entry)
     if (!events?.length) return []
 
+    // only analyse categories the project registered — if none registered, skip this group entirely
+    if (this.dataSources) {
+      events = events.filter(e => e.category && this.dataSources!.has(e.category))
+      if (!events.length) return []
+    } else {
+      return []
+    }
+
+    const filteredEntry = { ...entry, events }
     const now = Date.now()
 
     const [ongoingFindings, breakFindings] = await Promise.all([
-      this.ongoingStreakDetector.detect(entry),
-      this.breakStreakDetector.detect(entry)
+      this.ongoingStreakDetector.detect(filteredEntry),
+      this.breakStreakDetector.detect(filteredEntry)
     ])
 
     return [
       ...ongoingFindings,
       ...breakFindings,
-      ...this.findDormantCategories(events, entry, now),
-      ...this.summarizeRecentActivity(events, entry, now)
+      ...this.findDormantCategories(events, filteredEntry, now),
+      ...this.summarizeRecentActivity(events, filteredEntry, now)
     ]
   }
 

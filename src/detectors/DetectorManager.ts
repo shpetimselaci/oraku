@@ -1,5 +1,6 @@
-import availableDetectors from './index'
-import { createDetector } from './createDetector'
+import { ActivityPatternAnalyzer } from './ActivityPatternAnalyzer'
+import { RecommendationDetector } from './RecommendationDetector'
+import { GroqFallbackDetector } from './GroqFallbackDetector'
 import { ContextBasedFilter } from '../detectors-filter/ContextBasedFilter'
 import type {
   Detector,
@@ -16,7 +17,13 @@ export class DetectorManager {
   private context: Record<string, unknown>
 
   constructor(options: DetectorManagerConfig = {}) {
-    let detectors: Detector[] = [...availableDetectors, ...createDetector.getAll(), ...(options.extraDetectors ?? [])]
+    const dataSources = [...new Set(
+      (options.detectorConfigs ?? []).map(c => c.dataSource).filter((s): s is string => !!s)
+    )]
+
+    const analyzer = new ActivityPatternAnalyzer({ dataSources: dataSources.length ? dataSources : undefined })
+
+    let detectors: Detector[] = [analyzer, new RecommendationDetector(), new GroqFallbackDetector(), ...(options.extraDetectors ?? [])]
 
     if (options.only) {
       detectors = detectors.filter((d) => d.name === options.only)
