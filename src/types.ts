@@ -104,6 +104,7 @@ export interface StreakConfig extends DetectorConfig {
 export interface ActivityPatternAnalyzerConfig extends DetectorConfig {
   minStreakLength?: number
   breakThresholdDays?: number
+  dataSources?: string[]  // only analyze events from these categories — if omitted, analyzes nothing
 }
 
 export interface EventAnalysis {
@@ -136,6 +137,7 @@ export interface DetectorManagerConfig {
   filterMechanism?: DetectorFilter
   context?: Record<string, unknown>
   extraDetectors?: Detector[]
+  detectorConfigs?: SerializableDetectorConfig[]
 }
 
 export interface DetectorFilter {

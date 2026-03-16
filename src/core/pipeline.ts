@@ -3,7 +3,6 @@ import dotenv from 'dotenv'
 dotenv.config({ path: path.resolve(__dirname, '../../.env') })
 import { EventStitcher } from './EventStitcher'
 import { DetectorManager } from '../detectors/DetectorManager'
-import { createDetector } from '../detectors/createDetector'
 import { generateNotifications } from '../notifications'
 import type { Event, Finding, SerializableDetectorConfig } from '../types'
 
@@ -11,6 +10,7 @@ export interface PipelineOptions {
   groupBy?: string | string[]
   apiKey?: string
   detectorConfigs?: SerializableDetectorConfig[]
+  forUserId?: string // if set, only generate notifications for this user
 }
 
 export interface PipelineResult {
@@ -24,8 +24,7 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
   const { groupBy = 'meta.userId' } = options
 
   const groups = new EventStitcher(events).stitchByField(groupBy)
-  const extraDetectors = (options.detectorConfigs ?? []).map(c => createDetector.buildFromSerializable(c))
-  const findings = await new DetectorManager({ extraDetectors }).runDetectorsOn(groups)
+  const findings = await new DetectorManager({ detectorConfigs: options.detectorConfigs }).runDetectorsOn(groups)
 
   const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) throw new Error('GROQ_API_KEY not set in oraku-main environment')
@@ -40,8 +39,10 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
   }
 
   // generate notifications per user so each user only gets their own
+  // if forUserId is set, skip all other users (avoids unnecessary Groq calls)
   const notificationsByUser: Record<string, string[]> = {}
   for (const [userId, userFindings] of Object.entries(findingsByUser)) {
+    if (options.forUserId && userId !== options.forUserId) continue
     const notifiable = userFindings.filter(f => !String(f.id).startsWith('summary-'))
     if (notifiable.length === 0) continue
     const raw = await generateNotifications(notifiable, { apiKey })
