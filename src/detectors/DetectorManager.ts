@@ -23,7 +23,7 @@ export class DetectorManager {
 
     const analyzer = new ActivityPatternAnalyzer({ dataSources: dataSources.length ? dataSources : undefined })
 
-    let detectors: Detector[] = [analyzer, new RecommendationDetector(), new GroqFallbackDetector(), ...(options.extraDetectors ?? [])]
+    let detectors: Detector[] = [analyzer, new RecommendationDetector(), /* new GroqFallbackDetector(), */ ...(options.extraDetectors ?? [])]
 
     if (options.only) {
       detectors = detectors.filter((d) => d.name === options.only)

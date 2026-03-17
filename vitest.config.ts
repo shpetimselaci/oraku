@@ -4,7 +4,6 @@ export default defineConfig({
   test: {
     globals: true,
     include: ['src/**/*.test.ts'],
-    reporters: ['default', 'json'],
-    outputFile: 'output/test-results.json'
+    reporters: ['default']
   }
 })
