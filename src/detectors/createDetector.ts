@@ -1,8 +1,11 @@
 import { StreakDetector } from './StreakDetector'
 import { ChecklistDetector } from './ChecklistDetector'
+import { ThresholdDetector } from './ThresholdDetector'
+import { ItemAnalysisDetector } from './ItemAnalysisDetector'
 import { buildApiItemMatcher } from './apiMatcher'
 import { buildFromSerializable } from './buildFromSerializable'
-import type { Detector, BuiltinDetectorType, ExpectedItem, Event, Severity, SerializableDetectorConfig } from '../types'
+import type { Detector, BuiltinDetectorType, ExpectedItem, Event, Severity, SerializableDetectorConfig, ThresholdOperator, ThresholdAggregate } from '../types'
+import type { LookupSource } from './ItemAnalysisDetector'
 
 interface ChecklistDetectorConfig {
   dataSource?: string
@@ -25,7 +28,29 @@ interface StreakDetectorConfig {
   message?: (pattern: string) => string
 }
 
-type DetectorOptions = ChecklistDetectorConfig | StreakDetectorConfig
+interface ThresholdDetectorConfig {
+  dataSource?: string
+  severity?: Severity
+  extract: { path: string } | ((event: Event) => number | null)
+  operator: ThresholdOperator
+  value: number
+  aggregate?: ThresholdAggregate
+  todayOnly?: boolean
+  message?: string | ((actual: number, target: number) => string)
+}
+
+interface ItemAnalysisDetectorConfig {
+  dataSource?: string
+  severity?: Severity
+  extract: { path: string } | ((event: Event) => string | string[])
+  lookup: LookupSource
+  targets: Record<string, number>
+  aggregate?: 'sum' | 'avg'
+  todayOnly?: boolean
+  message?: (gaps: string[], totals: Record<string, number>, targets: Record<string, number>) => string
+}
+
+type DetectorOptions = ChecklistDetectorConfig | StreakDetectorConfig | ThresholdDetectorConfig | ItemAnalysisDetectorConfig
 
 const detectors: Detector[] = []
 
@@ -61,12 +86,41 @@ function createStreakDetector(name: string, type: 'streak-ongoing' | 'streak-bre
   })
 }
 
-function createDetector(name: string, type: BuiltinDetectorType, config: DetectorOptions = {}): Detector {
+function createThresholdDetector(name: string, config: ThresholdDetectorConfig): ThresholdDetector {
+  return new ThresholdDetector({
+    name,
+    dataSource: config.dataSource,
+    severity: config.severity || 'warning',
+    extract: config.extract,
+    operator: config.operator,
+    value: config.value,
+    aggregate: config.aggregate,
+    todayOnly: config.todayOnly,
+    message: config.message
+  })
+}
+
+function createDetector(name: string, type: BuiltinDetectorType, config: DetectorOptions = {} as DetectorOptions): Detector {
   let detector: Detector
   if (type === 'checklist') {
     detector = createChecklistDetector(name, config as ChecklistDetectorConfig)
   } else if (type === 'streak-ongoing' || type === 'streak-break') {
     detector = createStreakDetector(name, type, config as StreakDetectorConfig)
+  } else if (type === 'threshold') {
+    detector = createThresholdDetector(name, config as ThresholdDetectorConfig)
+  } else if (type === 'item-analysis') {
+    const c = config as ItemAnalysisDetectorConfig
+    detector = new ItemAnalysisDetector({
+      name,
+      dataSource: c.dataSource,
+      severity: c.severity,
+      extract: c.extract,
+      lookup: c.lookup,
+      targets: c.targets,
+      aggregate: c.aggregate,
+      todayOnly: c.todayOnly,
+      message: c.message
+    })
   } else {
     throw new Error(`Unknown detector type: ${type}`)
   }

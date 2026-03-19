@@ -13,6 +13,8 @@ export { DetectorManager } from './DetectorManager'
 // RecommendationDetector is a post-processing stage (runs after all detectors, reads findings)
 // It is not included in the default detectors array
 export { RecommendationDetector } from './RecommendationDetector'
+export { ThresholdDetector } from './ThresholdDetector'
+export { ItemAnalysisDetector } from './ItemAnalysisDetector'
 export { createDetector } from './createDetector'
 export * from './EventCounter'
 
