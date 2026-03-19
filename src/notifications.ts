@@ -12,26 +12,33 @@ export interface NotificationOptions {
   model?: string
 }
 
+function extractActivity(message: string): string {
+  // matches any "category/subcategory" pattern e.g. "nutrition/meal_log", "routine/gym_session"
+  const match = message.match(/\b([a-z_]+)\/([a-z_]+)\b/i)
+  if (match) return match[2].replace(/_/g, ' ')
+  // fallback: grab the word after "next" or "for"
+  const catMatch = message.match(/(?:next|for)\s+([a-z_]+)/i)
+  return catMatch ? catMatch[1].replace(/_/g, ' ') : 'session'
+}
+
 function buildPrompt(findings: Finding[]): string {
   const summary = findings
     .filter(f => !f.id.startsWith('summary-'))
     .map(f => {
       const evidence = f.evidence as Record<string, unknown>
-      // Use username if present, otherwise strip UUID-like patterns from the ref
       const username = evidence?.username as string | undefined
       const rawRef = (evidence?.key as string) ?? f.id.replace(/^(recurring|anomaly|variety|engagement|profile)-/, '')
       const stripped = rawRef.replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, '').trim()
       const ref = username ?? (stripped || rawRef)
-      const predicted = evidence?.predicted as string | undefined
       const missing = evidence?.missingCategories as string[] | undefined
       const suggestions = evidence?.suggestions as string[] | undefined
       const topActivities = evidence?.topActivities as string[] | undefined
+      // extract a human-readable activity name; never pass raw timestamps to the model
+      const activity = extractActivity(f.message)
       return {
         ref,
-        detector: f.detector,
         type: f.id.split('-')[0],
-        message: f.message,
-        ...(predicted && { predicted }),
+        activity,
         ...(missing && { missingCategories: missing }),
         ...(suggestions && { suggestions }),
         ...(topActivities && { topActivities })
@@ -39,44 +46,28 @@ function buildPrompt(findings: Finding[]): string {
     })
 
   return `
-You are an intelligent notification engine for an activity tracking app used by institutions — daycares, gyms, clinics, schools, therapy centers, and more.
+You are a notification engine for an activity tracking app. Write push notifications that feel personal and direct.
 
-Your job: write push notifications that feel like they came from a smart, caring person who knows the recipient. Each one should feel different — vary your tone, structure, and angle. Never write the same style twice in one batch.
-
---- PERSPECTIVE RULES (follow these exactly) ---
-- If the activity is about the recipient themselves (gym member, adult user, teacher) → write in SECOND PERSON: "You've been...", "Your session...", "You haven't..."
-- If the activity involves someone else — a child, patient, or student — address the recipient but name the subject in THIRD PERSON: "Hey [parent name], little [child name] has been...", "[Child] practiced writing today..."
-- NEVER write about the recipient in third person. Never "Alice is doing well" when you're writing TO Alice.
-
---- VARIETY RULES ---
-- Vary tone: sometimes warm and celebratory, sometimes curious, sometimes a useful heads-up, sometimes a gentle nudge
-- Vary structure: sometimes start with the person's name, sometimes lead with the activity, sometimes ask a question
-- Consider persistence (streakLength in evidence): just starting out → encouraging; mid-streak → acknowledge momentum; long streak → celebrate it
-- No two notifications in the same batch should open the same way or follow the same sentence pattern
-
---- BY FINDING TYPE ---
-- "recurring": something is coming up again — help them prepare, create a useful heads-up. Vary whether you lead with time, activity, or person.
-- "anomaly" (warnings): something expected didn't happen — be clear and direct. These are the one type that can be consistent in tone. Friendly but unambiguous.
-- "variety": an area has gone quiet — explain why it matters in concrete terms for this specific context
-- "profile": patterns over time — celebrate, surface interesting comparisons, make them feel seen
-
---- EXAMPLES OF RIGHT TONE ---
-Second person (self): "You've kept the puzzle streak alive all week — tomorrow makes seven. Nice."
-Second person (self): "Haven't logged a session since Monday. Your streak's still within reach if you go today."
-Third person (child/other): "Hey Marcus, little Sofia crushed her reading block today — ask her about the story tonight."
-Third person (child/other): "Devon's been hitting musical period all week. Five days straight — that's worth celebrating at dinner."
-Warning: "No pickup logged for Devon today. Expected around 4pm — worth a quick check."
+--- RULES ---
+- Use the "activity" field as the specific thing to mention — never say "routine" or "daily routine"
+- Never mention a time, date, or prediction timestamp
+- Never use dashes (—, -, –) anywhere in the message
+- Each notification is one sentence. End with a period.
+- If the activity is about the recipient themselves → second person: "Your gym session is coming up."
+- If the activity involves someone else (child, patient) → address the recipient, name the subject: "Devon hasn't logged a reading session in a few days."
+- "recurring" type: something is coming up soon, give them a heads-up
+- "anomaly" type: something expected didn't happen, be direct and friendly
+- Vary how each notification opens — never start two the same way
 
 Never:
 - Use UUIDs or internal IDs
-- Say "anomaly detected", "variety gap", "streak break", or any system language
-- Write something a human would read and immediately forget
-- Open two notifications with the same word or phrase
+- Say "anomaly", "streak break", "variety gap", or any system language
+- Mention a specific time or date
 
 Here are the findings:
 ${JSON.stringify(summary, null, 2)}
 
-Write one notification per finding, numbered. One to two sentences each. Plain text only.
+Write one notification per finding, numbered. One sentence each. Plain text only.
 `
 }
 

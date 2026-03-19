@@ -51,7 +51,9 @@ npm run reminders         # convert findings to push notifications via Groq
 |---|---|
 | `ActivityPatternAnalyzer` | Recurring streaks, broken streaks, dormant categories, recent activity summary |
 | `StreakDetector` | A single pattern repeating at a regular interval — predicts next occurrence or flags a missed one |
-| `ChecklistDetector` | Whether a set of expected activities happened within a time window |
+| `ChecklistDetector` | Whether a set of expected items was present in events within a time window |
+| `ThresholdDetector` | Whether a numeric value extracted from events (sum, avg, count, etc.) meets a target — e.g. calories below goal, water intake too low |
+| `ItemAnalysisDetector` | Given a list of items from an event, looks up each item's properties (via static map or API), aggregates them, and reports which targets weren't met — e.g. foods served today lack protein and magnesium |
 | `RecommendationDetector` | Cross-user activity trends — what's popular, what a specific user is missing |
 | `GroqFallbackDetector` | LLM-based fallback via Groq — only runs if all primary detectors find nothing |
 
@@ -62,12 +64,36 @@ Register your own in one line:
 ```ts
 import { createDetector } from 'oraku'
 
+// checklist — did these items show up today?
 createDetector('MedicationCheck', 'checklist', {
   expectedItems: [{ key: 'medication', keywords: ['medication', 'medicine'] }],
   message: (missing) => `Medication log missing: ${missing.join(', ')}`
 })
 
+// streak-break — flag when a repeating pattern stops
 createDetector('WeeklyCheckup', 'streak-break', { minRepeat: 3 })
+
+// threshold — fire when a numeric value doesn't meet a target
+createDetector('CalorieGoal', 'threshold', {
+  dataSource: 'nutrition',
+  extract: { path: 'meta.calories' },
+  operator: 'lt',
+  value: 1500,
+  aggregate: 'sum'
+})
+
+// item-analysis — look up properties of each item and report gaps
+createDetector('DaycareNutrition', 'item-analysis', {
+  dataSource: 'meals',
+  extract: { path: 'meta.foodsServed' },
+  lookup: {
+    map: {
+      apple: { protein: 0.3, vitamin_c: 8, calcium: 6 },
+      milk:  { protein: 3.4, calcium: 125 }
+    }
+  },
+  targets: { protein: 10, calcium: 200, vitamin_c: 15 }
+})
 ```
 
 `DetectorManager` picks them up automatically — no registration step needed.
@@ -154,7 +180,7 @@ stitchAndSave
 Event, EventGroup, EventGroupMap
 Finding, FindingData, Severity
 Detector, DetectorConfig
-ChecklistConfig, StreakConfig
+ChecklistConfig, StreakConfig, ThresholdDetectorConfig, ItemAnalysisConfig
 BuiltinDetectorType
 ```
 

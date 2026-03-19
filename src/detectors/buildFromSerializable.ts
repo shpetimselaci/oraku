@@ -1,5 +1,7 @@
 import type { Detector, ExpectedItem, Event, SerializableDetectorConfig } from '../types'
 import type { ApiMatcherConfig } from './apiMatcher'
+import { ThresholdDetector } from './ThresholdDetector'
+import { ItemAnalysisDetector } from './ItemAnalysisDetector'
 
 function resolvePath(obj: unknown, dotPath: string): unknown {
   return dotPath.split('.').reduce((curr, key) => {
@@ -58,6 +60,42 @@ export function buildFromSerializable(
       dataSource: config.dataSource,
       severity: config.severity,
       minRepeat: config.minRepeat
+    })
+  }
+
+  if (config.type === 'threshold') {
+    if (!config.extract?.path) throw new Error(`ThresholdDetector "${config.name}" requires extract.path`)
+    if (config.operator === undefined) throw new Error(`ThresholdDetector "${config.name}" requires operator`)
+    if (config.value === undefined) throw new Error(`ThresholdDetector "${config.name}" requires value`)
+
+    return new ThresholdDetector({
+      name: config.name,
+      dataSource: config.dataSource,
+      severity: config.severity,
+      extract: { path: config.extract.path },
+      operator: config.operator,
+      value: config.value,
+      aggregate: config.aggregate,
+      todayOnly: config.todayOnly,
+      message: config.message
+    })
+  }
+
+  if (config.type === 'item-analysis') {
+    if (!config.extract?.path) throw new Error(`ItemAnalysisDetector "${config.name}" requires extract.path`)
+    if (!config.lookup) throw new Error(`ItemAnalysisDetector "${config.name}" requires lookup`)
+    if (!config.targets) throw new Error(`ItemAnalysisDetector "${config.name}" requires targets`)
+
+    return new ItemAnalysisDetector({
+      name: config.name,
+      dataSource: config.dataSource,
+      severity: config.severity,
+      extract: { path: config.extract.path },
+      lookup: config.lookup,
+      targets: config.targets,
+      aggregate: config.aggregate as 'sum' | 'avg' | undefined,
+      todayOnly: config.todayOnly,
+      message: config.message ? () => config.message! : undefined
     })
   }
 

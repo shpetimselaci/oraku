@@ -148,7 +148,21 @@ export interface DetectorFilter {
   ): Detector[]
 }
 
-export type BuiltinDetectorType = 'checklist' | 'streak-ongoing' | 'streak-break'
+export type BuiltinDetectorType = 'checklist' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
+
+// ============ THRESHOLD DETECTOR ============
+
+export type ThresholdOperator = 'lt' | 'lte' | 'gt' | 'gte' | 'eq'
+export type ThresholdAggregate = 'sum' | 'avg' | 'count' | 'min' | 'max'
+
+export interface ThresholdDetectorConfig extends DetectorConfig {
+  extract: { path: string } | ((event: Event) => number | null)
+  operator: ThresholdOperator
+  value: number
+  aggregate?: ThresholdAggregate
+  todayOnly?: boolean
+  message?: string | ((actual: number, target: number) => string)
+}
 
 // ============ SERIALIZABLE DETECTOR CONFIG ============
 
@@ -165,13 +179,29 @@ export interface SerializableApiConfig {
 
 export interface SerializableDetectorConfig {
   name: string
-  type: 'checklist' | 'streak-ongoing' | 'streak-break'
+  type: 'checklist' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
   dataSource?: string
   severity?: Severity
+  // checklist fields
   expected?: string[]
   extract?: SerializableExtractConfig
   api?: SerializableApiConfig
   todayOnly?: boolean
+  // streak fields
   minRepeat?: number
   message?: string
+  // threshold fields
+  operator?: ThresholdOperator
+  value?: number
+  aggregate?: ThresholdAggregate
+  // item-analysis fields
+  lookup?: {
+    map?: Record<string, Record<string, number>>
+    api?: {
+      urlTemplate: string
+      responsePath?: string
+      timeout?: number
+    }
+  }
+  targets?: Record<string, number>
 }
