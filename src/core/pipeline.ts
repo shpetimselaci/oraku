@@ -4,7 +4,9 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') })
 import { EventStitcher } from './EventStitcher'
 import { DetectorManager } from '../detectors/DetectorManager'
 import { generateNotifications } from '../notifications'
-import type { Event, Finding, SerializableDetectorConfig } from '../types'
+import { saveFindings, getFindings } from '../db/findings'
+import { saveNotifications } from '../db/notifications'
+import type { Event, Finding, Severity, SerializableDetectorConfig } from '../types'
 
 export interface PipelineOptions {
   groupBy?: string | string[]
@@ -38,18 +40,36 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
     findingsByUser[groupKey].push(finding)
   }
 
+  // save all findings to DB and collect their generated UUIDs per user
+  const dbIdsByUser: Record<string, string[]> = {}
+  for (const [userId, userFindings] of Object.entries(findingsByUser)) {
+    const saved = await saveFindings(userFindings)
+    dbIdsByUser[userId] = saved.map(r => r.id)
+  }
+
   // generate notifications per user so each user only gets their own
   // if forUserId is set, skip all other users (avoids unnecessary Groq calls)
   const notificationsByUser: Record<string, string[]> = {}
   for (const [userId, userFindings] of Object.entries(findingsByUser)) {
     if (options.forUserId && userId !== options.forUserId) continue
-    const notifiable = userFindings.filter(f => !String(f.id).startsWith('summary-'))
+
+    // fetch findings from DB so notifications are driven by persisted data
+    const dbFindings = await getFindings(userId)
+    const notifiable = dbFindings
+      .filter(f => !String(f.id).startsWith('summary-'))
+      .map(f => ({ ...f, severity: f.severity as Severity, evidence: f.evidence ?? {}, groupKey: userId }))
+
     if (notifiable.length === 0) continue
     const raw = await generateNotifications(notifiable, { apiKey })
-    notificationsByUser[userId] = raw
+    const messages = raw
       .split('\n')
       .map(line => line.replace(/^\d+\.\s*/, '').trim())
       .filter(Boolean)
+
+    notificationsByUser[userId] = messages
+
+    // save notifications and link them to the findings that produced them
+    await saveNotifications(userId, messages, dbIdsByUser[userId] ?? [])
   }
 
   const notifications = Object.values(notificationsByUser).flat()
