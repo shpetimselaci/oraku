@@ -4,6 +4,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') })
 import { EventStitcher } from './EventStitcher'
 import { DetectorManager } from '../detectors/DetectorManager'
 import { generateNotifications } from '../notifications'
+import { initSchema } from '../db/schema'
 import { saveFindings, getFindings } from '../db/findings'
 import { saveNotifications } from '../db/notifications'
 import type { Event, Finding, Severity, SerializableDetectorConfig } from '../types'
@@ -13,6 +14,8 @@ export interface PipelineOptions {
   apiKey?: string
   detectorConfigs?: SerializableDetectorConfig[]
   forUserId?: string // if set, only generate notifications for this user
+  webhookUrl?: string
+  webhookAuthKey?: string
 }
 
 export interface PipelineResult {
@@ -23,6 +26,7 @@ export interface PipelineResult {
 }
 
 export async function runPipeline(events: Event[], options: PipelineOptions = {}): Promise<PipelineResult> {
+  initSchema()
   const { groupBy = 'meta.userId' } = options
 
   const groups = new EventStitcher(events).stitchByField(groupBy)
@@ -73,6 +77,22 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
   }
 
   const notifications = Object.values(notificationsByUser).flat()
+
+  if (options.webhookUrl && notifications.length) {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+    if (options.webhookAuthKey) headers['Authorization'] = `Bearer ${options.webhookAuthKey}`
+    try {
+      const res = await fetch(options.webhookUrl, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ notifications, notificationsByUser, count: findings.length })
+      })
+      if (!res.ok) console.error(`[webhook] POST failed: ${res.status} ${options.webhookUrl}`)
+      else console.log(`[webhook] Delivered ${notifications.length} notifications to ${options.webhookUrl}`)
+    } catch (err) {
+      console.error(`[webhook] Error:`, (err as Error).message)
+    }
+  }
 
   return { count: findings.length, findings, notifications, notificationsByUser }
 }

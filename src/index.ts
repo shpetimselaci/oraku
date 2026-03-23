@@ -2,12 +2,15 @@
 export { EventStitcher } from './core/EventStitcher'
 export { runPipeline } from './core/pipeline'
 export type { PipelineOptions, PipelineResult } from './core/pipeline'
+export { schedulePipeline } from './core/cron'
+export type { CronHandle } from './core/cron'
 export { loadJsonRecords, loadJsonRecordsSync } from './ingest'
 
 // ─── Detectors ───────────────────────────────────────────────────────────────
 export { BaseDetector } from './detectors/BaseDetector'
 export { StreakDetector } from './detectors/StreakDetector'
 export { ChecklistDetector } from './detectors/ChecklistDetector'
+export { MilestoneDetector } from './detectors/MilestoneDetector'
 export { ActivityPatternAnalyzer } from './detectors/ActivityPatternAnalyzer'
 export { RecommendationDetector } from './detectors/RecommendationDetector'
 export { GroqFallbackDetector } from './detectors/GroqFallbackDetector'

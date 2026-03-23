@@ -87,6 +87,16 @@ export interface ChecklistConfig extends DetectorConfig {
   aggregate?: boolean
 }
 
+// ============ MILESTONE DETECTOR ============
+
+export interface MilestoneConfig extends DetectorConfig {
+  milestones: ExpectedItem[]
+  extractActual?: (event: Event) => string | string[]
+  matchFn?: (actual: string, expected: ExpectedItem) => boolean
+  message?: string | ((achieved: string[]) => string)
+  todayOnly?: boolean
+}
+
 // ============ STREAK DETECTOR ============
 
 export type StreakTrigger = 'ongoing' | 'break'
@@ -148,7 +158,7 @@ export interface DetectorFilter {
   ): Detector[]
 }
 
-export type BuiltinDetectorType = 'checklist' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
+export type BuiltinDetectorType = 'checklist' | 'milestone' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
 
 // ============ THRESHOLD DETECTOR ============
 
@@ -179,7 +189,7 @@ export interface SerializableApiConfig {
 
 export interface SerializableDetectorConfig {
   name: string
-  type: 'checklist' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
+  type: 'checklist' | 'milestone' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
   dataSource?: string
   severity?: Severity
   // checklist fields

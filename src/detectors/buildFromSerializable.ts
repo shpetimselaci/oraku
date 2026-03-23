@@ -2,6 +2,7 @@ import type { Detector, ExpectedItem, Event, SerializableDetectorConfig } from '
 import type { ApiMatcherConfig } from './apiMatcher'
 import { ThresholdDetector } from './ThresholdDetector'
 import { ItemAnalysisDetector } from './ItemAnalysisDetector'
+import { MilestoneDetector } from './MilestoneDetector'
 
 function resolvePath(obj: unknown, dotPath: string): unknown {
   return dotPath.split('.').reduce((curr, key) => {
@@ -50,6 +51,17 @@ export function buildFromSerializable(
       expected: config.expected ?? [],
       extract,
       api: apiConfig,
+      todayOnly: config.todayOnly,
+      message: config.message
+    })
+  }
+
+  if (config.type === 'milestone') {
+    return new MilestoneDetector({
+      name: config.name,
+      dataSource: config.dataSource,
+      severity: config.severity,
+      milestones: (config.expected ?? []).map(key => ({ key })),
       todayOnly: config.todayOnly,
       message: config.message
     })
