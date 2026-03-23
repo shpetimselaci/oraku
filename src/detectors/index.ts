@@ -6,6 +6,7 @@ import type { Detector } from '../types'
 // Re-export all detectors and types
 export { BaseDetector } from './BaseDetector'
 export { ChecklistDetector } from './ChecklistDetector'
+export { MilestoneDetector } from './MilestoneDetector'
 export { StreakDetector } from './StreakDetector'
 export { ActivityPatternAnalyzer } from './ActivityPatternAnalyzer'
 export { GroqFallbackDetector } from './GroqFallbackDetector'

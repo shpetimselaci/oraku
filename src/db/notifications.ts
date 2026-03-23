@@ -1,4 +1,5 @@
-import { supabase } from './connection'
+import { randomUUID } from 'crypto'
+import { db } from './connection'
 import { toUUID } from './findings'
 
 export interface DbNotification {
@@ -8,39 +9,43 @@ export interface DbNotification {
   created_at: string
 }
 
-export async function saveNotifications(
+const insertNotification = db.prepare(`
+  INSERT INTO notifications (id, user_id, message)
+  VALUES (@id, @user_id, @message)
+`)
+
+const insertLink = db.prepare(`
+  INSERT INTO finding_notifications (notification_id, finding_id)
+  VALUES (@notification_id, @finding_id)
+`)
+
+export function saveNotifications(
   userId: string,
   messages: string[],
   findingIds: string[]
-): Promise<DbNotification[]> {
+): DbNotification[] {
   if (!messages.length) return []
 
-  const rows = messages.map(message => ({
-    user_id: toUUID(userId),
-    message
-  }))
+  const saved: DbNotification[] = []
 
-  const { data, error } = await supabase
-    .from('notifications')
-    .insert(rows)
-    .select()
+  const run = db.transaction(() => {
+    for (const message of messages) {
+      const id = randomUUID()
+      const user_id = toUUID(userId)
+      insertNotification.run({ id, user_id, message })
+      saved.push({ id, user_id, message, created_at: new Date().toISOString() })
+    }
 
-  if (error) throw new Error(`Failed to save notifications: ${error.message}`)
+    // link each notification to all findings that produced it
+    if (findingIds.length) {
+      for (const n of saved) {
+        for (const finding_id of findingIds) {
+          insertLink.run({ notification_id: n.id, finding_id })
+        }
+      }
+    }
+  })
 
-  const notifications = data as DbNotification[]
-
-  // link each notification to all findings that produced it
-  if (findingIds.length) {
-    const links = notifications.flatMap(n =>
-      findingIds.map(finding_id => ({ notification_id: n.id, finding_id }))
-    )
-
-    const { error: linkError } = await supabase
-      .from('finding_notifications')
-      .insert(links)
-
-    if (linkError) throw new Error(`Failed to save finding_notifications: ${linkError.message}`)
-  }
-
-  return notifications
+  run()
+  return saved
 }

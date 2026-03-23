@@ -1,4 +1,5 @@
 import { BaseDetector } from './BaseDetector'
+import { extractItems, matchItems } from './helpers/itemMatching'
 import type {
   Event,
   EventGroup,
@@ -47,12 +48,7 @@ export class ChecklistDetector extends BaseDetector {
 
     if (!events.length) return []
 
-    const actualItems = events
-      .flatMap((e: Event) => {
-        const extracted = this.extractItems(e)
-        return Array.isArray(extracted) ? extracted : [extracted]
-      })
-      .filter(Boolean)
+    const actualItems = extractItems(events, this.extractItems)
 
     if (!actualItems.length) return []
 
@@ -83,25 +79,9 @@ export class ChecklistDetector extends BaseDetector {
       covered = result.covered || new Set()
       missing = result.missing || []
     } else {
-      const normalizedActual = actualItems.map((a) =>
-        typeof a === 'string' ? a.toLowerCase() : a
-      )
-
-      for (const expected of this.expectedItems) {
-        const isMatched = this.itemMatcher && typeof this.itemMatcher === 'function'
-          ? normalizedActual.some((actual) =>
-              this.itemMatcher ? this.itemMatcher(actual as string, expected) : false
-            )
-          : normalizedActual.some((actual) =>
-              expected.keywords?.some((k) => (actual as string).includes(k)) ||
-              (actual as string).includes(expected.key?.toLowerCase())
-            )
-        if (isMatched) covered.add(expected.key)
-      }
-
-      missing = this.expectedItems
-        .map((e) => e.key)
-        .filter((key) => !covered.has(key))
+      const result = matchItems(actualItems, this.expectedItems, this.itemMatcher ?? undefined)
+      covered = result.covered
+      missing = result.missing
     }
 
     if (!missing.length) return []

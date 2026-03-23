@@ -1,5 +1,5 @@
-import { createHash } from 'crypto'
-import { supabase } from './connection'
+import { createHash, randomUUID } from 'crypto'
+import { db } from './connection'
 import type { Finding, Severity } from '../types'
 
 // generates a deterministic UUID from any string so the same userId always maps to the same UUID
@@ -24,33 +24,54 @@ export interface DbFinding {
   detected_at: string
 }
 
-export async function saveFindings(findings: Finding[]): Promise<DbFinding[]> {
+const insertFinding = db.prepare(`
+  INSERT INTO findings (id, user_id, detector, severity, message, evidence)
+  VALUES (@id, @user_id, @detector, @severity, @message, @evidence)
+`)
+
+const selectFindings = db.prepare(`
+  SELECT * FROM findings
+  WHERE user_id = ?
+  ORDER BY detected_at DESC
+`)
+
+export function saveFindings(findings: Finding[]): DbFinding[] {
   if (!findings.length) return []
 
-  const rows = findings.map(f => ({
-    user_id: toUUID(f.groupKey as string),
-    detector: f.detector,
-    severity: f.severity,
-    message: f.message,
-    evidence: f.evidence
-  }))
+  const saved: DbFinding[] = []
 
-  const { data, error } = await supabase
-    .from('findings')
-    .insert(rows)
-    .select()
+  const insertMany = db.transaction((rows: Finding[]) => {
+    for (const f of rows) {
+      const id = randomUUID()
+      const user_id = toUUID(f.groupKey as string)
+      insertFinding.run({
+        id,
+        user_id,
+        detector: f.detector,
+        severity: f.severity,
+        message: f.message,
+        evidence: JSON.stringify(f.evidence)
+      })
+      saved.push({
+        id,
+        user_id,
+        detector: f.detector,
+        severity: f.severity,
+        message: f.message,
+        evidence: f.evidence,
+        detected_at: new Date().toISOString()
+      })
+    }
+  })
 
-  if (error) throw new Error(`Failed to save findings: ${error.message}`)
-  return data as DbFinding[]
+  insertMany(findings)
+  return saved
 }
 
-export async function getFindings(userId: string): Promise<DbFinding[]> {
-  const { data, error } = await supabase
-    .from('findings')
-    .select('*')
-    .eq('user_id', toUUID(userId))
-    .order('detected_at', { ascending: false })
-
-  if (error) throw new Error(`Failed to fetch findings: ${error.message}`)
-  return data as DbFinding[]
+export function getFindings(userId: string): DbFinding[] {
+  const rows = selectFindings.all(toUUID(userId)) as any[]
+  return rows.map(r => ({
+    ...r,
+    evidence: r.evidence ? JSON.parse(r.evidence) : {}
+  }))
 }

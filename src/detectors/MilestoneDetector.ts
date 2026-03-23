@@ -1,0 +1,56 @@
+import { BaseDetector } from './BaseDetector'
+import { extractItems, matchItems } from './helpers/itemMatching'
+import type { EventGroup, Finding, ExpectedItem, MilestoneConfig } from '../types'
+
+export class MilestoneDetector extends BaseDetector {
+  private milestones: ExpectedItem[]
+  private extractActual: (event: any) => string | string[]
+  private matchFn?: (actual: string, expected: ExpectedItem) => boolean
+  private messageFormatter: string | ((achieved: string[]) => string)
+  private todayOnly: boolean
+
+  constructor(config: MilestoneConfig) {
+    super({ ...config, severity: config.severity ?? 'success' })
+    this.milestones = config.milestones
+    this.extractActual = config.extractActual ?? (e => e.name?.toLowerCase() ?? '')
+    this.matchFn = config.matchFn
+    this.messageFormatter = config.message ?? ((achieved: string[]) => `Achieved: ${achieved.join(', ')}`)
+    this.todayOnly = config.todayOnly !== false
+  }
+
+  async detect(entry: EventGroup): Promise<Finding[]> {
+    let events = this.getEvents(entry)
+    if (!events.length) return []
+
+    if (this.todayOnly) events = this.filterByDate(events, new Date(), 'day')
+    if (!events.length) return []
+
+    const actualItems = extractItems(events, this.extractActual)
+    if (!actualItems.length) return []
+
+    const { covered } = matchItems(actualItems, this.milestones, this.matchFn)
+    if (!covered.size) return []
+
+    const achieved = Array.from(covered)
+    const dateStr = new Date().toISOString().slice(0, 10)
+    const identifier = entry?.externalRef ?? 'user'
+
+    return achieved.map(key =>
+      this.createFinding({
+        id: `milestone-${this.name.toLowerCase()}-${identifier}-${key}-${dateStr}`,
+        severity: this.severity,
+        message: typeof this.messageFormatter === 'function'
+          ? this.messageFormatter([key])
+          : this.messageFormatter,
+        evidence: {
+          milestone: key,
+          achievedAt: dateStr,
+          matchedItems: actualItems,
+          permanent: true
+        }
+      })
+    )
+  }
+}
+
+export default MilestoneDetector
