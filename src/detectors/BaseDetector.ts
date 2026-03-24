@@ -12,14 +12,12 @@ import type {
 export abstract class BaseDetector implements Detector {
   public readonly name: string;
   public readonly description: string;
-  public readonly dataSource: string | null;
   public readonly severity: Severity;
   public isFallback?: boolean;
 
   constructor(config: DetectorConfig = {}) {
     this.name = config.name || this.constructor.name;
     this.description = config.description || '';
-    this.dataSource = config.dataSource || null;
     this.severity = config.severity || 'info';
   }
 

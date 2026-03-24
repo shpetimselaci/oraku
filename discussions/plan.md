@@ -22,11 +22,10 @@ NEAR FUTURE
 
 
 LATE FUTURE
-[ ] DetectorBuilder
-    [ ] create special syntax to filter by markers
-    [ ] make builders composable(can intertwine) by nature
-    [ ] make sure to follow builder pattern ()
-    [ ] 
+[✅] DetectorBuilder
+    [✅] create special syntax to filter by markers
+    [✅] make builders composable(can intertwine) by nature
+    [✅] make sure to follow builder pattern ()
 [ ] MechanismToFilterDecetors
 [ ] MechanismToFilterDecetors Builder
 

@@ -49,14 +49,12 @@ export interface FindingData {
 export interface DetectorConfig {
   name?: string
   description?: string
-  dataSource?: string
   severity?: Severity
 }
 
 export interface Detector {
   name: string
   description: string
-  dataSource: string | null
   severity: Severity
   isFallback?: boolean
   detect(entry: EventGroup): Promise<Finding[]>
@@ -140,8 +138,7 @@ export interface DetectorManagerConfig {
   filterMechanism?: DetectorFilter
   context?: Record<string, unknown>
   extraDetectors?: Detector[]
-  detectorConfigs?: SerializableDetectorConfig[]   // legacy config-object approach
-  builders?: import('./detectors/DetectorBuilder').DetectorBuilder[]  // new marker-based approach
+  builders?: import('./detectors/DetectorBuilder').DetectorBuilder[]
 }
 
 export interface DetectorFilter {
@@ -151,8 +148,6 @@ export interface DetectorFilter {
     context: Record<string, unknown>
   ): Detector[]
 }
-
-export type BuiltinDetectorType = 'checklist' | 'milestone' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
 
 // ============ THRESHOLD DETECTOR ============
 
@@ -168,44 +163,3 @@ export interface ThresholdDetectorConfig extends DetectorConfig {
   message?: string | ((actual: number, target: number) => string)
 }
 
-// ============ SERIALIZABLE DETECTOR CONFIG ============
-
-export interface SerializableExtractConfig {
-  path: string  // dot-notation path into the event object e.g. 'meta.genres'
-}
-
-export interface SerializableApiConfig {
-  urlTemplate: string   // {item} is replaced with each expected item
-  responsePath?: string // dot-notation into the API response to get the results array
-  matchKey?: string     // field on each result to match against the expected item
-  timeout?: number
-}
-
-export interface SerializableDetectorConfig {
-  name: string
-  type: 'checklist' | 'milestone' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
-  dataSource?: string
-  severity?: Severity
-  // checklist fields
-  expected?: string[]
-  extract?: SerializableExtractConfig
-  api?: SerializableApiConfig
-  todayOnly?: boolean
-  // streak fields
-  minRepeat?: number
-  message?: string
-  // threshold fields
-  operator?: ThresholdOperator
-  value?: number
-  aggregate?: ThresholdAggregate
-  // item-analysis fields
-  lookup?: {
-    map?: Record<string, Record<string, number>>
-    api?: {
-      urlTemplate: string
-      responsePath?: string
-      timeout?: number
-    }
-  }
-  targets?: Record<string, number>
-}

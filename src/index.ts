@@ -18,7 +18,6 @@ export { RecommendationGenerator } from './detectors/RecommendationGenerator'
 export { GroqFallbackDetector } from './detectors/GroqFallbackDetector'
 export { DetectorManager } from './detectors/DetectorManager'
 export { DetectorBuilder } from './detectors/DetectorBuilder'
-export { createDetector } from './detectors/helpers/detectorFactory'
 export { countPatterns, getTopPattern, filterByPattern } from './detectors/helpers/EventCounter'
 
 // ─── Filters ─────────────────────────────────────────────────────────────────
@@ -46,6 +45,5 @@ export type {
   StreakTrigger,
   ActivityPatternAnalyzerConfig,
   LLMDetectorConfig,
-  ExpectedItem,
-  BuiltinDetectorType
+  ExpectedItem
 } from './types'

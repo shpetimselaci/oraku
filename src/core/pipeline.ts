@@ -7,13 +7,14 @@ import { generateNotifications } from '../notificationGenerator'
 import { initSchema } from '../db/schema'
 import { saveFindings, getFindings } from '../db/findings'
 import { saveNotifications } from '../db/notifications'
-import type { Event, Finding, Severity, SerializableDetectorConfig } from '../types'
+import type { Event, Finding, Severity } from '../types'
+import type { DetectorBuilder } from '../detectors/DetectorBuilder'
 
 export interface PipelineOptions {
   groupBy?: string | string[]
   apiKey?: string
-  detectorConfigs?: SerializableDetectorConfig[]
-  forUserId?: string // if set, only generate notifications for this user
+  builders?: DetectorBuilder[]
+  forUserId?: string
   webhookUrl?: string
   webhookAuthKey?: string
 }
@@ -30,7 +31,7 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
   const { groupBy = 'meta.userId' } = options
 
   const groups = new EventStitcher(events).stitchByField(groupBy)
-  const findings = await new DetectorManager({ detectorConfigs: options.detectorConfigs }).runDetectorsOn(groups)
+  const findings = await new DetectorManager({ builders: options.builders }).runDetectorsOn(groups)
 
   const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) throw new Error('GROQ_API_KEY not set in oraku-main environment')
