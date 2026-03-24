@@ -2,8 +2,6 @@ import { ActivityPatternAnalyzer } from './ActivityPatternAnalyzer'
 import { RecommendationGenerator } from './RecommendationGenerator'
 import { GroqFallbackDetector } from './GroqFallbackDetector'
 import { ContextBasedFilter } from '../filters/ContextBasedFilter'
-import { buildDetectorFromConfig } from './helpers/buildDetectorFromConfig'
-import { createDetector } from './helpers/detectorFactory'
 import type { DetectorBuilder } from './DetectorBuilder'
 import type {
   Detector,
@@ -23,21 +21,11 @@ export class DetectorManager {
   private context: Record<string, unknown>
 
   constructor(options: DetectorManagerConfig = {}) {
-    const configs = options.detectorConfigs ?? []
-
-    const dataSources = [...new Set(configs.map(c => c.dataSource).filter((s): s is string => !!s))]
-
-    // tier 1 — SDK registered detectors (builders take priority, configs are legacy)
-    const fromBuilders = (options.builders ?? []).map((b: DetectorBuilder) => b.build())
-    const fromConfigs  = configs.map(c => buildDetectorFromConfig(
-      c,
-      (name, cfg) => createDetector(name, 'checklist', cfg as any),
-      (name, type, cfg) => createDetector(name, type, cfg as any)
-    ))
-    this.sdkDetectors = [...fromBuilders, ...fromConfigs]
+    // tier 1 — builder-registered detectors
+    this.sdkDetectors = (options.builders ?? []).map((b: DetectorBuilder) => b.build())
 
     // tier 2 — built-in pattern analyzer
-    this.analyzer = new ActivityPatternAnalyzer({ dataSources: dataSources.length ? dataSources : undefined })
+    this.analyzer = new ActivityPatternAnalyzer()
 
     // tier 3 — groq fallback
     this.groqFallback = new GroqFallbackDetector()

@@ -26,12 +26,10 @@ export class ActivityPatternAnalyzer extends BaseDetector {
     let events = this.getEvents(entry)
     if (!events?.length) return []
 
-    // only analyse categories the project registered — if none registered, skip this group entirely
+    // filter to registered categories if specified, otherwise analyse all
     if (this.dataSources) {
       events = events.filter(e => e.category && this.dataSources!.has(e.category))
       if (!events.length) return []
-    } else {
-      return []
     }
 
     const filteredEntry = { ...entry, events }

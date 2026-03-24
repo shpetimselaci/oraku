@@ -1,27 +1,15 @@
 import type { Detector, EventGroup, Finding, Severity } from '../types'
 import { parseMarker, type MarkerPredicate } from './helpers/markerParser'
 
-// ─── Internal ─────────────────────────────────────────────────────────────────
-
 interface BuilderEntry {
   detector: Detector
   markers: MarkerPredicate[]
 }
 
-// ─── DetectorBuilder ──────────────────────────────────────────────────────────
-
 export class DetectorBuilder {
   private entries: BuilderEntry[]
   private globalMarkers: MarkerPredicate[]
 
-  /**
-   * Start a builder from a single detector (the detection logic).
-   *
-   * @example
-   * new DetectorBuilder(new StreakDetector({ minRepeat: 3 }))
-   *   .addMarker('meals or routine')
-   *   .build()
-   */
   constructor(detector: Detector) {
     this.entries = [{ detector, markers: [] }]
     this.globalMarkers = []
@@ -34,18 +22,7 @@ export class DetectorBuilder {
     return b
   }
 
-  /**
-   * Add a marker expression that filters which events this detector sees.
-   * Supports `or`, `and`, `not`, and parentheses.
-   *
-   * On a single-detector builder: applies to that detector.
-   * On a composed builder: applies as a global filter across all inner detectors.
-   *
-   * @example
-   * builder.addMarker('meals or routine')
-   * builder.addMarker('not handwash')
-   * builder.addMarker('(meals or routine) and not skipped')
-   */
+  // filters which events this detector sees — supports `or`, `and`, `not`, parentheses
   addMarker(expression: string): this {
     const pred = parseMarker(expression)
     if (this.entries.length === 1) {
@@ -56,15 +33,7 @@ export class DetectorBuilder {
     return this
   }
 
-  /**
-   * Merge two builders into one. The result runs both detectors (each
-   * filtered by their own markers), then combines their findings.
-   *
-   * @example
-   * const mealsStreak   = new DetectorBuilder(new StreakDetector({ minRepeat: 3 })).addMarker('meals')
-   * const routineStreak = new DetectorBuilder(new StreakDetector({ minRepeat: 2 })).addMarker('routine')
-   * const combined = mealsStreak.compose(routineStreak).build()
-   */
+  // merges two builders — each runs on its own markers, findings are combined
   compose(other: DetectorBuilder): DetectorBuilder {
     return DetectorBuilder._from(
       [...this.entries, ...other.entries],
@@ -72,14 +41,7 @@ export class DetectorBuilder {
     )
   }
 
-  /**
-   * Create an independent copy of this builder.
-   * Useful for branching without affecting the original.
-   *
-   * @example
-   * const base    = new DetectorBuilder(new StreakDetector({ minRepeat: 3 })).addMarker('meals')
-   * const variant = base.clone().addMarker('not breakfast').build()
-   */
+  // independent copy — mutations don't affect the original
   clone(): DetectorBuilder {
     return DetectorBuilder._from(
       this.entries.map(e => ({ detector: e.detector, markers: [...e.markers] })),
@@ -87,10 +49,6 @@ export class DetectorBuilder {
     )
   }
 
-  /**
-   * Produce the final Detector. The returned detector pre-filters events
-   * through all markers before handing them to the inner detection logic.
-   */
   build(): Detector {
     return new BuiltDetector(
       this.entries.map(e => ({ detector: e.detector, markers: [...e.markers] })),
@@ -99,12 +57,9 @@ export class DetectorBuilder {
   }
 }
 
-// ─── BuiltDetector ────────────────────────────────────────────────────────────
-
 class BuiltDetector implements Detector {
   readonly name: string
   readonly description: string
-  readonly dataSource: null = null
   readonly severity: Severity
 
   constructor(
@@ -123,7 +78,6 @@ class BuiltDetector implements Detector {
 
     for (const entry of this.entries) {
       const allMarkers = [...this.globalMarkers, ...entry.markers]
-
       const filteredEvents = allMarkers.length
         ? group.events.filter(e => allMarkers.every(m => m(e)))
         : group.events
@@ -131,8 +85,7 @@ class BuiltDetector implements Detector {
       if (!filteredEvents.length) continue
 
       const filteredGroup: EventGroup = { ...group, events: filteredEvents, count: filteredEvents.length }
-      const result = await entry.detector.detect(filteredGroup)
-      findings.push(...result)
+      findings.push(...await entry.detector.detect(filteredGroup))
     }
 
     return findings
@@ -141,10 +94,7 @@ class BuiltDetector implements Detector {
   async finalize(): Promise<Finding[]> {
     const findings: Finding[] = []
     for (const entry of this.entries) {
-      if (entry.detector.finalize) {
-        const result = await entry.detector.finalize()
-        findings.push(...result)
-      }
+      if (entry.detector.finalize) findings.push(...await entry.detector.finalize())
     }
     return findings
   }

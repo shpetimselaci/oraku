@@ -16,7 +16,6 @@ export { DetectorManager } from './DetectorManager'
 export { RecommendationGenerator } from './RecommendationGenerator'
 export { ThresholdDetector } from './ThresholdDetector'
 export { ItemAnalysisDetector } from './ItemAnalysisDetector'
-export { createDetector } from './helpers/detectorFactory'
 export { DetectorBuilder } from './DetectorBuilder'
 export * from './helpers/EventCounter'
 
