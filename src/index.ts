@@ -18,6 +18,8 @@ export { RecommendationGenerator } from './detectors/RecommendationGenerator'
 export { GroqFallbackDetector } from './detectors/GroqFallbackDetector'
 export { DetectorManager } from './detectors/DetectorManager'
 export { DetectorBuilder } from './detectors/DetectorBuilder'
+export { toBuilder } from './detectors/helpers/toBuilder'
+export type { DetectorConfig } from './detectors/helpers/toBuilder'
 export { countPatterns, getTopPattern, filterByPattern } from './detectors/helpers/EventCounter'
 
 // ─── Filters ─────────────────────────────────────────────────────────────────

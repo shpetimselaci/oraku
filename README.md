@@ -1,19 +1,16 @@
 # Oraku
 
-A TypeScript SDK for detecting behavioral patterns in activity data and generating structured findings. Built for institutions like daycares, gyms, clinics, schools, and hotels.
+A TypeScript library for detecting behavioural patterns in activity data and generating structured findings. Built for institutions like daycares, gyms, clinics, schools, and hotels.
 
 ## What it does
 
 You feed Oraku raw activity events. It groups them by user, runs a layered set of detectors, and returns structured findings — recurring patterns, missed activities, dormant categories, cross-user insights.
 
 ```ts
-import { EventStitcher, DetectorManager } from 'oraku'
+import { runPipeline } from 'oraku'
 
-const stitcher = new EventStitcher(events)
-const groups = stitcher.stitchByField('meta.userId')
-
-const manager = new DetectorManager()
-const findings = await manager.runDetectorsOn(groups)
+const result = await runPipeline(events)
+// result.findings, result.notifications, result.notificationsByUser
 ```
 
 ## Installation
@@ -29,82 +26,124 @@ Raw Events (JSON)
       ↓
 EventStitcher        — group events by user (or any field)
       ↓
-DetectorManager      — run detectors, collect findings
+DetectorManager      — run detectors tier by tier, collect findings
       ↓
 Finding[]            — structured output, ready for your use
 ```
 
-### CLI
+### Detector tiers
 
-```bash
-npm run generate:events   # generate synthetic test data
-npm run stitch            # group events by userId
-npm run detect            # run detectors, output findings.json
-npm run reminders         # convert findings to push notifications via Groq
-```
+1. **SDK detectors** — your custom `DetectorBuilder` instances, each scoped by marker
+2. **ActivityPatternAnalyzer** — built-in streak, break, dormancy, and pattern detection across all events
+3. **GroqFallbackDetector** — LLM-based fallback via Groq, only runs if tiers 1 and 2 find nothing
 
 ## Detectors
 
-### Built-in
-
 | Detector | What it detects |
 |---|---|
-| `ActivityPatternAnalyzer` | Recurring streaks, broken streaks, dormant categories, recent activity summary |
-| `StreakDetector` | A single pattern repeating at a regular interval — predicts next occurrence or flags a missed one |
+| `StreakDetector` | A pattern repeating at a regular interval — predicts next occurrence or flags a missed one |
 | `ChecklistDetector` | Whether a set of expected items was present in events within a time window |
-| `ThresholdDetector` | Whether a numeric value extracted from events (sum, avg, count, etc.) meets a target — e.g. calories below goal, water intake too low |
-| `ItemAnalysisDetector` | Given a list of items from an event, looks up each item's properties (via static map or API), aggregates them, and reports which targets weren't met — e.g. foods served today lack protein and magnesium |
-| `RecommendationDetector` | Cross-user activity trends — what's popular, what a specific user is missing |
-| `GroqFallbackDetector` | LLM-based fallback via Groq — only runs if all primary detectors find nothing |
+| `MilestoneDetector` | Whether a user has hit specific achievement markers |
+| `ThresholdDetector` | Whether a numeric value extracted from events meets a target — e.g. calories below goal |
+| `ItemAnalysisDetector` | Aggregates properties of items found in events and reports which targets weren't met |
+| `ActivityPatternAnalyzer` | Tier-2 built-in — recurring streaks, broken streaks, dormant categories, activity summaries |
+| `RecommendationGenerator` | Cross-user activity trends — what's popular, what a specific user is missing |
+| `GroqFallbackDetector` | LLM-based fallback — only runs if all primary detectors find nothing |
 
-### Custom detectors
+## Custom detectors
 
-Register your own in one line:
+Use `DetectorBuilder` to wrap any detector and scope it to specific event categories via a marker expression.
 
 ```ts
-import { createDetector } from 'oraku'
+import {
+  DetectorBuilder,
+  StreakDetector,
+  ChecklistDetector,
+  MilestoneDetector,
+  ThresholdDetector,
+  ItemAnalysisDetector
+} from 'oraku'
 
-// checklist — did these items show up today?
-createDetector('MedicationCheck', 'checklist', {
-  expectedItems: [{ key: 'medication', keywords: ['medication', 'medicine'] }],
-  message: (missing) => `Medication log missing: ${missing.join(', ')}`
-})
+// streak-ongoing — predicts next occurrence of a repeating pattern
+const fitnessStreak = new DetectorBuilder(
+  new StreakDetector({ name: 'fitness-streak', minRepeat: 3, triggerOn: 'ongoing' })
+).addMarker('fitness')
 
-// streak-break — flag when a repeating pattern stops
-createDetector('WeeklyCheckup', 'streak-break', { minRepeat: 3 })
+// streak-break — flags when a repeating pattern stops
+const routineBreak = new DetectorBuilder(
+  new StreakDetector({ name: 'routine-break', minRepeat: 3, triggerOn: 'break' })
+).addMarker('routine')
 
-// threshold — fire when a numeric value doesn't meet a target
-createDetector('CalorieGoal', 'threshold', {
-  dataSource: 'nutrition',
-  extract: { path: 'meta.calories' },
-  operator: 'lt',
-  value: 1500,
-  aggregate: 'sum'
-})
+// checklist — fires when expected items are missing from today's events
+const dailyMeds = new DetectorBuilder(
+  new ChecklistDetector({
+    name: 'daily-meds',
+    expectedItems: [{ key: 'medication' }, { key: 'vitamins' }],
+    todayOnly: true
+  })
+).addMarker('health')
 
-// item-analysis — look up properties of each item and report gaps
-createDetector('DaycareNutrition', 'item-analysis', {
-  dataSource: 'meals',
-  extract: { path: 'meta.foodsServed' },
-  lookup: {
-    map: {
-      apple: { protein: 0.3, vitamin_c: 8, calcium: 6 },
-      milk:  { protein: 3.4, calcium: 125 }
-    }
-  },
-  targets: { protein: 10, calcium: 200, vitamin_c: 15 }
+// milestone — fires when a user hits specific achievement markers
+const mealVariety = new DetectorBuilder(
+  new MilestoneDetector({
+    name: 'meal-variety',
+    milestones: [{ key: 'salad' }, { key: 'protein' }, { key: 'fruit' }]
+  })
+).addMarker('meals')
+
+// threshold — fires when a numeric value extracted from events doesn't meet a target
+const calorieGoal = new DetectorBuilder(
+  new ThresholdDetector({
+    name: 'calorie-goal',
+    extract: { path: 'meta.calories' },
+    operator: 'lt',
+    value: 1500,
+    aggregate: 'sum'
+  })
+).addMarker('nutrition')
+
+// item-analysis — looks up properties of each item, aggregates them, reports gaps
+const daycareNutrition = new DetectorBuilder(
+  new ItemAnalysisDetector({
+    name: 'daycare-nutrition',
+    extract: { path: 'meta.foodsServed' },
+    lookup: {
+      map: {
+        apple: { protein: 0.3, vitamin_c: 8, calcium: 6 },
+        milk:  { protein: 3.4, calcium: 125 }
+      }
+    },
+    targets: { protein: 10, calcium: 200, vitamin_c: 15 }
+  })
+).addMarker('meals')
+```
+
+Pass builders into the pipeline:
+
+```ts
+const result = await runPipeline(events, {
+  builders: [fitnessStreak, routineBreak, dailyMeds, mealVariety, calorieGoal, daycareNutrition]
 })
 ```
 
-`DetectorManager` picks them up automatically — no registration step needed.
+## Markers
+
+Markers filter which events each detector sees. They support boolean expressions matching against `category`, `subcategory`, `name`, `action`, or `log` fields:
+
+```ts
+builder.addMarker('fitness')                  // events where category === 'fitness'
+builder.addMarker('fitness or cardio')        // either category
+builder.addMarker('health and not mental')    // health events excluding mental
+builder.addMarker('meals or nutrition')       // multiple categories
+```
 
 ## Event shape
 
 ```ts
 interface Event {
   externalRef?: string             // unique event ID
-  category?: string                // e.g. "health"
-  subcategory?: string             // e.g. "checkup"
+  category?: string                // e.g. 'health'
+  subcategory?: string             // e.g. 'checkup'
   log?: string                     // human-readable description
   createdAt?: string               // ISO timestamp
   meta?: Record<string, unknown>   // userId, childId, or anything else
@@ -115,15 +154,17 @@ interface Event {
 
 ```ts
 interface Finding {
-  id: string          // e.g. "recurring-user123-health|checkup"
+  id: string          // e.g. 'recurring-user123-fitness'
   detector: string    // which detector fired
   severity: 'info' | 'warning' | 'success' | 'error'
   message: string
+  groupKey: string    // the user or group this finding belongs to
   evidence: Record<string, unknown>
+  createdAt: string
 }
 ```
 
-Finding IDs follow a naming convention:
+Finding ID prefixes:
 - `recurring-*` — upcoming pattern (streak ongoing)
 - `anomaly-*` — missed pattern (streak broken)
 - `variety-*` — dormant category
@@ -135,58 +176,55 @@ Finding IDs follow a naming convention:
 Events can be grouped by any field, including nested ones:
 
 ```ts
+const stitcher = new EventStitcher(events)
 stitcher.stitchByField('meta.userId')     // group by user
 stitcher.stitchByField('meta.childId')    // group by child
 stitcher.stitchByField('meta.roomId')     // group by room
-```
-
-## Detector filtering
-
-By default, `ContextBasedFilter` decides which detectors run on each group based on event context. You can swap in your own:
-
-```ts
-const manager = new DetectorManager({
-  filterMechanism: myCustomFilter,
-  only: 'StreakDetector'            // run only one detector by name
-})
 ```
 
 ## Exports
 
 ```ts
 // Core
+runPipeline
 EventStitcher
 DetectorManager
-createDetector
+schedulePipeline
+loadJsonRecords, loadJsonRecordsSync
+
+// Builder
+DetectorBuilder
+toBuilder
+DetectorConfig
 
 // Detectors
 BaseDetector
 StreakDetector
 ChecklistDetector
+MilestoneDetector
+ThresholdDetector
+ItemAnalysisDetector
 ActivityPatternAnalyzer
-RecommendationDetector
+RecommendationGenerator
 GroqFallbackDetector
+DetectorManager
+DetectorBuilder
 
 // Filters
 BaseDetectorFilter
 ContextBasedFilter
 
-// Ingest
-loadJsonRecords
-loadJsonRecordsSync
-stitchAndSave
-
-// All types
+// Types
 Event, EventGroup, EventGroupMap
 Finding, FindingData, Severity
-Detector, DetectorConfig
-ChecklistConfig, StreakConfig, ThresholdDetectorConfig, ItemAnalysisConfig
-BuiltinDetectorType
+Detector, DetectorConfig, DetectorFilter, DetectorManagerConfig
+ChecklistConfig, StreakConfig, ActivityPatternAnalyzerConfig
 ```
 
 ## Dependencies
 
 - `dotenv` — environment variable loading
+- `node-cron` — cron-based pipeline scheduling
 - `typescript` — TypeScript support
 - `ts-node` — TypeScript execution
 - `vitest` — test runner
