@@ -13,22 +13,6 @@ plan to get a working mvp:
     [✅] generate
 [ ] get generated data, and send back to request being made
 
-run 
-    get data
-    run detector manager through filter
-        run manually made declared detectors
-        if failed run auto analyzing detectors
-        if that fails aswell run ai powered detector
-        
-        //so for each action run manual detector -> analyzer -> ai detector
-
-    get the final results for the actions
-    run profile/comunity builder
-    sent data to the generator and personalize based on user interests/community interests
-
-    send generated message
-
-
 
 NEAR FUTURE
 [ ] this api call we make to the backend will be wrapped on an sdk
@@ -45,8 +29,6 @@ LATE FUTURE
     [ ] 
 [ ] MechanismToFilterDecetors
 [ ] MechanismToFilterDecetors Builder
-
-
 
 
 Code for DetectorBuilder:

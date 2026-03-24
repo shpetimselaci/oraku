@@ -87,7 +87,7 @@ export class ChecklistDetector extends BaseDetector {
     if (!missing.length) return []
 
     const identifier = entry?.externalRef || (this.aggregate ? 'weekly' : 'check')
-    const dateStr = new Date().toISOString().slice(0, 10)
+    const dateStr = this.todayString()
 
     return [
       this.createFinding({

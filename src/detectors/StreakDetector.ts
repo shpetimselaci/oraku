@@ -1,5 +1,5 @@
 import { BaseDetector } from './BaseDetector'
-import { countPatterns, filterByPattern } from './EventCounter'
+import { countPatterns, filterByPattern } from './helpers/EventCounter'
 import type {
   Event,
   EventGroup,

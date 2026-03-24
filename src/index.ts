@@ -11,20 +11,23 @@ export { BaseDetector } from './detectors/BaseDetector'
 export { StreakDetector } from './detectors/StreakDetector'
 export { ChecklistDetector } from './detectors/ChecklistDetector'
 export { MilestoneDetector } from './detectors/MilestoneDetector'
+export { ThresholdDetector } from './detectors/ThresholdDetector'
+export { ItemAnalysisDetector } from './detectors/ItemAnalysisDetector'
 export { ActivityPatternAnalyzer } from './detectors/ActivityPatternAnalyzer'
-export { RecommendationDetector } from './detectors/RecommendationDetector'
+export { RecommendationGenerator } from './detectors/RecommendationGenerator'
 export { GroqFallbackDetector } from './detectors/GroqFallbackDetector'
 export { DetectorManager } from './detectors/DetectorManager'
-export { createDetector } from './detectors/createDetector'
-export { countPatterns, getTopPattern, filterByPattern } from './detectors/EventCounter'
+export { DetectorBuilder } from './detectors/DetectorBuilder'
+export { createDetector } from './detectors/helpers/detectorFactory'
+export { countPatterns, getTopPattern, filterByPattern } from './detectors/helpers/EventCounter'
 
 // ─── Filters ─────────────────────────────────────────────────────────────────
-export { BaseDetectorFilter } from './detectors-filter/BaseDetectorFilter'
-export { ContextBasedFilter } from './detectors-filter/ContextBasedFilter'
+export { BaseDetectorFilter } from './filters/BaseDetectorFilter'
+export { ContextBasedFilter } from './filters/ContextBasedFilter'
 
 // ─── Notifications ───────────────────────────────────────────────────────────
-export { generateNotifications } from './notifications'
-export type { NotificationOptions, Notification } from './notifications'
+export { generateNotifications } from './notificationGenerator'
+export type { NotificationOptions, Notification } from './notificationGenerator'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 export type {

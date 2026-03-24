@@ -1,6 +1,6 @@
 import { vi, describe, it, expect } from 'vitest'
 
-vi.mock('../notifications', () => ({
+vi.mock('../notificationGenerator', () => ({
   generateNotifications: vi.fn().mockResolvedValue('1. Keep up your routine!')
 }))
 

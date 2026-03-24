@@ -4,7 +4,6 @@ dotenv.config()
 import fs from 'fs'
 import path from 'path'
 import { DetectorManager } from '../detectors/DetectorManager'
-// import { createDetector } from '../detectors/createDetector'
 import type { EventGroupMap } from '../types'
 
 const args = process.argv.slice(2)

@@ -1,5 +1,5 @@
 import path from 'path'
-import { stitchAndSave } from '../ingest/index'
+import { groupAndExport } from '../ingest/index'
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2)
@@ -14,7 +14,7 @@ async function main(): Promise<void> {
     if (arg.startsWith('--outJson=')) options.outJson = arg.split('=')[1]
     if (arg.startsWith('--outMd=')) options.outMd = arg.split('=')[1]
   }
-  const result = await stitchAndSave({
+  const result = await groupAndExport({
     filePath: path.resolve(inputFile),
     groupBy: options.groupBy,
     outJson: options.outJson,

@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config({ path: path.resolve(__dirname, '../../.env') })
 import { EventStitcher } from './EventStitcher'
 import { DetectorManager } from '../detectors/DetectorManager'
-import { generateNotifications } from '../notifications'
+import { generateNotifications } from '../notificationGenerator'
 import { initSchema } from '../db/schema'
 import { saveFindings, getFindings } from '../db/findings'
 import { saveNotifications } from '../db/notifications'

@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import type { ExpectedItem } from '../types'
+import type { ExpectedItem } from '../../types'
 
 export interface ApiMatcherConfig {
   url: (item: string) => string
@@ -10,6 +10,18 @@ export interface ApiMatcherConfig {
   timeout?: number
   cacheKey?: (item: string) => string
   cachePath?: string
+}
+
+export async function fetchWithTimeout(url: string, timeout = 5000): Promise<unknown> {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeout)
+  try {
+    const res = await fetch(url, { signal: controller.signal })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return await res.json()
+  } finally {
+    clearTimeout(timer)
+  }
 }
 
 export function buildApiItemMatcher(apiConfig: ApiMatcherConfig) {

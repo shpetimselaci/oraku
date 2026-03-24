@@ -21,7 +21,7 @@ function extractActivity(message: string): string {
   return catMatch ? catMatch[1].replace(/_/g, ' ') : 'session'
 }
 
-function buildPrompt(findings: Finding[]): string {
+function buildNotificationPrompt(findings: Finding[]): string {
   const summary = findings
     .filter(f => !f.id.startsWith('summary-'))
     .map(f => {
@@ -76,7 +76,7 @@ export async function generateNotifications(
   options: NotificationOptions
 ): Promise<string> {
   const model = options.model ?? 'llama-3.3-70b-versatile'
-  const prompt = buildPrompt(findings)
+  const prompt = buildNotificationPrompt(findings)
 
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',

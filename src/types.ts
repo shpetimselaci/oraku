@@ -117,13 +117,6 @@ export interface ActivityPatternAnalyzerConfig extends DetectorConfig {
   dataSources?: string[]  // only analyze events from these categories — if omitted, analyzes nothing
 }
 
-export interface EventAnalysis {
-  byCategory: Record<string, Event[]>
-  bySubcategory: Record<string, Event[]>
-  byName: Record<string, Date[]>
-  timeline: Array<{ date: Date; category: string; activityName: string }>
-}
-
 // ============ AUTO DETECTOR (LLM) ============
 
 export interface LLMDetectorConfig extends DetectorConfig {
@@ -147,7 +140,8 @@ export interface DetectorManagerConfig {
   filterMechanism?: DetectorFilter
   context?: Record<string, unknown>
   extraDetectors?: Detector[]
-  detectorConfigs?: SerializableDetectorConfig[]
+  detectorConfigs?: SerializableDetectorConfig[]   // legacy config-object approach
+  builders?: import('./detectors/DetectorBuilder').DetectorBuilder[]  // new marker-based approach
 }
 
 export interface DetectorFilter {

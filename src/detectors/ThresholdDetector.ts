@@ -1,8 +1,6 @@
 import { BaseDetector } from './BaseDetector'
-import type { EventGroup, Finding, DetectorConfig, Event } from '../types'
-
-export type ThresholdOperator = 'lt' | 'lte' | 'gt' | 'gte' | 'eq'
-export type ThresholdAggregate = 'sum' | 'avg' | 'count' | 'min' | 'max'
+import { resolvePath } from './helpers/itemMatching'
+import type { EventGroup, Finding, DetectorConfig, Event, ThresholdOperator, ThresholdAggregate } from '../types'
 
 export interface ThresholdConfig extends DetectorConfig {
   extract: { path: string } | ((event: Event) => number | null)
@@ -13,12 +11,6 @@ export interface ThresholdConfig extends DetectorConfig {
   message?: string | ((actual: number, target: number) => string)
 }
 
-function resolvePath(obj: unknown, dotPath: string): unknown {
-  return dotPath.split('.').reduce((curr, key) => {
-    if (curr == null) return undefined
-    return (curr as Record<string, unknown>)[key]
-  }, obj)
-}
 
 export class ThresholdDetector extends BaseDetector {
   private extractFn: (event: Event) => number | null
@@ -72,7 +64,7 @@ export class ThresholdDetector extends BaseDetector {
 
     if (!this.compare(actual, this.thresholdValue)) return []
 
-    const dateStr = new Date().toISOString().slice(0, 10)
+    const dateStr = this.todayString()
     return [
       this.createFinding({
         id: `threshold-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${dateStr}`,
