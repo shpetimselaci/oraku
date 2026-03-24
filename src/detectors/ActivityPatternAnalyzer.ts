@@ -117,12 +117,6 @@ export class ActivityPatternAnalyzer extends BaseDetector {
     ]
   }
 
-  private getTimestamp(e: Event): number | null {
-    const raw = e.createdAt ?? e.date
-    if (!raw) return null
-    const t = new Date(raw).getTime()
-    return Number.isNaN(t) ? null : t
-  }
 }
 
 export default ActivityPatternAnalyzer

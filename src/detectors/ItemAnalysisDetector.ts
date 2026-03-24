@@ -1,4 +1,6 @@
 import { BaseDetector } from './BaseDetector'
+import { resolvePath } from './helpers/itemMatching'
+import { fetchWithTimeout } from './helpers/apiMatcher'
 import type { EventGroup, Finding, DetectorConfig, Event } from '../types'
 
 // ---- lookup source types ----
@@ -40,47 +42,6 @@ export interface ItemAnalysisConfig extends DetectorConfig {
   message?: (gaps: string[], totals: Record<string, number>, targets: Record<string, number>) => string
 }
 
-// ---- serializable version (for API registration) ----
-
-export interface SerializableItemAnalysisConfig {
-  name: string
-  type: 'item-analysis'
-  dataSource?: string
-  extract: { path: string }
-  lookup: {
-    map?: Record<string, Record<string, number>>
-    api?: {
-      urlTemplate: string
-      responsePath?: string
-      timeout?: number
-    }
-  }
-  targets: Record<string, number>
-  aggregate?: 'sum' | 'avg'
-  todayOnly?: boolean
-  message?: string  // static message string only for serializable form
-}
-
-// ---- helpers ----
-
-function resolvePath(obj: unknown, dotPath: string): unknown {
-  return dotPath.split('.').reduce((curr, key) => {
-    if (curr == null) return undefined
-    return (curr as Record<string, unknown>)[key]
-  }, obj)
-}
-
-async function fetchWithTimeout(url: string, timeout = 5000): Promise<unknown> {
-  const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), timeout)
-  try {
-    const res = await fetch(url, { signal: controller.signal })
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    return await res.json()
-  } finally {
-    clearTimeout(timer)
-  }
-}
 
 // ---- detector ----
 
@@ -167,7 +128,7 @@ export class ItemAnalysisDetector extends BaseDetector {
 
     if (!gaps.length) return []
 
-    const dateStr = new Date().toISOString().slice(0, 10)
+    const dateStr = this.todayString()
     return [
       this.createFinding({
         id: `item-analysis-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${dateStr}`,

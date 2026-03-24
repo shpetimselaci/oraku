@@ -3,7 +3,7 @@ import path from 'path'
 import { EventStitcher } from '../core/EventStitcher'
 import type { Event, EventGroupMap } from '../types'
 
-function parseJsonOrNdjson(raw: string): Event[] {
+function parseEventRecords(raw: string): Event[] {
   try {
     const parsed = JSON.parse(raw)
     if (Array.isArray(parsed)) return parsed as Event[]
@@ -19,28 +19,28 @@ function parseJsonOrNdjson(raw: string): Event[] {
 async function loadJsonRecords(filePath: string): Promise<Event[]> {
   const abs = path.resolve(filePath)
   const raw = await fs.promises.readFile(abs, 'utf8')
-  return parseJsonOrNdjson(raw)
+  return parseEventRecords(raw)
 }
 
 function loadJsonRecordsSync(filePath: string): Event[] {
   const abs = path.resolve(filePath)
   const raw = fs.readFileSync(abs, 'utf8')
-  return parseJsonOrNdjson(raw)
+  return parseEventRecords(raw)
 }
 
-interface StitchAndSaveOptions {
+interface GroupAndExportOptions {
   filePath: string
   groupBy?: string | string[]
   outJson?: string
   outMd?: string
 }
 
-interface StitchAndSaveResult {
+interface GroupAndExportResult {
   countGroups: number
   countRecords: number
 }
 
-async function stitchAndSave(options: StitchAndSaveOptions): Promise<StitchAndSaveResult> {
+async function groupAndExport(options: GroupAndExportOptions): Promise<GroupAndExportResult> {
   const {
     filePath,
     groupBy = 'externalRef',
@@ -62,8 +62,8 @@ async function stitchAndSave(options: StitchAndSaveOptions): Promise<StitchAndSa
   return { countGroups: Object.keys(stitched).length, countRecords: records.length }
 }
 
-export { loadJsonRecords, loadJsonRecordsSync, stitchAndSave }
-export type { StitchAndSaveOptions, StitchAndSaveResult }
+export { loadJsonRecords, loadJsonRecordsSync, groupAndExport }
+export type { GroupAndExportOptions, GroupAndExportResult }
 
 if (require.main === module) {
   ;(async () => {
@@ -73,14 +73,14 @@ if (require.main === module) {
       console.error('Usage: node src/ingest/index.ts <file> [--groupBy=meta.userId] [--outJson=...] [--outMd=...]')
       process.exit(1)
     }
-    const opts: Partial<StitchAndSaveOptions> = {}
+    const opts: Partial<GroupAndExportOptions> = {}
     for (const a of argv.slice(1)) {
       if (a.startsWith('--groupBy=')) opts.groupBy = a.split('=')[1]
       if (a.startsWith('--outJson=')) opts.outJson = a.split('=')[1]
       if (a.startsWith('--outMd=')) opts.outMd = a.split('=')[1]
     }
     try {
-      const res = await stitchAndSave({ filePath: file, ...opts })
+      const res = await groupAndExport({ filePath: file, ...opts })
       console.log('stitched', res)
     } catch (e) {
       console.error('error:', e)

@@ -11,14 +11,14 @@ interface ActivityPopularity {
   popularity: number
 }
 
-export class RecommendationDetector extends BaseDetector {
+export class RecommendationGenerator extends BaseDetector {
   private userProfiles: Record<string, UserProfile> = {}
   private usernames: Record<string, string> = {}
   private activityPopularity: Record<string, Set<string>> = {}
 
   constructor() {
     super({
-      name: 'RecommendationDetector',
+      name: 'RecommendationGenerator',
       severity: 'info',
       description: 'Builds user profiles and generates activity recommendations'
     })
@@ -119,4 +119,4 @@ export class RecommendationDetector extends BaseDetector {
   }
 }
 
-export default RecommendationDetector
+export default RecommendationGenerator

@@ -1,11 +1,11 @@
-import { StreakDetector } from './StreakDetector'
-import { ChecklistDetector } from './ChecklistDetector'
-import { ThresholdDetector } from './ThresholdDetector'
-import { ItemAnalysisDetector } from './ItemAnalysisDetector'
+import { StreakDetector } from '../StreakDetector'
+import { ChecklistDetector } from '../ChecklistDetector'
+import { ThresholdDetector } from '../ThresholdDetector'
+import { ItemAnalysisDetector } from '../ItemAnalysisDetector'
 import { buildApiItemMatcher } from './apiMatcher'
-import { buildFromSerializable } from './buildFromSerializable'
-import type { Detector, BuiltinDetectorType, ExpectedItem, Event, Severity, SerializableDetectorConfig, ThresholdOperator, ThresholdAggregate } from '../types'
-import type { LookupSource } from './ItemAnalysisDetector'
+import { buildDetectorFromConfig } from './buildDetectorFromConfig'
+import type { Detector, BuiltinDetectorType, ExpectedItem, Event, Severity, SerializableDetectorConfig, ThresholdOperator, ThresholdAggregate } from '../../types'
+import type { LookupSource } from '../ItemAnalysisDetector'
 
 interface ChecklistDetectorConfig {
   dataSource?: string
@@ -131,7 +131,7 @@ function createDetector(name: string, type: BuiltinDetectorType, config: Detecto
 createDetector.getAll = (): Detector[] => detectors
 createDetector.clear = (): void => { detectors.length = 0 }
 createDetector.buildFromSerializable = (config: SerializableDetectorConfig): Detector =>
-  buildFromSerializable(config, createChecklistDetector, createStreakDetector)
+  buildDetectorFromConfig(config, createChecklistDetector, createStreakDetector)
 
 export default createDetector
 export { createDetector }

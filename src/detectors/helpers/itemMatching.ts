@@ -1,5 +1,13 @@
 import type { Event, ExpectedItem } from '../../types'
 
+// resolves a dot-notation path into an object e.g. 'meta.userId' → obj.meta.userId
+export function resolvePath(obj: unknown, dotPath: string): unknown {
+  return dotPath.split('.').reduce((curr, key) => {
+    if (curr == null) return undefined
+    return (curr as Record<string, unknown>)[key]
+  }, obj)
+}
+
 // pulls item strings out of a list of events using the provided extractor
 export function extractItems(
   events: Event[],

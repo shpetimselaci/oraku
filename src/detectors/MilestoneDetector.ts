@@ -32,7 +32,7 @@ export class MilestoneDetector extends BaseDetector {
     if (!covered.size) return []
 
     const achieved = Array.from(covered)
-    const dateStr = new Date().toISOString().slice(0, 10)
+    const dateStr = this.todayString()
     const identifier = entry?.externalRef ?? 'user'
 
     return achieved.map(key =>

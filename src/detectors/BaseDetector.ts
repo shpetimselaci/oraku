@@ -64,6 +64,17 @@ export abstract class BaseDetector implements Detector {
     });
   }
 
+  protected getTimestamp(e: Event): number | null {
+    const raw = e.createdAt ?? e.date;
+    if (!raw) return null;
+    const t = new Date(raw).getTime();
+    return Number.isNaN(t) ? null : t;
+  }
+
+  protected todayString(): string {
+    return new Date().toISOString().slice(0, 10);
+  }
+
   createFinding(findingData: FindingData): Finding {
     const { id, message, evidence = {}, severity, ...extra } = findingData;
     return {

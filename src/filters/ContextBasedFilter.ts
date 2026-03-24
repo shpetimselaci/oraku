@@ -1,5 +1,5 @@
 import { BaseDetectorFilter } from './BaseDetectorFilter'
-import { countPatterns, getTopPattern } from '../detectors/EventCounter'
+import { countPatterns, getTopPattern } from '../detectors/helpers/EventCounter'
 import type { Detector, EventGroup } from '../types'
 
 interface ExtendedDetector extends Detector {

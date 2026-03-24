@@ -1,17 +1,12 @@
-import type { Detector, ExpectedItem, Event, SerializableDetectorConfig } from '../types'
+import type { Detector, ExpectedItem, Event, SerializableDetectorConfig } from '../../types'
 import type { ApiMatcherConfig } from './apiMatcher'
-import { ThresholdDetector } from './ThresholdDetector'
-import { ItemAnalysisDetector } from './ItemAnalysisDetector'
-import { MilestoneDetector } from './MilestoneDetector'
+import { resolvePath } from './itemMatching'
+import { ThresholdDetector } from '../ThresholdDetector'
+import { ItemAnalysisDetector } from '../ItemAnalysisDetector'
+import { MilestoneDetector } from '../MilestoneDetector'
 
-function resolvePath(obj: unknown, dotPath: string): unknown {
-  return dotPath.split('.').reduce((curr, key) => {
-    if (curr == null) return undefined
-    return (curr as Record<string, unknown>)[key]
-  }, obj)
-}
 
-export function buildFromSerializable(
+export function buildDetectorFromConfig(
   config: SerializableDetectorConfig,
   createChecklistDetector: (name: string, config: object) => Detector,
   createStreakDetector: (name: string, type: 'streak-ongoing' | 'streak-break', config: object) => Detector
