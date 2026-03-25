@@ -1,18 +1,13 @@
-import type { Event } from '../../types'
+import type { Event, PatternCounts, TopPattern } from '../../types'
 
-export interface PatternCounts {
-  [key: string]: number
-}
-
-export interface TopPattern {
-  key: string | null
-  count: number
-}
+export type { PatternCounts, TopPattern }
 
 export function countPatterns(events: Event[]): PatternCounts {
   const counts: PatternCounts = {}
   for (const e of events) {
-    const key = `${e?.category || ''}|${e?.subcategory || ''}`
+    const eventCategory = typeof e?.category === 'string' ? e.category : ''
+    const eventSubcategory = typeof e?.subcategory === 'string' ? e.subcategory : ''
+    const key = `${eventCategory}|${eventSubcategory}`
     counts[key] = (counts[key] || 0) + 1
   }
   return counts
@@ -28,7 +23,11 @@ export function getTopPattern(counts: PatternCounts): TopPattern {
 
 export function filterByPattern(events: Event[], patternKey: string): Event[] {
   const [cat, sub] = patternKey.split('|')
-  return events.filter((e) => e?.category === cat && e?.subcategory === sub)
+  return events.filter((event) => {
+    const eventCategory = typeof event?.category === 'string' ? event.category : ''
+    const eventSubcategory = typeof event?.subcategory === 'string' ? event.subcategory : ''
+    return eventCategory === cat && eventSubcategory === sub
+  })
 }
 
 export default { countPatterns, getTopPattern, filterByPattern }

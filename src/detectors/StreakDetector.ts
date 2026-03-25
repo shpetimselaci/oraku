@@ -6,12 +6,9 @@ import type {
   Finding,
   StreakConfig,
   StreakFrequency,
-  StreakTrigger
+  StreakTrigger,
+  TimestampedEvent
 } from '../types'
-
-interface TimestampedEvent extends Event {
-  _date: Date
-}
 
 export class StreakDetector extends BaseDetector {
   minRepeat: number
@@ -79,7 +76,7 @@ export class StreakDetector extends BaseDetector {
 
       const sorted: TimestampedEvent[] = filterByPattern(events, patternKey)
         .map((e) => {
-          const d = this.parseDate(e.createdAt || e.date || '')
+          const d = this.parseDate(e.createdAt)
           return { ...e, _date: d ?? new Date(NaN) } as TimestampedEvent
         })
         .filter((e) => !isNaN(e._date.getTime()))
@@ -95,7 +92,11 @@ export class StreakDetector extends BaseDetector {
 
       const [category, subcategory] = patternKey.split('|')
       const messageData = { category, subcategory, predictedDate: predicted.toISOString() }
-      const evidence = sorted.map((e) => ({ ref: e.externalRef, date: e.createdAt, log: e.log }))
+      const evidence = sorted.map((sortedEvent) => ({
+        ref: this.getString(sortedEvent, 'externalRef'),
+        date: sortedEvent.createdAt,
+        log: this.getString(sortedEvent, 'log')
+      }))
       const safeKey = patternKey.replace(/[^a-zA-Z0-9_-]/g, '_')
 
       if (this.triggerOn === 'ongoing' && predicted > now) {

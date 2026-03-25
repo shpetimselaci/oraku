@@ -1,47 +1,9 @@
 import { BaseDetector } from './BaseDetector'
 import { resolvePath } from './helpers/itemMatching'
 import { fetchWithTimeout } from './helpers/apiMatcher'
-import type { EventGroup, Finding, DetectorConfig, Event } from '../types'
+import type { EventGroup, Finding, Event, StaticLookupSource, ApiLookupSource, LookupSource, ItemAnalysisConfig } from '../types'
 
-// ---- lookup source types ----
-
-export interface StaticLookupSource {
-  // item name → property → numeric value
-  // e.g. { apple: { protein: 0.3, vitamin_c: 8 }, milk: { protein: 3.4, calcium: 125 } }
-  map: Record<string, Record<string, number>>
-}
-
-export interface ApiLookupSource {
-  // {item} is replaced with the item name before fetching
-  urlTemplate: string
-  // dot-notation path into the API response to find the properties object
-  // e.g. "nutrients" if response is { nutrients: { protein: 3.4, ... } }
-  responsePath?: string
-  // custom mapper — use instead of responsePath when the shape is more complex
-  mapResponse?: (data: unknown, item: string) => Record<string, number>
-  timeout?: number
-}
-
-export interface LookupSource {
-  map?: StaticLookupSource['map']
-  api?: ApiLookupSource
-}
-
-// ---- detector config ----
-
-export interface ItemAnalysisConfig extends DetectorConfig {
-  // how to extract the list of item names from each event
-  extract: { path: string } | ((event: Event) => string | string[])
-  // where to look up each item's properties
-  lookup: LookupSource
-  // minimum required value for each property — anything below fires as a gap
-  targets: Record<string, number>
-  // how to combine property values across items (default: sum)
-  aggregate?: 'sum' | 'avg'
-  todayOnly?: boolean
-  message?: (gaps: string[], totals: Record<string, number>, targets: Record<string, number>) => string
-}
-
+export type { StaticLookupSource, ApiLookupSource, LookupSource, ItemAnalysisConfig }
 
 // ---- detector ----
 

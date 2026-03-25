@@ -1,20 +1,15 @@
-import type { Event } from '../../types'
+import type { Event, MarkerPredicate, AtomToken, OpToken, ParenToken, Token } from '../../types'
 
-export type MarkerPredicate = (event: Event) => boolean
+export type { MarkerPredicate }
 
 // ─── Tokenizer ────────────────────────────────────────────────────────────────
-
-type AtomToken  = { type: 'atom'; value: string }
-type OpToken    = { type: 'op';   value: 'or' | 'and' | 'not' }
-type ParenToken = { type: 'paren'; value: '(' | ')' }
-type Token = AtomToken | OpToken | ParenToken
 
 function tokenize(expression: string): Token[] {
   const raw = expression.trim().match(/[a-zA-Z0-9_.\-:]+|[()]/g) ?? []
   return raw.map(w => {
-    if (w === 'or' || w === 'and' || w === 'not') return { type: 'op', value: w }
-    if (w === '(' || w === ')')                   return { type: 'paren', value: w as '(' | ')' }
-    return { type: 'atom', value: w.toLowerCase() }
+    if (w === 'or' || w === 'and' || w === 'not') return { type: 'op', value: w } as OpToken
+    if (w === '(' || w === ')')                   return { type: 'paren', value: w as '(' | ')' } as ParenToken
+    return { type: 'atom', value: w.toLowerCase() } as AtomToken
   })
 }
 
@@ -105,8 +100,9 @@ class Parser {
 // A token matches an event if any of its text fields equal the token value.
 
 function matchField(event: Event, value: string): boolean {
-  const fields = [event.category, event.subcategory, event.name, event.action, event.log]
-  return fields.some(f => f?.toLowerCase() === value)
+  return Object.values(event).some(fieldValue =>
+    typeof fieldValue === 'string' && fieldValue.toLowerCase() === value
+  )
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────────

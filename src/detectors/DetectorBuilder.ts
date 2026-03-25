@@ -1,10 +1,5 @@
-import type { Detector, EventGroup, Finding, Severity } from '../types'
-import { parseMarker, type MarkerPredicate } from './helpers/markerParser'
-
-interface BuilderEntry {
-  detector: Detector
-  markers: MarkerPredicate[]
-}
+import type { Detector, EventGroup, Finding, Severity, BuilderEntry, MarkerPredicate } from '../types'
+import { parseMarker } from './helpers/markerParser'
 
 export class DetectorBuilder {
   private entries: BuilderEntry[]

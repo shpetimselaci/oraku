@@ -1,17 +1,4 @@
-import type { Event, EventGroup, EventGroupMap } from '../types'
-
-interface InternalEventGroup {
-  externalRef: string
-  events: Event[]
-  first: string | null
-  last: string | null
-  count: number
-  _refs: Set<string>
-}
-
-interface StitchOptions {
-  groupBy?: string | string[]
-}
+import type { Event, EventGroup, EventGroupMap, InternalEventGroup, StitchOptions } from '../types'
 
 class EventStitcher {
   private events: Event[]
@@ -65,9 +52,13 @@ class EventStitcher {
       }
 
       const stitchedEntry = stitchedMap[keyString]
-      const meta = event.meta as Record<string, unknown> | undefined
-      const externalRefOrFallback =
-        event.externalRef || meta?.externalRef || meta?.external_ref || JSON.stringify(event)
+      const metaObject = typeof event.meta === 'object' && event.meta !== null
+        ? event.meta as Record<string, unknown>
+        : undefined
+      const eventExternalRef = typeof event.externalRef === 'string' ? event.externalRef : undefined
+      const metaExternalRef = typeof metaObject?.externalRef === 'string' ? metaObject.externalRef : undefined
+      const metaExternalRefAlt = typeof metaObject?.external_ref === 'string' ? metaObject.external_ref : undefined
+      const externalRefOrFallback = eventExternalRef ?? metaExternalRef ?? metaExternalRefAlt ?? JSON.stringify(event)
 
       if (stitchedEntry._refs.has(String(externalRefOrFallback))) continue
       stitchedEntry._refs.add(String(externalRefOrFallback))
@@ -87,8 +78,8 @@ class EventStitcher {
         externalRef: entry.externalRef,
         events: entry.events,
         count: entry.count,
-        ...(entry.first !== null && { first: entry.first }),
-        ...(entry.last !== null && { last: entry.last })
+        first: entry.first ?? '',
+        last: entry.last ?? ''
       }
     }
     return result
@@ -111,8 +102,10 @@ class EventStitcher {
     if (entry.last) lines.push(`- last: ${entry.last}`)
     lines.push('\n## Sample events')
     const sample = (entry.events || []).slice(0, 5).map((e: Event) => {
-      const time = e?.createdAt ?? 'unknown'
-      const action = e?.log ?? e?.action ?? JSON.stringify(e?.meta ?? {})
+      const time = e.createdAt
+      const eventLog = typeof e.log === 'string' ? e.log : undefined
+      const eventAction = typeof e.action === 'string' ? e.action : undefined
+      const action = eventLog ?? eventAction ?? JSON.stringify(typeof e.meta === 'object' ? e.meta : {})
       return `- ${time} — ${action}`
     })
     lines.push(...sample)
