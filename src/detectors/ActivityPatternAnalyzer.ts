@@ -28,7 +28,10 @@ export class ActivityPatternAnalyzer extends BaseDetector {
 
     // filter to registered categories if specified, otherwise analyse all
     if (this.dataSources) {
-      events = events.filter(e => e.category && this.dataSources!.has(e.category))
+      events = events.filter(event => {
+        const eventCategory = this.getString(event, 'category')
+        return eventCategory !== undefined && this.dataSources!.has(eventCategory)
+      })
       if (!events.length) return []
     }
 
@@ -55,13 +58,13 @@ export class ActivityPatternAnalyzer extends BaseDetector {
     const recentCategories = new Set<string>()
 
     for (const e of events) {
-      const category = e.category
-      if (!category) continue
+      const eventCategory = this.getString(e, 'category')
+      if (!eventCategory) continue
 
-      allCategories.set(category, (allCategories.get(category) ?? 0) + 1)
+      allCategories.set(eventCategory, (allCategories.get(eventCategory) ?? 0) + 1)
 
       const time = this.getTimestamp(e)
-      if (time && time >= cutoff) recentCategories.add(category)
+      if (time && time >= cutoff) recentCategories.add(eventCategory)
     }
 
     if (!recentCategories.size) return []
@@ -91,12 +94,12 @@ export class ActivityPatternAnalyzer extends BaseDetector {
       const time = this.getTimestamp(e)
       if (!time || time < cutoff) continue
 
-      const name = (e.name ?? e.log)?.trim()
-      if (!name) continue
-      const key = name.toLowerCase()
-      if (!seen.has(key)) {
-        seen.add(key)
-        recentActivities.push(name)
+      const activityLabel = this.getEventLabel(e)?.trim()
+      if (!activityLabel) continue
+      const labelKey = activityLabel.toLowerCase()
+      if (!seen.has(labelKey)) {
+        seen.add(labelKey)
+        recentActivities.push(activityLabel)
       }
     }
 

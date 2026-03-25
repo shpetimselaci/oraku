@@ -1,23 +1,15 @@
 // ============ EVENTS ============
 
 export interface Event {
-  externalRef?: string
-  category?: string
-  subcategory?: string
-  name?: string
-  log?: string
-  action?: string
-  items?: string[]
-  createdAt?: string
-  date?: string
-  meta?: Record<string, unknown>
+  createdAt: string
+  [key: string]: unknown
 }
 
 export interface EventGroup {
   externalRef: string
   events: Event[]
-  first?: string
-  last?: string
+  first: string
+  last: string
   count: number
 }
 
@@ -107,6 +99,10 @@ export interface StreakConfig extends DetectorConfig {
   message?: (pattern: string) => string
 }
 
+export interface TimestampedEvent extends Event {
+  _date: Date
+}
+
 // ============ ACTIVITY PATTERN ANALYZER ============
 
 export interface ActivityPatternAnalyzerConfig extends DetectorConfig {
@@ -131,6 +127,10 @@ export interface RawLLMFinding {
   evidence: string
 }
 
+export interface GroqResponse {
+  choices?: Array<{ message?: { content?: string } }>
+}
+
 // ============ DETECTOR MANAGER ============
 
 export interface DetectorManagerConfig {
@@ -149,6 +149,27 @@ export interface DetectorFilter {
   ): Detector[]
 }
 
+// ============ SDK DETECTOR SCHEMA ============
+
+export interface SDKDetectorSchema {
+  name: string
+  type: 'checklist' | 'milestone' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
+  marker?: string
+  severity?: Severity
+  expected?: string[]
+  extract?: { path: string }
+  todayOnly?: boolean
+  minRepeat?: number
+  operator?: ThresholdOperator
+  value?: number
+  aggregate?: ThresholdAggregate
+  lookup?: {
+    map?: Record<string, Record<string, number>>
+    api?: { urlTemplate: string; responsePath?: string; timeout?: number }
+  }
+  targets?: Record<string, number>
+}
+
 // ============ THRESHOLD DETECTOR ============
 
 export type ThresholdOperator = 'lt' | 'lte' | 'gt' | 'gte' | 'eq'
@@ -163,3 +184,117 @@ export interface ThresholdDetectorConfig extends DetectorConfig {
   message?: string | ((actual: number, target: number) => string)
 }
 
+// ============ ITEM ANALYSIS DETECTOR ============
+
+export interface StaticLookupSource {
+  // item name → property → numeric value
+  // e.g. { apple: { protein: 0.3, vitamin_c: 8 }, milk: { protein: 3.4, calcium: 125 } }
+  map: Record<string, Record<string, number>>
+}
+
+export interface ApiLookupSource {
+  // {item} is replaced with the item name before fetching
+  urlTemplate: string
+  // dot-notation path into the API response to find the properties object
+  responsePath?: string
+  // custom mapper — use instead of responsePath when the shape is more complex
+  mapResponse?: (data: unknown, item: string) => Record<string, number>
+  timeout?: number
+}
+
+export interface LookupSource {
+  map?: StaticLookupSource['map']
+  api?: ApiLookupSource
+}
+
+export interface ItemAnalysisConfig extends DetectorConfig {
+  // how to extract the list of item names from each event
+  extract: { path: string } | ((event: Event) => string | string[])
+  // where to look up each item's properties
+  lookup: LookupSource
+  // minimum required value for each property — anything below fires as a gap
+  targets: Record<string, number>
+  // how to combine property values across items (default: sum)
+  aggregate?: 'sum' | 'avg'
+  todayOnly?: boolean
+  message?: (gaps: string[], totals: Record<string, number>, targets: Record<string, number>) => string
+}
+
+// ============ DETECTOR BUILDER ============
+
+export type MarkerPredicate = (event: Event) => boolean
+
+export interface BuilderEntry {
+  detector: Detector
+  markers: MarkerPredicate[]
+}
+
+// ============ MARKER PARSER TOKENS ============
+
+export type AtomToken = { type: 'atom'; value: string }
+export type OpToken = { type: 'op'; value: 'or' | 'and' | 'not' }
+export type ParenToken = { type: 'paren'; value: '(' | ')' }
+export type Token = AtomToken | OpToken | ParenToken
+
+// ============ EVENT STITCHER ============
+
+export interface InternalEventGroup extends Omit<EventGroup, 'first' | 'last'> {
+  first: string | null
+  last: string | null
+  _refs: Set<string>
+}
+
+export interface StitchOptions {
+  groupBy?: string | string[]
+}
+
+// ============ CONTEXT FILTER ============
+
+export interface ExtendedDetector extends Detector {
+  minEvents?: number
+  requiresRecurring?: boolean
+  recurringThreshold?: number
+  supportedCategories?: string[]
+}
+
+// ============ RECOMMENDATION GENERATOR ============
+
+export interface UserProfile {
+  interests: Record<string, number>
+  activities: Set<string>
+}
+
+export interface ActivityPopularity {
+  activity: string
+  popularity: number
+}
+
+// ============ EVENT COUNTER ============
+
+export type PatternCounts = Record<string, number>
+
+export interface TopPattern {
+  key: string | null
+  count: number
+}
+
+// ============ INGEST ============
+
+export interface GroupAndExportOptions {
+  filePath: string
+  groupBy?: string | string[]
+  outJson?: string
+  outMd?: string
+}
+
+export interface GroupAndExportResult {
+  countGroups: number
+  countRecords: number
+}
+
+// ============ CLI ============
+
+export interface UserTrace {
+  name: string
+  actions: Array<{ what: string | undefined; category: string | undefined; when: string }>
+}

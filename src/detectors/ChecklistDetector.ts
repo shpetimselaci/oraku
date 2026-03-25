@@ -26,7 +26,7 @@ export class ChecklistDetector extends BaseDetector {
   constructor(config: ChecklistConfig) {
     super(config)
     this.expectedItems = config.expectedItems || []
-    this.extractItems = config.extractActual || ((e: Event) => e.name?.toLowerCase() || '')
+    this.extractItems = config.extractActual || ((event: Event) => this.getString(event, 'name')?.toLowerCase() ?? '')
     this.itemMatcher = config.matchFn || null
     this.itemComparer = config.compareFn || null
     this.messageFormatter = config.message || ((missing: string[]) => `Missing: ${missing.join(', ')}`)
@@ -132,12 +132,11 @@ export class ChecklistDetector extends BaseDetector {
     const targetStr = target.toISOString().slice(0, 10)
 
     return events.filter((ev) => {
-      const dateStr = ev.createdAt || ev.date
-      if (!dateStr) return false
+      const eventDate = ev.createdAt
       switch (filter.unit) {
-        case 'day': return dateStr.slice(0, 10) === targetStr
-        case 'month': return dateStr.slice(0, 7) === targetStr.slice(0, 7)
-        case 'year': return dateStr.slice(0, 4) === targetStr.slice(0, 4)
+        case 'day': return eventDate.slice(0, 10) === targetStr
+        case 'month': return eventDate.slice(0, 7) === targetStr.slice(0, 7)
+        case 'year': return eventDate.slice(0, 4) === targetStr.slice(0, 4)
         default: return false
       }
     })

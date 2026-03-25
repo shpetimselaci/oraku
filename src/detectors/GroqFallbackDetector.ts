@@ -1,9 +1,5 @@
 import { BaseDetector } from './BaseDetector';
-import type { EventGroup, Finding, LLMDetectorConfig, RawLLMFinding, Severity } from '../types';
-
-interface GroqResponse {
-  choices?: Array<{ message?: { content?: string } }>;
-}
+import type { EventGroup, Finding, LLMDetectorConfig, RawLLMFinding, Severity, GroqResponse } from '../types';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
@@ -49,7 +45,7 @@ export class GroqFallbackDetector extends BaseDetector {
 
     const eventText = sourceEvents
       .slice(0, this.maxEvents)
-      .map(e => `${e.createdAt?.slice(11, 19) ?? '??'} | ${e.category ?? 'log'} | ${e.name ?? e.log ?? ''}`)
+      .map(logEvent => `${logEvent.createdAt.slice(11, 19)} | ${this.getString(logEvent, 'category') ?? 'log'} | ${this.getEventLabel(logEvent) ?? ''}`)
       .join('\n');
 
     if (eventText) this.pendingEntries.push({ ref: entry.externalRef ?? 'unknown', text: eventText });

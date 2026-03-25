@@ -1,7 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 import { EventStitcher } from '../core/EventStitcher'
-import type { Event, EventGroupMap } from '../types'
+import type { Event, EventGroupMap, GroupAndExportOptions, GroupAndExportResult } from '../types'
+
+export type { GroupAndExportOptions, GroupAndExportResult }
 
 function parseEventRecords(raw: string): Event[] {
   try {
@@ -28,18 +30,6 @@ function loadJsonRecordsSync(filePath: string): Event[] {
   return parseEventRecords(raw)
 }
 
-interface GroupAndExportOptions {
-  filePath: string
-  groupBy?: string | string[]
-  outJson?: string
-  outMd?: string
-}
-
-interface GroupAndExportResult {
-  countGroups: number
-  countRecords: number
-}
-
 async function groupAndExport(options: GroupAndExportOptions): Promise<GroupAndExportResult> {
   const {
     filePath,
@@ -63,7 +53,6 @@ async function groupAndExport(options: GroupAndExportOptions): Promise<GroupAndE
 }
 
 export { loadJsonRecords, loadJsonRecordsSync, groupAndExport }
-export type { GroupAndExportOptions, GroupAndExportResult }
 
 if (require.main === module) {
   ;(async () => {

@@ -4,28 +4,11 @@ import { ChecklistDetector } from '../ChecklistDetector'
 import { MilestoneDetector } from '../MilestoneDetector'
 import { ThresholdDetector } from '../ThresholdDetector'
 import { ItemAnalysisDetector } from '../ItemAnalysisDetector'
+import type { SDKDetectorSchema } from '../../types'
 
-// Serializable detector config — sent from SDK to API, reconstructed into a DetectorBuilder here
-export interface DetectorConfig {
-  name: string
-  type: 'checklist' | 'milestone' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
-  marker?: string
-  severity?: 'info' | 'warning' | 'success' | 'error'
-  expected?: string[]
-  extract?: { path: string }
-  todayOnly?: boolean
-  minRepeat?: number
-  operator?: 'lt' | 'lte' | 'gt' | 'gte' | 'eq'
-  value?: number
-  aggregate?: 'sum' | 'avg' | 'count' | 'min' | 'max'
-  lookup?: {
-    map?: Record<string, Record<string, number>>
-    api?: { urlTemplate: string; responsePath?: string; timeout?: number }
-  }
-  targets?: Record<string, number>
-}
+export type { SDKDetectorSchema }
 
-export function toBuilder(config: DetectorConfig): DetectorBuilder {
+export function toBuilder(config: SDKDetectorSchema): DetectorBuilder {
   const { name, type, severity, marker } = config
   let inner
 

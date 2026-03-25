@@ -1,13 +1,6 @@
 import { BaseDetectorFilter } from './BaseDetectorFilter'
 import { countPatterns, getTopPattern } from '../detectors/helpers/EventCounter'
-import type { Detector, EventGroup } from '../types'
-
-interface ExtendedDetector extends Detector {
-  minEvents?: number
-  requiresRecurring?: boolean
-  recurringThreshold?: number
-  supportedCategories?: string[]
-}
+import type { Detector, EventGroup, ExtendedDetector } from '../types'
 
 export class ContextBasedFilter extends BaseDetectorFilter {
   filter(

@@ -1,15 +1,5 @@
 import { BaseDetector } from './BaseDetector'
-import type { EventGroup, Event, Finding } from '../types'
-
-interface UserProfile {
-  interests: Record<string, number>
-  activities: Set<string>
-}
-
-interface ActivityPopularity {
-  activity: string
-  popularity: number
-}
+import type { EventGroup, Finding, UserProfile, ActivityPopularity } from '../types'
 
 export class RecommendationGenerator extends BaseDetector {
   private userProfiles: Record<string, UserProfile> = {}
@@ -28,27 +18,30 @@ export class RecommendationGenerator extends BaseDetector {
     const events = entry?.events || []
 
     for (const event of events) {
-      const meta = event.meta as Record<string, unknown> | undefined
-      const userId = meta?.userId || meta?.user_id || (event as Event & { userId?: string }).userId
-      if (!userId || typeof userId !== 'string') continue
+      const userId = this.getNestedString(event, 'meta', 'userId')
+        ?? this.getNestedString(event, 'meta', 'user_id')
+        ?? this.getString(event, 'userId')
+      if (!userId) continue
 
       if (!this.userProfiles[userId]) {
         this.userProfiles[userId] = { interests: {}, activities: new Set() }
-        const username = meta?.username || meta?.name || meta?.displayName
-        this.usernames[userId] = typeof username === 'string' ? username : userId
+        const username = this.getNestedString(event, 'meta', 'username')
+          ?? this.getNestedString(event, 'meta', 'name')
+          ?? this.getNestedString(event, 'meta', 'displayName')
+        this.usernames[userId] = username ?? userId
       }
 
       const profile = this.userProfiles[userId]
-      const category = event.subcategory || event.category || 'general'
-      profile.interests[category] = (profile.interests[category] || 0) + 1
+      const eventCategory = this.getEventCategory(event) ?? 'general'
+      profile.interests[eventCategory] = (profile.interests[eventCategory] || 0) + 1
 
-      const activity = event.name || event.log || (event as Event & { title?: string }).title
-      if (activity) {
-        profile.activities.add(activity)
-        if (!this.activityPopularity[activity]) {
-          this.activityPopularity[activity] = new Set()
+      const activityLabel = this.getEventLabel(event)
+      if (activityLabel) {
+        profile.activities.add(activityLabel)
+        if (!this.activityPopularity[activityLabel]) {
+          this.activityPopularity[activityLabel] = new Set()
         }
-        this.activityPopularity[activity].add(userId)
+        this.activityPopularity[activityLabel].add(userId)
       }
     }
 

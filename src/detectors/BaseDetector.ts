@@ -28,6 +28,26 @@ export abstract class BaseDetector implements Detector {
     return entry?.events ?? [];
   }
 
+  protected getString(event: Event, fieldName: string): string | undefined {
+    const fieldValue = event[fieldName];
+    return typeof fieldValue === 'string' ? fieldValue : undefined;
+  }
+
+  protected getNestedString(event: Event, objectFieldName: string, nestedFieldName: string): string | undefined {
+    const container = event[objectFieldName];
+    if (!container || typeof container !== 'object') return undefined;
+    const nestedValue = (container as Record<string, unknown>)[nestedFieldName];
+    return typeof nestedValue === 'string' ? nestedValue : undefined;
+  }
+
+  protected getEventLabel(event: Event): string | undefined {
+    return this.getString(event, 'name') ?? this.getString(event, 'log') ?? this.getString(event, 'title');
+  }
+
+  protected getEventCategory(event: Event): string | undefined {
+    return this.getString(event, 'subcategory') ?? this.getString(event, 'category');
+  }
+
   protected parseDate(value: string | Date | null | undefined): Date | null {
     if (!value) return null;
     const d = new Date(value);
@@ -53,19 +73,11 @@ export abstract class BaseDetector implements Detector {
     const sliceLen = unit === 'day' ? 10 : unit === 'month' ? 7 : 4;
     const matchStr = target.toISOString().slice(0, sliceLen);
 
-    return events.filter((ev) => {
-      const dateStr = ev.createdAt || ev.date;
-      if (!dateStr) return false;
-      if (typeof dateStr === 'string') return dateStr.startsWith(matchStr);
-      const parsed = new Date(dateStr as any);
-      return !isNaN(parsed.getTime()) && parsed.toISOString().startsWith(matchStr);
-    });
+    return events.filter((ev) => ev.createdAt.startsWith(matchStr));
   }
 
   protected getTimestamp(e: Event): number | null {
-    const raw = e.createdAt ?? e.date;
-    if (!raw) return null;
-    const t = new Date(raw).getTime();
+    const t = new Date(e.createdAt).getTime();
     return Number.isNaN(t) ? null : t;
   }
 

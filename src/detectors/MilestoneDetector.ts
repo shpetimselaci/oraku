@@ -1,10 +1,10 @@
 import { BaseDetector } from './BaseDetector'
 import { extractItems, matchItems } from './helpers/itemMatching'
-import type { EventGroup, Finding, ExpectedItem, MilestoneConfig } from '../types'
+import type { Event, EventGroup, Finding, ExpectedItem, MilestoneConfig } from '../types'
 
 export class MilestoneDetector extends BaseDetector {
   private milestones: ExpectedItem[]
-  private extractActual: (event: any) => string | string[]
+  private extractActual: (event: Event) => string | string[]
   private matchFn?: (actual: string, expected: ExpectedItem) => boolean
   private messageFormatter: string | ((achieved: string[]) => string)
   private todayOnly: boolean
@@ -12,7 +12,7 @@ export class MilestoneDetector extends BaseDetector {
   constructor(config: MilestoneConfig) {
     super({ ...config, severity: config.severity ?? 'success' })
     this.milestones = config.milestones
-    this.extractActual = config.extractActual ?? (e => e.name?.toLowerCase() ?? '')
+    this.extractActual = config.extractActual ?? ((event: Event) => this.getString(event, 'name')?.toLowerCase() ?? '')
     this.matchFn = config.matchFn
     this.messageFormatter = config.message ?? ((achieved: string[]) => `Achieved: ${achieved.join(', ')}`)
     this.todayOnly = config.todayOnly !== false
