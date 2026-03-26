@@ -8,8 +8,8 @@ export interface Event {
 export interface EventGroup {
   externalRef: string
   events: Event[]
-  first: string
-  last: string
+  first: string | null
+  last: string | null
   count: number
 }
 
@@ -17,12 +17,12 @@ export type EventGroupMap = Record<string, EventGroup>
 
 // ============ FINDINGS ============
 
-export type Severity = 'info' | 'warning' | 'success' | 'error'
+export type NotificationType = 'reminder' | 'warning' | 'nudge' | 'suggestion' | 'achievement' | 'insight'
 
 export interface Finding {
   id: string
   detector: string
-  severity: Severity
+  notificationType: NotificationType
   message: string
   evidence: Record<string, unknown>
   [key: string]: unknown
@@ -30,7 +30,7 @@ export interface Finding {
 
 export interface FindingData {
   id?: string
-  severity?: Severity
+  notificationType?: NotificationType
   message: string
   evidence?: Record<string, unknown>
   [key: string]: unknown
@@ -41,13 +41,13 @@ export interface FindingData {
 export interface DetectorConfig {
   name?: string
   description?: string
-  severity?: Severity
+  notificationType?: NotificationType
 }
 
 export interface Detector {
   name: string
   description: string
-  severity: Severity
+  notificationType: NotificationType
   isFallback?: boolean
   detect(entry: EventGroup): Promise<Finding[]>
   finalize?(): Promise<Finding[]>
@@ -92,10 +92,13 @@ export interface MilestoneConfig extends DetectorConfig {
 export type StreakTrigger = 'ongoing' | 'break'
 export type StreakFrequency = 'daily' | 'weekdays' | 'weekly' | 'monthly'
 
+export type StreakPrecision = 'day' | 'time'
+
 export interface StreakConfig extends DetectorConfig {
   minRepeat?: number
   triggerOn?: StreakTrigger
   frequency?: StreakFrequency
+  precision?: StreakPrecision
   message?: (pattern: string) => string
 }
 
@@ -121,7 +124,6 @@ export interface LLMDetectorConfig extends DetectorConfig {
 }
 
 export interface RawLLMFinding {
-  severity: Severity
   message: string
   category: string
   evidence: string
@@ -155,11 +157,12 @@ export interface SDKDetectorSchema {
   name: string
   type: 'checklist' | 'milestone' | 'streak-ongoing' | 'streak-break' | 'threshold' | 'item-analysis'
   marker?: string
-  severity?: Severity
+  notificationType?: NotificationType
   expected?: string[]
   extract?: { path: string }
   todayOnly?: boolean
   minRepeat?: number
+  precision?: StreakPrecision
   operator?: ThresholdOperator
   value?: number
   aggregate?: ThresholdAggregate

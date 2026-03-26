@@ -9,7 +9,7 @@ export class RecommendationGenerator extends BaseDetector {
   constructor() {
     super({
       name: 'RecommendationGenerator',
-      severity: 'info',
+      notificationType: 'suggestion',
       description: 'Builds user profiles and generates activity recommendations'
     })
   }

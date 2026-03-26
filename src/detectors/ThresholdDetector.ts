@@ -68,7 +68,7 @@ export class ThresholdDetector extends BaseDetector {
     return [
       this.createFinding({
         id: `threshold-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${dateStr}`,
-        severity: this.severity,
+        notificationType: 'warning',
         message: typeof this.messageFormatter === 'function'
           ? this.messageFormatter(actual, this.thresholdValue)
           : this.messageFormatter,
@@ -84,6 +84,7 @@ export class ThresholdDetector extends BaseDetector {
       case 'gt': return actual > target
       case 'gte': return actual >= target
       case 'eq': return actual === target
+      default: return false
     }
   }
 }

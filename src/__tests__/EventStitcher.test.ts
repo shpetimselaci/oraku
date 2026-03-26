@@ -46,7 +46,7 @@ describe('EventStitcher', () => {
     expect(result['alice'].count).toBe(1)
   })
 
-  it('groups into "unknown" when field is missing', () => {
+  it('drops events when the group-by field is missing', () => {
     const events = [
       { category: 'health', createdAt: '2026-03-01T09:00:00Z', externalRef: 'evt-1' },
     ]
@@ -54,8 +54,7 @@ describe('EventStitcher', () => {
     const stitcher = new EventStitcher(events)
     const result = stitcher.stitchByField('meta.userId')
 
-    expect(result['unknown']).toBeDefined()
-    expect(result['unknown'].events).toHaveLength(1)
+    expect(Object.keys(result)).toHaveLength(0)
   })
 
   it('tracks first and last timestamps correctly', () => {

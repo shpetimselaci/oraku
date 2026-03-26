@@ -13,10 +13,10 @@ export class ActivityPatternAnalyzer extends BaseDetector {
   private dataSources: Set<string> | null
 
   constructor(config: ActivityPatternAnalyzerConfig = {}) {
-    super({ name: 'ActivityPatternAnalyzer', severity: 'info', ...config })
+    super({ name: 'ActivityPatternAnalyzer', notificationType: 'insight', ...config })
 
     const minRepeat = config.minStreakLength ?? 3
-    this.dataSources = config.dataSources?.length ? new Set(config.dataSources) : null
+    this.dataSources = config.dataSources ? new Set(config.dataSources) : null
 
     this.ongoingStreakDetector = new StreakDetector({ minRepeat, triggerOn: 'ongoing' })
     this.breakStreakDetector = new StreakDetector({ minRepeat, triggerOn: 'break' })
@@ -78,7 +78,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
     return [
       this.createFinding({
         id: `variety-${entry.externalRef ?? 'auto'}`,
-        severity: 'info',
+        notificationType: 'nudge',
         message: `📋 Not seen this week: ${dormant.join(', ')}`,
         evidence: { type: 'variety', missingCategories: dormant }
       })
@@ -111,7 +111,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
     return [
       this.createFinding({
         id: `summary-${entry.externalRef ?? 'auto'}`,
-        severity: 'success',
+        notificationType: 'insight',
         message: `✅ Recent: ${shown.join(', ')}${remaining > 0 ? ` +${remaining} more` : ''}`,
         evidence: { type: 'summary', count: recentActivities.length, activities: recentActivities }
       })

@@ -10,7 +10,7 @@ export class MilestoneDetector extends BaseDetector {
   private todayOnly: boolean
 
   constructor(config: MilestoneConfig) {
-    super({ ...config, severity: config.severity ?? 'success' })
+    super({ ...config, notificationType: config.notificationType ?? 'achievement' })
     this.milestones = config.milestones
     this.extractActual = config.extractActual ?? ((event: Event) => this.getString(event, 'name')?.toLowerCase() ?? '')
     this.matchFn = config.matchFn
@@ -38,7 +38,7 @@ export class MilestoneDetector extends BaseDetector {
     return achieved.map(key =>
       this.createFinding({
         id: `milestone-${this.name.toLowerCase()}-${identifier}-${key}-${dateStr}`,
-        severity: this.severity,
+        notificationType: 'achievement',
         message: typeof this.messageFormatter === 'function'
           ? this.messageFormatter([key])
           : this.messageFormatter,

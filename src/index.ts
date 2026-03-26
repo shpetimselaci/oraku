@@ -37,7 +37,7 @@ export type {
   EventGroupMap,
   Finding,
   FindingData,
-  Severity,
+  NotificationType,
   DetectorConfig as BaseDetectorConfig,
   DetectorFilter,
   DetectorManagerConfig,

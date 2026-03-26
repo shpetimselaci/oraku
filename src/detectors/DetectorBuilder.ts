@@ -1,4 +1,4 @@
-import type { Detector, EventGroup, Finding, Severity, BuilderEntry, MarkerPredicate } from '../types'
+import type { Detector, EventGroup, Finding, NotificationType, BuilderEntry, MarkerPredicate } from '../types'
 import { parseMarker } from './helpers/markerParser'
 
 export class DetectorBuilder {
@@ -55,7 +55,7 @@ export class DetectorBuilder {
 class BuiltDetector implements Detector {
   readonly name: string
   readonly description: string
-  readonly severity: Severity
+  readonly notificationType: NotificationType
 
   constructor(
     private readonly entries: BuilderEntry[],
@@ -65,7 +65,7 @@ class BuiltDetector implements Detector {
       ? entries[0].detector.name
       : entries.map(e => e.detector.name).join('+')
     this.description = entries.map(e => e.detector.description).filter(Boolean).join(' | ')
-    this.severity = entries[0]?.detector.severity ?? 'info'
+    this.notificationType = entries[0]?.detector.notificationType ?? 'insight'
   }
 
   async detect(group: EventGroup): Promise<Finding[]> {

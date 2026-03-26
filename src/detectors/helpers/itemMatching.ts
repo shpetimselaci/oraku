@@ -35,7 +35,7 @@ export function matchItems(
       ? normalized.some(actual => matchFn(actual, expected))
       : normalized.some(actual =>
           expected.keywords?.some(k => actual.includes(k)) ||
-          actual.includes(expected.key?.toLowerCase())
+          (expected.key ? actual.includes(expected.key.toLowerCase()) : false)
         )
     if (matched) covered.add(expected.key)
   }
