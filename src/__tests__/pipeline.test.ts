@@ -7,7 +7,7 @@ vi.mock('../notificationGenerator', () => ({
 vi.mock('../db/findings', () => ({
   saveFindings: vi.fn().mockResolvedValue([{ id: 'mock-uuid', user_id: 'mock-user-uuid' }]),
   getFindings: vi.fn().mockResolvedValue([
-    { id: 'mock-uuid', user_id: 'mock-user-uuid', detector: 'TestStreak', severity: 'info', message: 'Test finding', evidence: {}, detected_at: new Date().toISOString() }
+    { id: 'mock-uuid', user_id: 'mock-user-uuid', detector: 'TestStreak', notification_type: 'insight', message: 'Test finding', evidence: {}, detected_at: new Date().toISOString() }
   ]),
   toUUID: vi.fn().mockReturnValue('mock-user-uuid')
 }))

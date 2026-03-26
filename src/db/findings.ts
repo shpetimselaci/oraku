@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from 'crypto'
 import { db } from './connection'
-import type { Finding, Severity } from '../types'
+import type { Finding, NotificationType } from '../types'
 
 // generates a deterministic UUID from any string so the same userId always maps to the same UUID
 export function toUUID(str: string): string {
@@ -18,15 +18,15 @@ export interface DbFinding {
   id: string
   user_id: string
   detector: string
-  severity: Severity
+  notification_type: NotificationType
   message: string
   evidence: Record<string, unknown>
   detected_at: string
 }
 
 const insertFinding = db.prepare(`
-  INSERT INTO findings (id, user_id, detector, severity, message, evidence)
-  VALUES (@id, @user_id, @detector, @severity, @message, @evidence)
+  INSERT INTO findings (id, user_id, detector, notification_type, message, evidence)
+  VALUES (@id, @user_id, @detector, @notification_type, @message, @evidence)
 `)
 
 const selectFindings = db.prepare(`
@@ -43,12 +43,14 @@ export function saveFindings(findings: Finding[]): DbFinding[] {
   const insertMany = db.transaction((rows: Finding[]) => {
     for (const f of rows) {
       const id = randomUUID()
-      const user_id = toUUID(f.groupKey as string)
+      const rawKey = f.groupKey as string | undefined
+      if (!rawKey) continue
+      const user_id = toUUID(rawKey)
       insertFinding.run({
         id,
         user_id,
         detector: f.detector,
-        severity: f.severity,
+        notification_type: f.notificationType,
         message: f.message,
         evidence: JSON.stringify(f.evidence)
       })
@@ -56,7 +58,7 @@ export function saveFindings(findings: Finding[]): DbFinding[] {
         id,
         user_id,
         detector: f.detector,
-        severity: f.severity,
+        notification_type: f.notificationType,
         message: f.message,
         evidence: f.evidence,
         detected_at: new Date().toISOString()
@@ -72,6 +74,6 @@ export function getFindings(userId: string): DbFinding[] {
   const rows = selectFindings.all(toUUID(userId)) as any[]
   return rows.map(r => ({
     ...r,
-    evidence: r.evidence ? JSON.parse(r.evidence) : {}
+    evidence: JSON.parse(r.evidence ?? '{}')
   }))
 }

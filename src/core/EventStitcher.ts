@@ -36,7 +36,7 @@ class EventStitcher {
 
     for (const event of this.events) {
       let groupKey = this.resolveField(event, field)
-      if (groupKey === undefined || groupKey === null) groupKey = 'unknown'
+      if (groupKey === undefined || groupKey === null) continue
       if (typeof groupKey === 'object') groupKey = JSON.stringify(groupKey)
       const keyString = String(groupKey)
 
@@ -65,7 +65,8 @@ class EventStitcher {
       stitchedEntry.events.push(event)
       stitchedEntry.count = stitchedEntry.events.length
 
-      const timestamp = event.createdAt ? new Date(event.createdAt).toISOString() : null
+      const parsed = event.createdAt ? new Date(event.createdAt) : null
+      const timestamp = parsed && !isNaN(parsed.getTime()) ? parsed.toISOString() : null
       if (timestamp) {
         if (!stitchedEntry.first || timestamp < stitchedEntry.first) stitchedEntry.first = timestamp
         if (!stitchedEntry.last || timestamp > stitchedEntry.last) stitchedEntry.last = timestamp
@@ -78,19 +79,19 @@ class EventStitcher {
         externalRef: entry.externalRef,
         events: entry.events,
         count: entry.count,
-        first: entry.first ?? '',
-        last: entry.last ?? ''
+        first: entry.first,
+        last: entry.last
       }
     }
     return result
   }
 
   stitchByExternalRef(): EventGroupMap {
-    return this.stitchByField(['externalRef', 'meta.userId', 'meta.externalRef'])
+    return this.stitchByField(['userId', 'user_id', 'uid', 'meta.userId', 'meta.user_id', 'meta.uid', 'meta.externalRef', 'meta.external_ref', 'externalRef', 'external_ref'])
   }
 
   stitch(opts: StitchOptions = {}): EventGroupMap {
-    const groupBy = opts.groupBy || this.options.groupBy || ['externalRef', 'meta.userId', 'meta.externalRef']
+    const groupBy = opts.groupBy || this.options.groupBy || ['userId', 'user_id', 'uid', 'meta.userId', 'meta.user_id', 'meta.uid', 'meta.externalRef', 'meta.external_ref', 'externalRef', 'external_ref']
     return this.stitchByField(groupBy)
   }
 

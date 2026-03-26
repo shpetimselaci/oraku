@@ -116,7 +116,7 @@ describe('MilestoneDetector', () => {
     expect(findings.length).toBe(0)
   })
 
-  it('severity defaults to success', async () => {
+  it('notificationType defaults to achievement', async () => {
     const detector = new MilestoneDetector({
       name: 'TestMilestone',
       todayOnly: false,
@@ -129,6 +129,6 @@ describe('MilestoneDetector', () => {
     ])
 
     const findings = await detector.detect(group)
-    expect(findings[0].severity).toBe('success')
+    expect(findings[0].notificationType).toBe('achievement')
   })
 })

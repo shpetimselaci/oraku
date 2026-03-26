@@ -6,17 +6,18 @@ export function initSchema() {
       id          TEXT PRIMARY KEY,
       user_id     TEXT NOT NULL,
       detector    TEXT NOT NULL,
-      severity    TEXT NOT NULL CHECK(severity IN ('low','medium','high','critical')),
+      notification_type TEXT NOT NULL,
       message     TEXT NOT NULL,
-      evidence    TEXT,
+      evidence    TEXT NOT NULL DEFAULT '{}',
       detected_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS notifications (
-      id         TEXT PRIMARY KEY,
-      user_id    TEXT NOT NULL,
-      message    TEXT NOT NULL,
-      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      id             TEXT PRIMARY KEY,
+      user_id        TEXT NOT NULL,
+      message        TEXT NOT NULL,
+      generated_date TEXT NOT NULL DEFAULT (date('now')),
+      created_at     TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS finding_notifications (
@@ -25,4 +26,20 @@ export function initSchema() {
       PRIMARY KEY (notification_id, finding_id)
     );
   `)
+
+  // migrations for existing DBs
+  try {
+    db.exec(`ALTER TABLE findings RENAME COLUMN severity TO notification_type`)
+  } catch { /* already migrated or column doesn't exist */ }
+
+  try {
+    db.exec(`UPDATE findings SET evidence = '{}' WHERE evidence IS NULL`)
+  } catch { /* no nulls to fix */ }
+
+  // migration: add generated_date to existing notifications tables
+  try {
+    db.exec(`ALTER TABLE notifications ADD COLUMN generated_date TEXT NOT NULL DEFAULT (date('now'))`)
+  } catch {
+    // column already exists
+  }
 }

@@ -1,5 +1,5 @@
 import { BaseDetector } from './BaseDetector';
-import type { EventGroup, Finding, LLMDetectorConfig, RawLLMFinding, Severity, GroqResponse } from '../types';
+import type { EventGroup, Finding, LLMDetectorConfig, RawLLMFinding, GroqResponse } from '../types';
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
@@ -7,7 +7,7 @@ const SYSTEM_PROMPT = `
 You are a security and activity log analyst.
 Analyze the provided logs and return a JSON array of findings.
 Rules:
-- severity must be: "info", "warning", or "success".
+- Focus on patterns and gaps in the activity data.
 - Return ONLY the JSON array.
 - No conversational text or markdown blocks.
 - If no issues are found, return [].
@@ -23,7 +23,7 @@ export class GroqFallbackDetector extends BaseDetector {
   private pendingEntries: Array<{ ref: string; text: string }> = [];
 
   constructor(config: LLMDetectorConfig = {}) {
-    super({ name: 'GroqFallbackDetector', severity: 'info', ...config });
+    super({ name: 'GroqFallbackDetector', notificationType: 'insight', ...config });
 
     this.apiKey = config.apiKey ?? process.env.GROQ_API_KEY;
     this.model = config.model ?? 'llama-3.1-8b-instant';
@@ -45,7 +45,11 @@ export class GroqFallbackDetector extends BaseDetector {
 
     const eventText = sourceEvents
       .slice(0, this.maxEvents)
-      .map(logEvent => `${logEvent.createdAt.slice(11, 19)} | ${this.getString(logEvent, 'category') ?? 'log'} | ${this.getEventLabel(logEvent) ?? ''}`)
+      .map(logEvent => {
+        const d = this.parseDate(logEvent.createdAt)
+        const time = d ? d.toISOString().slice(11, 19) : '--:--:--'
+        return `${time} | ${this.getString(logEvent, 'category') ?? 'log'} | ${this.getEventLabel(logEvent) ?? ''}`
+      })
       .join('\n');
 
     if (eventText) this.pendingEntries.push({ ref: entry.externalRef ?? 'unknown', text: eventText });
@@ -66,7 +70,7 @@ export class GroqFallbackDetector extends BaseDetector {
         for (const [j, f] of results.entries()) {
           allFindings.push(this.createFinding({
             id: `ai-${ref}-${j}-${Math.random().toString(36).slice(2, 5)}`,
-            severity: this.parseSeverity(f.severity),
+            notificationType: 'insight',
             message: f.message,
             evidence: { category: f.category, analysis: f.evidence, llm_model: this.model }
           }));
@@ -131,23 +135,22 @@ export class GroqFallbackDetector extends BaseDetector {
       const data = (await res.json()) as GroqResponse;
       const content = data.choices?.[0]?.message?.content?.trim() || '[]';
 
-      const jsonMatch = content.match(/\[[\s\S]*\]/);
+      const jsonMatch = content.match(/\[[\s\S]*?\]/);
       const cleaned = jsonMatch ? jsonMatch[0] : content;
 
-      const parsed = JSON.parse(cleaned);
-      return Array.isArray(parsed) ? parsed : [];
+      try {
+        const parsed = JSON.parse(cleaned);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        console.warn(`[${this.name}] Failed to parse response as JSON — skipping`);
+        return [];
+      }
 
     } finally {
       clearTimeout(timeoutId);
     }
   }
 
-  private parseSeverity(sev?: string): Severity {
-    const s = sev?.toLowerCase();
-    if (s === 'warning' || s === 'success' || s === 'info' || s === 'error') return s;
-    if (s === 'critical') return 'error';
-    return this.severity;
-  }
 }
 
 export default GroqFallbackDetector;

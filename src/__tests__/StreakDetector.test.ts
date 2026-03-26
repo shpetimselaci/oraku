@@ -96,7 +96,7 @@ describe('StreakDetector — break', () => {
     const findings = await detector.detect(group)
     expect(findings.length).toBeGreaterThan(0)
     expect(findings[0].id).toMatch(/^anomaly-/)
-    expect(findings[0].severity).toBe('warning')
+    expect(findings[0].notificationType).toBe('warning')
   })
 
   it('does not fire when a recent event covers the expected slot', async () => {

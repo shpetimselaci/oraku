@@ -6,12 +6,13 @@ export interface DbNotification {
   id: string
   user_id: string
   message: string
+  generated_date: string
   created_at: string
 }
 
 const insertNotification = db.prepare(`
-  INSERT INTO notifications (id, user_id, message)
-  VALUES (@id, @user_id, @message)
+  INSERT INTO notifications (id, user_id, message, generated_date)
+  VALUES (@id, @user_id, @message, @generated_date)
 `)
 
 const insertLink = db.prepare(`
@@ -32,8 +33,9 @@ export function saveNotifications(
     for (const message of messages) {
       const id = randomUUID()
       const user_id = toUUID(userId)
-      insertNotification.run({ id, user_id, message })
-      saved.push({ id, user_id, message, created_at: new Date().toISOString() })
+      const generated_date = new Date().toISOString().slice(0, 10)
+      insertNotification.run({ id, user_id, message, generated_date })
+      saved.push({ id, user_id, message, generated_date, created_at: new Date().toISOString() })
     }
 
     // link each notification to all findings that produced it

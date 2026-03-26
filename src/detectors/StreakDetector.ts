@@ -6,6 +6,7 @@ import type {
   Finding,
   StreakConfig,
   StreakFrequency,
+  StreakPrecision,
   StreakTrigger,
   TimestampedEvent
 } from '../types'
@@ -14,6 +15,7 @@ export class StreakDetector extends BaseDetector {
   minRepeat: number
   triggerOn: StreakTrigger
   frequency: StreakFrequency
+  precision: StreakPrecision
   private messageFormatter?: (pattern: string) => string
 
   constructor(config: StreakConfig) {
@@ -21,6 +23,7 @@ export class StreakDetector extends BaseDetector {
     this.minRepeat = config.minRepeat || 3
     this.triggerOn = config.triggerOn || 'ongoing'
     this.frequency = config.frequency ?? 'daily'
+    this.precision = config.precision ?? 'day'
     this.messageFormatter = config.message
   }
 
@@ -37,18 +40,43 @@ export class StreakDetector extends BaseDetector {
   private predictNextDate(sortedEvents: TimestampedEvent[]): Date | null {
     if (sortedEvents.length < 2) return null
 
-    const intervals: number[] = []
-    for (let i = 1; i < sortedEvents.length; i++) {
-      intervals.push(sortedEvents[i]._date.getTime() - sortedEvents[i - 1]._date.getTime())
+    const MS_PER_DAY = 86_400_000
+
+    if (this.precision === 'time') {
+      // use full timestamps — useful for time-sensitive routines like medication
+      const intervals: number[] = []
+      for (let i = 1; i < sortedEvents.length; i++) {
+        intervals.push(sortedEvents[i]._date.getTime() - sortedEvents[i - 1]._date.getTime())
+      }
+      intervals.sort((a, b) => a - b)
+      const mid = Math.floor(intervals.length / 2)
+      const median = intervals.length % 2
+        ? intervals[mid]
+        : (intervals[mid - 1] + intervals[mid]) / 2
+      return new Date(sortedEvents[sortedEvents.length - 1]._date.getTime() + median)
     }
+
+    // default: strip time, work in whole days — time of day is irrelevant
+    const dayTimestamps = sortedEvents.map(e => {
+      const iso = e._date.toISOString().slice(0, 10)
+      return new Date(iso).getTime()
+    })
+
+    const intervals: number[] = []
+    for (let i = 1; i < dayTimestamps.length; i++) {
+      const days = Math.round((dayTimestamps[i] - dayTimestamps[i - 1]) / MS_PER_DAY)
+      if (days > 0) intervals.push(days)
+    }
+
+    if (!intervals.length) return null
+
     intervals.sort((a, b) => a - b)
-
     const mid = Math.floor(intervals.length / 2)
-    const median = intervals.length % 2
+    const medianDays = intervals.length % 2
       ? intervals[mid]
-      : (intervals[mid - 1] + intervals[mid]) / 2
+      : Math.round((intervals[mid - 1] + intervals[mid]) / 2)
 
-    return new Date(sortedEvents[sortedEvents.length - 1]._date.getTime() + median)
+    return new Date(dayTimestamps[dayTimestamps.length - 1] + medianDays * MS_PER_DAY)
   }
 
   private buildMessage(data: { category: string; subcategory: string; predictedDate: string }): string {
@@ -74,13 +102,22 @@ export class StreakDetector extends BaseDetector {
     for (const [patternKey, count] of Object.entries(counts)) {
       if (count < this.minRepeat) continue
 
-      const sorted: TimestampedEvent[] = filterByPattern(events, patternKey)
+      const allTimestamped: TimestampedEvent[] = filterByPattern(events, patternKey)
         .map((e) => {
           const d = this.parseDate(e.createdAt)
           return { ...e, _date: d ?? new Date(NaN) } as TimestampedEvent
         })
         .filter((e) => !isNaN(e._date.getTime()))
         .sort((a, b) => a._date.getTime() - b._date.getTime())
+
+      // deduplicate to one event per day — multiple visits on the same day count as one occurrence
+      const seenDays = new Set<string>()
+      const sorted = allTimestamped.filter((e) => {
+        const day = e._date.toISOString().slice(0, 10)
+        if (seenDays.has(day)) return false
+        seenDays.add(day)
+        return true
+      })
 
       if (sorted.length < this.minRepeat) continue
 
@@ -103,6 +140,7 @@ export class StreakDetector extends BaseDetector {
         findings.push(this.createFinding({
           id: `recurring-${entry.externalRef}-${safeKey}`,
           message: this.buildMessage(messageData),
+          notificationType: 'reminder',
           evidence: { key: entry.externalRef, predicted: predicted.toISOString(), events: evidence, frequency: this.frequency, streakLength: sorted.length }
         }))
       }
@@ -115,7 +153,7 @@ export class StreakDetector extends BaseDetector {
         if (!hasEventAfterPredicted) {
           findings.push(this.createFinding({
             id: `anomaly-${entry.externalRef}-${safeKey}`,
-            severity: 'warning',
+            notificationType: 'warning',
             message: this.buildMessage(messageData),
             evidence: { key: entry.externalRef, expected: predicted.toISOString(), events: evidence, frequency: this.frequency, streakLength: sorted.length }
           }))

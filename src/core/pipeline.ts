@@ -7,7 +7,7 @@ import { generateNotifications } from '../notificationGenerator'
 import { initSchema } from '../db/schema'
 import { saveFindings, getFindings } from '../db/findings'
 import { saveNotifications } from '../db/notifications'
-import type { Event, Finding, Severity } from '../types'
+import type { Event, Finding, NotificationType } from '../types'
 import type { DetectorBuilder } from '../detectors/DetectorBuilder'
 
 export interface PipelineOptions {
@@ -24,17 +24,30 @@ export interface PipelineResult {
   findings: Finding[]
   notifications: string[]
   notificationsByUser: Record<string, string[]>
+  webhookDelivered?: boolean
+}
+
+const TIMESTAMP_FIELDS = ['createdAt', 'created_at', 'timestamp', 'date', 'eventTime', 'event_time', 'occurredAt', 'occurred_at', 'time']
+const DEFAULT_GROUP_BY = ['userId', 'user_id', 'uid', 'meta.userId', 'meta.user_id', 'meta.uid', 'meta.externalRef', 'meta.external_ref', 'externalRef', 'external_ref']
+
+function normalizeEvent(raw: Record<string, unknown>): Event {
+  if (typeof raw.createdAt === 'string' && raw.createdAt) return raw as Event
+  for (const field of TIMESTAMP_FIELDS) {
+    const val = raw[field]
+    if (typeof val === 'string' && val) return { ...raw, createdAt: val } as Event
+  }
+  return { ...raw, createdAt: '' } as Event
 }
 
 export async function runPipeline(events: Event[], options: PipelineOptions = {}): Promise<PipelineResult> {
   initSchema()
-  const { groupBy = 'meta.userId' } = options
+  const { groupBy = DEFAULT_GROUP_BY } = options
 
-  const groups = new EventStitcher(events).stitchByField(groupBy)
+  const normalized = (events as Record<string, unknown>[]).map(normalizeEvent)
+  const groups = new EventStitcher(normalized).stitchByField(groupBy)
   const findings = await new DetectorManager({ builders: options.builders }).runDetectorsOn(groups)
 
   const apiKey = process.env.GROQ_API_KEY
-  if (!apiKey) throw new Error('GROQ_API_KEY not set in oraku-main environment')
 
   // group findings by the userId tagged in DetectorManager, skipping untagged (finalize/global) findings
   const findingsByUser: Record<string, Finding[]> = {}
@@ -62,9 +75,10 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
     const dbFindings = await getFindings(userId)
     const notifiable = dbFindings
       .filter(f => !String(f.id).startsWith('summary-'))
-      .map(f => ({ ...f, severity: f.severity as Severity, evidence: f.evidence ?? {}, groupKey: userId }))
+      .map(f => ({ ...f, notificationType: f.notification_type as NotificationType, evidence: f.evidence ?? {}, groupKey: userId }))
 
     if (notifiable.length === 0) continue
+    if (!apiKey) throw new Error('GROQ_API_KEY is required to generate notifications')
     const raw = await generateNotifications(notifiable, { apiKey })
     const messages = raw
       .split('\n')
@@ -79,6 +93,7 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
 
   const notifications = Object.values(notificationsByUser).flat()
 
+  let webhookDelivered: boolean | undefined
   if (options.webhookUrl && notifications.length) {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' }
     if (options.webhookAuthKey) headers['Authorization'] = `Bearer ${options.webhookAuthKey}`
@@ -88,12 +103,13 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
         headers,
         body: JSON.stringify({ notifications, notificationsByUser, count: findings.length })
       })
+      webhookDelivered = res.ok
       if (!res.ok) console.error(`[webhook] POST failed: ${res.status} ${options.webhookUrl}`)
-      else console.log(`[webhook] Delivered ${notifications.length} notifications to ${options.webhookUrl}`)
     } catch (err) {
+      webhookDelivered = false
       console.error(`[webhook] Error:`, (err as Error).message)
     }
   }
 
-  return { count: findings.length, findings, notifications, notificationsByUser }
+  return { count: findings.length, findings, notifications, notificationsByUser, webhookDelivered }
 }

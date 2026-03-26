@@ -94,7 +94,7 @@ export class ItemAnalysisDetector extends BaseDetector {
     return [
       this.createFinding({
         id: `item-analysis-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${dateStr}`,
-        severity: this.severity,
+        notificationType: 'warning',
         message: this.messageFormatter(gaps, totals, this.targets),
         evidence: {
           itemsAnalyzed: uniqueItems,
@@ -112,8 +112,8 @@ export class ItemAnalysisDetector extends BaseDetector {
     for (const item of items) {
       try {
         results[item] = await this.lookupOne(item)
-      } catch {
-        // if a lookup fails, skip that item rather than crashing the whole detection
+      } catch (err) {
+        console.warn(`[ItemAnalysisDetector] lookup failed for "${item}":`, (err as Error).message)
       }
     }
 

@@ -4,7 +4,7 @@ import type {
   Event,
   Finding,
   FindingData,
-  Severity,
+  NotificationType,
   DetectorConfig,
   Detector
 } from '../types';
@@ -12,13 +12,13 @@ import type {
 export abstract class BaseDetector implements Detector {
   public readonly name: string;
   public readonly description: string;
-  public readonly severity: Severity;
+  public readonly notificationType: NotificationType;
   public isFallback?: boolean;
 
   constructor(config: DetectorConfig = {}) {
     this.name = config.name || this.constructor.name;
     this.description = config.description || '';
-    this.severity = config.severity || 'info';
+    this.notificationType = config.notificationType || 'insight';
   }
 
   abstract detect(entry: EventGroup): Promise<Finding[]>;
@@ -73,7 +73,10 @@ export abstract class BaseDetector implements Detector {
     const sliceLen = unit === 'day' ? 10 : unit === 'month' ? 7 : 4;
     const matchStr = target.toISOString().slice(0, sliceLen);
 
-    return events.filter((ev) => ev.createdAt.startsWith(matchStr));
+    return events.filter((ev) => {
+      const d = this.parseDate(ev.createdAt)
+      return d ? d.toISOString().startsWith(matchStr) : false
+    });
   }
 
   protected getTimestamp(e: Event): number | null {
@@ -86,11 +89,11 @@ export abstract class BaseDetector implements Detector {
   }
 
   createFinding(findingData: FindingData): Finding {
-    const { id, message, evidence = {}, severity, ...extra } = findingData;
+    const { id, message, evidence = {}, notificationType, ...extra } = findingData;
     return {
       id: id ?? `${this.name.toLowerCase()}-${randomUUID()}`,
       detector: this.name,
-      severity: severity || this.severity,
+      notificationType: notificationType || this.notificationType,
       message,
       evidence,
       ...extra

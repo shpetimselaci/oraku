@@ -62,9 +62,8 @@ export class ChecklistDetector extends BaseDetector {
 
   async finalize(): Promise<Finding[]> {
     if (!this.aggregate || !this.pendingItems.length) return []
-    const findings = await this.buildFindings(this.pendingItems, null)
-    this.pendingItems = []
-    return findings
+    const items = this.pendingItems.splice(0)
+    return this.buildFindings(items, null)
   }
 
   private async buildFindings(
@@ -92,7 +91,7 @@ export class ChecklistDetector extends BaseDetector {
     return [
       this.createFinding({
         id: `${this.name.toLowerCase()}-${identifier}-${dateStr}`,
-        severity: this.severity,
+        notificationType: 'warning',
         message: typeof this.messageFormatter === 'function'
           ? this.messageFormatter(missing)
           : this.messageFormatter,
@@ -117,6 +116,10 @@ export class ChecklistDetector extends BaseDetector {
         target = new Date(now)
         target.setDate(target.getDate() + filter.value)
         break
+      case 'week':
+        target = new Date(now)
+        target.setDate(target.getDate() + filter.value * 7)
+        break
       case 'month':
         target = new Date(now)
         target.setMonth(target.getMonth() + filter.value)
@@ -131,8 +134,25 @@ export class ChecklistDetector extends BaseDetector {
 
     const targetStr = target.toISOString().slice(0, 10)
 
+    if (filter.unit === 'week') {
+      const weekStart = new Date(target)
+      weekStart.setDate(weekStart.getDate() - weekStart.getDay())
+      const weekEnd = new Date(weekStart)
+      weekEnd.setDate(weekStart.getDate() + 6)
+      const start = weekStart.toISOString().slice(0, 10)
+      const end = weekEnd.toISOString().slice(0, 10)
+      return events.filter((ev) => {
+        const d = this.parseDate(ev.createdAt)
+        if (!d) return false
+        const day = d.toISOString().slice(0, 10)
+        return day >= start && day <= end
+      })
+    }
+
     return events.filter((ev) => {
-      const eventDate = ev.createdAt
+      const d = this.parseDate(ev.createdAt)
+      if (!d) return false
+      const eventDate = d.toISOString()
       switch (filter.unit) {
         case 'day': return eventDate.slice(0, 10) === targetStr
         case 'month': return eventDate.slice(0, 7) === targetStr.slice(0, 7)

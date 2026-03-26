@@ -100,9 +100,11 @@ class Parser {
 // A token matches an event if any of its text fields equal the token value.
 
 function matchField(event: Event, value: string): boolean {
-  return Object.values(event).some(fieldValue =>
-    typeof fieldValue === 'string' && fieldValue.toLowerCase() === value
-  )
+  return Object.values(event).some(fieldValue => {
+    if (fieldValue === null || fieldValue === undefined) return false
+    if (typeof fieldValue === 'object') return false
+    return String(fieldValue).toLowerCase() === value
+  })
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────────

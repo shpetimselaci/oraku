@@ -9,33 +9,33 @@ import type { SDKDetectorSchema } from '../../types'
 export type { SDKDetectorSchema }
 
 export function toBuilder(config: SDKDetectorSchema): DetectorBuilder {
-  const { name, type, severity, marker } = config
+  const { name, type, notificationType, marker } = config
   let inner
 
   switch (type) {
     case 'streak-ongoing':
-      inner = new StreakDetector({ name, severity, minRepeat: config.minRepeat, triggerOn: 'ongoing' })
+      inner = new StreakDetector({ name, notificationType, minRepeat: config.minRepeat, precision: config.precision, triggerOn: 'ongoing' })
       break
     case 'streak-break':
-      inner = new StreakDetector({ name, severity, minRepeat: config.minRepeat, triggerOn: 'break' })
+      inner = new StreakDetector({ name, notificationType, minRepeat: config.minRepeat, precision: config.precision, triggerOn: 'break' })
       break
     case 'checklist':
-      inner = new ChecklistDetector({ name, severity, expectedItems: (config.expected ?? []).map(key => ({ key })), todayOnly: config.todayOnly })
+      inner = new ChecklistDetector({ name, notificationType, expectedItems: (config.expected ?? []).map(key => ({ key })), todayOnly: config.todayOnly })
       break
     case 'milestone':
-      inner = new MilestoneDetector({ name, severity, milestones: (config.expected ?? []).map(key => ({ key })), todayOnly: config.todayOnly })
+      inner = new MilestoneDetector({ name, notificationType, milestones: (config.expected ?? []).map(key => ({ key })), todayOnly: config.todayOnly })
       break
     case 'threshold':
       if (!config.extract?.path) throw new Error(`ThresholdDetector "${name}" requires extract.path`)
       if (!config.operator)      throw new Error(`ThresholdDetector "${name}" requires operator`)
       if (config.value === undefined) throw new Error(`ThresholdDetector "${name}" requires value`)
-      inner = new ThresholdDetector({ name, severity, extract: { path: config.extract.path }, operator: config.operator, value: config.value, aggregate: config.aggregate, todayOnly: config.todayOnly })
+      inner = new ThresholdDetector({ name, notificationType, extract: { path: config.extract.path }, operator: config.operator, value: config.value, aggregate: config.aggregate, todayOnly: config.todayOnly })
       break
     case 'item-analysis':
       if (!config.extract?.path) throw new Error(`ItemAnalysisDetector "${name}" requires extract.path`)
       if (!config.lookup)        throw new Error(`ItemAnalysisDetector "${name}" requires lookup`)
       if (!config.targets)       throw new Error(`ItemAnalysisDetector "${name}" requires targets`)
-      inner = new ItemAnalysisDetector({ name, severity, extract: { path: config.extract.path }, lookup: config.lookup, targets: config.targets, aggregate: config.aggregate as 'sum' | 'avg' | undefined })
+      inner = new ItemAnalysisDetector({ name, notificationType, extract: { path: config.extract.path }, lookup: config.lookup, targets: config.targets, aggregate: config.aggregate as 'sum' | 'avg' | undefined })
       break
     default:
       throw new Error(`Unknown detector type: ${type}`)
