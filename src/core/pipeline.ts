@@ -9,27 +9,11 @@ import { initSchema } from '../db/schema'
 import { saveFindings, getFindings } from '../db/findings'
 import { saveNotifications } from '../db/notifications'
 import type { Event, Finding, NotificationType, PipelineOptions, PipelineResult } from '../types'
-import type { DetectorBuilder } from '../detectors/DetectorBuilder'
 
-
-const TIMESTAMP_FIELDS = ['createdAt', 'created_at', 'timestamp', 'date', 'eventTime', 'event_time', 'occurredAt', 'occurred_at', 'time']
-const DEFAULT_GROUP_BY = ['userId', 'user_id', 'uid', 'meta.userId', 'meta.user_id', 'meta.uid', 'meta.externalRef', 'meta.external_ref', 'externalRef', 'external_ref']
-
-function normalizeEvent(raw: Record<string, unknown>): Event {
-  if (typeof raw.createdAt === 'string' && raw.createdAt) return raw as Event
-  for (const field of TIMESTAMP_FIELDS) {
-    const val = raw[field]
-    if (typeof val === 'string' && val) return { ...raw, createdAt: val } as Event
-  }
-  return { ...raw, createdAt: '' } as Event
-}
 
 export async function runPipeline(events: Event[], options: PipelineOptions = {}): Promise<PipelineResult> {
   initSchema()
-  const { groupBy = DEFAULT_GROUP_BY } = options
-
-  const normalized = (events as Record<string, unknown>[]).map(normalizeEvent)
-  const groups = new EventStitcher(normalized).stitchByField(groupBy)
+  const groups = new EventStitcher(events).stitch()
   const findings = await new DetectorManager({ builders: options.builders }).runDetectorsOn(groups)
 
   // group findings by the userId tagged in DetectorManager, skipping untagged (finalize/global) findings
