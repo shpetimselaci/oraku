@@ -1,11 +1,6 @@
 import cron from 'node-cron'
 import { runPipeline } from './pipeline'
-import type { PipelineOptions } from './pipeline'
-import type { Event } from '../types'
-
-export interface CronHandle {
-  stop: () => void
-}
+import type { Event, PipelineOptions, CronHandle } from '../types'
 
 export const DEFAULT_CRON = '0 6 * * *' // 6am daily
 

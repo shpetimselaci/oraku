@@ -116,21 +116,10 @@ export interface ActivityPatternAnalyzerConfig extends DetectorConfig {
 
 // ============ AUTO DETECTOR (LLM) ============
 
-export interface LLMDetectorConfig extends DetectorConfig {
-  apiKey?: string
-  model?: string
-  maxEvents?: number
-  timeout?: number
-}
-
 export interface RawLLMFinding {
   message: string
   category: string
   evidence: string
-}
-
-export interface GroqResponse {
-  choices?: Array<{ message?: { content?: string } }>
 }
 
 // ============ DETECTOR MANAGER ============
@@ -178,7 +167,7 @@ export interface SDKDetectorSchema {
 export type ThresholdOperator = 'lt' | 'lte' | 'gt' | 'gte' | 'eq'
 export type ThresholdAggregate = 'sum' | 'avg' | 'count' | 'min' | 'max'
 
-export interface ThresholdDetectorConfig extends DetectorConfig {
+export interface ThresholdConfig extends DetectorConfig {
   extract: { path: string } | ((event: Event) => number | null)
   operator: ThresholdOperator
   value: number
@@ -281,23 +270,96 @@ export interface TopPattern {
   count: number
 }
 
-// ============ INGEST ============
-
-export interface GroupAndExportOptions {
-  filePath: string
-  groupBy?: string | string[]
-  outJson?: string
-  outMd?: string
-}
-
-export interface GroupAndExportResult {
-  countGroups: number
-  countRecords: number
-}
-
 // ============ CLI ============
 
 export interface UserTrace {
   name: string
   actions: Array<{ what: string | undefined; category: string | undefined; when: string }>
+}
+
+// ============ PIPELINE ============
+
+export interface PipelineOptions {
+  groupBy?: string | string[]
+  builders?: import('./detectors/DetectorBuilder').DetectorBuilder[]
+  forUserId?: string
+  webhookUrl?: string
+  webhookAuthKey?: string
+}
+
+export interface PipelineResult {
+  count: number
+  findings: Finding[]
+  notifications: string[]
+  notificationsByUser: Record<string, string[]>
+  webhookDelivered?: boolean
+}
+
+// ============ CRON ============
+
+export interface CronHandle {
+  stop: () => void
+}
+
+// ============ LLM PROVIDER ============
+
+export interface LLMProvider {
+  complete(userContent: string, systemPrompt?: string): Promise<string>
+}
+
+export interface ChatProviderConfig {
+  baseUrl: string
+  apiKey?: string
+  model?: string
+  timeout?: number
+}
+
+export interface LLMDetectorConfig extends DetectorConfig {
+  provider: LLMProvider
+  maxEvents?: number
+}
+
+// ============ NOTIFICATIONS ============
+
+export interface Notification {
+  ref: string
+  detector: string
+  type: string
+  message: string
+}
+
+export interface NotificationOptions {
+  provider: LLMProvider
+}
+
+// ============ API MATCHER ============
+
+export interface ApiMatcherConfig {
+  url: (item: string) => string
+  transform?: (data: unknown) => unknown
+  match: (result: unknown, expected: ExpectedItem) => boolean
+  maxItems?: number
+  timeout?: number
+  cacheKey?: (item: string) => string
+  cachePath?: string
+}
+
+// ============ DB ============
+
+export interface DbFinding {
+  id: string
+  user_id: string
+  detector: string
+  notification_type: NotificationType
+  message: string
+  evidence: Record<string, unknown>
+  detected_at: string
+}
+
+export interface DbNotification {
+  id: string
+  user_id: string
+  message: string
+  generated_date: string
+  created_at: string
 }

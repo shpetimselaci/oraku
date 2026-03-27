@@ -1,16 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import type { ExpectedItem } from '../../types'
-
-export interface ApiMatcherConfig {
-  url: (item: string) => string
-  transform?: (data: unknown) => unknown
-  match: (result: unknown, expected: ExpectedItem) => boolean
-  maxItems?: number
-  timeout?: number
-  cacheKey?: (item: string) => string
-  cachePath?: string
-}
+import type { ExpectedItem, ApiMatcherConfig } from '../../types'
 
 export async function fetchWithTimeout(url: string, timeout = 5000): Promise<unknown> {
   const controller = new AbortController()

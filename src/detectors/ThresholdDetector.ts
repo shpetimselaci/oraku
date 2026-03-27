@@ -1,15 +1,6 @@
 import { BaseDetector } from './BaseDetector'
 import { resolvePath } from './helpers/itemMatching'
-import type { EventGroup, Finding, DetectorConfig, Event, ThresholdOperator, ThresholdAggregate } from '../types'
-
-export interface ThresholdConfig extends DetectorConfig {
-  extract: { path: string } | ((event: Event) => number | null)
-  operator: ThresholdOperator
-  value: number
-  aggregate?: ThresholdAggregate  // default: 'sum'
-  todayOnly?: boolean
-  message?: string | ((actual: number, target: number) => string)
-}
+import type { EventGroup, Finding, Event, ThresholdOperator, ThresholdAggregate, ThresholdConfig } from '../types'
 
 
 export class ThresholdDetector extends BaseDetector {

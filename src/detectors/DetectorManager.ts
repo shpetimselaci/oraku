@@ -1,6 +1,7 @@
 import { ActivityPatternAnalyzer } from './ActivityPatternAnalyzer'
 import { RecommendationGenerator } from './RecommendationGenerator'
-import { GroqFallbackDetector } from './GroqFallbackDetector'
+import { LLMDetector } from './LLMDetector'
+import { ChatProvider } from '../providers/ChatProvider'
 import { ContextBasedFilter } from '../filters/ContextBasedFilter'
 import type { DetectorBuilder } from './DetectorBuilder'
 import type {
@@ -15,7 +16,7 @@ import type {
 export class DetectorManager {
   private sdkDetectors: Detector[]
   private analyzer: ActivityPatternAnalyzer
-  private groqFallback: GroqFallbackDetector
+  private llmFallback: LLMDetector
   private postProcessors: Detector[]
   private filterMechanism: DetectorFilter
   private context: Record<string, unknown>
@@ -27,8 +28,8 @@ export class DetectorManager {
     // tier 2 — built-in pattern analyzer
     this.analyzer = new ActivityPatternAnalyzer()
 
-    // tier 3 — groq fallback
-    this.groqFallback = new GroqFallbackDetector()
+    // tier 3 — llm fallback
+    this.llmFallback = new LLMDetector({ provider: new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL }) })
 
     // post-processing — runs after all groups regardless of tier
     this.postProcessors = [new RecommendationGenerator(), ...(options.extraDetectors ?? [])]
@@ -58,9 +59,9 @@ export class DetectorManager {
         groupFindings = await this.runTier([this.analyzer], group, triggeredDetectors, false)
       }
 
-      // tier 3 — groq fallback, only if analyzer found nothing
+      // tier 3 — llm fallback, only if analyzer found nothing
       if (!groupFindings.length) {
-        groupFindings = await this.runTier([this.groqFallback], group, triggeredDetectors, true)
+        groupFindings = await this.runTier([this.llmFallback], group, triggeredDetectors, true)
       }
 
       return groupFindings.map(f => ({ ...f, groupKey: group.externalRef }))

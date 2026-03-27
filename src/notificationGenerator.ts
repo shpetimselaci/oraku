@@ -1,16 +1,4 @@
-import type { Finding } from './types'
-
-export interface Notification {
-  ref: string
-  detector: string
-  type: string
-  message: string
-}
-
-export interface NotificationOptions {
-  apiKey: string
-  model?: string
-}
+import type { Finding, Notification, NotificationOptions } from './types'
 
 function extractActivity(message: string): string {
   // matches any "category/subcategory" pattern e.g. "nutrition/meal_log", "routine/gym_session"
@@ -75,26 +63,8 @@ export async function generateNotifications(
   findings: Finding[],
   options: NotificationOptions
 ): Promise<string> {
-  const model = options.model ?? 'llama-3.3-70b-versatile'
   const prompt = buildNotificationPrompt(findings)
-
-  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${options.apiKey}`
-    },
-    body: JSON.stringify({
-      model,
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 1024
-    })
-  })
-
-  if (!res.ok) throw new Error(`Groq error: ${res.status} ${await res.text()}`)
-
-  const data = await res.json() as { choices: { message: { content: string } }[] }
-  const text = data.choices[0]?.message?.content
-  if (!text) throw new Error('Groq did not return any text')
+  const text = await options.provider.complete(prompt)
+  if (!text) throw new Error('LLM provider did not return any text')
   return text
 }

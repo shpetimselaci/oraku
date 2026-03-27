@@ -33,17 +33,17 @@ class Parser {
   }
 
   private parseOr(): MarkerPredicate {
-    let left = this.parseAnd()
+    let left = this.parseConjunction()
     while (this.peek('op', 'or')) {
       this.consume()
-      const right = this.parseAnd()
+      const right = this.parseConjunction()
       const l = left, r = right
       left = e => l(e) || r(e)
     }
     return left
   }
 
-  private parseAnd(): MarkerPredicate {
+  private parseConjunction(): MarkerPredicate {
     let left = this.parseNot()
     while (this.peek('op', 'and')) {
       this.consume()

@@ -1,6 +1,7 @@
 import { ActivityPatternAnalyzer } from './ActivityPatternAnalyzer'
 import { RecommendationGenerator } from './RecommendationGenerator'
-import { GroqFallbackDetector } from './GroqFallbackDetector'
+import { LLMDetector } from './LLMDetector'
+import { ChatProvider } from '../providers/ChatProvider'
 import type { Detector } from '../types'
 
 // Re-export all detectors and types
@@ -9,7 +10,7 @@ export { ChecklistDetector } from './ChecklistDetector'
 export { MilestoneDetector } from './MilestoneDetector'
 export { StreakDetector } from './StreakDetector'
 export { ActivityPatternAnalyzer } from './ActivityPatternAnalyzer'
-export { GroqFallbackDetector } from './GroqFallbackDetector'
+export { LLMDetector } from './LLMDetector'
 export { DetectorManager } from './DetectorManager'
 // RecommendationGenerator is a post-processing stage (runs after all detectors, reads findings)
 // It is not included in the default detectors array
@@ -21,7 +22,7 @@ export * from './helpers/EventCounter'
 
 // ActivityPatternAnalyzer runs first (fast, rule-based)
 // RecommendationGenerator aggregates across all users and fires in finalize()
-// GroqFallbackDetector (LLM) is fallback - only runs if analyzer finds nothing
-const detectors: Detector[] = [new ActivityPatternAnalyzer(), new RecommendationGenerator(), new GroqFallbackDetector()]
+// LLMDetector is fallback - only runs if analyzer finds nothing
+const detectors: Detector[] = [new ActivityPatternAnalyzer(), new RecommendationGenerator(), new LLMDetector({ provider: new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL }) })]
 
 export default detectors

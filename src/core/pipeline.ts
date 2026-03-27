@@ -4,28 +4,13 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') })
 import { EventStitcher } from './EventStitcher'
 import { DetectorManager } from '../detectors/DetectorManager'
 import { generateNotifications } from '../notificationGenerator'
+import { ChatProvider } from '../providers/ChatProvider'
 import { initSchema } from '../db/schema'
 import { saveFindings, getFindings } from '../db/findings'
 import { saveNotifications } from '../db/notifications'
-import type { Event, Finding, NotificationType } from '../types'
+import type { Event, Finding, NotificationType, PipelineOptions, PipelineResult } from '../types'
 import type { DetectorBuilder } from '../detectors/DetectorBuilder'
 
-export interface PipelineOptions {
-  groupBy?: string | string[]
-  apiKey?: string
-  builders?: DetectorBuilder[]
-  forUserId?: string
-  webhookUrl?: string
-  webhookAuthKey?: string
-}
-
-export interface PipelineResult {
-  count: number
-  findings: Finding[]
-  notifications: string[]
-  notificationsByUser: Record<string, string[]>
-  webhookDelivered?: boolean
-}
 
 const TIMESTAMP_FIELDS = ['createdAt', 'created_at', 'timestamp', 'date', 'eventTime', 'event_time', 'occurredAt', 'occurred_at', 'time']
 const DEFAULT_GROUP_BY = ['userId', 'user_id', 'uid', 'meta.userId', 'meta.user_id', 'meta.uid', 'meta.externalRef', 'meta.external_ref', 'externalRef', 'external_ref']
@@ -47,8 +32,6 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
   const groups = new EventStitcher(normalized).stitchByField(groupBy)
   const findings = await new DetectorManager({ builders: options.builders }).runDetectorsOn(groups)
 
-  const apiKey = process.env.GROQ_API_KEY
-
   // group findings by the userId tagged in DetectorManager, skipping untagged (finalize/global) findings
   const findingsByUser: Record<string, Finding[]> = {}
   for (const finding of findings) {
@@ -66,7 +49,7 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
   }
 
   // generate notifications per user so each user only gets their own
-  // if forUserId is set, skip all other users (avoids unnecessary Groq calls)
+  // if forUserId is set, skip all other users (avoids unnecessary LLM calls)
   const notificationsByUser: Record<string, string[]> = {}
   for (const [userId, userFindings] of Object.entries(findingsByUser)) {
     if (options.forUserId && userId !== options.forUserId) continue
@@ -78,8 +61,7 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
       .map(f => ({ ...f, notificationType: f.notification_type as NotificationType, evidence: f.evidence ?? {}, groupKey: userId }))
 
     if (notifiable.length === 0) continue
-    if (!apiKey) throw new Error('GROQ_API_KEY is required to generate notifications')
-    const raw = await generateNotifications(notifiable, { apiKey })
+    const raw = await generateNotifications(notifiable, { provider: new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL }) })
     const messages = raw
       .split('\n')
       .map(line => line.replace(/^\d+\.\s*/, '').trim())
