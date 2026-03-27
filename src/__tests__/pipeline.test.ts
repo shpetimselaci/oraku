@@ -34,9 +34,9 @@ const builders = [
 ]
 
 const userEvents = (userId: string, subcategory: string) => [
-  { externalRef: `${userId}-1`, category: 'routine', subcategory, createdAt: daysAgo(6), meta: { userId } },
-  { externalRef: `${userId}-2`, category: 'routine', subcategory, createdAt: daysAgo(3), meta: { userId } },
-  { externalRef: `${userId}-3`, category: 'routine', subcategory, createdAt: daysAgo(0), meta: { userId } },
+  { externalRef: userId, category: 'routine', subcategory, createdAt: daysAgo(6) },
+  { externalRef: userId, category: 'routine', subcategory, createdAt: daysAgo(3) },
+  { externalRef: userId, category: 'routine', subcategory, createdAt: daysAgo(0) },
 ]
 
 describe('runPipeline', () => {

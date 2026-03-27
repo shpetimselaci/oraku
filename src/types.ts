@@ -228,17 +228,6 @@ export type OpToken = { type: 'op'; value: 'or' | 'and' | 'not' }
 export type ParenToken = { type: 'paren'; value: '(' | ')' }
 export type Token = AtomToken | OpToken | ParenToken
 
-// ============ EVENT STITCHER ============
-
-export interface InternalEventGroup extends Omit<EventGroup, 'first' | 'last'> {
-  first: string | null
-  last: string | null
-  _refs: Set<string>
-}
-
-export interface StitchOptions {
-  groupBy?: string | string[]
-}
 
 // ============ CONTEXT FILTER ============
 
@@ -280,7 +269,6 @@ export interface UserTrace {
 // ============ PIPELINE ============
 
 export interface PipelineOptions {
-  groupBy?: string | string[]
   builders?: import('./detectors/DetectorBuilder').DetectorBuilder[]
   forUserId?: string
   webhookUrl?: string
