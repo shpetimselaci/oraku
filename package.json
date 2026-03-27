@@ -31,7 +31,7 @@
     "prepare": "npm run build",
     "build:watch": "tsc --watch",
     "generate": "npx ts-node generate-activity-events.ts",
-    "stitch": "npx ts-node src/cli/stitch.ts output/activity_events.json --groupBy=meta.userId",
+    "stitch": "npx ts-node src/cli/stitch.ts output/activity_events.json",
     "trace": "npx ts-node src/cli/trace.ts",
     "detect": "npx ts-node src/cli/run-detectors.ts",
     "reminders": "npx ts-node src/cli/generate-reminders.ts",

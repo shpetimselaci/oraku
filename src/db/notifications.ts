@@ -1,14 +1,7 @@
 import { randomUUID } from 'crypto'
 import { db } from './connection'
 import { toUUID } from './findings'
-
-export interface DbNotification {
-  id: string
-  user_id: string
-  message: string
-  generated_date: string
-  created_at: string
-}
+import type { DbNotification } from '../types'
 
 const insertNotification = db.prepare(`
   INSERT INTO notifications (id, user_id, message, generated_date)

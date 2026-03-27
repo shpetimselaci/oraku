@@ -1,10 +1,8 @@
 // ─── Core ────────────────────────────────────────────────────────────────────
 export { EventStitcher } from './core/EventStitcher'
 export { runPipeline } from './core/pipeline'
-export type { PipelineOptions, PipelineResult } from './core/pipeline'
 export { schedulePipeline } from './core/cron'
-export type { CronHandle } from './core/cron'
-export { loadJsonRecords, loadJsonRecordsSync } from './ingest'
+export { loadEvents, loadEventsSync, stitch, writeGroups } from './ingest'
 
 // ─── Detectors ───────────────────────────────────────────────────────────────
 export { BaseDetector } from './detectors/BaseDetector'
@@ -15,11 +13,11 @@ export { ThresholdDetector } from './detectors/ThresholdDetector'
 export { ItemAnalysisDetector } from './detectors/ItemAnalysisDetector'
 export { ActivityPatternAnalyzer } from './detectors/ActivityPatternAnalyzer'
 export { RecommendationGenerator } from './detectors/RecommendationGenerator'
-export { GroqFallbackDetector } from './detectors/GroqFallbackDetector'
+export { LLMDetector } from './detectors/LLMDetector'
+export { ChatProvider } from './providers/ChatProvider'
 export { DetectorManager } from './detectors/DetectorManager'
 export { DetectorBuilder } from './detectors/DetectorBuilder'
 export { toBuilder } from './detectors/helpers/toBuilder'
-export type { SDKDetectorSchema } from './detectors/helpers/toBuilder'
 export { countPatterns, getTopPattern, filterByPattern } from './detectors/helpers/EventCounter'
 
 // ─── Filters ─────────────────────────────────────────────────────────────────
@@ -28,7 +26,6 @@ export { ContextBasedFilter } from './filters/ContextBasedFilter'
 
 // ─── Notifications ───────────────────────────────────────────────────────────
 export { generateNotifications } from './notificationGenerator'
-export type { NotificationOptions, Notification } from './notificationGenerator'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 export type {
@@ -45,6 +42,18 @@ export type {
   StreakConfig,
   StreakTrigger,
   ActivityPatternAnalyzerConfig,
+  ExpectedItem,
+  PipelineOptions,
+  PipelineResult,
+  CronHandle,
+  LLMProvider,
+  ChatProviderConfig,
   LLMDetectorConfig,
-  ExpectedItem
+  Notification,
+  NotificationOptions,
+  ThresholdConfig,
+  ApiMatcherConfig,
+  DbFinding,
+  DbNotification,
+  SDKDetectorSchema
 } from './types'

@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from 'crypto'
 import { db } from './connection'
-import type { Finding, NotificationType } from '../types'
+import type { Finding, NotificationType, DbFinding } from '../types'
 
 // generates a deterministic UUID from any string so the same userId always maps to the same UUID
 export function toUUID(str: string): string {
@@ -12,16 +12,6 @@ export function toUUID(str: string): string {
     ((parseInt(hash.slice(16, 18), 16) & 0x3f) | 0x80).toString(16) + hash.slice(18, 20),
     hash.slice(20, 32)
   ].join('-')
-}
-
-export interface DbFinding {
-  id: string
-  user_id: string
-  detector: string
-  notification_type: NotificationType
-  message: string
-  evidence: Record<string, unknown>
-  detected_at: string
 }
 
 const insertFinding = db.prepare(`
