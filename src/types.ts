@@ -221,13 +221,6 @@ export interface BuilderEntry {
   markers: MarkerPredicate[]
 }
 
-// ============ MARKER PARSER TOKENS ============
-
-export type AtomToken = { type: 'atom'; value: string }
-export type OpToken = { type: 'op'; value: 'or' | 'and' | 'not' }
-export type ParenToken = { type: 'paren'; value: '(' | ')' }
-export type Token = AtomToken | OpToken | ParenToken
-
 
 // ============ CONTEXT FILTER ============
 
