@@ -1,7 +1,7 @@
 import { vi, describe, it, expect } from 'vitest'
 
 vi.mock('../notificationGenerator', () => ({
-  generateNotifications: vi.fn().mockResolvedValue('1. Keep up your routine!')
+  generateNotifications: vi.fn().mockResolvedValue([{ ref: 'user-1', message: 'Keep up your routine.' }])
 }))
 
 vi.mock('../db/findings', () => ({

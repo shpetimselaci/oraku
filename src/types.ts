@@ -25,6 +25,7 @@ export interface Finding {
   notificationType: NotificationType
   message: string
   evidence: Record<string, unknown>
+  scheduledAt: string
   [key: string]: unknown
 }
 
@@ -278,8 +279,8 @@ export interface PipelineOptions {
 export interface PipelineResult {
   count: number
   findings: Finding[]
-  notifications: string[]
-  notificationsByUser: Record<string, string[]>
+  notifications: Notification[]
+  notificationsByUser: Record<string, Notification[]>
   webhookDelivered?: boolean
 }
 
@@ -314,6 +315,7 @@ export interface Notification {
   detector: string
   type: string
   message: string
+  scheduledAt: string
 }
 
 export interface NotificationOptions {
