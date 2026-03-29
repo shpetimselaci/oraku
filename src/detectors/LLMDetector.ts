@@ -17,7 +17,7 @@ export class LLMDetector extends BaseDetector {
   private maxEvents: number
   override isFallback = true
 
-  private pendingEntries: Array<{ ref: string; text: string }> = []
+  private pendingEntries: Array<{ ref: string; events: Array<{ time: string | null; category: string; label: string | null }> }> = []
 
   constructor(config: LLMDetectorConfig) {
     super({ name: 'LLMDetector', notificationType: 'insight', ...config })
@@ -26,22 +26,24 @@ export class LLMDetector extends BaseDetector {
   }
 
   async detect(entry: EventGroup): Promise<Finding[]> {
-    const events = this.getEvents(entry)
-    if (!events.length) return []
+    const raw = this.getEvents(entry)
+    if (!raw.length) return []
 
-    const todayEvents = this.filterByDate(events, new Date(), 'day')
-    const sourceEvents = todayEvents.length ? todayEvents : events
+    const todayEvents = this.filterByDate(raw, new Date(), 'day')
+    const sourceEvents = todayEvents.length ? todayEvents : raw
 
-    const eventText = sourceEvents
+    const events = sourceEvents
       .slice(0, this.maxEvents)
       .map(logEvent => {
         const d = this.parseDate(logEvent.createdAt)
-        const time = d ? d.toISOString().slice(11, 19) : '--:--:--'
-        return `${time} | ${this.getString(logEvent, 'category') ?? 'log'} | ${this.getEventLabel(logEvent) ?? ''}`
+        return {
+          time: d ? d.toISOString().slice(11, 19) : null,
+          category: this.getString(logEvent, 'category') ?? 'log',
+          label: this.getEventLabel(logEvent) ?? null
+        }
       })
-      .join('\n')
 
-    if (eventText) this.pendingEntries.push({ ref: entry.externalRef ?? 'unknown', text: eventText })
+    if (events.length) this.pendingEntries.push({ ref: entry.externalRef ?? 'unknown', events })
 
     return []
   }
@@ -53,11 +55,11 @@ export class LLMDetector extends BaseDetector {
     const allFindings: Finding[] = []
 
     for (let i = 0; i < queue.length; i++) {
-      const { ref, text } = queue[i]
+      const { ref, events } = queue[i]
       try {
         const raw = await AIRetryOnFail<string>(
           () => this.provider.complete(
-            `Analyze context "${ref}":\n${text}`,
+            JSON.stringify({ context: ref, events }),
             SYSTEM_PROMPT
           ),
           1,

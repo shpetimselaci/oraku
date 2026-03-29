@@ -8,7 +8,7 @@ import { ChatProvider } from '../providers/ChatProvider'
 import { initSchema } from '../db/schema'
 import { saveFindings, getFindings } from '../db/findings'
 import { saveNotifications } from '../db/notifications'
-import type { Event, Finding, NotificationType, PipelineOptions, PipelineResult } from '../types'
+import type { Event, Finding, Notification, NotificationType, PipelineOptions, PipelineResult } from '../types'
 
 
 export async function runPipeline(events: Event[], options: PipelineOptions = {}): Promise<PipelineResult> {
@@ -34,7 +34,7 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
 
   // generate notifications per user so each user only gets their own
   // if forUserId is set, skip all other users (avoids unnecessary LLM calls)
-  const notificationsByUser: Record<string, string[]> = {}
+  const notificationsByUser: Record<string, Notification[]> = {}
   for (const [userId, userFindings] of Object.entries(findingsByUser)) {
     if (options.forUserId && userId !== options.forUserId) continue
 
@@ -42,19 +42,15 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
     const dbFindings = await getFindings(userId)
     const notifiable = dbFindings
       .filter(f => !String(f.id).startsWith('summary-'))
-      .map(f => ({ ...f, notificationType: f.notification_type as NotificationType, evidence: f.evidence ?? {}, groupKey: userId }))
+      .map(f => ({ ...f, notificationType: f.notification_type as NotificationType, evidence: f.evidence ?? {}, groupKey: userId, scheduledAt: new Date().toISOString() }))
 
     if (notifiable.length === 0) continue
-    const raw = await generateNotifications(notifiable, { provider: new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL }) })
-    const messages = raw
-      .split('\n')
-      .map(line => line.replace(/^\d+\.\s*/, '').trim())
-      .filter(Boolean)
+    const notifications = await generateNotifications(notifiable, { provider: new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL }) })
 
-    notificationsByUser[userId] = messages
+    notificationsByUser[userId] = notifications
 
     // save notifications and link them to the findings that produced them
-    await saveNotifications(userId, messages, dbIdsByUser[userId] ?? [])
+    await saveNotifications(userId, notifications.map(n => n.message), dbIdsByUser[userId] ?? [])
   }
 
   const notifications = Object.values(notificationsByUser).flat()
