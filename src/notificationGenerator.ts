@@ -73,8 +73,7 @@ export async function generateNotifications(
         ref: item.ref,
         message: item.message,
         detector: source?.detector ?? 'unknown',
-        type: source?.notificationType ?? 'insight',
-        scheduledAt: source?.scheduledAt ?? new Date().toISOString()
+        type: source?.notificationType ?? 'insight'
       }
     })
   } catch {

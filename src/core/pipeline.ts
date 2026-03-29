@@ -6,9 +6,8 @@ import { DetectorManager } from '../detectors/DetectorManager'
 import { generateNotifications } from '../notificationGenerator'
 import { ChatProvider } from '../providers/ChatProvider'
 import { initSchema } from '../db/schema'
-import { saveFindings, getFindings } from '../db/findings'
 import { saveNotifications } from '../db/notifications'
-import type { Event, Finding, Notification, NotificationType, PipelineOptions, PipelineResult } from '../types'
+import type { Event, Finding, Notification, PipelineOptions, PipelineResult } from '../types'
 
 
 export async function runPipeline(events: Event[], options: PipelineOptions = {}): Promise<PipelineResult> {
@@ -25,32 +24,17 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
     findingsByUser[groupKey].push(finding)
   }
 
-  // save all findings to DB and collect their generated UUIDs per user
-  const dbIdsByUser: Record<string, string[]> = {}
-  for (const [userId, userFindings] of Object.entries(findingsByUser)) {
-    const saved = await saveFindings(userFindings)
-    dbIdsByUser[userId] = saved.map(r => r.id)
-  }
-
-  // generate notifications per user so each user only gets their own
-  // if forUserId is set, skip all other users (avoids unnecessary LLM calls)
+  // generate notifications per user using in-memory findings directly
   const notificationsByUser: Record<string, Notification[]> = {}
   for (const [userId, userFindings] of Object.entries(findingsByUser)) {
     if (options.forUserId && userId !== options.forUserId) continue
 
-    // fetch findings from DB so notifications are driven by persisted data
-    const dbFindings = await getFindings(userId)
-    const notifiable = dbFindings
-      .filter(f => !String(f.id).startsWith('summary-'))
-      .map(f => ({ ...f, notificationType: f.notification_type as NotificationType, evidence: f.evidence ?? {}, groupKey: userId, scheduledAt: new Date().toISOString() }))
+    const notifiable = userFindings.filter(f => !String(f.id).startsWith('summary-'))
+    if (!notifiable.length) continue
 
-    if (notifiable.length === 0) continue
     const notifications = await generateNotifications(notifiable, { provider: new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL }) })
-
     notificationsByUser[userId] = notifications
-
-    // save notifications and link them to the findings that produced them
-    await saveNotifications(userId, notifications.map(n => n.message), dbIdsByUser[userId] ?? [])
+    await saveNotifications(userId, notifications)
   }
 
   const notifications = Object.values(notificationsByUser).flat()

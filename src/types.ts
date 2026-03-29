@@ -25,7 +25,6 @@ export interface Finding {
   notificationType: NotificationType
   message: string
   evidence: Record<string, unknown>
-  scheduledAt: string
   [key: string]: unknown
 }
 
@@ -315,7 +314,6 @@ export interface Notification {
   detector: string
   type: string
   message: string
-  scheduledAt: string
 }
 
 export interface NotificationOptions {
@@ -350,6 +348,8 @@ export interface DbNotification {
   id: string
   user_id: string
   message: string
+  type: string
+  scheduled_at: string
   generated_date: string
   created_at: string
 }
