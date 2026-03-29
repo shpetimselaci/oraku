@@ -1,22 +1,19 @@
 import { vi, describe, it, expect } from 'vitest'
 
 vi.mock('../notificationGenerator', () => ({
-  generateNotifications: vi.fn().mockResolvedValue([{ ref: 'user-1', message: 'Keep up your routine.' }])
-}))
-
-vi.mock('../db/findings', () => ({
-  saveFindings: vi.fn().mockResolvedValue([{ id: 'mock-uuid', user_id: 'mock-user-uuid' }]),
-  getFindings: vi.fn().mockResolvedValue([
-    { id: 'mock-uuid', user_id: 'mock-user-uuid', detector: 'TestStreak', notification_type: 'insight', message: 'Test finding', evidence: {}, detected_at: new Date().toISOString() }
-  ]),
-  toUUID: vi.fn().mockReturnValue('mock-user-uuid')
+  generateNotifications: vi.fn().mockResolvedValue([{
+    ref: 'user-1',
+    message: 'Keep up your routine.',
+    detector: 'StreakDetector',
+    type: 'reminder'
+  }])
 }))
 
 vi.mock('../db/notifications', () => ({
   saveNotifications: vi.fn().mockResolvedValue([])
 }))
 
-process.env.GROQ_API_KEY = 'test-key'
+process.env.LLM_API_KEY = 'test-key'
 
 import { runPipeline } from '../core/pipeline'
 import { DetectorBuilder } from '../detectors/DetectorBuilder'

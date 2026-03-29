@@ -16,6 +16,8 @@ export function initSchema() {
       id             TEXT PRIMARY KEY,
       user_id        TEXT NOT NULL,
       message        TEXT NOT NULL,
+      type           TEXT NOT NULL DEFAULT 'insight',
+      scheduled_at   TEXT NOT NULL,
       generated_date TEXT NOT NULL DEFAULT (date('now')),
       created_at     TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
@@ -39,7 +41,13 @@ export function initSchema() {
   // migration: add generated_date to existing notifications tables
   try {
     db.exec(`ALTER TABLE notifications ADD COLUMN generated_date TEXT NOT NULL DEFAULT (date('now'))`)
-  } catch {
-    // column already exists
-  }
+  } catch { /* column already exists */ }
+
+  try {
+    db.exec(`ALTER TABLE notifications ADD COLUMN type TEXT NOT NULL DEFAULT 'insight'`)
+  } catch { /* column already exists */ }
+
+  try {
+    db.exec(`ALTER TABLE notifications ADD COLUMN scheduled_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP`)
+  } catch { /* column already exists */ }
 }

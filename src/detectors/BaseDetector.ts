@@ -97,28 +97,8 @@ export abstract class BaseDetector implements Detector {
       notificationType: type,
       message,
       evidence,
-      scheduledAt: this.computeScheduledAt(type, evidence),
       ...extra
     };
-  }
-
-  private computeScheduledAt(type: NotificationType, evidence: Record<string, unknown>): string {
-    const now = Date.now()
-    const endOfDay = new Date()
-    endOfDay.setHours(23, 0, 0, 0)
-
-    switch (type) {
-      case 'reminder': {
-        const predicted = typeof evidence.predicted === 'string' ? new Date(evidence.predicted).getTime() : null
-        return new Date(predicted ? predicted - 60 * 60 * 1000 : now).toISOString()
-      }
-      case 'warning':
-        return new Date(now + 60 * 60 * 1000).toISOString()
-      case 'insight':
-        return endOfDay.toISOString()
-      default:
-        return new Date(now).toISOString()
-    }
   }
 }
 
