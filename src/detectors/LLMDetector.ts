@@ -91,10 +91,8 @@ export class LLMDetector extends BaseDetector {
   }
 
   private parseFindings(content: string): RawLLMFinding[] {
-    const jsonMatch = (content || '[]').match(/\[[\s\S]*?\]/)
-    const cleaned = jsonMatch ? jsonMatch[0] : '[]'
     try {
-      const parsed = JSON.parse(cleaned)
+      const parsed = JSON.parse(content || '[]')
       return Array.isArray(parsed) ? parsed : []
     } catch {
       console.warn(`[${this.name}] Failed to parse LLM response as JSON — skipping`)

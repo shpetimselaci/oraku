@@ -5,13 +5,19 @@ import { EventStitcher } from './EventStitcher'
 import { DetectorManager } from '../detectors/DetectorManager'
 import { generateNotifications } from '../notificationGenerator'
 import { ChatProvider } from '../providers/ChatProvider'
+import type { LLMProvider } from '../types'
 import { initSchema } from '../db/schema'
 import { saveNotifications } from '../db/notifications'
 import type { Event, Finding, Notification, PipelineOptions, PipelineResult } from '../types'
 
 
+function resolveProvider(options: PipelineOptions): LLMProvider {
+  return options.provider ?? new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL })
+}
+
 export async function runPipeline(events: Event[], options: PipelineOptions = {}): Promise<PipelineResult> {
   initSchema()
+  const provider = resolveProvider(options)
   const groups = new EventStitcher(events).stitch()
   const findings = await new DetectorManager({ builders: options.builders }).runDetectorsOn(groups)
 
@@ -32,7 +38,7 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
     const notifiable = userFindings.filter(f => !String(f.id).startsWith('summary-'))
     if (!notifiable.length) continue
 
-    const notifications = await generateNotifications(notifiable, { provider: new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL }) })
+    const notifications = await generateNotifications(notifiable, { provider })
     notificationsByUser[userId] = notifications
     await saveNotifications(userId, notifications)
   }

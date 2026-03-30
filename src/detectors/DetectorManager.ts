@@ -1,3 +1,4 @@
+import uniqBy from 'lodash/uniqBy'
 import { ActivityPatternAnalyzer } from './ActivityPatternAnalyzer'
 import { RecommendationGenerator } from './RecommendationGenerator'
 import { LLMDetector } from './LLMDetector'
@@ -82,13 +83,7 @@ export class DetectorManager {
       }
     }
 
-    // deduplicate
-    const seen = new Set<string>()
-    return findings.filter(f => {
-      if (!f?.id || seen.has(f.id)) return false
-      seen.add(f.id)
-      return true
-    })
+    return uniqBy(findings.filter(f => f?.id), 'id')
   }
 
   private async runTier(
