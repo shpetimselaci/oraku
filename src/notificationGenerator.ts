@@ -1,3 +1,4 @@
+import keyBy from 'lodash/keyBy'
 import type { Finding, Notification, NotificationOptions } from './types'
 
 function extractActivity(message: string): string {
@@ -57,15 +58,13 @@ export async function generateNotifications(
   findings: Finding[],
   options: NotificationOptions
 ): Promise<Notification[]> {
-  const findingById = Object.fromEntries(findings.map(f => [f.id, f]))
+  const findingById = keyBy(findings, 'id')
 
   const text = await options.provider.complete(JSON.stringify(buildFindings(findings)), SYSTEM_PROMPT)
   if (!text) throw new Error('LLM provider did not return any text')
 
-  const jsonMatch = text.match(/\[[\s\S]*\]/)
-  const cleaned = jsonMatch ? jsonMatch[0] : '[]'
   try {
-    const parsed: Array<{ id: string; ref: string; message: string }> = JSON.parse(cleaned)
+    const parsed: Array<{ id: string; ref: string; message: string }> = JSON.parse(text)
     if (!Array.isArray(parsed)) return []
     return parsed.map(item => {
       const source = findingById[item.id]

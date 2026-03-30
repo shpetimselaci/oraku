@@ -263,6 +263,7 @@ export interface UserTrace {
 
 export interface PipelineOptions {
   builders?: import('./detectors/DetectorBuilder').DetectorBuilder[]
+  provider?: LLMProvider
   forUserId?: string
   webhookUrl?: string
   webhookAuthKey?: string

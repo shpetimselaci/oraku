@@ -1,24 +1,20 @@
+import countBy from 'lodash/countBy'
+import maxBy from 'lodash/maxBy'
 import type { Event, PatternCounts, TopPattern } from '../../types'
 
 export type { PatternCounts, TopPattern }
 
 export function countPatterns(events: Event[]): PatternCounts {
-  const counts: PatternCounts = {}
-  for (const e of events) {
-    const eventCategory = typeof e?.category === 'string' ? e.category : ''
-    const eventSubcategory = typeof e?.subcategory === 'string' ? e.subcategory : ''
-    const key = `${eventCategory}|${eventSubcategory}`
-    counts[key] = (counts[key] || 0) + 1
-  }
-  return counts
+  return countBy(events, e => {
+    const cat = typeof e?.category === 'string' ? e.category : ''
+    const sub = typeof e?.subcategory === 'string' ? e.subcategory : ''
+    return `${cat}|${sub}`
+  })
 }
 
 export function getTopPattern(counts: PatternCounts): TopPattern {
-  let top: TopPattern = { key: null, count: 0 }
-  for (const [key, count] of Object.entries(counts)) {
-    if (count > top.count) top = { key, count }
-  }
-  return top
+  const entries = Object.entries(counts).map(([key, count]) => ({ key, count }))
+  return maxBy(entries, 'count') ?? { key: null, count: 0 }
 }
 
 export function filterByPattern(events: Event[], patternKey: string): Event[] {

@@ -1,6 +1,16 @@
-import { randomUUID } from 'crypto'
+import { createHash, randomUUID } from 'crypto'
 import { db } from './connection'
-import { toUUID } from './findings'
+
+function toUUID(str: string): string {
+  const hash = createHash('sha256').update(str).digest('hex')
+  return [
+    hash.slice(0, 8),
+    hash.slice(8, 12),
+    '4' + hash.slice(13, 16),
+    ((parseInt(hash.slice(16, 18), 16) & 0x3f) | 0x80).toString(16) + hash.slice(18, 20),
+    hash.slice(20, 32)
+  ].join('-')
+}
 import type { DbNotification, Notification } from '../types'
 
 const insertNotification = db.prepare(`
