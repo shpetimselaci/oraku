@@ -21,7 +21,7 @@ const FINDINGS_FILE = path.resolve(__dirname, '..', '..', 'output', 'findings.js
     const provider = new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL })
     const message = await generateNotifications(findings, { provider })
     const outFile = path.resolve(__dirname, '..', '..', 'output', 'reminders.txt')
-    fs.writeFileSync(outFile, message, 'utf8')
+    fs.writeFileSync(outFile, JSON.stringify(message, null, 2), 'utf8')
     console.log('reminders generated to', outFile)
   } catch (err) {
     console.error('generation failed:', (err as Error).message)
