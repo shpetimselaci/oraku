@@ -16,7 +16,7 @@ import type { DbNotification, Notification } from '../types'
 export function getDueNotifications(): DbNotification[] {
   return db.prepare(`
     SELECT * FROM notifications
-    WHERE scheduled_at <= datetime('now')
+    WHERE datetime(scheduled_at) <= datetime('now')
     AND delivered_at IS NULL
   `).all() as DbNotification[]
 }
@@ -29,7 +29,7 @@ export function markDelivered(ids: string[]): void {
 export function getDueNotificationsByUser(): Record<string, DbNotification[]> {
   const rows = db.prepare(`
     SELECT * FROM notifications
-    WHERE scheduled_at <= datetime('now')
+    WHERE datetime(scheduled_at) <= datetime('now')
     AND delivered_at IS NULL
   `).all() as DbNotification[]
 
@@ -41,10 +41,6 @@ export function getDueNotificationsByUser(): Record<string, DbNotification[]> {
   }
   return result
 }
-
-const checkPermanent = db.prepare(`
-  SELECT 1 FROM notifications WHERE detector = ? AND external_ref = ? LIMIT 1
-`)
 
 export function saveNotifications(
   userId: string,
@@ -69,6 +65,8 @@ export function saveNotifications(
   `)
 
   const saved: DbNotification[] = []
+
+  const checkPermanent = db.prepare(`SELECT 1 FROM notifications WHERE detector = ? AND external_ref = ? LIMIT 1`)
 
   db.transaction(() => {
     for (const n of notifications) {
