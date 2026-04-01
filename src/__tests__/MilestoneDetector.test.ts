@@ -29,11 +29,11 @@ describe('MilestoneDetector', () => {
     ])
 
     const findings = await detector.detect(group)
-    expect(findings.length).toBe(2)
-    const keys = findings.map(f => f.evidence.milestone)
-    expect(keys).toContain('first-purchase')
-    expect(keys).toContain('onboarding')
-    expect(keys).not.toContain('profile-complete')
+    expect(findings.length).toBe(1)
+    const milestones = findings[0].evidence.milestones as string[]
+    expect(milestones).toContain('first-purchase')
+    expect(milestones).toContain('onboarding')
+    expect(milestones).not.toContain('profile-complete')
   })
 
   it('returns no findings when no milestones are matched', async () => {
