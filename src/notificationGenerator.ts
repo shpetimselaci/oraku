@@ -1,5 +1,14 @@
+import fs from 'fs'
+import path from 'path'
 import keyBy from 'lodash/keyBy'
 import type { Finding, Notification, NotificationOptions } from './types'
+
+const TRAINING_FILE = path.resolve(__dirname, '../../data/training.jsonl')
+
+function appendTrainingPair(input: object[], output: object[]): void {
+  const line = JSON.stringify({ input, output }) + '\n'
+  fs.appendFile(TRAINING_FILE, line, () => {})
+}
 
 const SYSTEM_PROMPT = `
 You are a notification engine for an activity tracking app. Write short, warm, friendly push notifications.
@@ -80,6 +89,7 @@ export async function generateNotifications(
   try {
     const parsed: Array<{ id: string; ref: string; message: string }> = JSON.parse(text)
     if (!Array.isArray(parsed)) return []
+    appendTrainingPair(payload, parsed)
     return parsed.map(item => {
       const realId = idMap.get(item.id) ?? item.id
       const source = findingById[realId]
