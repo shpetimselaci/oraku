@@ -13,18 +13,37 @@ function toUUID(str: string): string {
 }
 import type { DbNotification, Notification } from '../types'
 
-const insertNotification = db.prepare(`
-  INSERT INTO notifications (id, user_id, message, type, scheduled_at, generated_date)
-  VALUES (
-    @id, @user_id, @message, @type,
-    CASE @type
-      WHEN 'reminder' THEN datetime('now', '-1 hour')
-      WHEN 'warning'  THEN datetime('now', '+1 hour')
-      WHEN 'insight'  THEN datetime(date('now'), '23:00:00')
-      ELSE datetime('now')
-    END,
-    @generated_date
-  )
+export function getDueNotifications(): DbNotification[] {
+  return db.prepare(`
+    SELECT * FROM notifications
+    WHERE scheduled_at <= datetime('now')
+    AND delivered_at IS NULL
+  `).all() as DbNotification[]
+}
+
+export function markDelivered(ids: string[]): void {
+  if (!ids.length) return
+  db.prepare(`UPDATE notifications SET delivered_at = datetime('now') WHERE id IN (${ids.map(() => '?').join(',')})`).run(...ids)
+}
+
+export function getDueNotificationsByUser(): Record<string, DbNotification[]> {
+  const rows = db.prepare(`
+    SELECT * FROM notifications
+    WHERE scheduled_at <= datetime('now')
+    AND delivered_at IS NULL
+  `).all() as DbNotification[]
+
+  const result: Record<string, DbNotification[]> = {}
+  for (const row of rows) {
+    const key = row.external_ref ?? row.user_id
+    if (!result[key]) result[key] = []
+    result[key].push(row)
+  }
+  return result
+}
+
+const checkPermanent = db.prepare(`
+  SELECT 1 FROM notifications WHERE detector = ? AND external_ref = ? LIMIT 1
 `)
 
 export function saveNotifications(
@@ -33,18 +52,36 @@ export function saveNotifications(
 ): DbNotification[] {
   if (!notifications.length) return []
 
+  const insert = db.prepare(`
+    INSERT OR IGNORE INTO notifications (id, user_id, external_ref, detector, message, type, scheduled_at, generated_date)
+    VALUES (
+      @id, @user_id, @external_ref, @detector, @message, @type,
+      COALESCE(@scheduled_at, CASE @type
+        WHEN 'reminder' THEN datetime('now', '-30 minutes')
+        WHEN 'warning'  THEN datetime('now')
+        WHEN 'achievement' THEN datetime('now')
+        WHEN 'nudge'    THEN datetime(date('now'), '20:00:00')
+        WHEN 'insight'  THEN datetime(date('now'), '20:00:00')
+        ELSE datetime('now')
+      END),
+      @generated_date
+    )
+  `)
+
   const saved: DbNotification[] = []
 
-  const run = db.transaction(() => {
+  db.transaction(() => {
     for (const n of notifications) {
+      if (n.permanent && checkPermanent.get(n.detector, userId)) continue
+
       const id = randomUUID()
       const user_id = toUUID(userId)
       const generated_date = new Date().toISOString().slice(0, 10)
-      insertNotification.run({ id, user_id, message: n.message, type: n.type, generated_date })
-      saved.push({ id, user_id, message: n.message, type: n.type, scheduled_at: '', generated_date, created_at: new Date().toISOString() })
+      const scheduled_at = (n as Notification & { scheduledAt?: string }).scheduledAt ?? null
+      insert.run({ id, user_id, external_ref: userId, detector: n.detector ?? null, message: n.message, type: n.type, scheduled_at, generated_date })
+      saved.push({ id, user_id, external_ref: userId, detector: n.detector, message: n.message, type: n.type, scheduled_at: scheduled_at ?? '', generated_date, created_at: new Date().toISOString(), delivered_at: null })
     }
-  })
+  })()
 
-  run()
   return saved
 }

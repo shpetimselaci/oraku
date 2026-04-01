@@ -20,10 +20,10 @@ export function toBuilder(config: SDKDetectorSchema): DetectorBuilder {
       inner = new StreakDetector({ name, notificationType, minRepeat: config.minRepeat, precision: config.precision, triggerOn: 'break' })
       break
     case 'checklist':
-      inner = new ChecklistDetector({ name, notificationType, expectedItems: (config.expected ?? []).map(key => ({ key })), todayOnly: config.todayOnly })
+      inner = new ChecklistDetector({ name, notificationType, expectedItems: (config.expected ?? []).map(key => ({ key })), todayOnly: config.todayOnly, dateFilter: config.dateFilter, extractActual: (event) => typeof event.subcategory === 'string' ? event.subcategory : '' })
       break
     case 'milestone':
-      inner = new MilestoneDetector({ name, notificationType, milestones: (config.expected ?? []).map(key => ({ key })), todayOnly: config.todayOnly })
+      inner = new MilestoneDetector({ name, notificationType, milestones: (config.expected ?? []).map(key => ({ key })), todayOnly: config.todayOnly, extractActual: (event) => typeof event.subcategory === 'string' ? event.subcategory : '' })
       break
     case 'threshold':
       if (!config.extract?.path) throw new Error(`ThresholdDetector "${name}" requires extract.path`)
@@ -35,7 +35,7 @@ export function toBuilder(config: SDKDetectorSchema): DetectorBuilder {
       if (!config.extract?.path) throw new Error(`ItemAnalysisDetector "${name}" requires extract.path`)
       if (!config.lookup)        throw new Error(`ItemAnalysisDetector "${name}" requires lookup`)
       if (!config.targets)       throw new Error(`ItemAnalysisDetector "${name}" requires targets`)
-      inner = new ItemAnalysisDetector({ name, notificationType, extract: { path: config.extract.path }, lookup: config.lookup, targets: config.targets, aggregate: config.aggregate as 'sum' | 'avg' | undefined })
+      inner = new ItemAnalysisDetector({ name, notificationType, extract: { path: config.extract.path }, lookup: config.lookup, targets: config.targets, aggregate: config.aggregate as 'sum' | 'avg' | undefined, todayOnly: config.todayOnly, dateFilter: config.dateFilter })
       break
     default:
       throw new Error(`Unknown detector type: ${type}`)

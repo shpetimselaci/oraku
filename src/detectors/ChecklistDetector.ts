@@ -43,6 +43,7 @@ export class ChecklistDetector extends BaseDetector {
     if (this.todayOnly) {
       events = this.filterByDate(events, new Date(), 'day')
     } else if (this.dateFilter) {
+      if (!this.isEndOfPeriod(this.dateFilter.unit)) return []
       events = this.filterByDateOffset(events, this.dateFilter)
     }
 
@@ -91,7 +92,6 @@ export class ChecklistDetector extends BaseDetector {
     return [
       this.createFinding({
         id: `${this.name.toLowerCase()}-${identifier}-${dateStr}`,
-        notificationType: 'warning',
         message: typeof this.messageFormatter === 'function'
           ? this.messageFormatter(missing)
           : this.messageFormatter,
@@ -135,17 +135,18 @@ export class ChecklistDetector extends BaseDetector {
     const targetStr = target.toISOString().slice(0, 10)
 
     if (filter.unit === 'week') {
-      const weekStart = new Date(target)
-      weekStart.setDate(weekStart.getDate() - weekStart.getDay())
-      const weekEnd = new Date(weekStart)
-      weekEnd.setDate(weekStart.getDate() + 6)
-      const start = weekStart.toISOString().slice(0, 10)
-      const end = weekEnd.toISOString().slice(0, 10)
+      const dayOfWeek = now.getDay() === 0 ? 7 : now.getDay() // 1=Mon … 7=Sun
+      const thisMonday = new Date(now)
+      thisMonday.setDate(now.getDate() - (dayOfWeek - 1))
+      thisMonday.setHours(0, 0, 0, 0)
+      const thisFriday = new Date(thisMonday)
+      thisFriday.setDate(thisMonday.getDate() + 4)
+      thisFriday.setHours(23, 59, 59, 999)
+      const rangeStart = new Date(thisMonday)
+      rangeStart.setDate(thisMonday.getDate() - (Math.max(1, filter.value) - 1) * 7)
       return events.filter((ev) => {
         const d = this.parseDate(ev.createdAt)
-        if (!d) return false
-        const day = d.toISOString().slice(0, 10)
-        return day >= start && day <= end
+        return d ? d >= rangeStart && d <= thisFriday : false
       })
     }
 

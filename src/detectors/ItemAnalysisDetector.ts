@@ -13,6 +13,7 @@ export class ItemAnalysisDetector extends BaseDetector {
   private targets: Record<string, number>
   private aggregateMode: 'sum' | 'avg'
   private todayOnly: boolean
+  private dateFilter: { unit: 'day' | 'week' | 'month' | 'year'; value: number } | null
   private messageFormatter: (gaps: string[], totals: Record<string, number>, targets: Record<string, number>) => string
 
   constructor(config: ItemAnalysisConfig) {
@@ -20,11 +21,12 @@ export class ItemAnalysisDetector extends BaseDetector {
     this.lookup = config.lookup
     this.targets = config.targets
     this.aggregateMode = config.aggregate ?? 'sum'
-    this.todayOnly = config.todayOnly !== false
+    this.todayOnly = config.todayOnly ?? false
+    this.dateFilter = config.dateFilter ?? null
 
     this.messageFormatter = config.message ?? ((gaps, totals, tgts) => {
-      const detail = gaps.map(g => `${g} (${totals[g]?.toFixed(1) ?? 0}/${tgts[g]})`).join(', ')
-      return `Nutritional gaps today: ${detail}`
+      const detail = gaps.map(g => `${g}: ${totals[g]?.toFixed(1) ?? 0} of ${tgts[g]} needed`).join(', ')
+      return `Nutritional targets not yet met: ${detail}`
     })
 
     if (typeof config.extract === 'function') {
@@ -50,6 +52,9 @@ export class ItemAnalysisDetector extends BaseDetector {
 
     if (this.todayOnly) {
       events = this.filterByDate(events, new Date(), 'day')
+    } else if (this.dateFilter) {
+      if (!this.isEndOfPeriod(this.dateFilter.unit)) return []
+      events = this.filterByDateWindow(events, this.dateFilter)
     }
 
     if (!events.length) return []
@@ -94,7 +99,6 @@ export class ItemAnalysisDetector extends BaseDetector {
     return [
       this.createFinding({
         id: `item-analysis-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${dateStr}`,
-        notificationType: 'warning',
         message: this.messageFormatter(gaps, totals, this.targets),
         evidence: {
           itemsAnalyzed: uniqueItems,
@@ -104,6 +108,41 @@ export class ItemAnalysisDetector extends BaseDetector {
         }
       })
     ]
+  }
+
+  private filterByDateWindow(
+    events: Event[],
+    filter: { unit: 'day' | 'week' | 'month' | 'year'; value: number }
+  ): Event[] {
+    const now = new Date()
+
+    if (filter.unit === 'week') {
+      const dayOfWeek = now.getDay() === 0 ? 7 : now.getDay() // 1=Mon … 7=Sun
+      const thisMonday = new Date(now)
+      thisMonday.setDate(now.getDate() - (dayOfWeek - 1))
+      thisMonday.setHours(0, 0, 0, 0)
+      const thisFriday = new Date(thisMonday)
+      thisFriday.setDate(thisMonday.getDate() + 4)
+      thisFriday.setHours(23, 59, 59, 999)
+      const rangeStart = new Date(thisMonday)
+      rangeStart.setDate(thisMonday.getDate() - (Math.max(1, filter.value) - 1) * 7)
+      return events.filter(ev => {
+        const d = this.parseDate(ev.createdAt)
+        return d ? d >= rangeStart && d <= thisFriday : false
+      })
+    }
+
+    const sliceLen = filter.unit === 'day' ? 10 : filter.unit === 'month' ? 7 : 4
+    const target = new Date(now)
+    if (filter.unit === 'day') target.setDate(now.getDate() + filter.value)
+    if (filter.unit === 'month') target.setMonth(now.getMonth() + filter.value)
+    if (filter.unit === 'year') target.setFullYear(now.getFullYear() + filter.value)
+    const matchStr = target.toISOString().slice(0, sliceLen)
+
+    return events.filter(ev => {
+      const d = this.parseDate(ev.createdAt)
+      return d ? d.toISOString().startsWith(matchStr) : false
+    })
   }
 
   private async lookupAll(items: string[]): Promise<Record<string, Record<string, number>>> {

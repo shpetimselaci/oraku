@@ -56,7 +56,7 @@ export class StreakDetector extends BaseDetector {
       return new Date(sortedEvents[sortedEvents.length - 1]._date.getTime() + median)
     }
 
-    // default: strip time, work in whole days — time of day is irrelevant
+    // default: work in whole days but preserve the last event's time of day
     const dayTimestamps = sortedEvents.map(e => {
       const iso = e._date.toISOString().slice(0, 10)
       return new Date(iso).getTime()
@@ -76,7 +76,8 @@ export class StreakDetector extends BaseDetector {
       ? intervals[mid]
       : Math.round((intervals[mid - 1] + intervals[mid]) / 2)
 
-    return new Date(dayTimestamps[dayTimestamps.length - 1] + medianDays * MS_PER_DAY)
+    const lastEvent = sortedEvents[sortedEvents.length - 1]
+    return new Date(lastEvent._date.getTime() + medianDays * MS_PER_DAY)
   }
 
   private buildMessage(data: { category: string; subcategory: string; predictedDate: string }): string {
