@@ -1,21 +1,12 @@
 import keyBy from 'lodash/keyBy'
 import type { Finding, Notification, NotificationOptions } from './types'
 
-function extractActivity(message: string): string {
-  // matches any "category/subcategory" pattern e.g. "nutrition/meal_log", "routine/gym_session"
-  const match = message.match(/\b([a-z_]+)\/([a-z_]+)\b/i)
-  if (match) return match[2].replace(/_/g, ' ')
-  // fallback: grab the word after "next" or "for"
-  const catMatch = message.match(/(?:next|for)\s+([a-z_]+)/i)
-  return catMatch ? catMatch[1].replace(/_/g, ' ') : 'session'
-}
-
 const SYSTEM_PROMPT = `
 You are a notification engine for an activity tracking app. Write short, warm, friendly push notifications.
 
 Rules:
 - Use the "topic" field to understand what this notification is about (e.g. "calorie-alert", "meal-variety", "fitness-streak") — let it guide the subject matter of your message
-- Use the "activity" field as the specific thing to reference. If "activity" is vague or generic, use the "context" field for the full detail instead — be concrete, never say "routine", "session", or "daily routine" as a fallback
+- Use the "context" field as the specific thing to reference — be concrete, never say "routine", "session", or "daily routine" as a fallback
 - Use "subject" to understand who the activity is about:
   - If no "subject" field is present → always use second person: "You haven't logged a workout yet today."
   - If "subject" is present → it refers to someone else (a child, patient, or dependent) — address the recipient and name the subject: "Liam hasn't had his afternoon snack logged yet."
@@ -61,13 +52,11 @@ function buildFindings(findings: Finding[]): { payload: object[]; refMap: Map<st
       const missing = evidence?.missingCategories as string[] | undefined
       const suggestions = evidence?.suggestions as string[] | undefined
       const topActivities = evidence?.topActivities as string[] | undefined
-      const activity = extractActivity(f.message)
       return {
         id: anonId,
         ref: anonRef(realRef),
         type: f.notificationType,
         topic: f.detector,
-        activity,
         context: f.message,
         ...(missing && { missingCategories: missing }),
         ...(suggestions && { suggestions }),
