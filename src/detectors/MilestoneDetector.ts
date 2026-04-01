@@ -35,21 +35,19 @@ export class MilestoneDetector extends BaseDetector {
     const dateStr = this.todayString()
     const identifier = entry?.externalRef ?? 'user'
 
-    return achieved.map(key =>
-      this.createFinding({
-        id: `milestone-${this.name.toLowerCase()}-${identifier}-${key}-${dateStr}`,
-        notificationType: 'achievement',
-        message: typeof this.messageFormatter === 'function'
-          ? this.messageFormatter([key])
-          : this.messageFormatter,
-        evidence: {
-          milestone: key,
-          achievedAt: dateStr,
-          matchedItems: actualItems,
-          permanent: true
-        }
-      })
-    )
+    return [this.createFinding({
+      id: `milestone-${this.name.toLowerCase()}-${identifier}-${dateStr}`,
+      notificationType: 'achievement',
+      message: typeof this.messageFormatter === 'function'
+        ? this.messageFormatter(achieved)
+        : this.messageFormatter,
+      evidence: {
+        milestones: achieved,
+        achievedAt: dateStr,
+        matchedItems: actualItems,
+        permanent: true
+      }
+    })]
   }
 }
 

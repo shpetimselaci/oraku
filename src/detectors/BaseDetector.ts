@@ -88,6 +88,17 @@ export abstract class BaseDetector implements Detector {
     return new Date().toISOString().slice(0, 10);
   }
 
+  protected isEndOfPeriod(unit: 'day' | 'week' | 'month' | 'year'): boolean {
+    const now = new Date()
+    if (unit === 'week') return now.getDay() === 5 // Friday
+    if (unit === 'month') {
+      const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+      return now.getDate() === lastDay
+    }
+    if (unit === 'year') return now.getMonth() === 11 && now.getDate() === 31
+    return true // 'day' — gated by cron schedule
+  }
+
   createFinding(findingData: FindingData): Finding {
     const { id, message, evidence = {}, notificationType, ...extra } = findingData;
     const type = notificationType || this.notificationType;

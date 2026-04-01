@@ -15,6 +15,8 @@ export function initSchema() {
     CREATE TABLE IF NOT EXISTS notifications (
       id             TEXT PRIMARY KEY,
       user_id        TEXT NOT NULL,
+      external_ref   TEXT,
+      detector       TEXT,
       message        TEXT NOT NULL,
       type           TEXT NOT NULL DEFAULT 'insight',
       scheduled_at   TEXT NOT NULL,
@@ -50,4 +52,20 @@ export function initSchema() {
   try {
     db.exec(`ALTER TABLE notifications ADD COLUMN scheduled_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP`)
   } catch { /* column already exists */ }
+
+  try {
+    db.exec(`ALTER TABLE notifications ADD COLUMN delivered_at TEXT`)
+  } catch { /* column already exists */ }
+
+  try {
+    db.exec(`ALTER TABLE notifications ADD COLUMN external_ref TEXT`)
+  } catch { /* column already exists */ }
+
+  try {
+    db.exec(`ALTER TABLE notifications ADD COLUMN detector TEXT`)
+  } catch { /* column already exists */ }
+
+  try {
+    db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS uniq_notif_per_day ON notifications(detector, external_ref, generated_date)`)
+  } catch { /* index already exists */ }
 }

@@ -150,6 +150,7 @@ export interface SDKDetectorSchema {
   expected?: string[]
   extract?: { path: string }
   todayOnly?: boolean
+  dateFilter?: { unit: 'day' | 'week' | 'month' | 'year'; value: number } | null
   minRepeat?: number
   precision?: StreakPrecision
   operator?: ThresholdOperator
@@ -209,6 +210,7 @@ export interface ItemAnalysisConfig extends DetectorConfig {
   // how to combine property values across items (default: sum)
   aggregate?: 'sum' | 'avg'
   todayOnly?: boolean
+  dateFilter?: { unit: 'day' | 'week' | 'month' | 'year'; value: number } | null
   message?: (gaps: string[], totals: Record<string, number>, targets: Record<string, number>) => string
 }
 
@@ -265,8 +267,6 @@ export interface PipelineOptions {
   builders?: import('./detectors/DetectorBuilder').DetectorBuilder[]
   provider?: LLMProvider
   forUserId?: string
-  webhookUrl?: string
-  webhookAuthKey?: string
 }
 
 export interface PipelineResult {
@@ -274,7 +274,6 @@ export interface PipelineResult {
   findings: Finding[]
   notifications: Notification[]
   notificationsByUser: Record<string, Notification[]>
-  webhookDelivered?: boolean
 }
 
 // ============ CRON ============
@@ -308,6 +307,8 @@ export interface Notification {
   detector: string
   type: string
   message: string
+  scheduledAt?: string
+  permanent?: boolean
 }
 
 export interface NotificationOptions {
@@ -341,9 +342,12 @@ export interface DbFinding {
 export interface DbNotification {
   id: string
   user_id: string
+  external_ref?: string
+  detector?: string
   message: string
   type: string
   scheduled_at: string
   generated_date: string
   created_at: string
+  delivered_at: string | null
 }

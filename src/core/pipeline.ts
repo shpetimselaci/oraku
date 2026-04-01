@@ -12,6 +12,10 @@ import type { Event, Finding, Notification, PipelineOptions, PipelineResult } fr
 
 
 function resolveProvider(options: PipelineOptions): LLMProvider {
+  if (!options.provider) {
+    if (!process.env.LLM_BASE_URL) throw new Error('LLM_BASE_URL is not set')
+    if (!process.env.LLM_MODEL) throw new Error('LLM_MODEL is not set')
+  }
   return options.provider ?? new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL })
 }
 
@@ -45,23 +49,5 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
 
   const notifications = Object.values(notificationsByUser).flat()
 
-  let webhookDelivered: boolean | undefined
-  if (options.webhookUrl && notifications.length) {
-    const headers: Record<string, string> = { 'Content-Type': 'application/json' }
-    if (options.webhookAuthKey) headers['Authorization'] = `Bearer ${options.webhookAuthKey}`
-    try {
-      const res = await fetch(options.webhookUrl, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ notifications, notificationsByUser, count: findings.length })
-      })
-      webhookDelivered = res.ok
-      if (!res.ok) console.error(`[webhook] POST failed: ${res.status} ${options.webhookUrl}`)
-    } catch (err) {
-      webhookDelivered = false
-      console.error(`[webhook] Error:`, (err as Error).message)
-    }
-  }
-
-  return { count: findings.length, findings, notifications, notificationsByUser, webhookDelivered }
+  return { count: findings.length, findings, notifications, notificationsByUser }
 }

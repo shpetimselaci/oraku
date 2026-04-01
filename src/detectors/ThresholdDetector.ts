@@ -59,7 +59,6 @@ export class ThresholdDetector extends BaseDetector {
     return [
       this.createFinding({
         id: `threshold-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${dateStr}`,
-        notificationType: 'warning',
         message: typeof this.messageFormatter === 'function'
           ? this.messageFormatter(actual, this.thresholdValue)
           : this.messageFormatter,

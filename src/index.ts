@@ -26,6 +26,7 @@ export { ContextBasedFilter } from './filters/ContextBasedFilter'
 
 // ─── Notifications ───────────────────────────────────────────────────────────
 export { generateNotifications } from './notificationGenerator'
+export { getDueNotifications, markDelivered } from './db/notifications'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 export type {
