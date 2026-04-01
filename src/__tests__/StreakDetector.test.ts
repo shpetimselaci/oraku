@@ -51,11 +51,11 @@ describe('StreakDetector — ongoing', () => {
   it('does not fire when predicted date is already in the past', async () => {
     const detector = new StreakDetector({ name: 'TestStreak', triggerOn: 'ongoing', minRepeat: 3 })
 
-    // Events spread far in the past — predicted next will also be in the past
+    // Events every 10 days, last one 15 days ago — predicted next is 5 days in the past
     const group = makeGroup('user-1', [
-      { category: 'health', subcategory: 'checkup', createdAt: daysAgo(30) },
-      { category: 'health', subcategory: 'checkup', createdAt: daysAgo(20) },
-      { category: 'health', subcategory: 'checkup', createdAt: daysAgo(10) },
+      { category: 'health', subcategory: 'checkup', createdAt: daysAgo(35) },
+      { category: 'health', subcategory: 'checkup', createdAt: daysAgo(25) },
+      { category: 'health', subcategory: 'checkup', createdAt: daysAgo(15) },
     ])
 
     const findings = await detector.detect(group)
