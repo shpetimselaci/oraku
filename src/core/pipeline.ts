@@ -42,7 +42,8 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
     const notifiable = userFindings.filter(f => !String(f.id).startsWith('summary-'))
     if (!notifiable.length) continue
 
-    const notifications = await generateNotifications(notifiable, { provider })
+    const subject = groups[userId]?.events[0]?.meta?.subject as string | undefined
+    const notifications = await generateNotifications(notifiable, { provider, subject })
     notificationsByUser[userId] = notifications
     await saveNotifications(userId, notifications)
   }

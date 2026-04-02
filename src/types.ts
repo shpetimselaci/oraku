@@ -313,6 +313,7 @@ export interface Notification {
 
 export interface NotificationOptions {
   provider: LLMProvider
+  subject?: string
 }
 
 // ============ API MATCHER ============
