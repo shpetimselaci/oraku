@@ -3,7 +3,7 @@ import path from 'path'
 import keyBy from 'lodash/keyBy'
 import type { Finding, Notification, NotificationOptions } from './types'
 
-const TRAINING_FILE = path.resolve(__dirname, '../../data/training.jsonl')
+const TRAINING_FILE = path.resolve(__dirname, '../data/training.jsonl')
 
 function appendTrainingPair(input: object[], output: object[]): void {
   const line = JSON.stringify({ input, output }) + '\n'
@@ -38,7 +38,7 @@ Return ONLY a JSON array. No other text.
 Each object must have "id" (echo it back unchanged), "ref" (echo it back unchanged), and "message" (string).
 `
 
-function buildFindings(findings: Finding[]): { payload: object[]; refMap: Map<string, string>; idMap: Map<string, string> } {
+function buildFindings(findings: Finding[], subject?: string): { payload: object[]; refMap: Map<string, string>; idMap: Map<string, string> } {
   const refMap = new Map<string, string>()
   const idMap = new Map<string, string>()
   let counter = 0
@@ -67,6 +67,7 @@ function buildFindings(findings: Finding[]): { payload: object[]; refMap: Map<st
         type: f.notificationType,
         topic: f.detector,
         context: f.message,
+        ...(subject && { subject }),
         ...(missing && { missingCategories: missing }),
         ...(suggestions && { suggestions }),
         ...(topActivities && { topActivities })
@@ -82,7 +83,7 @@ export async function generateNotifications(
 ): Promise<Notification[]> {
   const findingById = keyBy(findings, 'id')
 
-  const { payload, refMap, idMap } = buildFindings(findings)
+  const { payload, refMap, idMap } = buildFindings(findings, options.subject)
   const text = await options.provider.complete(JSON.stringify(payload), SYSTEM_PROMPT)
   if (!text) throw new Error('LLM provider did not return any text')
 
