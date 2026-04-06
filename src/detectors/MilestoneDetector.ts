@@ -29,7 +29,7 @@ export class MilestoneDetector extends BaseDetector {
     if (!actualItems.length) return []
 
     const { covered } = matchItems(actualItems, this.milestones, this.matchFn)
-    if (!covered.size) return []
+    if (covered.size < this.milestones.length) return []
 
     const achieved = Array.from(covered)
     const dateStr = this.todayString()

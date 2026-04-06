@@ -52,14 +52,7 @@ export function saveNotifications(
     INSERT OR IGNORE INTO notifications (id, user_id, external_ref, detector, message, type, scheduled_at, generated_date)
     VALUES (
       @id, @user_id, @external_ref, @detector, @message, @type,
-      COALESCE(@scheduled_at, CASE @type
-        WHEN 'reminder' THEN datetime('now', '-30 minutes')
-        WHEN 'warning'  THEN datetime('now')
-        WHEN 'achievement' THEN datetime('now')
-        WHEN 'nudge'    THEN datetime(date('now'), '20:00:00')
-        WHEN 'insight'  THEN datetime(date('now'), '20:00:00')
-        ELSE datetime('now')
-      END),
+      COALESCE(@scheduled_at, datetime('now')),
       @generated_date
     )
   `)

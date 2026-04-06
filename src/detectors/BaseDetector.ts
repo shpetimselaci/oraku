@@ -13,12 +13,14 @@ export abstract class BaseDetector implements Detector {
   public readonly name: string;
   public readonly description: string;
   public readonly notificationType: NotificationType;
+  public readonly scheduleAt?: string;
   public isFallback?: boolean;
 
   constructor(config: DetectorConfig = {}) {
     this.name = config.name || this.constructor.name;
     this.description = config.description || '';
     this.notificationType = config.notificationType || 'insight';
+    this.scheduleAt = config.scheduleAt;
   }
 
   abstract detect(entry: EventGroup): Promise<Finding[]>;
@@ -107,7 +109,7 @@ export abstract class BaseDetector implements Detector {
       detector: this.name,
       notificationType: type,
       message,
-      evidence,
+      evidence: this.scheduleAt ? { ...evidence, scheduleAt: this.scheduleAt } : evidence,
       ...extra
     };
   }
