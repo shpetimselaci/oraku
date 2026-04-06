@@ -42,6 +42,7 @@ export interface DetectorConfig {
   name?: string
   description?: string
   notificationType?: NotificationType
+  scheduleAt?: string  // UTC time to fire the notification, e.g. '16:00' — overrides the default CASE in saveNotifications
 }
 
 export interface Detector {
@@ -112,6 +113,9 @@ export interface ActivityPatternAnalyzerConfig extends DetectorConfig {
   minStreakLength?: number
   breakThresholdDays?: number
   dataSources?: string[]  // only analyze events from these categories — if omitted, analyzes nothing
+  varietyLookbackDays?: number
+  summaryLookbackDays?: number
+  maxActivitiesInSummary?: number
 }
 
 // ============ AUTO DETECTOR (LLM) ============
@@ -161,6 +165,7 @@ export interface SDKDetectorSchema {
     api?: { urlTemplate: string; responsePath?: string; timeout?: number }
   }
   targets?: Record<string, number>
+  scheduleAt?: string
 }
 
 // ============ THRESHOLD DETECTOR ============

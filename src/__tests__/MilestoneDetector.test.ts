@@ -25,7 +25,8 @@ describe('MilestoneDetector', () => {
 
     const group = makeGroup('user-1', [
       { category: 'first-purchase', createdAt: todayISO() },
-      { category: 'onboarding', createdAt: todayISO() }
+      { category: 'onboarding', createdAt: todayISO() },
+      { category: 'profile-complete', createdAt: todayISO() }
     ])
 
     const findings = await detector.detect(group)
@@ -33,7 +34,7 @@ describe('MilestoneDetector', () => {
     const milestones = findings[0].evidence.milestones as string[]
     expect(milestones).toContain('first-purchase')
     expect(milestones).toContain('onboarding')
-    expect(milestones).not.toContain('profile-complete')
+    expect(milestones).toContain('profile-complete')
   })
 
   it('returns no findings when no milestones are matched', async () => {

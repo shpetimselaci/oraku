@@ -3,20 +3,23 @@ import { StreakDetector } from './StreakDetector'
 import type { EventGroup, Finding, ActivityPatternAnalyzerConfig, Event } from '../types'
 
 const MS_PER_DAY = 86_400_000
-const VARIETY_LOOKBACK_DAYS = 7
-const SUMMARY_LOOKBACK_DAYS = 3
-const MAX_ACTIVITIES_IN_SUMMARY = 3
 
 export class ActivityPatternAnalyzer extends BaseDetector {
   private ongoingStreakDetector: StreakDetector
   private breakStreakDetector: StreakDetector
   private dataSources: Set<string> | null
+  private varietyLookbackDays: number
+  private summaryLookbackDays: number
+  private maxActivitiesInSummary: number
 
   constructor(config: ActivityPatternAnalyzerConfig = {}) {
     super({ name: 'ActivityPatternAnalyzer', notificationType: 'insight', ...config })
 
     const minRepeat = config.minStreakLength ?? 3
     this.dataSources = config.dataSources ? new Set(config.dataSources) : null
+    this.varietyLookbackDays = config.varietyLookbackDays ?? 7
+    this.summaryLookbackDays = config.summaryLookbackDays ?? 3
+    this.maxActivitiesInSummary = config.maxActivitiesInSummary ?? 3
 
     this.ongoingStreakDetector = new StreakDetector({ minRepeat, triggerOn: 'ongoing' })
     this.breakStreakDetector = new StreakDetector({ minRepeat, triggerOn: 'break' })
@@ -52,7 +55,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
   }
 
   private findDormantCategories(events: Event[], entry: EventGroup, now: number): Finding[] {
-    const cutoff = now - VARIETY_LOOKBACK_DAYS * MS_PER_DAY
+    const cutoff = now - this.varietyLookbackDays * MS_PER_DAY
 
     const allCategories = new Map<string, number>()
     const recentCategories = new Set<string>()
@@ -86,7 +89,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
   }
 
   private summarizeRecentActivity(events: Event[], entry: EventGroup, now: number): Finding[] {
-    const cutoff = now - SUMMARY_LOOKBACK_DAYS * MS_PER_DAY
+    const cutoff = now - this.summaryLookbackDays * MS_PER_DAY
     const seen = new Set<string>()
     const recentActivities: string[] = []
 
@@ -105,7 +108,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
 
     if (!recentActivities.length) return []
 
-    const shown = recentActivities.slice(0, MAX_ACTIVITIES_IN_SUMMARY)
+    const shown = recentActivities.slice(0, this.maxActivitiesInSummary)
     const remaining = recentActivities.length - shown.length
 
     return [
