@@ -266,12 +266,32 @@ export interface UserTrace {
   actions: Array<{ what: string | undefined; category: string | undefined; when: string }>
 }
 
+// ============ GROUP DETECTOR ============
+
+export interface GroupDetector {
+  name: string
+  detectAll(groups: EventGroupMap, profiles: PersistedUserProfile[]): Promise<Finding[]>
+}
+
+// ============ PERSISTED USER PROFILE ============
+
+export interface PersistedUserProfile {
+  externalRef: string
+  organizationId: string
+  organizationName: string
+  topCategories: Array<{ category: string; count: number }>
+  topSubcategories: Array<{ subcategory: string; count: number }>
+  dailyPattern: Record<string, number>
+  lastUpdated: string
+}
+
 // ============ PIPELINE ============
 
 export interface PipelineOptions {
   builders?: import('./detectors/DetectorBuilder').DetectorBuilder[]
   provider?: LLMProvider
   forUserId?: string
+  notificationsPerUser?: number
 }
 
 export interface PipelineResult {

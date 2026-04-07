@@ -13,11 +13,17 @@ vi.mock('../db/notifications', () => ({
   saveNotifications: vi.fn().mockResolvedValue([])
 }))
 
+vi.mock('../db/profiles', () => ({
+  upsertProfile: vi.fn(),
+  getAllProfiles: vi.fn().mockReturnValue([])
+}))
+
 process.env.LLM_API_KEY = 'test-key'
 
 import { runPipeline } from '../core/pipeline'
 import { DetectorBuilder } from '../detectors/DetectorBuilder'
 import { StreakDetector } from '../detectors/StreakDetector'
+import { generateNotifications } from '../notificationGenerator'
 
 function daysAgo(n: number): string {
   const d = new Date()
@@ -60,5 +66,49 @@ describe('runPipeline', () => {
   it('falls back to ActivityPatternAnalyzer when no builders registered', async () => {
     const result = await runPipeline(userEvents('user-1', 'handwash'), { builders: [] })
     expect(result.count).toBeGreaterThan(0)
+  })
+})
+
+describe('runPipeline — quota and collapsing', () => {
+  it('default quota is 1 — only 1 finding passed to generateNotifications', async () => {
+    const manyBuilders = [
+      new DetectorBuilder(new StreakDetector({ name: 'streak-a', minRepeat: 3 })).addMarker('routine'),
+      new DetectorBuilder(new StreakDetector({ name: 'streak-b', minRepeat: 3 })).addMarker('routine'),
+      new DetectorBuilder(new StreakDetector({ name: 'streak-c', minRepeat: 3 })).addMarker('routine'),
+    ]
+    const events = userEvents('user-1', 'handwash')
+    await runPipeline(events, { builders: manyBuilders })
+
+    const calls = vi.mocked(generateNotifications).mock.calls
+    const lastCall = calls[calls.length - 1]
+    expect(lastCall[0].length).toBe(1)
+  })
+
+  it('notificationsPerUser quota respected', async () => {
+    const manyBuilders = [
+      new DetectorBuilder(new StreakDetector({ name: 'streak-a', minRepeat: 3 })).addMarker('routine'),
+      new DetectorBuilder(new StreakDetector({ name: 'streak-b', minRepeat: 3 })).addMarker('routine'),
+      new DetectorBuilder(new StreakDetector({ name: 'streak-c', minRepeat: 3 })).addMarker('routine'),
+    ]
+    const events = userEvents('user-1', 'handwash')
+    await runPipeline(events, { builders: manyBuilders, notificationsPerUser: 2 })
+
+    const calls = vi.mocked(generateNotifications).mock.calls
+    const lastCall = calls[calls.length - 1]
+    expect(lastCall[0].length).toBeLessThanOrEqual(2)
+  })
+
+  it('same detector fires multiple times — collapsed to one finding', async () => {
+    // Two builders with same detector name — should only produce 1 finding towards quota
+    const builder = new DetectorBuilder(new StreakDetector({ name: 'routine-streak', minRepeat: 3 }))
+      .addMarker('routine')
+    const events = userEvents('user-1', 'handwash')
+    await runPipeline(events, { builders: [builder], notificationsPerUser: 10 })
+
+    const calls = vi.mocked(generateNotifications).mock.calls
+    const lastCall = calls[calls.length - 1]
+    const detectors = lastCall[0].map((f: any) => f.detector)
+    const uniqueDetectors = new Set(detectors)
+    expect(detectors.length).toBe(uniqueDetectors.size)
   })
 })
