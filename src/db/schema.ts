@@ -68,4 +68,16 @@ export function initSchema() {
   try {
     db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS uniq_notif_per_day ON notifications(detector, external_ref, generated_date)`)
   } catch { /* index already exists */ }
+
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS user_activity_profiles (
+      external_ref      TEXT PRIMARY KEY,
+      organization_id   TEXT NOT NULL DEFAULT '',
+      organization_name TEXT NOT NULL DEFAULT '',
+      top_categories    TEXT NOT NULL DEFAULT '[]',
+      top_subcategories TEXT NOT NULL DEFAULT '[]',
+      daily_pattern     TEXT NOT NULL DEFAULT '{}',
+      last_updated      TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+  `)
 }
