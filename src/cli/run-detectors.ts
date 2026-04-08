@@ -25,12 +25,6 @@ if (!fs.existsSync(options.stitchedPath)) {
 
 const stitchedData: EventGroupMap = JSON.parse(fs.readFileSync(options.stitchedPath, 'utf8'))
 
-// ─── Register your custom detectors here ───────────────────────────────────
-// createDetector('MyStreak',    'streak-ongoing', { minRepeat: 3 })
-// createDetector('MyBreak',     'streak-break',   { minRepeat: 3, severity: 'warning' })
-// createDetector('MyChecklist', 'checklist',      { expected: ['item-a', 'item-b'], todayOnly: true })
-// ───────────────────────────────────────────────────────────────────────────
-
 const detectorManager = new DetectorManager({ only: options.only })
 
 async function main(): Promise<void> {

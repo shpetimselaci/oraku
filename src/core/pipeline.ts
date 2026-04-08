@@ -6,9 +6,9 @@ import { DetectorManager } from '../detectors/DetectorManager'
 import { generateNotifications } from '../notificationGenerator'
 import { ChatProvider } from '../providers/ChatProvider'
 import type { LLMProvider } from '../types'
-import { initSchema } from '../db/schema'
 import { saveNotifications } from '../db/notifications'
 import { upsertProfile, getAllProfiles } from '../db/profiles'
+import { db } from '../db/connection'
 import { OrgBenchmarkDetector } from '../detectors/OrgBenchmarkDetector'
 import type { Event, Finding, Notification, PipelineOptions, PipelineResult } from '../types'
 
@@ -22,12 +22,11 @@ function resolveProvider(options: PipelineOptions): LLMProvider {
 }
 
 export async function runPipeline(events: Event[], options: PipelineOptions = {}): Promise<PipelineResult> {
-  initSchema()
   const provider = resolveProvider(options)
   const groups = new EventStitcher(events).stitch()
   const findings = await new DetectorManager({ builders: options.builders }).runDetectorsOn(groups)
 
-  // group findings by the userId tagged in DetectorManager, skipping untagged (finalize/global) findings
+  // findings without a groupKey are global/summary entries — skip them for per-user routing
   const findingsByUser: Record<string, Finding[]> = {}
   for (const finding of findings) {
     const groupKey = finding.groupKey as string | undefined
@@ -36,55 +35,67 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
     findingsByUser[groupKey].push(finding)
   }
 
-  // update persisted user profiles from current event groups
-  for (const group of Object.values(groups)) {
-    upsertProfile(group)
-  }
+  db.transaction(() => {
+    for (const group of Object.values(groups)) {
+      upsertProfile(group)
+    }
+  })()
 
-  // run org benchmark detector against all profiles
   const allProfiles = getAllProfiles()
   const benchmarkFindings = await new OrgBenchmarkDetector().detectAll(groups, allProfiles)
   const benchmarkByUser: Record<string, Finding[]> = {}
-  for (const f of benchmarkFindings) {
-    const uid = f.groupKey as string | undefined
-    if (!uid) continue
-    if (!benchmarkByUser[uid]) benchmarkByUser[uid] = []
-    benchmarkByUser[uid].push(f)
+  for (const benchmarkFinding of benchmarkFindings) {
+    const userId = benchmarkFinding.groupKey as string | undefined
+    if (!userId) continue
+    if (!benchmarkByUser[userId]) benchmarkByUser[userId] = []
+    benchmarkByUser[userId].push(benchmarkFinding)
   }
 
   const quota = options.notificationsPerUser ?? 1
 
-  // generate notifications per user using in-memory findings directly
-  const notificationsByUser: Record<string, Notification[]> = {}
+  // accumulate findings from all users into one batch for a single LLM call
+  const allFindings: Finding[] = []
+  const subjectMap: Record<string, string> = {}
+
   for (const [userId, userFindings] of Object.entries(findingsByUser)) {
     if (options.forUserId && userId !== options.forUserId) continue
 
-    // collapse: one finding per detector per run
+    // one finding per detector — prevents the same detector firing twice for the same user
     const collapsed = new Map<string, Finding>()
-    for (const f of userFindings) {
-      if (!String(f.id).startsWith('summary-') && !collapsed.has(f.detector)) {
-        collapsed.set(f.detector, f)
+    for (const finding of userFindings) {
+      if (!String(finding.id).startsWith('summary-') && !collapsed.has(finding.detector)) {
+        collapsed.set(finding.detector, finding)
       }
     }
     let dedupedFindings = Array.from(collapsed.values())
 
-    // fill with org benchmark findings up to quota
+    // backfill remaining quota slots with org benchmark findings
     if (dedupedFindings.length < quota) {
-      for (const bf of (benchmarkByUser[userId] ?? [])) {
+      for (const benchmarkFinding of (benchmarkByUser[userId] ?? [])) {
         if (dedupedFindings.length >= quota) break
-        dedupedFindings.push(bf)
+        dedupedFindings.push(benchmarkFinding)
       }
     }
 
-    // apply quota
     dedupedFindings = dedupedFindings.slice(0, quota)
     if (!dedupedFindings.length) continue
 
     const meta = (groups[userId]?.events[0]?.meta) as Record<string, unknown> | undefined
     const subject = (meta?.subject ?? meta?.childName) as string | undefined
-    const notifications = await generateNotifications(dedupedFindings, { provider, subject })
-    notificationsByUser[userId] = notifications
-    await saveNotifications(userId, notifications)
+    if (subject) subjectMap[userId] = subject
+
+    allFindings.push(...dedupedFindings)
+  }
+
+  const notificationsByUser: Record<string, Notification[]> = {}
+  if (allFindings.length) {
+    const generatedByUser = await generateNotifications(allFindings, { provider, subjectMap })
+    await Promise.all(
+      Object.entries(generatedByUser).map(async ([userId, notifications]) => {
+        notificationsByUser[userId] = notifications
+        await saveNotifications(userId, notifications)
+      })
+    )
   }
 
   const notifications = Object.values(notificationsByUser).flat()
