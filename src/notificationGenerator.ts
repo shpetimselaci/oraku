@@ -49,17 +49,23 @@ Return ONLY a JSON array. No other text.
 Each object must have "id" (echo it back unchanged), "ref" (echo it back unchanged), and "message" (string).
 `
 
-function buildFindings(findings: Finding[], subject?: string): { payload: object[]; refMap: Map<string, string>; idMap: Map<string, string> } {
-  const refMap = new Map<string, string>()
-  const idMap = new Map<string, string>()
-  let counter = 0
-
-  const anonRef = (realRef: string): string => {
-    for (const [anon, real] of refMap) if (real === realRef) return anon
-    const anon = `u${++counter}`
-    refMap.set(anon, realRef)
-    return anon
+// strips real user IDs before sending to the LLM, replacing them with anonymous tokens (u1, u2…).
+// the LLM echoes the tokens back, then refMap is used to restore the real IDs on the way out.
+function buildFindings(findings: Finding[], subjectMap: Record<string, string> = {}): { payload: object[]; refMap: Map<string, string>; idMap: Map<string, string> } {
+  // pre-build both directions upfront — one pass, no lazy state during payload mapping
+  const refMap = new Map<string, string>()        // anon → real
+  const reverseRefMap = new Map<string, string>() // real → anon
+  let refCounter = 0
+  for (const f of findings) {
+    const realRef = f.groupKey as string | undefined
+    if (realRef && !reverseRefMap.has(realRef)) {
+      const anon = `u${++refCounter}`
+      refMap.set(anon, realRef)
+      reverseRefMap.set(realRef, anon)
+    }
   }
+
+  const idMap = new Map<string, string>()
 
   const payload = findings
     .filter(f => !f.id.startsWith('summary-'))
@@ -67,8 +73,8 @@ function buildFindings(findings: Finding[], subject?: string): { payload: object
       const anonId = `f${i + 1}`
       idMap.set(anonId, f.id)
       const evidence = f.evidence as Record<string, unknown>
-      const rawRef = (evidence?.key as string) ?? f.id.replace(/^(recurring|anomaly|variety|engagement|profile)-/, '')
-      const realRef = rawRef.replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, '').trim() || rawRef
+      const realRef = (f.groupKey as string | undefined) ?? (evidence?.key as string) ?? f.id
+      const subject = subjectMap[f.groupKey as string]
       const missing = (evidence?.missingCategories ?? evidence?.missing) as string[] | undefined
       const covered = evidence?.covered as string[] | undefined
       const suggestions = evidence?.suggestions as string[] | undefined
@@ -81,7 +87,7 @@ function buildFindings(findings: Finding[], subject?: string): { payload: object
       const trending = evidence?.trending as Array<{ category: string; change: number; direction: string }> | undefined
       return {
         id: anonId,
-        ref: anonRef(realRef),
+        ref: reverseRefMap.get(realRef) ?? realRef,
         type: f.notificationType,
         topic: f.detector,
         context: f.message,
@@ -104,24 +110,30 @@ function buildFindings(findings: Finding[], subject?: string): { payload: object
 export async function generateNotifications(
   findings: Finding[],
   options: NotificationOptions
-): Promise<Notification[]> {
+): Promise<Record<string, Notification[]>> {
   const findingById = keyBy(findings, 'id')
 
-  const { payload, refMap, idMap } = buildFindings(findings, options.subject)
+  const { payload, refMap, idMap } = buildFindings(findings, options.subjectMap)
   const text = await options.provider.complete(JSON.stringify(payload), SYSTEM_PROMPT)
   if (!text) throw new Error('LLM provider did not return any text')
 
   try {
     const parsed: Array<{ id: string; ref: string; message: string }> = JSON.parse(text)
-    if (!Array.isArray(parsed)) return []
+    if (!Array.isArray(parsed)) return {}
     appendTrainingPair(payload, parsed)
-    return parsed.map(item => {
+
+    const result: Record<string, Notification[]> = {}
+    for (const item of parsed) {
       const realId = idMap.get(item.id) ?? item.id
       const source = findingById[realId]
+      const userId = source?.groupKey as string | undefined
+      if (!userId) continue
+
       let scheduledAt: string | undefined
       if (source?.notificationType === 'reminder') {
         const predicted = source.evidence?.predicted as string | undefined
         if (predicted) {
+          // fire 30 minutes before the predicted next occurrence so the reminder lands before the event
           scheduledAt = new Date(new Date(predicted).getTime() - 30 * 60 * 1000).toISOString()
         }
       }
@@ -133,7 +145,7 @@ export async function generateNotifications(
         }
       }
       const permanent = (source?.evidence as Record<string, unknown>)?.permanent === true
-      return {
+      const notification: Notification = {
         ref: refMap.get(item.ref) ?? item.ref,
         message: item.message,
         detector: source?.detector ?? 'unknown',
@@ -141,9 +153,13 @@ export async function generateNotifications(
         ...(scheduledAt && { scheduledAt }),
         ...(permanent && { permanent: true })
       }
-    })
+
+      if (!result[userId]) result[userId] = []
+      result[userId].push(notification)
+    }
+    return result
   } catch {
     console.warn('[generateNotifications] Failed to parse LLM response as JSON')
-    return []
+    return {}
   }
 }

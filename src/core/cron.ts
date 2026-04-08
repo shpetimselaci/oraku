@@ -4,8 +4,6 @@ import type { Event, PipelineOptions, CronHandle } from '../types'
 
 export const DEFAULT_CRON = '0 6 * * *' // 6am daily
 
-// schedules the pipeline to run on a cron expression, using a live getter for events
-// so each run picks up whatever events are currently stored
 export function schedulePipeline(
   cronExpression: string = DEFAULT_CRON,
   getEvents: () => Event[],

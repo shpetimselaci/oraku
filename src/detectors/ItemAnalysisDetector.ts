@@ -5,8 +5,6 @@ import type { EventGroup, Finding, Event, StaticLookupSource, ApiLookupSource, L
 
 export type { StaticLookupSource, ApiLookupSource, LookupSource, ItemAnalysisConfig }
 
-// ---- detector ----
-
 export class ItemAnalysisDetector extends BaseDetector {
   private extractFn: (event: Event) => string[]
   private lookup: LookupSource
@@ -146,17 +144,17 @@ export class ItemAnalysisDetector extends BaseDetector {
   }
 
   private async lookupAll(items: string[]): Promise<Record<string, Record<string, number>>> {
-    const results: Record<string, Record<string, number>> = {}
-
-    for (const item of items) {
-      try {
-        results[item] = await this.lookupOne(item)
-      } catch (err) {
-        console.warn(`[ItemAnalysisDetector] lookup failed for "${item}":`, (err as Error).message)
-      }
-    }
-
-    return results
+    const entries = await Promise.all(
+      items.map(async item => {
+        try {
+          return [item, await this.lookupOne(item)] as const
+        } catch (err) {
+          console.warn(`[ItemAnalysisDetector] lookup failed for "${item}":`, (err as Error).message)
+          return [item, {}] as const
+        }
+      })
+    )
+    return Object.fromEntries(entries)
   }
 
   private async lookupOne(item: string): Promise<Record<string, number>> {

@@ -60,21 +60,21 @@ export class ActivityPatternAnalyzer extends BaseDetector {
     const allCategories = new Map<string, number>()
     const recentCategories = new Set<string>()
 
-    for (const e of events) {
-      const eventCategory = this.getString(e, 'category')
+    for (const event of events) {
+      const eventCategory = this.getString(event, 'category')
       if (!eventCategory) continue
 
       allCategories.set(eventCategory, (allCategories.get(eventCategory) ?? 0) + 1)
 
-      const time = this.getTimestamp(e)
+      const time = this.getTimestamp(event)
       if (time && time >= cutoff) recentCategories.add(eventCategory)
     }
 
     if (!recentCategories.size) return []
 
     const dormant = [...allCategories.entries()]
-      .filter(([cat, count]) => count >= 2 && !recentCategories.has(cat))
-      .map(([cat]) => cat)
+      .filter(([category, count]) => count >= 2 && !recentCategories.has(category))
+      .map(([category]) => category)
 
     if (!dormant.length) return []
 
@@ -82,7 +82,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
       this.createFinding({
         id: `variety-${entry.externalRef ?? 'auto'}`,
         notificationType: 'nudge',
-        message: `📋 Not seen this week: ${dormant.join(', ')}`,
+        message: `Not seen this week: ${dormant.join(', ')}`,
         evidence: { type: 'variety', missingCategories: dormant }
       })
     ]
@@ -93,11 +93,11 @@ export class ActivityPatternAnalyzer extends BaseDetector {
     const seen = new Set<string>()
     const recentActivities: string[] = []
 
-    for (const e of events) {
-      const time = this.getTimestamp(e)
+    for (const event of events) {
+      const time = this.getTimestamp(event)
       if (!time || time < cutoff) continue
 
-      const activityLabel = this.getEventLabel(e)?.trim()
+      const activityLabel = this.getEventLabel(event)?.trim()
       if (!activityLabel) continue
       const labelKey = activityLabel.toLowerCase()
       if (!seen.has(labelKey)) {
@@ -115,8 +115,8 @@ export class ActivityPatternAnalyzer extends BaseDetector {
       this.createFinding({
         id: `summary-${entry.externalRef ?? 'auto'}`,
         notificationType: 'insight',
-        message: `✅ Recent: ${shown.join(', ')}${remaining > 0 ? ` +${remaining} more` : ''}`,
-        evidence: { type: 'summary', count: recentActivities.length, activities: recentActivities }
+        message: `Recent activity summary (${recentActivities.length} unique activities in last ${this.summaryLookbackDays} days)`,
+        evidence: { type: 'summary', count: recentActivities.length, topActivities: shown }
       })
     ]
   }

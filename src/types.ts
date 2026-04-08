@@ -338,7 +338,7 @@ export interface Notification {
 
 export interface NotificationOptions {
   provider: LLMProvider
-  subject?: string
+  subjectMap?: Record<string, string>
 }
 
 // ============ API MATCHER ============

@@ -13,7 +13,6 @@ export { ActivityPatternAnalyzer } from './ActivityPatternAnalyzer'
 export { LLMDetector } from './LLMDetector'
 export { DetectorManager } from './DetectorManager'
 // RecommendationGenerator is a post-processing stage (runs after all detectors, reads findings)
-// It is not included in the default detectors array
 export { RecommendationGenerator } from './RecommendationGenerator'
 export { ThresholdDetector } from './ThresholdDetector'
 export { ItemAnalysisDetector } from './ItemAnalysisDetector'

@@ -1,5 +1,4 @@
 import { BaseDetector } from './BaseDetector'
-import { countPatterns, filterByPattern } from './helpers/EventCounter'
 import type {
   Event,
   EventGroup,
@@ -37,13 +36,15 @@ export class StreakDetector extends BaseDetector {
     return date.getDay() === 0 || date.getDay() === 6
   }
 
+  // predicts when the next occurrence should happen based on the median interval between past events.
+  // median is used instead of mean to avoid outliers (e.g. a two-week gap) skewing the prediction.
   private predictNextDate(sortedEvents: TimestampedEvent[]): Date | null {
     if (sortedEvents.length < 2) return null
 
     const MS_PER_DAY = 86_400_000
 
     if (this.precision === 'time') {
-      // use full timestamps — useful for time-sensitive routines like medication
+      // full timestamp precision — useful for time-sensitive routines like medication schedules
       const intervals: number[] = []
       for (let i = 1; i < sortedEvents.length; i++) {
         intervals.push(sortedEvents[i]._date.getTime() - sortedEvents[i - 1]._date.getTime())
@@ -56,7 +57,7 @@ export class StreakDetector extends BaseDetector {
       return new Date(sortedEvents[sortedEvents.length - 1]._date.getTime() + median)
     }
 
-    // default: work in whole days but preserve the last event's time of day
+    // day precision — strips time-of-day before computing intervals so a 09:00 and 23:00 event on the same day don't inflate the gap
     const dayTimestamps = sortedEvents.map(e => {
       const iso = e._date.toISOString().slice(0, 10)
       return new Date(iso).getTime()
@@ -96,25 +97,34 @@ export class StreakDetector extends BaseDetector {
     const events = this.getEvents(entry)
     if (events.length < this.minRepeat) return []
 
-    const counts = countPatterns(events)
+    // group events by pattern in one pass — avoids re-scanning all events per pattern
+    const eventsByPattern = new Map<string, typeof events>()
+    for (const event of events) {
+      const cat = typeof event?.category === 'string' ? event.category : ''
+      const sub = typeof event?.subcategory === 'string' ? event.subcategory : ''
+      const patternKey = `${cat}|${sub}`
+      if (!eventsByPattern.has(patternKey)) eventsByPattern.set(patternKey, [])
+      eventsByPattern.get(patternKey)!.push(event)
+    }
+
     const now = new Date()
     const findings: Finding[] = []
 
-    for (const [patternKey, count] of Object.entries(counts)) {
-      if (count < this.minRepeat) continue
+    for (const [patternKey, patternEvents] of eventsByPattern) {
+      if (patternEvents.length < this.minRepeat) continue
 
-      const allTimestamped: TimestampedEvent[] = filterByPattern(events, patternKey)
-        .map((e) => {
-          const d = this.parseDate(e.createdAt)
-          return { ...e, _date: d ?? new Date(NaN) } as TimestampedEvent
+      const allTimestamped: TimestampedEvent[] = patternEvents
+        .map((event) => {
+          const parsedDate = this.parseDate(event.createdAt)
+          return { ...event, _date: parsedDate ?? new Date(NaN) } as TimestampedEvent
         })
-        .filter((e) => !isNaN(e._date.getTime()))
+        .filter((event) => !isNaN(event._date.getTime()))
         .sort((a, b) => a._date.getTime() - b._date.getTime())
 
       // deduplicate to one event per day — multiple visits on the same day count as one occurrence
       const seenDays = new Set<string>()
-      const sorted = allTimestamped.filter((e) => {
-        const day = e._date.toISOString().slice(0, 10)
+      const sorted = allTimestamped.filter((event) => {
+        const day = event._date.toISOString().slice(0, 10)
         if (seenDays.has(day)) return false
         seenDays.add(day)
         return true

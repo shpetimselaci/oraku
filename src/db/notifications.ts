@@ -1,6 +1,8 @@
 import { createHash, randomUUID } from 'crypto'
 import { db } from './connection'
 
+// deterministic UUID v4 derived from a string — same input always produces the same UUID.
+// the & 0x3f clears the top 2 bits and | 0x80 sets the RFC 4122 variant bits on the clock_seq byte.
 function toUUID(str: string): string {
   const hash = createHash('sha256').update(str).digest('hex')
   return [
@@ -62,15 +64,15 @@ export function saveNotifications(
   const checkPermanent = db.prepare(`SELECT 1 FROM notifications WHERE detector = ? AND external_ref = ? LIMIT 1`)
 
   db.transaction(() => {
-    for (const n of notifications) {
-      if (n.permanent && checkPermanent.get(n.detector, userId)) continue
+    for (const notification of notifications) {
+      if (notification.permanent && checkPermanent.get(notification.detector, userId)) continue
 
       const id = randomUUID()
       const user_id = toUUID(userId)
       const generated_date = new Date().toISOString().slice(0, 10)
-      const scheduled_at = (n as Notification & { scheduledAt?: string }).scheduledAt ?? null
-      insert.run({ id, user_id, external_ref: userId, detector: n.detector ?? null, message: n.message, type: n.type, scheduled_at, generated_date })
-      saved.push({ id, user_id, external_ref: userId, detector: n.detector, message: n.message, type: n.type, scheduled_at: scheduled_at ?? '', generated_date, created_at: new Date().toISOString(), delivered_at: null })
+      const scheduled_at = (notification as Notification & { scheduledAt?: string }).scheduledAt ?? null
+      insert.run({ id, user_id, external_ref: userId, detector: notification.detector ?? null, message: notification.message, type: notification.type, scheduled_at, generated_date })
+      saved.push({ id, user_id, external_ref: userId, detector: notification.detector, message: notification.message, type: notification.type, scheduled_at: scheduled_at ?? '', generated_date, created_at: new Date().toISOString(), delivered_at: null })
     }
   })()
 

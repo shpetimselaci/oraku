@@ -27,8 +27,8 @@ export class OrgBenchmarkDetector implements GroupDetector {
 
       const orgRefs = new Set(orgProfiles.map(p => p.externalRef))
       const orgEntries = Object.entries(groups).filter(([ref]) => orgRefs.has(ref))
-      const totalOrgUsers = orgEntries.length
-      if (!totalOrgUsers) continue
+      const totalOrgUsers = orgProfiles.length  // full org size, not just users in this batch
+      if (!orgEntries.length) continue
 
       // stat 1: % of org active per category today
       const todayActiveByCategory: Record<string, number> = {}
@@ -74,6 +74,7 @@ export class OrgBenchmarkDetector implements GroupDetector {
       const trending = Object.entries(thisWeekCounts)
         .map(([cat, thisCount]) => {
           const lastCount = lastWeekCounts[cat] ?? 0
+          // if there was no activity last week, treat this week as 100% growth (new activity)
           const change = lastCount > 0 ? (thisCount - lastCount) / lastCount : 1
           return { category: cat, change: Math.round(change * 100), direction: change >= 0 ? 'up' : 'down' }
         })

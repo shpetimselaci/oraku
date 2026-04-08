@@ -98,7 +98,7 @@ export abstract class BaseDetector implements Detector {
       return now.getDate() === lastDay
     }
     if (unit === 'year') return now.getMonth() === 11 && now.getDate() === 31
-    return true // 'day' — gated by cron schedule
+    return true 
   }
 
   createFinding(findingData: FindingData): Finding {

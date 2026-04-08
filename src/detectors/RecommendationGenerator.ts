@@ -22,23 +22,22 @@ export class RecommendationGenerator extends BaseDetector {
   }
 
   async detect(entry: EventGroup): Promise<Finding[]> {
+    const userId = entry.externalRef
     const events = entry?.events || []
+    if (!userId || !events.length) return []
+
+    if (!this.userProfiles[userId]) {
+      this.userProfiles[userId] = { interests: {}, activities: new Set() }
+      const firstMeta = events[0]?.meta as Record<string, unknown> | undefined
+      const username = firstMeta?.username as string | undefined
+        ?? firstMeta?.name as string | undefined
+        ?? firstMeta?.displayName as string | undefined
+      this.usernames[userId] = username ?? userId
+    }
+
+    const profile = this.userProfiles[userId]
 
     for (const event of events) {
-      const userId = this.getNestedString(event, 'meta', 'userId')
-        ?? this.getNestedString(event, 'meta', 'user_id')
-        ?? this.getString(event, 'userId')
-      if (!userId) continue
-
-      if (!this.userProfiles[userId]) {
-        this.userProfiles[userId] = { interests: {}, activities: new Set() }
-        const username = this.getNestedString(event, 'meta', 'username')
-          ?? this.getNestedString(event, 'meta', 'name')
-          ?? this.getNestedString(event, 'meta', 'displayName')
-        this.usernames[userId] = username ?? userId
-      }
-
-      const profile = this.userProfiles[userId]
       const eventCategory = this.getEventCategory(event) ?? 'general'
       profile.interests[eventCategory] = (profile.interests[eventCategory] || 0) + 1
 
@@ -73,19 +72,19 @@ export class RecommendationGenerator extends BaseDetector {
         ? popularActivities
             .filter(({ activity }) => !profile.activities.has(activity))
             .slice(0, MAX_GAP_SUGGESTIONS)
-            .map(s => {
-              const otherNames = [...this.activityPopularity[s.activity]]
-                .map(uid => this.usernames[uid] ?? uid)
-                .filter(n => n !== displayName)
+            .map(suggestion => {
+              const otherNames = [...this.activityPopularity[suggestion.activity]]
+                .map(otherUserId => this.usernames[otherUserId] ?? otherUserId)
+                .filter(name => name !== displayName)
                 .slice(0, MAX_NAMES_PER_GAP)
-              return `${s.activity} (logged by ${otherNames.join(', ')})`
+              return `${suggestion.activity} (logged by ${otherNames.join(', ')})`
             })
         : []
 
       const topCategories = Object.entries(profile.interests)
         .sort((a, b) => b[1] - a[1])
         .slice(0, MAX_TOP_CATEGORIES)
-        .map(([cat, count]) => `${cat} (${count}x)`)
+        .map(([category, count]) => `${category} (${count}x)`)
 
       const evidenceData: Record<string, unknown> = {
         userId,
@@ -99,6 +98,7 @@ export class RecommendationGenerator extends BaseDetector {
 
       findings.push(this.createFinding({
         id: `profile-${userId}`,
+        groupKey: userId,
         message: `${displayName} has logged ${profile.activities.size} unique activities — most in: ${topCategories.slice(0, MAX_CATEGORIES_IN_MESSAGE).join(', ') || 'none yet'}`,
         evidence: evidenceData
       }))
