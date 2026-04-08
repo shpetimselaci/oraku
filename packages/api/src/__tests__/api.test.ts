@@ -1,19 +1,19 @@
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest'
 import request from 'supertest'
 
-vi.mock('../../../oraku-main/src/core/pipeline', () => ({
+vi.mock('../@oraku/brain/src/core/pipeline', () => ({
   runPipeline: vi.fn()
 }))
 
-vi.mock('../../../oraku-main/src/db/notifications', () => ({
+vi.mock('../@oraku/brain/src/db/notifications', () => ({
   getDueNotifications: vi.fn(() => []),
   getDueNotificationsByUser: vi.fn(() => ({})),
   markDelivered: vi.fn(),
   saveNotifications: vi.fn(() => [])
 }))
 
-import { runPipeline } from '../../../oraku-main/src/core/pipeline'
-import { getDueNotificationsByUser } from '../../../oraku-main/src/db/notifications'
+import { runPipeline } from '../@oraku/brain/src/core/pipeline'
+import { getDueNotificationsByUser } from '../@oraku/brain/src/db/notifications'
 import { app } from '../index'
 
 const mockRunPipeline = vi.mocked(runPipeline)

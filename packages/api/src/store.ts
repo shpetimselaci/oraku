@@ -1,4 +1,4 @@
-import type { Event, PipelineResult, SDKDetectorSchema } from '../../oraku-main/src/types'
+import type { Event, PipelineResult, SDKDetectorSchema } from '@oraku/brain/src/types'
 import type { ProjectStore } from './scheduler'
 
 export const store: ProjectStore = {

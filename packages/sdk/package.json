@@ -1,5 +1,5 @@
 {
-  "name": "oraku-sdk",
+  "name": "@oraku/sdk",
   "version": "1.7.0",
   "description": "SDK for the Oraku engagement engine",
   "main": "dist/index.js",
