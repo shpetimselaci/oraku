@@ -2,17 +2,8 @@
   "name": "@oraku/brain",
   "version": "1.1.3",
   "description": "Activity pattern detection SDK for institutions",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "files": [
-    "dist"
-  ],
+  "main": "src/index.ts",
+  
   "dependencies": {
     "better-sqlite3": "^12.8.0",
     "dotenv": "^17.3.1",
@@ -33,9 +24,9 @@
     "vitest": "^4.0.18"
   },
   "scripts": {
-    "build:grammar": "nearleyc src/detectors/helpers/markers.ne -o src/detectors/helpers/markers.js",
-    "build": "npm run build:grammar && tsc",
-    "prepare": "npm run build",
+    "build:grammar": "cd ../.. && nearleyc packages/brain/src/detectors/helpers/markers.ne -o packages/brain/src/detectors/helpers/markers.js",
+    "build": "pnpm run build:grammar && tsc",
+    "prepare": "pnpm run build",
     "build:watch": "tsc --watch",
     "generate": "npx ts-node generate-activity-events.ts",
     "stitch": "npx ts-node src/cli/stitch.ts output/activity_events.json",
