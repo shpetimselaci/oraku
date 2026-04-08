@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { getDueNotifications, getDueNotificationsByUser, markDelivered } from '../../../oraku-main/src/db/notifications'
-import type { Notification } from '../../../oraku-main/src/types'
+import { getDueNotifications, getDueNotificationsByUser, markDelivered } from '../@oraku/brain/src/db/notifications'
+import type { Notification } from '../@oraku/brain/src/types'
 import { extractNextPredicted, toNextRun, buildFindingMeta } from '../scheduler'
 import { requireAuth } from '../middleware'
 import { store } from '../store'

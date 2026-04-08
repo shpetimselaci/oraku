@@ -1,4 +1,4 @@
-import type { Event } from '../../oraku-main/src/types'
+import type { Event } from '@oraku/brain/src/types'
 
 const EVENTS_PER_USER = 50
 

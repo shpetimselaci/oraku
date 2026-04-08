@@ -1,5 +1,5 @@
-import { toBuilder } from '../../oraku-main/src/detectors/helpers/toBuilder'
-import type { Finding, PipelineResult, SDKDetectorSchema, Event } from '../../oraku-main/src/types'
+import { toBuilder } from '@oraku/brain/src/detectors/helpers/toBuilder'
+import type { Finding, PipelineResult, SDKDetectorSchema, Event } from '@oraku/brain/src/types'
 
 export type { SDKDetectorSchema }
 

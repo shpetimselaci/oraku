@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import type { SDKDetectorSchema } from '../../../oraku-main/src/types'
+import type { SDKDetectorSchema } from '../@oraku/brain/src/types'
 import { requireAuth } from '../middleware'
 import { store } from '../store'
 

@@ -1,5 +1,5 @@
 {
-  "name": "oraku-cron",
+  "name": "@oraku/cron",
   "version": "1.0.0",
   "description": "Standalone cron service for Oraku notification delivery",
   "main": "dist/index.js",
