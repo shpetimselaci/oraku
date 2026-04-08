@@ -4,7 +4,7 @@
     "module": "commonjs",
     "lib": ["ES2022"],
     "outDir": "./dist",
-    "rootDir": "packages/brain/src",
+    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -14,6 +14,6 @@
     "moduleResolution": "node",
     "allowJs": true
   },
-  "include": ["packages/brain/src/**/*"],
-  "exclude": ["node_modules", "dist", "packages/brain/src/cli", "packages/brain/scripts", "packages/brain/src/__tests__"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "src/cli", "src/scripts", "src/__tests__"]
 }

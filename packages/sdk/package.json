@@ -1,0 +1,17 @@
+{
+  "name": "oraku-sdk",
+  "version": "1.7.0",
+  "description": "SDK for the Oraku engagement engine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
