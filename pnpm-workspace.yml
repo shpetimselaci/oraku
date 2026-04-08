@@ -1,3 +1,6 @@
 packages:
   - packages/brain
+  - packages/sdk
+  - packages/api
+  - packages/cron
 
