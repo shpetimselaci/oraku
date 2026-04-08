@@ -1,0 +1,54 @@
+[
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-18T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-19T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-20T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-21T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-22T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-23T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-24T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-25T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-26T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-27T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-28T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-29T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-30T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+  { "externalRef": "marcus-webb", "category": "fitness", "subcategory": "gym_session", "log": "Evening gym session", "createdAt": "2026-03-31T12:20:00.000Z", "meta": { "username": "Marcus Webb" } },
+
+  { "externalRef": "marcus-webb", "category": "nutrition", "subcategory": "daily_log", "log": "Lunch: grilled chicken wrap", "createdAt": "2026-04-01T11:00:00.000Z", "meta": { "username": "Marcus Webb", "calories": 750 } },
+
+  { "externalRef": "marcus-webb", "category": "meals", "subcategory": "fruit",   "log": "Mixed fruit bowl",          "createdAt": "2026-04-01T08:00:00.000Z", "meta": { "username": "Marcus Webb", "foodsServed": ["apple", "banana"] } },
+  { "externalRef": "marcus-webb", "category": "meals", "subcategory": "salad",   "log": "Grilled chicken salad",     "createdAt": "2026-04-01T12:00:00.000Z", "meta": { "username": "Marcus Webb", "foodsServed": ["milk", "eggs"] } },
+  { "externalRef": "marcus-webb", "category": "meals", "subcategory": "protein", "log": "Protein shake post-workout","createdAt": "2026-04-01T13:00:00.000Z", "meta": { "username": "Marcus Webb", "foodsServed": ["milk", "eggs"] } },
+
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-18T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-19T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-20T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-21T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-22T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-23T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-24T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-25T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-26T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-27T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-28T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-29T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-30T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+  { "externalRef": "zara-osei", "category": "routine", "subcategory": "language_practice", "log": "Spanish Duolingo session", "createdAt": "2026-03-31T12:20:00.000Z", "meta": { "username": "Zara Osei" } },
+
+  { "externalRef": "zara-osei", "category": "health", "subcategory": "medication", "log": "Took daily medication", "createdAt": "2026-04-01T07:30:00.000Z", "meta": { "username": "Zara Osei" } },
+
+  { "externalRef": "zara-osei", "category": "meals", "subcategory": "breakfast", "log": "Morning breakfast", "createdAt": "2026-04-01T07:45:00.000Z", "meta": { "username": "Zara Osei", "foodsServed": ["apple"] } },
+
+  { "externalRef": "nia-cole", "category": "reading", "subcategory": "evening_session", "log": "Evening reading session", "createdAt": "2026-03-18T21:00:00.000Z", "meta": { "username": "Nia Cole" } },
+  { "externalRef": "nia-cole", "category": "reading", "subcategory": "evening_session", "log": "Evening reading session", "createdAt": "2026-03-19T21:00:00.000Z", "meta": { "username": "Nia Cole" } },
+  { "externalRef": "nia-cole", "category": "reading", "subcategory": "evening_session", "log": "Evening reading session", "createdAt": "2026-03-20T21:00:00.000Z", "meta": { "username": "Nia Cole" } },
+  { "externalRef": "nia-cole", "category": "reading", "subcategory": "evening_session", "log": "Evening reading session", "createdAt": "2026-03-21T21:00:00.000Z", "meta": { "username": "Nia Cole" } },
+  { "externalRef": "nia-cole", "category": "reading", "subcategory": "evening_session", "log": "Evening reading session", "createdAt": "2026-03-22T21:00:00.000Z", "meta": { "username": "Nia Cole" } },
+  { "externalRef": "nia-cole", "category": "reading", "subcategory": "evening_session", "log": "Evening reading session", "createdAt": "2026-03-23T21:00:00.000Z", "meta": { "username": "Nia Cole" } },
+
+  { "externalRef": "nia-cole", "category": "meals", "subcategory": "fruit",   "log": "Mixed fruit bowl",      "createdAt": "2026-04-01T08:30:00.000Z", "meta": { "username": "Nia Cole", "foodsServed": ["apple", "banana"] } },
+  { "externalRef": "nia-cole", "category": "meals", "subcategory": "salad",   "log": "Caesar salad",          "createdAt": "2026-04-01T12:00:00.000Z", "meta": { "username": "Nia Cole", "foodsServed": ["apple", "milk"] } },
+  { "externalRef": "nia-cole", "category": "meals", "subcategory": "protein", "log": "Grilled chicken breast", "createdAt": "2026-04-01T13:00:00.000Z", "meta": { "username": "Nia Cole", "foodsServed": ["eggs", "milk"] } },
+
+  { "externalRef": "nia-cole", "category": "nutrition", "subcategory": "daily_log", "log": "Lunch: burger and fries", "createdAt": "2026-04-01T11:20:00.000Z", "meta": { "username": "Nia Cole", "calories": 2400 } }
+]

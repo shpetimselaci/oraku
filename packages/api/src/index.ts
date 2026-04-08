@@ -1,5 +1,5 @@
 import express from 'express'
-import { initSchema } from '@oraku/brain/src/db/schema'
+import { initSchema } from '@oraku/brain'
 import ingestRouter from './routes/ingest'
 import notificationsRouter from './routes/notifications'
 import detectorsRouter from './routes/detectors'

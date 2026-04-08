@@ -3,4 +3,5 @@ packages:
   - packages/sdk
   - packages/api
   - packages/cron
-
+onlyBuiltDependencies:
+- better-sqlite3

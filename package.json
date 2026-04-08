@@ -1,5 +1,11 @@
 {
   "dependencies": {
-    "express": "^5.2.1"
-  }
+    "better-sqlite3": "^12.8.0"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel run dev"
+  },
+  "onlyBuiltDependencies": [
+    "better-sqlite3"
+  ]
 }
