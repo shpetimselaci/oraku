@@ -1,6 +1,7 @@
 import { BaseDetector } from './BaseDetector'
 import { AIRetryOnFail } from './helpers/AIRetryOnFail'
-import type { EventGroup, Finding, LLMDetectorConfig, LLMProvider, RawLLMFinding } from '../types'
+import type { AI } from '../ai'
+import type { EventGroup, Finding, LLMDetectorConfig, RawLLMFinding } from '../types'
 
 const SYSTEM_PROMPT = `
 You are a security and activity log analyst.
@@ -13,7 +14,7 @@ Rules:
 `
 
 export class LLMDetector extends BaseDetector {
-  private provider: LLMProvider
+  private ai: AI
   private maxEvents: number
   override isFallback = true
 
@@ -21,7 +22,7 @@ export class LLMDetector extends BaseDetector {
 
   constructor(config: LLMDetectorConfig) {
     super({ name: 'LLMDetector', notificationType: 'insight', ...config })
-    this.provider = config.provider
+    this.ai = config.ai
     this.maxEvents = config.maxEvents ?? 30
   }
 
@@ -58,7 +59,7 @@ export class LLMDetector extends BaseDetector {
       const { ref, events } = queue[i]
       try {
         const raw = await AIRetryOnFail<string>(
-          () => this.provider.complete(
+          () => this.ai.complete(
             JSON.stringify({ context: ref, events }),
             SYSTEM_PROMPT
           ),

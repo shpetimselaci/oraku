@@ -1,3 +1,6 @@
+// ─── AI ──────────────────────────────────────────────────────────────────────
+export { AI } from './ai'
+
 // ─── Core ────────────────────────────────────────────────────────────────────
 export { EventStitcher } from './core/EventStitcher'
 export { runPipeline } from './core/pipeline'

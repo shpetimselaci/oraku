@@ -1,11 +1,13 @@
 import express from 'express'
 import { initSchema } from '@oraku/brain'
+import { initStore } from './store'
 import ingestRouter from './routes/ingest'
 import notificationsRouter from './routes/notifications'
 import detectorsRouter from './routes/detectors'
 import projectRouter from './routes/project'
 
 initSchema()
+initStore()
 
 const app = express()
 app.set('trust proxy', 1)

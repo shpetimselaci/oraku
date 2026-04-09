@@ -313,14 +313,14 @@ export interface LLMProvider {
 }
 
 export interface ChatProviderConfig {
-  baseUrl: string
+  baseUrl?: string
   apiKey?: string
   model?: string
   timeout?: number
 }
 
 export interface LLMDetectorConfig extends DetectorConfig {
-  provider: LLMProvider
+  ai: import('./ai').AI
   maxEvents?: number
 }
 

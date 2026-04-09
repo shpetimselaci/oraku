@@ -2,7 +2,7 @@ import uniqBy from 'lodash/uniqBy'
 import { ActivityPatternAnalyzer } from './ActivityPatternAnalyzer'
 import { RecommendationGenerator } from './RecommendationGenerator'
 import { LLMDetector } from './LLMDetector'
-import { ChatProvider } from '../providers/ChatProvider'
+import { AI } from '../ai'
 import { ContextBasedFilter } from '../filters/ContextBasedFilter'
 import type { DetectorBuilder } from './DetectorBuilder'
 import type {
@@ -30,7 +30,7 @@ export class DetectorManager {
     this.analyzer = new ActivityPatternAnalyzer()
 
     // tier 3 — llm fallback
-    this.llmFallback = new LLMDetector({ provider: new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL ?? '' }) })
+    this.llmFallback = new LLMDetector({ ai: new AI() })
 
     // post-processing — runs after all groups regardless of tier
     this.postProcessors = [new RecommendationGenerator(), ...(options.extraDetectors ?? [])]

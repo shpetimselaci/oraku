@@ -13,8 +13,13 @@ export const store: ProjectStore = {
   runTimestamps:  new Map<string, string>(),
   userTimestamps: new Map<string, Map<string, string>>(),
   events:         new Map<string, Event[]>(),
-  detectors:      getAllProjectDetectors(),
-  settings:       getAllProjectSettings(),
+  detectors:      new Map<string, SDKDetectorSchema[]>(),
+  settings:       new Map<string, ProjectSettings>(),
+}
+
+export function initStore(): void {
+  for (const [k, v] of getAllProjectDetectors()) store.detectors.set(k, v)
+  for (const [k, v] of getAllProjectSettings()) store.settings.set(k, v)
 }
 
 export function saveDetectors(apiKey: string, detectors: SDKDetectorSchema[]): void {
