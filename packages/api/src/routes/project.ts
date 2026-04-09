@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { extractNextPredicted, toNextRun, type ProjectSettings } from '../scheduler'
 import { requireAuth } from '../middleware'
-import { store } from '../store'
+import { store, saveSettings } from '../store'
 
 const router = Router()
 
@@ -13,7 +13,7 @@ router.post('/project/settings', requireAuth, (req, res) => {
   const apiKey: string = res.locals.apiKey
   const incoming: ProjectSettings = req.body
   const existing = store.settings.get(apiKey) ?? {}
-  store.settings.set(apiKey, { ...existing, ...incoming })
+  saveSettings(apiKey, { ...existing, ...incoming })
   res.json({ ok: true })
 })
 

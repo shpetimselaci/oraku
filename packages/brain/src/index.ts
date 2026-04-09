@@ -27,7 +27,9 @@ export { ContextBasedFilter } from './filters/ContextBasedFilter'
 
 // ─── Notifications ───────────────────────────────────────────────────────────
 export { generateNotifications } from './notificationGenerator'
-export { getDueNotifications, markDelivered } from './db/notifications'
+export { getDueNotifications, getDueNotificationsByUser, markDelivered } from './db/notifications'
+export { getProjectDetectors, setProjectDetectors, getProjectSettings, setProjectSettings, getAllProjectDetectors, getAllProjectSettings } from './db/projectStore'
+export type { ProjectSettings } from './db/projectStore'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 export type {

@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import type { SDKDetectorSchema } from '@oraku/brain/src/types'
+import type { SDKDetectorSchema } from '@oraku/brain'
 import { requireAuth } from '../middleware'
-import { store } from '../store'
+import { store, saveDetectors } from '../store'
 
 const router = Router()
 
@@ -12,13 +12,13 @@ router.post('/', requireAuth, (req, res) => {
 
   const updated = (store.detectors.get(apiKey) ?? []).filter(d => d.name !== config.name)
   updated.push(config)
-  store.detectors.set(apiKey, updated)
+  saveDetectors(apiKey, updated)
   res.json({ ok: true, registered: updated.length })
 })
 
 router.delete('/:name', requireAuth, (req, res) => {
   const apiKey: string = res.locals.apiKey
-  store.detectors.set(apiKey, (store.detectors.get(apiKey) ?? []).filter(d => d.name !== req.params.name))
+  saveDetectors(apiKey, (store.detectors.get(apiKey) ?? []).filter(d => d.name !== req.params.name))
   res.json({ ok: true })
 })
 

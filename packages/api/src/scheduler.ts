@@ -1,13 +1,7 @@
-import { toBuilder } from '@oraku/brain/src/detectors/helpers/toBuilder'
-import type { Finding, PipelineResult, SDKDetectorSchema, Event } from '@oraku/brain/src/types'
+import { toBuilder } from '@oraku/brain'
+import type { Finding, PipelineResult, SDKDetectorSchema, Event, ProjectSettings } from '@oraku/brain'
 
-export type { SDKDetectorSchema }
-
-export type ProjectSettings = {
-  notificationsPerUser?: number
-  webhookUrl?: string
-  webhookAuthKey?: string
-}
+export type { SDKDetectorSchema, ProjectSettings }
 
 export type ProjectStore = {
   results:        Map<string, PipelineResult>
