@@ -3,9 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config({ path: path.resolve(__dirname, '../../.env') })
 import { EventStitcher } from './EventStitcher'
 import { DetectorManager } from '../detectors/DetectorManager'
-import { generateNotifications } from '../notificationGenerator'
-import { ChatProvider } from '../providers/ChatProvider'
-import type { LLMProvider } from '../types'
+import { AI } from '../ai'
 import { saveNotifications } from '../db/notifications'
 import { upsertProfile, getAllProfiles } from '../db/profiles'
 import { db } from '../db/connection'
@@ -13,16 +11,12 @@ import { OrgBenchmarkDetector } from '../detectors/OrgBenchmarkDetector'
 import type { Event, Finding, Notification, PipelineOptions, PipelineResult } from '../types'
 
 
-function resolveProvider(options: PipelineOptions): LLMProvider {
-  if (!options.provider) {
-    if (!process.env.LLM_BASE_URL) throw new Error('LLM_BASE_URL is not set')
-    if (!process.env.LLM_MODEL) throw new Error('LLM_MODEL is not set')
-  }
-  return options.provider ?? new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL ?? '' })
+function resolveAI(options: PipelineOptions): AI {
+  return options.provider ? new AI(options.provider) : new AI()
 }
 
 export async function runPipeline(events: Event[], options: PipelineOptions = {}): Promise<PipelineResult> {
-  const provider = resolveProvider(options)
+  const ai = resolveAI(options)
   const groups = new EventStitcher(events).stitch()
   const findings = await new DetectorManager({ builders: options.builders }).runDetectorsOn(groups)
 
@@ -89,7 +83,7 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
 
   const notificationsByUser: Record<string, Notification[]> = {}
   if (allFindings.length) {
-    const generatedByUser = await generateNotifications(allFindings, { provider, subjectMap })
+    const generatedByUser = await ai.consume(allFindings).generateNotifications({ subjectMap })
     await Promise.all(
       Object.entries(generatedByUser).map(async ([userId, notifications]) => {
         notificationsByUser[userId] = notifications

@@ -6,10 +6,10 @@ export class ChatProvider implements LLMProvider {
   readonly model: string
   private timeout: number
 
-  constructor(config: ChatProviderConfig) {
-    this.baseUrl = config.baseUrl
+  constructor(config: ChatProviderConfig = {}) {
+    this.baseUrl = config.baseUrl ?? process.env.LLM_BASE_URL ?? ''
     this.apiKey = config.apiKey ?? process.env.LLM_API_KEY ?? ''
-    this.model = config.model ?? ''
+    this.model = config.model ?? process.env.LLM_MODEL ?? ''
     this.timeout = config.timeout ?? 15000
   }
 
