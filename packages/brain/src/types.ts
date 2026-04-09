@@ -313,10 +313,11 @@ export interface LLMProvider {
 }
 
 export interface ChatProviderConfig {
-  baseUrl?: string
+  url?: string
   apiKey?: string
   model?: string
   timeout?: number
+  parseResponse?: (data: unknown) => string       
 }
 
 export interface LLMDetectorConfig extends DetectorConfig {

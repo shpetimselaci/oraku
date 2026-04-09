@@ -18,7 +18,7 @@ const FINDINGS_FILE = path.resolve(__dirname, '..', '..', 'output', 'findings.js
   const findings: Finding[] = JSON.parse(fs.readFileSync(FINDINGS_FILE, 'utf8'))
 
   try {
-    const provider = new ChatProvider({ baseUrl: process.env.LLM_BASE_URL ?? '', model: process.env.LLM_MODEL ?? '' })
+    const provider = new ChatProvider({ url: process.env.LLM_URL ?? '', model: process.env.LLM_MODEL ?? '' })
     const message = await generateNotifications(findings, { provider })
     const outFile = path.resolve(__dirname, '..', '..', 'output', 'reminders.txt')
     fs.writeFileSync(outFile, JSON.stringify(message, null, 2), 'utf8')
