@@ -5,7 +5,7 @@ import type { SDKDetectorSchema } from '@oraku/brain/src/types'
 import { toBuilder } from '../scheduler'
 import { requireAuth } from '../middleware'
 import { resolveEvents, limitEventsPerUser } from '../ingest'
-import { store } from '../store'
+import { store, saveDetectors } from '../store'
 
 const ingestLimiter = rateLimit({
   windowMs: 30 * 60 * 1000,
@@ -35,7 +35,7 @@ router.post('/', requireAuth, ingestLimiter, async (req, res) => {
     const autoConfigs: SDKDetectorSchema[] = newCategories.map(cat => ({
       name: `auto-${cat}`, type: 'streak-ongoing', marker: cat, minRepeat: 3, notificationType: 'reminder'
     }))
-    store.detectors.set(apiKey, [...existing, ...autoConfigs])
+    saveDetectors(apiKey, [...existing, ...autoConfigs])
   }
 
   const settings = store.settings.get(apiKey)
