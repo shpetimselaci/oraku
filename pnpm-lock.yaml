@@ -54,6 +54,9 @@ importers:
       better-sqlite3:
         specifier: ^12.8.0
         version: 12.8.0
+      cloudflare:
+        specifier: ^5.2.0
+        version: 5.2.0
       dotenv:
         specifier: ^17.3.1
         version: 17.4.1
