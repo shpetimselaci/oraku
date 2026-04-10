@@ -1,5 +1,5 @@
 import { BaseDetector } from './BaseDetector'
-import { extractItems, matchItems } from './helpers/itemMatching'
+import { extract, matchItems } from './helpers/itemMatching'
 import type {
   Event,
   EventGroup,
@@ -10,7 +10,7 @@ import type {
 
 export class ChecklistDetector extends BaseDetector {
   expectedItems: ExpectedItem[]
-  extractItems: (event: Event) => string | string[]
+  extract: (event: Event) => string | string[]
   itemMatcher: ((actual: string, expected: ExpectedItem) => boolean) | null
   itemComparer: ((
     items: string[],
@@ -26,7 +26,7 @@ export class ChecklistDetector extends BaseDetector {
   constructor(config: ChecklistConfig) {
     super(config)
     this.expectedItems = config.expectedItems || []
-    this.extractItems = config.extractActual || ((event: Event) => this.getString(event, 'name')?.toLowerCase() ?? '')
+    this.extract = config.extractActual || ((event: Event) => this.getString(event, 'name')?.toLowerCase() ?? '')
     this.itemMatcher = config.matchFn || null
     this.itemComparer = config.compareFn || null
     this.messageFormatter = config.message || ((missing: string[]) => `Missing: ${missing.join(', ')}`)
@@ -49,7 +49,7 @@ export class ChecklistDetector extends BaseDetector {
 
     if (!events.length) return []
 
-    const actualItems = extractItems(events, this.extractItems)
+    const actualItems = extract(events, this.extract)
 
     if (!actualItems.length) return []
 

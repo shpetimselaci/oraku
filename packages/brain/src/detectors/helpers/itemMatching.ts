@@ -4,7 +4,7 @@ import type { Event, ExpectedItem } from '../../types'
 export { get as resolvePath }
 
 // pulls item strings out of a list of events using the provided extractor
-export function extractItems(
+export function extract(
   events: Event[],
   extractFn: (event: Event) => string | string[]
 ): string[] {
