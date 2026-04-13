@@ -16,6 +16,9 @@ export class ItemAnalysisDetector extends BaseDetector {
 
   constructor(config: ItemAnalysisConfig) {
     super(config)
+    if (typeof config.extract !== 'function' && !config.extract?.path) throw new Error(`ItemAnalysisDetector "${config.name}" requires extract.path`)
+    if (!config.lookup) throw new Error(`ItemAnalysisDetector "${config.name}" requires lookup`)
+    if (!config.targets) throw new Error(`ItemAnalysisDetector "${config.name}" requires targets`)
     this.lookup = config.lookup
     this.targets = config.targets
     this.aggregateMode = config.aggregate ?? 'sum'

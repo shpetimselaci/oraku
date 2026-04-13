@@ -13,6 +13,9 @@ export class ThresholdDetector extends BaseDetector {
 
   constructor(config: ThresholdConfig) {
     super(config)
+    if (typeof config.extract !== 'function' && !config.extract?.path) throw new Error(`ThresholdDetector "${config.name}" requires extract.path`)
+    if (!config.operator) throw new Error(`ThresholdDetector "${config.name}" requires operator`)
+    if (config.value === undefined) throw new Error(`ThresholdDetector "${config.name}" requires value`)
     this.operator = config.operator
     this.thresholdValue = config.value
     this.aggregate = config.aggregate ?? 'sum'
