@@ -36,16 +36,15 @@ export class DetectorManager {
       const groupContext = { ...this.context, ...(categories.length === 1 ? { category: categories[0] } : {}) }
 
       const eligible = this.filterMechanism.filter(this.detectors, group, groupContext)
-      const findings: Finding[] = []
-      for (const detector of eligible) {
-        try {
-          const results = await detector.detect(group)
-          if (Array.isArray(results)) findings.push(...results)
-        } catch (err) {
-          console.warn('[DetectorManager] detector error:', detector.name, (err as Error)?.message)
-        }
-      }
-      return findings.map(f => ({ ...f, groupKey: group.externalRef }))
+      const results = await Promise.all(
+        eligible.map(detector =>
+          detector.detect(group).catch(err => {
+            console.warn('[DetectorManager] detector error:', detector.name, (err as Error)?.message)
+            return [] as Finding[]
+          })
+        )
+      )
+      return results.flat().map(f => ({ ...f, groupKey: group.externalRef }))
     })
 
     const findingsByGroup = await Promise.all(groupDetectionTasks)
