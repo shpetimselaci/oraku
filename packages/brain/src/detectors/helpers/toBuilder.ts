@@ -26,16 +26,10 @@ export function toBuilder(config: SDKDetectorSchema): DetectorBuilder {
       inner = new MilestoneDetector({ name, notificationType, scheduleAt, milestones: (config.expected ?? []).map(key => ({ key })), todayOnly: config.todayOnly, extractActual: (event) => typeof event.subcategory === 'string' ? event.subcategory : '' })
       break
     case 'threshold':
-      if (!config.extract?.path) throw new Error(`ThresholdDetector "${name}" requires extract.path`)
-      if (!config.operator)      throw new Error(`ThresholdDetector "${name}" requires operator`)
-      if (config.value === undefined) throw new Error(`ThresholdDetector "${name}" requires value`)
-      inner = new ThresholdDetector({ name, notificationType, scheduleAt, extract: { path: config.extract.path }, operator: config.operator, value: config.value, aggregate: config.aggregate, todayOnly: config.todayOnly })
+      inner = new ThresholdDetector({ name, notificationType, scheduleAt, extract: { path: config.extract?.path ?? '' }, operator: config.operator!, value: config.value!, aggregate: config.aggregate, todayOnly: config.todayOnly })
       break
     case 'item-analysis':
-      if (!config.extract?.path) throw new Error(`ItemAnalysisDetector "${name}" requires extract.path`)
-      if (!config.lookup)        throw new Error(`ItemAnalysisDetector "${name}" requires lookup`)
-      if (!config.targets)       throw new Error(`ItemAnalysisDetector "${name}" requires targets`)
-      inner = new ItemAnalysisDetector({ name, notificationType, scheduleAt, extract: { path: config.extract.path }, lookup: config.lookup, targets: config.targets, aggregate: config.aggregate as 'sum' | 'avg' | undefined, todayOnly: config.todayOnly, dateFilter: config.dateFilter })
+      inner = new ItemAnalysisDetector({ name, notificationType, scheduleAt, extract: { path: config.extract?.path ?? '' }, lookup: config.lookup!, targets: config.targets!, aggregate: config.aggregate as 'sum' | 'avg' | undefined, todayOnly: config.todayOnly, dateFilter: config.dateFilter })
       break
     default:
       throw new Error(`Unknown detector type: ${type}`)
