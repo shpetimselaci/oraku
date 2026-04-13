@@ -1,5 +1,5 @@
 import { BaseDetector } from './BaseDetector'
-import { extract, matchItems } from './helpers/itemMatching'
+import { items } from './helpers/itemMatching'
 import type {
   Event,
   EventGroup,
@@ -49,7 +49,7 @@ export class ChecklistDetector extends BaseDetector {
 
     if (!events.length) return []
 
-    const actualItems = extract(events, this.extract)
+    const actualItems = items.extract(events, this.extract)
 
     if (!actualItems.length) return []
 
@@ -79,7 +79,7 @@ export class ChecklistDetector extends BaseDetector {
       covered = result.covered || new Set()
       missing = result.missing || []
     } else {
-      const result = matchItems(actualItems, this.expectedItems, this.itemMatcher ?? undefined)
+      const result = items.match(actualItems, this.expectedItems, this.itemMatcher ?? undefined)
       covered = result.covered
       missing = result.missing
     }
