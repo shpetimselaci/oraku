@@ -2,6 +2,21 @@ import { BaseDetector } from './BaseDetector'
 import { resolvePath } from './helpers/itemMatching'
 import type { EventGroup, Finding, Event, ThresholdOperator, ThresholdAggregate, ThresholdConfig } from '../types'
 
+const AGGREGATES: Record<ThresholdAggregate, (values: number[]) => number> = {
+  sum:   values => values.reduce((a, b) => a + b, 0),
+  avg:   values => values.reduce((a, b) => a + b, 0) / values.length,
+  count: values => values.length,
+  min:   values => Math.min(...values),
+  max:   values => Math.max(...values),
+}
+
+const OPERATORS: Record<ThresholdOperator, (a: number, b: number) => boolean> = {
+  lt:  (a, b) => a < b,
+  lte: (a, b) => a <= b,
+  gt:  (a, b) => a > b,
+  gte: (a, b) => a >= b,
+  eq:  (a, b) => a === b,
+}
 
 export class ThresholdDetector extends BaseDetector {
   private extractFn: (event: Event) => number | null
@@ -16,70 +31,48 @@ export class ThresholdDetector extends BaseDetector {
     if (typeof config.extract !== 'function' && !config.extract?.path) throw new Error(`ThresholdDetector "${config.name}" requires extract.path`)
     if (!config.operator) throw new Error(`ThresholdDetector "${config.name}" requires operator`)
     if (config.value === undefined) throw new Error(`ThresholdDetector "${config.name}" requires value`)
+
     this.operator = config.operator
     this.thresholdValue = config.value
     this.aggregate = config.aggregate ?? 'sum'
-    this.todayOnly = config.todayOnly !== false
+    this.todayOnly = config.todayOnly ?? true
     this.messageFormatter = config.message ?? ((actual, target) => `Value ${actual} did not meet target ${target}`)
+    this.extractFn = ThresholdDetector.buildExtractFn(config.extract)
+  }
 
-    if (typeof config.extract === 'function') {
-      this.extractFn = config.extract
-    } else {
-      const path = config.extract.path
-      this.extractFn = (event: Event) => {
-        const val = resolvePath(event, path)
-        const num = Number(val)
-        return Number.isNaN(num) ? null : num
-      }
+  private static buildExtractFn(extract: ThresholdConfig['extract']): (event: Event) => number | null {
+    if (typeof extract === 'function') return extract
+    const { path } = extract
+    return (event: Event) => {
+      const num = Number(resolvePath(event, path))
+      return Number.isNaN(num) ? null : num
     }
   }
 
   async detect(entry: EventGroup): Promise<Finding[]> {
     let events = this.getEvents(entry)
-    if (!events.length) return []
-
-    if (this.todayOnly) {
-      events = this.filterByDate(events, new Date(), 'day')
-    }
-
+    if (this.todayOnly) events = this.filterByDate(events, new Date(), 'day')
     if (!events.length) return []
 
     const values = events.map(e => this.extractFn(e)).filter((v): v is number => v !== null)
     if (!values.length) return []
 
-    let actual: number
-    switch (this.aggregate) {
-      case 'avg': actual = values.reduce((a, b) => a + b, 0) / values.length; break
-      case 'count': actual = values.length; break
-      case 'min': actual = Math.min(...values); break
-      case 'max': actual = Math.max(...values); break
-      default: actual = values.reduce((a, b) => a + b, 0) // sum
-    }
+    const actual = AGGREGATES[this.aggregate](values)
+    if (!OPERATORS[this.operator](actual, this.thresholdValue)) return []
 
-    if (!this.compare(actual, this.thresholdValue)) return []
+    const message = typeof this.messageFormatter === 'function'
+      ? this.messageFormatter(actual, this.thresholdValue)
+      : this.messageFormatter
 
-    const dateStr = this.todayString()
     return [
       this.createFinding({
-        id: `threshold-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${dateStr}`,
-        message: typeof this.messageFormatter === 'function'
-          ? this.messageFormatter(actual, this.thresholdValue)
-          : this.messageFormatter,
+        id: `threshold-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${this.todayString()}`,
+        message,
         evidence: { actual, target: this.thresholdValue, operator: this.operator, aggregate: this.aggregate }
       })
     ]
   }
 
-  private compare(actual: number, target: number): boolean {
-    switch (this.operator) {
-      case 'lt': return actual < target
-      case 'lte': return actual <= target
-      case 'gt': return actual > target
-      case 'gte': return actual >= target
-      case 'eq': return actual === target
-      default: return false
-    }
-  }
 }
 
 export default ThresholdDetector
