@@ -1,4 +1,5 @@
 import type { GroupDetector, EventGroupMap, Finding, PersistedUserProfile } from '../types'
+import { NotificationTypes } from './helpers/notificationTypes'
 
 const MIN_ORG_SIZE = 30
 
@@ -85,7 +86,7 @@ export class OrgBenchmarkDetector implements GroupDetector {
         findings.push({
           id: `org-benchmark-${profile.externalRef}-${today}`,
           detector: 'org-benchmark',
-          notificationType: 'insight',
+          notificationType: NotificationTypes.INSIGHT,
           message: `Organisation activity update`,
           groupKey: profile.externalRef,
           evidence: {

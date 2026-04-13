@@ -1,6 +1,7 @@
 import { BaseDetector } from './BaseDetector'
 import { StreakDetector } from './StreakDetector'
 import type { EventGroup, Finding, ActivityPatternAnalyzerConfig, Event } from '../types'
+import { NotificationTypes } from './helpers/notificationTypes'
 
 const MS_PER_DAY = 86_400_000
 
@@ -13,7 +14,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
   private maxActivitiesInSummary: number
 
   constructor(config: ActivityPatternAnalyzerConfig = {}) {
-    super({ name: 'ActivityPatternAnalyzer', notificationType: 'insight', ...config })
+    super({ name: 'ActivityPatternAnalyzer', notificationType: NotificationTypes.INSIGHT, ...config })
 
     const minRepeat = config.minStreakLength ?? 3
     this.dataSources = config.dataSources ? new Set(config.dataSources) : null
@@ -81,7 +82,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
     return [
       this.createFinding({
         id: `variety-${entry.externalRef ?? 'auto'}`,
-        notificationType: 'nudge',
+        notificationType: NotificationTypes.NUDGE,
         message: `Not seen this week: ${dormant.join(', ')}`,
         evidence: { type: 'variety', missingCategories: dormant }
       })
@@ -114,7 +115,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
     return [
       this.createFinding({
         id: `summary-${entry.externalRef ?? 'auto'}`,
-        notificationType: 'insight',
+        notificationType: NotificationTypes.INSIGHT,
         message: `Recent activity summary (${recentActivities.length} unique activities in last ${this.summaryLookbackDays} days)`,
         evidence: { type: 'summary', count: recentActivities.length, topActivities: shown }
       })

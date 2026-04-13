@@ -2,6 +2,7 @@ import { BaseDetector } from './BaseDetector'
 import { AIRetryOnFail } from './helpers/AIRetryOnFail'
 import type { AI } from '../ai'
 import type { EventGroup, Finding, LLMDetectorConfig, RawLLMFinding } from '../types'
+import { NotificationTypes } from './helpers/notificationTypes'
 
 const SYSTEM_PROMPT = `
 You are a security and activity log analyst.
@@ -21,7 +22,7 @@ export class LLMDetector extends BaseDetector {
   private pendingEntries: Array<{ ref: string; events: Array<{ time: string | null; category: string; label: string | null }> }> = []
 
   constructor(config: LLMDetectorConfig) {
-    super({ name: 'LLMDetector', notificationType: 'insight', ...config })
+    super({ name: 'LLMDetector', notificationType: NotificationTypes.INSIGHT, ...config })
     this.ai = config.ai
     this.maxEvents = config.maxEvents ?? 30
   }
@@ -71,7 +72,7 @@ export class LLMDetector extends BaseDetector {
         for (const [j, f] of parsed.entries()) {
           allFindings.push(this.createFinding({
             id: `ai-${ref}-${j}-${Math.random().toString(36).slice(2, 5)}`,
-            notificationType: 'insight',
+            notificationType: NotificationTypes.INSIGHT,
             message: f.message,
             evidence: { category: f.category, analysis: f.evidence }
           }))
