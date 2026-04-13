@@ -1,4 +1,5 @@
 import { BaseDetector } from './BaseDetector'
+import { minEvents } from '../filters/detectorConditions'
 import type { EventGroup, Finding, UserProfile, ActivityPopularity } from '../types'
 import { NotificationTypes } from './helpers/notificationTypes'
 
@@ -10,6 +11,7 @@ const MAX_CATEGORIES_IN_MESSAGE = 2
 const MAX_TOP_ACTIVITIES_IN_SUMMARY = 3
 
 export class RecommendationGenerator extends BaseDetector {
+  readonly conditions = [minEvents(1)]
   private userProfiles: Record<string, UserProfile> = {}
   private usernames: Record<string, string> = {}
   private activityPopularity: Record<string, Set<string>> = {}

@@ -45,10 +45,13 @@ export interface DetectorConfig {
   scheduleAt?: string  // UTC time to fire the notification, e.g. '16:00' — overrides the default CASE in saveNotifications
 }
 
+export type DetectorCondition = (group: EventGroup, context: Record<string, unknown>) => boolean
+
 export interface Detector {
   name: string
   description: string
   notificationType: NotificationType
+  conditions?: DetectorCondition[]
   detect(entry: EventGroup): Promise<Finding[]>
   finalize?(): Promise<Finding[]>
 }
@@ -224,15 +227,6 @@ export interface BuilderEntry {
   markers: MarkerPredicate[]
 }
 
-
-// ============ CONTEXT FILTER ============
-
-export interface ExtendedDetector extends Detector {
-  minEvents?: number
-  requiresRecurring?: boolean
-  recurringThreshold?: number
-  supportedCategories?: string[]
-}
 
 // ============ RECOMMENDATION GENERATOR ============
 

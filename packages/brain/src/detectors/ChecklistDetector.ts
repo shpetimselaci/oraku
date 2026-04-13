@@ -1,4 +1,5 @@
 import { BaseDetector } from './BaseDetector'
+import { minEvents } from '../filters/detectorConditions'
 import { items } from './helpers/itemMatching'
 import type {
   Event,
@@ -9,6 +10,7 @@ import type {
 } from '../types'
 
 export class ChecklistDetector extends BaseDetector {
+  readonly conditions = [minEvents(1)]
   expectedItems: ExpectedItem[]
   extract: (event: Event) => string | string[]
   itemComparer: ((
