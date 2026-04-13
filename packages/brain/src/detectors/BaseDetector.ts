@@ -14,8 +14,6 @@ export abstract class BaseDetector implements Detector {
   public readonly description: string;
   public readonly notificationType: NotificationType;
   public readonly scheduleAt?: string;
-  public isFallback?: boolean;
-
   constructor(config: DetectorConfig = {}) {
     this.name = config.name || this.constructor.name;
     this.description = config.description || '';
