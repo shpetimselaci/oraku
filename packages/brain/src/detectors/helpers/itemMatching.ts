@@ -18,19 +18,16 @@ function extract(
 
 function match(
   actualItems: string[],
-  expectedItems: ExpectedItem[],
-  matchFn?: (actual: string, expected: ExpectedItem) => boolean
+  expectedItems: ExpectedItem[]
 ): { covered: Set<string>; missing: string[] } {
   const normalized = actualItems.map(a => a.toLowerCase())
   const covered = new Set<string>()
 
   for (const expected of expectedItems) {
-    const matched = matchFn
-      ? normalized.some(actual => matchFn(actual, expected))
-      : normalized.some(actual =>
-          expected.keywords?.some(k => actual.includes(k)) ||
-          (expected.key ? actual.includes(expected.key.toLowerCase()) : false)
-        )
+    const matched = normalized.some(actual =>
+      expected.keywords?.some(k => actual.includes(k)) ||
+      (expected.key ? actual.includes(expected.key.toLowerCase()) : false)
+    )
     if (matched) covered.add(expected.key)
   }
 
