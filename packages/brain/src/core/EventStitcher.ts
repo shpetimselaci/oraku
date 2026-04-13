@@ -32,6 +32,10 @@ class EventStitcher {
     return map
   }
 
+  static stitch(events: Event[]): EventGroupMap {
+    return new EventStitcher(events).stitch()
+  }
+
   static toMarkdown(entry: EventGroup): string {
     const lines: string[] = []
     lines.push(`# Stitched summary — ${entry.externalRef}`)
