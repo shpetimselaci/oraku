@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import type { SDKDetectorSchema } from '@oraku/brain'
+import { SDKDetectorSchemaZod } from '../schemas'
 import { requireAuth } from '../middleware'
 import { store, saveDetectors } from '../store'
 
@@ -7,11 +7,12 @@ const router = Router()
 
 router.post('/', requireAuth, (req, res) => {
   const apiKey: string = res.locals.apiKey
-  const config: SDKDetectorSchema = req.body
-  if (!config.name || !config.type) { res.status(400).json({ error: 'name and type are required' }); return }
 
-  const updated = (store.detectors.get(apiKey) ?? []).filter(d => d.name !== config.name)
-  updated.push(config)
+  const parsed = SDKDetectorSchemaZod.safeParse(req.body)
+  if (!parsed.success) { res.status(400).json({ error: 'Invalid detector config', issues: parsed.error.issues }); return }
+
+  const updated = (store.detectors.get(apiKey) ?? []).filter(d => d.name !== parsed.data.name)
+  updated.push(parsed.data)
   saveDetectors(apiKey, updated)
   res.json({ ok: true, registered: updated.length })
 })

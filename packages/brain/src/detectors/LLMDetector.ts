@@ -17,7 +17,6 @@ Rules:
 export class LLMDetector extends BaseDetector {
   private ai: AI
   private maxEvents: number
-  override isFallback = true
 
   private pendingEntries: Array<{ ref: string; events: Array<{ time: string | null; category: string; label: string | null }> }> = []
 

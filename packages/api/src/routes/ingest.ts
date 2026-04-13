@@ -1,6 +1,8 @@
 import { Router } from 'express'
 import { rateLimit } from 'express-rate-limit'
+import { z } from 'zod'
 import { runPipeline } from '@oraku/brain/src/core/pipeline'
+import { EventSchema } from '../schemas'
 import type { SDKDetectorSchema } from '@oraku/brain/src/types'
 import { toBuilder } from '../scheduler'
 import { requireAuth } from '../middleware'
@@ -26,7 +28,11 @@ router.post('/', requireAuth, ingestLimiter, async (req, res) => {
   const resolved = await resolveEvents(req.body)
   if (!resolved) { res.status(400).json({ error: 'Provide events (array), url (string), or sources (array)' }); return }
   if (!resolved.length) { res.status(400).json({ error: 'No events found' }); return }
-  const allEvents = limitEventsPerUser(resolved)
+
+  const parsed = z.array(EventSchema).safeParse(resolved)
+  if (!parsed.success) { res.status(400).json({ error: 'Invalid events', issues: parsed.error.issues }); return }
+
+  const allEvents = limitEventsPerUser(parsed.data)
 
   const existing = store.detectors.get(apiKey) ?? []
   const registeredMarkers = new Set(existing.map(d => d.marker).filter(Boolean))
