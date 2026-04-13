@@ -49,7 +49,6 @@ export interface Detector {
   name: string
   description: string
   notificationType: NotificationType
-  isFallback?: boolean
   detect(entry: EventGroup): Promise<Finding[]>
   finalize?(): Promise<Finding[]>
 }
