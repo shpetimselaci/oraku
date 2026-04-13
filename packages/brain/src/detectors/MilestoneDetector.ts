@@ -1,9 +1,11 @@
 import { BaseDetector } from './BaseDetector'
+import { minEvents } from '../filters/detectorConditions'
 import { items } from './helpers/itemMatching'
 import { NotificationTypes } from './helpers/notificationTypes'
 import type { Event, EventGroup, Finding, ExpectedItem, MilestoneConfig } from '../types'
 
 export class MilestoneDetector extends BaseDetector {
+  readonly conditions = [minEvents(1)]
   private milestones: ExpectedItem[]
   private extractActual: (event: Event) => string | string[]
 private messageFormatter: string | ((achieved: string[]) => string)

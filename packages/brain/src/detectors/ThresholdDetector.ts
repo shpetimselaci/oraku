@@ -1,4 +1,5 @@
 import { BaseDetector } from './BaseDetector'
+import { minEvents } from '../filters/detectorConditions'
 import { resolvePath } from './helpers/itemMatching'
 import type { EventGroup, Finding, Event, ThresholdOperator, ThresholdAggregate, ThresholdConfig } from '../types'
 
@@ -19,6 +20,7 @@ const OPERATORS: Record<ThresholdOperator, (a: number, b: number) => boolean> = 
 }
 
 export class ThresholdDetector extends BaseDetector {
+  readonly conditions = [minEvents(1)]
   private extractFn: (event: Event) => number | null
   private operator: ThresholdOperator
   private thresholdValue: number

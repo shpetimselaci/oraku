@@ -1,4 +1,5 @@
 import { BaseDetector } from './BaseDetector'
+import { minEvents } from '../filters/detectorConditions'
 import { NotificationTypes } from './helpers/notificationTypes'
 import type {
   Event,
@@ -12,6 +13,7 @@ import type {
 } from '../types'
 
 export class StreakDetector extends BaseDetector {
+  readonly conditions
   minRepeat: number
   triggerOn: StreakTrigger
   frequency: StreakFrequency
@@ -21,6 +23,7 @@ export class StreakDetector extends BaseDetector {
   constructor(config: StreakConfig) {
     super(config)
     this.minRepeat = config.minRepeat || 3
+    this.conditions = [minEvents(this.minRepeat)]
     this.triggerOn = config.triggerOn || 'ongoing'
     this.frequency = config.frequency ?? 'daily'
     this.precision = config.precision ?? 'day'

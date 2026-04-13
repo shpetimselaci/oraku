@@ -1,11 +1,14 @@
 import { BaseDetector } from './BaseDetector'
 import { StreakDetector } from './StreakDetector'
+import { minEvents } from '../filters/detectorConditions'
 import type { EventGroup, Finding, ActivityPatternAnalyzerConfig, Event } from '../types'
 import { NotificationTypes } from './helpers/notificationTypes'
 
 const MS_PER_DAY = 86_400_000
 
 export class ActivityPatternAnalyzer extends BaseDetector {
+  readonly conditions = [minEvents(1)]
+
   private ongoingStreakDetector: StreakDetector
   private breakStreakDetector: StreakDetector
   private dataSources: Set<string> | null

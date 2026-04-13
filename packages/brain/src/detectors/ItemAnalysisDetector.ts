@@ -1,4 +1,5 @@
 import { BaseDetector } from './BaseDetector'
+import { minEvents } from '../filters/detectorConditions'
 import { resolvePath } from './helpers/itemMatching'
 import { fetchWithTimeout } from './helpers/apiMatcher'
 import type { EventGroup, Finding, Event, StaticLookupSource, ApiLookupSource, LookupSource, ItemAnalysisConfig } from '../types'
@@ -6,6 +7,7 @@ import type { EventGroup, Finding, Event, StaticLookupSource, ApiLookupSource, L
 export type { StaticLookupSource, ApiLookupSource, LookupSource, ItemAnalysisConfig }
 
 export class ItemAnalysisDetector extends BaseDetector {
+  readonly conditions = [minEvents(1)]
   private extractFn: (event: Event) => string[]
   private lookup: LookupSource
   private targets: Record<string, number>
