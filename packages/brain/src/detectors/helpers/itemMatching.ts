@@ -4,7 +4,7 @@ import type { Event, ExpectedItem } from '../../types'
 export { get as resolvePath }
 
 // pulls item strings out of a list of events using the provided extractor
-export function extract(
+function extract(
   events: Event[],
   extractFn: (event: Event) => string | string[]
 ): string[] {
@@ -16,8 +16,7 @@ export function extract(
     .filter(Boolean)
 }
 
-// compares actual items against expected items, returns which were covered and which are missing
-export function matchItems(
+function match(
   actualItems: string[],
   expectedItems: ExpectedItem[],
   matchFn?: (actual: string, expected: ExpectedItem) => boolean
@@ -38,3 +37,5 @@ export function matchItems(
   const missing = expectedItems.map(e => e.key).filter(key => !covered.has(key))
   return { covered, missing }
 }
+
+export const items = { extract, match }

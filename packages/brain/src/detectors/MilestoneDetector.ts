@@ -1,5 +1,5 @@
 import { BaseDetector } from './BaseDetector'
-import { extract, matchItems } from './helpers/itemMatching'
+import { items } from './helpers/itemMatching'
 import type { Event, EventGroup, Finding, ExpectedItem, MilestoneConfig } from '../types'
 
 export class MilestoneDetector extends BaseDetector {
@@ -25,10 +25,10 @@ export class MilestoneDetector extends BaseDetector {
     if (this.todayOnly) events = this.filterByDate(events, new Date(), 'day')
     if (!events.length) return []
 
-    const actualItems = extract(events, this.extractActual)
+    const actualItems = items.extract(events, this.extractActual)
     if (!actualItems.length) return []
 
-    const { covered } = matchItems(actualItems, this.milestones, this.matchFn)
+    const { covered } = items.match(actualItems, this.milestones, this.matchFn)
     if (covered.size < this.milestones.length) return []
 
     const achieved = Array.from(covered)
