@@ -11,7 +11,6 @@ import type {
 export class ChecklistDetector extends BaseDetector {
   expectedItems: ExpectedItem[]
   extract: (event: Event) => string | string[]
-  itemMatcher: ((actual: string, expected: ExpectedItem) => boolean) | null
   itemComparer: ((
     items: string[],
     expected: ExpectedItem[],
@@ -27,8 +26,7 @@ export class ChecklistDetector extends BaseDetector {
     super(config)
     this.expectedItems = config.expectedItems || []
     this.extract = config.extractActual || ((event: Event) => this.getString(event, 'name')?.toLowerCase() ?? '')
-    this.itemMatcher = config.matchFn || null
-    this.itemComparer = config.compareFn || null
+this.itemComparer = config.compareFn || null
     this.messageFormatter = config.message || ((missing: string[]) => `Missing: ${missing.join(', ')}`)
     this.todayOnly = config.todayOnly !== false
     this.dateFilter = config.dateFilter || null
@@ -79,7 +77,7 @@ export class ChecklistDetector extends BaseDetector {
       covered = result.covered || new Set()
       missing = result.missing || []
     } else {
-      const result = items.match(actualItems, this.expectedItems, this.itemMatcher ?? undefined)
+      const result = items.match(actualItems, this.expectedItems)
       covered = result.covered
       missing = result.missing
     }

@@ -6,16 +6,14 @@ import type { Event, EventGroup, Finding, ExpectedItem, MilestoneConfig } from '
 export class MilestoneDetector extends BaseDetector {
   private milestones: ExpectedItem[]
   private extractActual: (event: Event) => string | string[]
-  private matchFn?: (actual: string, expected: ExpectedItem) => boolean
-  private messageFormatter: string | ((achieved: string[]) => string)
+private messageFormatter: string | ((achieved: string[]) => string)
   private todayOnly: boolean
 
   constructor(config: MilestoneConfig) {
     super({ ...config, notificationType: config.notificationType ?? NotificationTypes.ACHIEVEMENT })
     this.milestones = config.milestones
     this.extractActual = config.extractActual ?? ((event: Event) => this.getString(event, 'name')?.toLowerCase() ?? '')
-    this.matchFn = config.matchFn
-    this.messageFormatter = config.message ?? ((achieved: string[]) => `Achieved: ${achieved.join(', ')}`)
+this.messageFormatter = config.message ?? ((achieved: string[]) => `Achieved: ${achieved.join(', ')}`)
     this.todayOnly = config.todayOnly !== false
   }
 
@@ -29,7 +27,7 @@ export class MilestoneDetector extends BaseDetector {
     const actualItems = items.extract(events, this.extractActual)
     if (!actualItems.length) return []
 
-    const { covered } = items.match(actualItems, this.milestones, this.matchFn)
+    const { covered } = items.match(actualItems, this.milestones)
     if (covered.size < this.milestones.length) return []
 
     const achieved = Array.from(covered)

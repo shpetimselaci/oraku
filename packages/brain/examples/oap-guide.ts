@@ -266,7 +266,6 @@ const workoutBreakAlert = new StreakDetector({
 // Config:
 //   expectedItems  — list of { key, keywords?, match?, api? } objects
 //   extractActual  — function that returns item key(s) from an event
-//   matchFn        — custom matching logic (default: exact key match)
 //   compareFn      — async override for the entire comparison step (e.g. API-backed)
 //   message        — string or (missing: string[]) => string
 //   todayOnly      — only look at today's events (default true)
@@ -303,7 +302,6 @@ const weeklyCheckup = new ChecklistDetector({
 // Config:
 //   milestones    — list of { key, keywords?, match? } to look for
 //   extractActual — same as ChecklistDetector
-//   matchFn       — custom match function
 //   message       — string or (achieved: string[]) => string
 //   todayOnly     — only look at today's events (default true)
 //

@@ -66,7 +66,6 @@ export interface ExpectedItem {
 export interface ChecklistConfig extends DetectorConfig {
   expectedItems?: ExpectedItem[]
   extractActual?: (event: Event) => string | string[]
-  matchFn?: (actual: string, expected: ExpectedItem) => boolean
   compareFn?: (
     items: string[],
     expected: ExpectedItem[],
@@ -83,7 +82,6 @@ export interface ChecklistConfig extends DetectorConfig {
 export interface MilestoneConfig extends DetectorConfig {
   milestones: ExpectedItem[]
   extractActual?: (event: Event) => string | string[]
-  matchFn?: (actual: string, expected: ExpectedItem) => boolean
   message?: string | ((achieved: string[]) => string)
   todayOnly?: boolean
 }
