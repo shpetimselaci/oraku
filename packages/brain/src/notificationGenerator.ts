@@ -1,16 +1,5 @@
-import fs from 'fs'
-import path from 'path'
 import keyBy from 'lodash/keyBy'
 import type { Finding, Notification, NotificationOptions } from './types'
-
-const TRAINING_FILE = path.resolve(__dirname, '../data/training.jsonl')
-
-function appendTrainingPair(input: object[], output: object[]): void {
-  const line = JSON.stringify({ input, output }) + '\n'
-  fs.appendFile(TRAINING_FILE, line, (err) => {
-    if (err) console.warn('[appendTrainingPair] failed to write training data:', err.message)
-  })
-}
 
 const SYSTEM_PROMPT = `
 You are a notification engine for an activity tracking app. Write short, warm, friendly push notifications.
@@ -52,31 +41,12 @@ Return ONLY a JSON array. No other text.
 Each object must have "id" (echo it back unchanged), "ref" (echo it back unchanged), and "message" (string).
 `
 
-// strips real user IDs before sending to the LLM, replacing them with anonymous tokens (u1, u2…).
-// the LLM echoes the tokens back, then refMap is used to restore the real IDs on the way out.
-function buildFindings(findings: Finding[], subjectMap: Record<string, string> = {}): { payload: object[]; refMap: Map<string, string>; idMap: Map<string, string> } {
-  // pre-build both directions upfront — one pass, no lazy state during payload mapping
-  const refMap = new Map<string, string>()        // anon → real
-  const reverseRefMap = new Map<string, string>() // real → anon
-  let refCounter = 0
-  for (const f of findings) {
-    const realRef = f.groupKey as string | undefined
-    if (realRef && !reverseRefMap.has(realRef)) {
-      const anon = `u${++refCounter}`
-      refMap.set(anon, realRef)
-      reverseRefMap.set(realRef, anon)
-    }
-  }
-
-  const idMap = new Map<string, string>()
-
-  const payload = findings
+function buildFindings(findings: Finding[], subjectMap: Record<string, string> = {}): object[] {
+  return findings
     .filter(f => !f.id.startsWith('summary-'))
-    .map((f, i) => {
-      const anonId = `f${i + 1}`
-      idMap.set(anonId, f.id)
+    .map(f => {
       const evidence = f.evidence as Record<string, unknown>
-      const realRef = (f.groupKey as string | undefined) ?? (evidence?.key as string) ?? f.id
+      const ref = (f.groupKey as string | undefined) ?? (evidence?.key as string) ?? f.id
       const subject = subjectMap[f.groupKey as string]
       const missing = (evidence?.missingCategories ?? evidence?.missing) as string[] | undefined
       const covered = evidence?.covered as string[] | undefined
@@ -89,8 +59,8 @@ function buildFindings(findings: Finding[], subjectMap: Record<string, string> =
       const topThisWeek = evidence?.topThisWeek as Array<{ category: string; count: number }> | undefined
       const trending = evidence?.trending as Array<{ category: string; change: number; direction: string }> | undefined
       return {
-        id: anonId,
-        ref: reverseRefMap.get(realRef) ?? realRef,
+        id: f.id,
+        ref,
         type: f.notificationType,
         topic: f.detector,
         context: f.message,
@@ -106,8 +76,6 @@ function buildFindings(findings: Finding[], subjectMap: Record<string, string> =
         ...(trending?.length && { trending })
       }
     })
-
-  return { payload, refMap, idMap }
 }
 
 export async function generateNotifications(
@@ -115,8 +83,7 @@ export async function generateNotifications(
   options: NotificationOptions
 ): Promise<Record<string, Notification[]>> {
   const findingById = keyBy(findings, 'id')
-
-  const { payload, refMap, idMap } = buildFindings(findings, options.subjectMap)
+  const payload = buildFindings(findings, options.subjectMap)
   const text = await options.provider.complete(JSON.stringify(payload), SYSTEM_PROMPT)
   if (!text) {
     console.warn('[generateNotifications] LLM provider returned empty text')
@@ -126,13 +93,11 @@ export async function generateNotifications(
   try {
     const parsed: Array<{ id: string; ref: string; message: string }> = JSON.parse(text)
     if (!Array.isArray(parsed)) return {}
-    if (parsed.length) appendTrainingPair(payload, parsed)
 
     const result: Record<string, Notification[]> = {}
     const today = new Date().toISOString().slice(0, 10)
     for (const item of parsed) {
-      const realId = idMap.get(item.id) ?? item.id
-      const source = findingById[realId]
+      const source = findingById[item.id]
       const userId = source?.groupKey as string | undefined
       if (!userId) continue
 
@@ -140,7 +105,6 @@ export async function generateNotifications(
       if (source?.notificationType === 'reminder') {
         const predicted = source.evidence?.predicted as string | undefined
         if (predicted) {
-          // fire 30 minutes before the predicted next occurrence so the reminder lands before the event
           scheduledAt = new Date(new Date(predicted).getTime() - 30 * 60 * 1000).toISOString()
         }
       }
@@ -151,13 +115,8 @@ export async function generateNotifications(
         }
       }
       const permanent = (source?.evidence as Record<string, unknown>)?.permanent === true
-      const realRef = refMap.get(item.ref)
-      if (!realRef) {
-        console.warn(`[generateNotifications] unrecognized ref token "${item.ref}" — skipping`)
-        continue
-      }
       const notification: Notification = {
-        ref: realRef,
+        ref: item.ref,
         message: item.message,
         detector: source?.detector ?? 'unknown',
         type: source?.notificationType ?? 'insight',
