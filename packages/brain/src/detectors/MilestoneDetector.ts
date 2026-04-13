@@ -1,5 +1,6 @@
 import { BaseDetector } from './BaseDetector'
 import { items } from './helpers/itemMatching'
+import { NotificationTypes } from './helpers/notificationTypes'
 import type { Event, EventGroup, Finding, ExpectedItem, MilestoneConfig } from '../types'
 
 export class MilestoneDetector extends BaseDetector {
@@ -10,7 +11,7 @@ export class MilestoneDetector extends BaseDetector {
   private todayOnly: boolean
 
   constructor(config: MilestoneConfig) {
-    super({ ...config, notificationType: config.notificationType ?? 'achievement' })
+    super({ ...config, notificationType: config.notificationType ?? NotificationTypes.ACHIEVEMENT })
     this.milestones = config.milestones
     this.extractActual = config.extractActual ?? ((event: Event) => this.getString(event, 'name')?.toLowerCase() ?? '')
     this.matchFn = config.matchFn
@@ -37,7 +38,7 @@ export class MilestoneDetector extends BaseDetector {
 
     return [this.createFinding({
       id: `milestone-${this.name.toLowerCase()}-${identifier}-${dateStr}`,
-      notificationType: 'achievement',
+      notificationType: NotificationTypes.ACHIEVEMENT,
       message: typeof this.messageFormatter === 'function'
         ? this.messageFormatter(achieved)
         : this.messageFormatter,

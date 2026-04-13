@@ -1,5 +1,6 @@
 import { BaseDetector } from './BaseDetector'
 import type { EventGroup, Finding, UserProfile, ActivityPopularity } from '../types'
+import { NotificationTypes } from './helpers/notificationTypes'
 
 const MAX_GAP_SUGGESTIONS = 3
 const MAX_NAMES_PER_GAP = 2
@@ -16,7 +17,7 @@ export class RecommendationGenerator extends BaseDetector {
   constructor() {
     super({
       name: 'RecommendationGenerator',
-      notificationType: 'suggestion',
+      notificationType: NotificationTypes.SUGGESTION,
       description: 'Builds user profiles and generates activity recommendations'
     })
   }

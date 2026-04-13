@@ -1,4 +1,5 @@
 import { BaseDetector } from './BaseDetector'
+import { NotificationTypes } from './helpers/notificationTypes'
 import type {
   Event,
   EventGroup,
@@ -151,7 +152,7 @@ export class StreakDetector extends BaseDetector {
         findings.push(this.createFinding({
           id: `recurring-${entry.externalRef}-${safeKey}`,
           message: this.buildMessage(messageData),
-          notificationType: 'reminder',
+          notificationType: NotificationTypes.REMINDER,
           evidence: { key: entry.externalRef, predicted: predicted.toISOString(), events: evidence, frequency: this.frequency, streakLength: sorted.length }
         }))
       }
@@ -164,7 +165,7 @@ export class StreakDetector extends BaseDetector {
         if (!hasEventAfterPredicted) {
           findings.push(this.createFinding({
             id: `anomaly-${entry.externalRef}-${safeKey}`,
-            notificationType: 'warning',
+            notificationType: NotificationTypes.WARNING,
             message: this.buildMessage(messageData),
             evidence: { key: entry.externalRef, expected: predicted.toISOString(), events: evidence, frequency: this.frequency, streakLength: sorted.length }
           }))
