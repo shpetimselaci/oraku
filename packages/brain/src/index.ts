@@ -5,7 +5,6 @@ export { AI } from './ai'
 export { EventStitcher } from './core/EventStitcher'
 export { runPipeline } from './core/pipeline'
 export { schedulePipeline } from './core/cron'
-export { loadEvents, loadEventsSync, stitch, writeGroups } from './ingest'
 export { initSchema } from './db/schema'
 
 // ─── Detectors ───────────────────────────────────────────────────────────────
