@@ -15,24 +15,11 @@ export class ContextBasedFilter extends BaseDetectorFilter {
     return detectors.filter((d) => {
       const detector = d as ExtendedDetector
 
-      if (detector.minEvents && events.length < detector.minEvents) {
-        return false
-      }
-      if (
-        detector.requiresRecurring &&
-        detector.recurringThreshold &&
-        mostCommonCount < detector.recurringThreshold
-      ) {
-        return false
-      }
-      if (
-        detector.supportedCategories &&
-        context.category &&
-        !detector.supportedCategories.includes(context.category as string)
-      ) {
-        return false
-      }
-      return true
+      const hasTooFewEvents = !!detector.minEvents && events.length < detector.minEvents
+      const lacksRecurringPattern = !!detector.requiresRecurring && !!detector.recurringThreshold && mostCommonCount < detector.recurringThreshold
+      const categoryNotSupported = !!detector.supportedCategories && !!context.category && !detector.supportedCategories.includes(context.category as string)
+
+      return !hasTooFewEvents && !lacksRecurringPattern && !categoryNotSupported
     })
   }
 }
