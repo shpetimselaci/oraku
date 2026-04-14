@@ -1,5 +1,5 @@
-import { ChatProvider } from './providers/ChatProvider'
-import { generateNotifications } from './notificationGenerator'
+import { ChatProvider } from './providers/chat-provider'
+import { generateNotifications } from './notification-generator'
 import type { LLMProvider, Finding, Notification } from './types'
 
 type GenerateOptions = { subjectMap?: Record<string, string> }

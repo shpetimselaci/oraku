@@ -1,5 +1,5 @@
 import type { GroupDetector, EventGroupMap, Finding, PersistedUserProfile } from '../types'
-import { NotificationTypes } from './helpers/notificationTypes'
+import { NotificationTypes } from './helpers/notification-types'
 
 const MIN_ORG_SIZE = 30
 

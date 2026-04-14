@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { DetectorBuilder } from '../detectors/DetectorBuilder'
-import { DetectorManager } from '../detectors/DetectorManager'
-import { StreakDetector } from '../detectors/StreakDetector'
-import { ChecklistDetector } from '../detectors/ChecklistDetector'
+import { DetectorBuilder } from '../detectors/detector-builder'
+import { DetectorManager } from '../detectors/detector-manager'
+import { StreakDetector } from '../detectors/streak-detector'
+import { ChecklistDetector } from '../detectors/checklist-detector'
 import type { EventGroup, EventGroupMap } from '../types'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

@@ -1,4 +1,4 @@
-import { BaseDetectorFilter } from './BaseDetectorFilter'
+import { BaseDetectorFilter } from './base-detector-filter'
 import type { Detector, EventGroup } from '../types'
 
 export class ContextBasedFilter extends BaseDetectorFilter {

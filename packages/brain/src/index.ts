@@ -2,36 +2,36 @@
 export { AI } from './ai'
 
 // ─── Core ────────────────────────────────────────────────────────────────────
-export { EventStitcher } from './core/EventStitcher'
+export { EventStitcher } from './core/event-stitcher'
 export { runPipeline } from './core/pipeline'
 export { schedulePipeline } from './core/cron'
 export { initSchema } from './db/schema'
 
 // ─── Detectors ───────────────────────────────────────────────────────────────
-export { BaseDetector } from './detectors/BaseDetector'
-export { StreakDetector } from './detectors/StreakDetector'
-export { ChecklistDetector } from './detectors/ChecklistDetector'
-export { MilestoneDetector } from './detectors/MilestoneDetector'
-export { ThresholdDetector } from './detectors/ThresholdDetector'
-export { ItemAnalysisDetector } from './detectors/ItemAnalysisDetector'
-export { ActivityPatternAnalyzer } from './detectors/ActivityPatternAnalyzer'
-export { RecommendationGenerator } from './detectors/RecommendationGenerator'
-export { LLMDetector } from './detectors/LLMDetector'
-export { ChatProvider } from './providers/ChatProvider'
-export { DetectorManager } from './detectors/DetectorManager'
-export { DetectorBuilder } from './detectors/DetectorBuilder'
-export { toBuilder } from './detectors/helpers/toBuilder'
-export { countPatterns, getTopPattern, filterByPattern } from './detectors/helpers/EventCounter'
+export { BaseDetector } from './detectors/base-detector'
+export { StreakDetector } from './detectors/streak-detector'
+export { ChecklistDetector } from './detectors/checklist-detector'
+export { MilestoneDetector } from './detectors/milestone-detector'
+export { ThresholdDetector } from './detectors/threshold-detector'
+export { ItemAnalysisDetector } from './detectors/item-analysis-detector'
+export { ActivityPatternAnalyzer } from './detectors/activity-pattern-analyzer'
+export { RecommendationGenerator } from './detectors/recommendation-generator'
+export { LLMDetector } from './detectors/llm-detector'
+export { ChatProvider } from './providers/chat-provider'
+export { DetectorManager } from './detectors/detector-manager'
+export { DetectorBuilder } from './detectors/detector-builder'
+export { toBuilder } from './detectors/helpers/to-builder'
+export { countPatterns, getTopPattern, filterByPattern } from './detectors/helpers/event-counter'
 
 // ─── Filters ─────────────────────────────────────────────────────────────────
-export { BaseDetectorFilter } from './filters/BaseDetectorFilter'
-export { ContextBasedFilter } from './filters/ContextBasedFilter'
+export { BaseDetectorFilter } from './filters/base-detector-filter'
+export { ContextBasedFilter } from './filters/context-based-filter'
 
 // ─── Notifications ───────────────────────────────────────────────────────────
-export { generateNotifications } from './notificationGenerator'
+export { generateNotifications } from './notification-generator'
 export { getDueNotifications, getDueNotificationsByUser, markDelivered } from './db/notifications'
-export { getProjectDetectors, setProjectDetectors, getProjectSettings, setProjectSettings, getAllProjectDetectors, getAllProjectSettings } from './db/projectStore'
-export type { ProjectSettings } from './db/projectStore'
+export { getProjectDetectors, setProjectDetectors, getProjectSettings, setProjectSettings, getAllProjectDetectors, getAllProjectSettings } from './db/project-store'
+export type { ProjectSettings } from './db/project-store'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 export type {

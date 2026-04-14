@@ -1,5 +1,5 @@
 import type { Detector, EventGroup, Finding, NotificationType, BuilderEntry, MarkerPredicate } from '../types'
-import { parseMarker } from './helpers/markerParser'
+import { parseMarker } from './helpers/marker-parser'
 
 export class DetectorBuilder {
   private entries: BuilderEntry[]

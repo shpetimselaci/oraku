@@ -1,7 +1,7 @@
-import { BaseDetector } from './BaseDetector'
+import { BaseDetector } from './base-detector'
 import { minEvents } from '../filters/detectorConditions'
-import { resolvePath } from './helpers/itemMatching'
-import { fetchWithTimeout } from './helpers/apiMatcher'
+import { resolvePath } from './helpers/item-matching'
+import { fetchWithTimeout } from './helpers/api-matcher'
 import type { EventGroup, Finding, Event, StaticLookupSource, ApiLookupSource, LookupSource, ItemAnalysisConfig } from '../types'
 
 export type { StaticLookupSource, ApiLookupSource, LookupSource, ItemAnalysisConfig }

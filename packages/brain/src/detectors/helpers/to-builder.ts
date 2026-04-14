@@ -1,9 +1,9 @@
-import { DetectorBuilder } from '../DetectorBuilder'
-import { StreakDetector } from '../StreakDetector'
-import { ChecklistDetector } from '../ChecklistDetector'
-import { MilestoneDetector } from '../MilestoneDetector'
-import { ThresholdDetector } from '../ThresholdDetector'
-import { ItemAnalysisDetector } from '../ItemAnalysisDetector'
+import { DetectorBuilder } from '../detector-builder'
+import { StreakDetector } from '../streak-detector'
+import { ChecklistDetector } from '../checklist-detector'
+import { MilestoneDetector } from '../milestone-detector'
+import { ThresholdDetector } from '../threshold-detector'
+import { ItemAnalysisDetector } from '../item-analysis-detector'
 import type { SDKDetectorSchema } from '../../types'
 
 export type { SDKDetectorSchema }

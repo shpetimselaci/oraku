@@ -1,8 +1,8 @@
 import uniqBy from 'lodash/uniqBy'
-import { ActivityPatternAnalyzer } from './ActivityPatternAnalyzer'
-import { RecommendationGenerator } from './RecommendationGenerator'
-import { ContextBasedFilter } from '../filters/ContextBasedFilter'
-import type { DetectorBuilder } from './DetectorBuilder'
+import { ActivityPatternAnalyzer } from './activity-pattern-analyzer'
+import { RecommendationGenerator } from './recommendation-generator'
+import { ContextBasedFilter } from '../filters/context-based-filter'
+import type { DetectorBuilder } from './detector-builder'
 import type {
   Detector,
   DetectorFilter,

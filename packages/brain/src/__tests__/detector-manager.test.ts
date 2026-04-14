@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { DetectorManager } from '../detectors/DetectorManager'
-import { DetectorBuilder } from '../detectors/DetectorBuilder'
-import { StreakDetector } from '../detectors/StreakDetector'
+import { DetectorManager } from '../detectors/detector-manager'
+import { DetectorBuilder } from '../detectors/detector-builder'
+import { StreakDetector } from '../detectors/streak-detector'
 import type { EventGroup, EventGroupMap } from '../types'
 
 function makeGroup(ref: string, events: object[]): EventGroup {

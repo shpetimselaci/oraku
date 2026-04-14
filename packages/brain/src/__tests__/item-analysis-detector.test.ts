@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ItemAnalysisDetector } from '../detectors/ItemAnalysisDetector'
+import { ItemAnalysisDetector } from '../detectors/item-analysis-detector'
 import type { EventGroup } from '../types'
 
 function todayISO(): string {

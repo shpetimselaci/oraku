@@ -132,7 +132,7 @@ export interface DetectorManagerConfig {
   filterMechanism?: DetectorFilter
   context?: Record<string, unknown>
   extraDetectors?: Detector[]
-  builders?: import('./detectors/DetectorBuilder').DetectorBuilder[]
+  builders?: import('./detectors/detector-builder').DetectorBuilder[]
 }
 
 export interface DetectorFilter {
@@ -278,7 +278,7 @@ export interface PersistedUserProfile {
 // ============ PIPELINE ============
 
 export interface PipelineOptions {
-  builders?: import('./detectors/DetectorBuilder').DetectorBuilder[]
+  builders?: import('./detectors/detector-builder').DetectorBuilder[]
   provider?: LLMProvider
   forUserId?: string
   notificationsPerUser?: number

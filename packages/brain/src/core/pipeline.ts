@@ -1,13 +1,13 @@
 import path from 'path'
 import dotenv from 'dotenv'
 dotenv.config({ path: path.resolve(__dirname, '../../.env') })
-import { EventStitcher } from './EventStitcher'
-import { DetectorManager } from '../detectors/DetectorManager'
+import { EventStitcher } from './event-stitcher'
+import { DetectorManager } from '../detectors/detector-manager'
 import { AI } from '../ai'
 import { saveNotifications } from '../db/notifications'
 import { upsertProfile, getAllProfiles } from '../db/profiles'
 import { db } from '../db/connection'
-import { OrgBenchmarkDetector } from '../detectors/OrgBenchmarkDetector'
+import { OrgBenchmarkDetector } from '../detectors/org-benchmark-detector'
 import type { Event, Finding, Notification, PipelineOptions, PipelineResult } from '../types'
 
 

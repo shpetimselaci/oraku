@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { StreakDetector } from '../detectors/StreakDetector'
+import { StreakDetector } from '../detectors/streak-detector'
 import type { EventGroup } from '../types'
 
 function daysAgo(n: number): string {

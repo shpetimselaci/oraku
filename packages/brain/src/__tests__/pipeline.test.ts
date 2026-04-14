@@ -1,6 +1,6 @@
 import { vi, describe, it, expect } from 'vitest'
 
-vi.mock('../notificationGenerator', () => ({
+vi.mock('../notification-generator', () => ({
   generateNotifications: vi.fn().mockResolvedValue({
     'user-1': [{ ref: 'user-1', message: 'Keep up your routine.', detector: 'StreakDetector', type: 'reminder' }]
   })
@@ -18,9 +18,9 @@ vi.mock('../db/profiles', () => ({
 process.env.LLM_API_KEY = 'test-key'
 
 import { runPipeline } from '../core/pipeline'
-import { DetectorBuilder } from '../detectors/DetectorBuilder'
-import { StreakDetector } from '../detectors/StreakDetector'
-import { generateNotifications } from '../notificationGenerator'
+import { DetectorBuilder } from '../detectors/detector-builder'
+import { StreakDetector } from '../detectors/streak-detector'
+import { generateNotifications } from '../notification-generator'
 
 function daysAgo(n: number): string {
   const d = new Date()

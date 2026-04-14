@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const OrakuSDK = require('oraku-sdk').default
 const { DetectorBuilder } = require('oraku-sdk')
-const { generateEvents, DETECTORS } = require('./generateEvents')
+const { generateEvents, DETECTORS } = require('./generate-events')
 
 const app = express()
 app.use(express.static(path.join(__dirname, 'public')))

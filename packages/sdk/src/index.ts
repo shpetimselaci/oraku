@@ -1,5 +1,5 @@
 import type { ActivityEvent, GenerateOptions, ProjectSettings, ProjectCron, OrakuConfig, DetectorApiConfig, DetectorExtractConfig, Notification, NotificationType } from './types'
-import { DetectorBuilder } from './DetectorBuilder'
+import { DetectorBuilder } from './detector-builder'
 import { Pipeline } from './pipeline'
 
 export class OrakuSDK {

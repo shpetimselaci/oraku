@@ -1,6 +1,6 @@
-import { BaseDetector } from './BaseDetector'
+import { BaseDetector } from './base-detector'
 import { minEvents } from '../filters/detectorConditions'
-import { resolvePath } from './helpers/itemMatching'
+import { resolvePath } from './helpers/item-matching'
 import type { EventGroup, Finding, Event, ThresholdOperator, ThresholdAggregate, ThresholdConfig } from '../types'
 
 const AGGREGATES: Record<ThresholdAggregate, (values: number[]) => number> = {

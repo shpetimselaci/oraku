@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ChecklistDetector } from '../detectors/ChecklistDetector'
+import { ChecklistDetector } from '../detectors/checklist-detector'
 import type { EventGroup } from '../types'
 
 function makeGroup(externalRef: string, events: object[]): EventGroup {
