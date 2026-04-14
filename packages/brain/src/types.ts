@@ -307,7 +307,7 @@ export interface ChatProviderConfig {
 }
 
 export interface LLMDetectorConfig extends DetectorConfig {
-  ai: import('./ai').AI
+  ai: import('./ai-wrapper/ai').AI
   maxEvents?: number
 }
 

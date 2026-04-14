@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import { BaseDetector } from './base-detector'
 import { filterByDate, parseDate } from './helpers/date-utils'
 import { AIRetryOnFail } from './helpers/ai-retry-on-fail'
-import type { AI } from '../ai'
+import type { AI } from '../ai-wrapper/ai'
 import type { EventGroup, Finding, LLMDetectorConfig, RawLLMFinding } from '../types'
 import { NotificationTypes } from './helpers/notification-types'
 

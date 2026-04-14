@@ -1,5 +1,5 @@
 import keyBy from 'lodash/keyBy'
-import type { Finding, Notification, NotificationOptions } from './types'
+import type { Finding, Notification, NotificationOptions } from '../types'
 
 const SYSTEM_PROMPT = `
 You are a notification engine for an activity tracking app. Write short, warm, friendly push notifications.
