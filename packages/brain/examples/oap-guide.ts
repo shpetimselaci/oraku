@@ -17,13 +17,11 @@
  *  10.  ThresholdDetector — numeric threshold crossing
  *  11.  ItemAnalysisDetector — per-item property lookup + targets
  *  12.  toBuilder — JSON-driven detector construction
- *  13.  schedulePipeline — cron-based scheduling
- *  14.  Notifications — reading and marking due notifications
+ *  13.  Notifications — reading and marking due notifications
  */
 
 import {
   runPipeline,
-  schedulePipeline,
   DetectorBuilder,
   StreakDetector,
   ChecklistDetector,
@@ -488,28 +486,6 @@ async function runDailyPipeline(events: Event[]) {
 }
 
 
-// ─── 14. schedulePipeline — cron-based scheduling ────────────────────────────
-//
-// schedulePipeline wraps runPipeline in a cron job.
-// The first argument is a cron expression (default '0 6 * * *' = 6am daily).
-// The second argument is a function that returns the current events — it's called
-// fresh on each tick, so you can load from your DB here.
-// Returns a { stop() } handle to cancel the schedule.
-
-function startScheduler(loadEventsFromDb: () => Event[]) {
-  const handle = schedulePipeline(
-    '0 8 * * *',       // 8am every day
-    loadEventsFromDb,
-    {
-      builders: [mealBuilder, medicationBuilder],
-      notificationsPerUser: 2,
-    }
-  )
-
-  // later, to cancel:
-  // handle.stop()
-  return handle
-}
 
 
 // ─── 15. Notifications — reading and delivering ───────────────────────────────
