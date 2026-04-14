@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ActivityPatternAnalyzer } from '../detectors/ActivityPatternAnalyzer'
+import { ActivityPatternAnalyzer } from '../detectors/activity-pattern-analyzer'
 import type { EventGroup } from '../types'
 
 function daysAgo(n: number): string {

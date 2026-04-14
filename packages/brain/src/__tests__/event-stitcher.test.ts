@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { EventStitcher } from '../core/EventStitcher'
+import { EventStitcher } from '../core/event-stitcher'
 
 describe('EventStitcher', () => {
   it('groups events by externalRef', () => {

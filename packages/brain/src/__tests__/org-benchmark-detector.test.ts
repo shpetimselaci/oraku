@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { OrgBenchmarkDetector } from '../detectors/OrgBenchmarkDetector'
+import { OrgBenchmarkDetector } from '../detectors/org-benchmark-detector'
 import type { EventGroupMap, PersistedUserProfile } from '../types'
 
 const ORG_ID = 'org-test-001'

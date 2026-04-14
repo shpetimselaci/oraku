@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ThresholdDetector } from '../detectors/ThresholdDetector'
+import { ThresholdDetector } from '../detectors/threshold-detector'
 import type { EventGroup } from '../types'
 
 function todayISO(): string {

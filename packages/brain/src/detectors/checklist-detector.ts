@@ -1,6 +1,6 @@
-import { BaseDetector } from './BaseDetector'
+import { BaseDetector } from './base-detector'
 import { minEvents } from '../filters/detectorConditions'
-import { items } from './helpers/itemMatching'
+import { items } from './helpers/item-matching'
 import type {
   Event,
   EventGroup,

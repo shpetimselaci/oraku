@@ -1,4 +1,4 @@
-import { countPatterns, getTopPattern } from '../../detectors/helpers/EventCounter'
+import { countPatterns, getTopPattern } from '../../detectors/helpers/event-counter'
 import type { DetectorCondition } from '../../types'
 
 export const requiresRecurring = (threshold: number): DetectorCondition =>

@@ -1,2 +1,2 @@
-export { BaseDetectorFilter } from './BaseDetectorFilter'
-export { ContextBasedFilter } from './ContextBasedFilter'
+export { BaseDetectorFilter } from './base-detector-filter'
+export { ContextBasedFilter } from './context-based-filter'

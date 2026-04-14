@@ -1,6 +1,6 @@
-import { BaseDetector } from './BaseDetector'
+import { BaseDetector } from './base-detector'
 import { minEvents } from '../filters/detectorConditions'
-import { NotificationTypes } from './helpers/notificationTypes'
+import { NotificationTypes } from './helpers/notification-types'
 import type {
   Event,
   EventGroup,

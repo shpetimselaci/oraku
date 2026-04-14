@@ -1,5 +1,5 @@
 import type { ChatProviderConfig } from '../types'
-import { LLMProvider } from './LLMProvider'
+import { LLMProvider } from './llm-provider'
 
 export class ChatProvider extends LLMProvider<{ apiKey: string; url: string; model: string }> {
   private timeout: number = 30000

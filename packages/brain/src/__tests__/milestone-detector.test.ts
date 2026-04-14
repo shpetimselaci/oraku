@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { MilestoneDetector } from '../detectors/MilestoneDetector'
+import { MilestoneDetector } from '../detectors/milestone-detector'
 import type { EventGroup } from '../types'
 
 function makeGroup(externalRef: string, events: object[]): EventGroup {

@@ -1,7 +1,7 @@
-import { BaseDetector } from './BaseDetector'
+import { BaseDetector } from './base-detector'
 import { minEvents } from '../filters/detectorConditions'
-import { items } from './helpers/itemMatching'
-import { NotificationTypes } from './helpers/notificationTypes'
+import { items } from './helpers/item-matching'
+import { NotificationTypes } from './helpers/notification-types'
 import type { Event, EventGroup, Finding, ExpectedItem, MilestoneConfig } from '../types'
 
 export class MilestoneDetector extends BaseDetector {

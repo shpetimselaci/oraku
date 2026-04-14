@@ -1,8 +1,8 @@
-import { BaseDetector } from './BaseDetector'
-import { StreakDetector } from './StreakDetector'
+import { BaseDetector } from './base-detector'
+import { StreakDetector } from './streak-detector'
 import { minEvents } from '../filters/detectorConditions'
 import type { EventGroup, Finding, ActivityPatternAnalyzerConfig, Event } from '../types'
-import { NotificationTypes } from './helpers/notificationTypes'
+import { NotificationTypes } from './helpers/notification-types'
 
 const MS_PER_DAY = 86_400_000
 

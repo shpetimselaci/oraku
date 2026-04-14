@@ -1,7 +1,7 @@
-import { BaseDetector } from './BaseDetector'
+import { BaseDetector } from './base-detector'
 import { minEvents } from '../filters/detectorConditions'
 import type { EventGroup, Finding, UserProfile, ActivityPopularity } from '../types'
-import { NotificationTypes } from './helpers/notificationTypes'
+import { NotificationTypes } from './helpers/notification-types'
 
 const MAX_GAP_SUGGESTIONS = 3
 const MAX_NAMES_PER_GAP = 2

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { RecommendationGenerator } from '../detectors/RecommendationGenerator'
+import { RecommendationGenerator } from '../detectors/recommendation-generator'
 import type { EventGroup } from '../types'
 
 function makeGroup(ref: string, events: object[]): EventGroup {

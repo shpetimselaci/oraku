@@ -1,3 +1,3 @@
 export { minEvents } from './minEvents'
-export { requiresRecurring } from './requiresRecurring'
-export { supportedCategories } from './supportedCategories'
+export { requiresRecurring } from './requires-recurring'
+export { supportedCategories } from './supported-categories'
