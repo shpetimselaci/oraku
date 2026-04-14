@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { toBuilder } from '@oraku/brain'
 import type { Finding, PipelineResult, SDKDetectorSchema, Event, ProjectSettings } from '@oraku/brain'
 
@@ -13,18 +14,18 @@ export type ProjectStore = {
 }
 
 export function extractNextPredicted(findings: Finding[]): string | null {
-  const now = Date.now()
+  const now = dayjs().valueOf()
   const times = findings
     .map(f => f.evidence?.predicted as string | undefined)
     .filter((p): p is string => !!p)
-    .map(p => new Date(p).getTime())
+    .map(p => dayjs(p).valueOf())
     .filter(t => !isNaN(t) && t > now)
     .sort((a, b) => a - b)
-  return times.length ? new Date(times[0]).toISOString() : null
+  return times.length ? dayjs(times[0]).toISOString() : null
 }
 
 export function toNextRun(predicted: string | null): string | null {
-  return predicted ? new Date(new Date(predicted).getTime() - 30 * 60 * 1000).toISOString() : null
+  return predicted ? dayjs(predicted).subtract(30, 'minute').toISOString() : null
 }
 
 export function buildFindingMeta(findings: Finding[]) {

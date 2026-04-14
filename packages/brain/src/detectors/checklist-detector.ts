@@ -1,4 +1,5 @@
 import { BaseDetector } from './base-detector'
+import { filterByDate, filterByDateWindow, isEndOfPeriod, todayString } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { items } from './helpers/item-matching'
 import type {
@@ -41,10 +42,10 @@ this.itemComparer = config.compareFn || null
     if (!events.length) return []
 
     if (this.todayOnly) {
-      events = this.filterByDate(events, new Date(), 'day')
+      events = filterByDate(events, new Date(), 'day')
     } else if (this.dateFilter) {
-      if (!this.isEndOfPeriod(this.dateFilter.unit)) return []
-      events = this.filterByDateWindow(events, this.dateFilter)
+      if (!isEndOfPeriod(this.dateFilter.unit)) return []
+      events = filterByDateWindow(events, this.dateFilter)
     }
 
     if (!events.length) return []
@@ -87,7 +88,7 @@ this.itemComparer = config.compareFn || null
     if (!missing.length) return []
 
     const identifier = entry?.externalRef || (this.aggregate ? 'weekly' : 'check')
-    const dateStr = this.todayString()
+    const dateStr = todayString()
 
     return [
       this.createFinding({

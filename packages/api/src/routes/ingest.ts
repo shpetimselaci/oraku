@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { Router } from 'express'
 import { rateLimit } from 'express-rate-limit'
 import { z } from 'zod'
@@ -51,7 +52,7 @@ router.post('/', requireAuth, ingestLimiter, async (req, res) => {
   })
   store.results.set(apiKey, result)
   store.events.set(apiKey, allEvents)
-  store.runTimestamps.set(apiKey, new Date().toISOString())
+  store.runTimestamps.set(apiKey, dayjs().toISOString())
 
   res.json({ ok: true, count: result.count })
 })

@@ -1,4 +1,5 @@
 import { BaseDetector } from './base-detector'
+import { getTimestamp } from './helpers/date-utils'
 import { StreakDetector } from './streak-detector'
 import { minEvents } from '../filters/detectorConditions'
 import type { EventGroup, Finding, ActivityPatternAnalyzerConfig, Event } from '../types'
@@ -70,7 +71,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
 
       allCategories.set(eventCategory, (allCategories.get(eventCategory) ?? 0) + 1)
 
-      const time = this.getTimestamp(event)
+      const time = getTimestamp(event)
       if (time && time >= cutoff) recentCategories.add(eventCategory)
     }
 
@@ -98,7 +99,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
     const recentActivities: string[] = []
 
     for (const event of events) {
-      const time = this.getTimestamp(event)
+      const time = getTimestamp(event)
       if (!time || time < cutoff) continue
 
       const activityLabel = this.getEventLabel(event)?.trim()

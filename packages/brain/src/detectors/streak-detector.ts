@@ -1,4 +1,6 @@
+import dayjs from 'dayjs'
 import { BaseDetector } from './base-detector'
+import { parseDate, advancePastWeekend, isWeekend } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { NotificationTypes } from './helpers/notification-types'
 import type {
@@ -30,16 +32,6 @@ export class StreakDetector extends BaseDetector {
     this.messageFormatter = config.message
   }
 
-  private advancePastWeekend(date: Date): Date {
-    const d = new Date(date)
-    while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1)
-    return d
-  }
-
-  private isWeekend(date: Date): boolean {
-    return date.getDay() === 0 || date.getDay() === 6
-  }
-
   // predicts when the next occurrence should happen based on the median interval between past events.
   // median is used instead of mean to avoid outliers (e.g. a two-week gap) skewing the prediction.
   private predictNextDate(sortedEvents: TimestampedEvent[]): Date | null {
@@ -62,10 +54,7 @@ export class StreakDetector extends BaseDetector {
     }
 
     // day precision — strips time-of-day before computing intervals so a 09:00 and 23:00 event on the same day don't inflate the gap
-    const dayTimestamps = sortedEvents.map(e => {
-      const iso = e._date.toISOString().slice(0, 10)
-      return new Date(iso).getTime()
-    })
+    const dayTimestamps = sortedEvents.map(e => dayjs(e._date).startOf('day').valueOf())
 
     const intervals: number[] = []
     for (let i = 1; i < dayTimestamps.length; i++) {
@@ -119,7 +108,7 @@ export class StreakDetector extends BaseDetector {
 
       const allTimestamped: TimestampedEvent[] = patternEvents
         .map((event) => {
-          const parsedDate = this.parseDate(event.createdAt)
+          const parsedDate = parseDate(event.createdAt)
           return { ...event, _date: parsedDate ?? new Date(NaN) } as TimestampedEvent
         })
         .filter((event) => !isNaN(event._date.getTime()))
@@ -128,7 +117,7 @@ export class StreakDetector extends BaseDetector {
       // deduplicate to one event per day — multiple visits on the same day count as one occurrence
       const seenDays = new Set<string>()
       const sorted = allTimestamped.filter((event) => {
-        const day = event._date.toISOString().slice(0, 10)
+        const day = dayjs(event._date).format('YYYY-MM-DD')
         if (seenDays.has(day)) return false
         seenDays.add(day)
         return true
@@ -140,7 +129,7 @@ export class StreakDetector extends BaseDetector {
       if (!predicted) continue
 
       // For weekday-only streaks, push predicted date past any weekend
-      if (this.frequency === 'weekdays') predicted = this.advancePastWeekend(predicted)
+      if (this.frequency === 'weekdays') predicted = advancePastWeekend(predicted)
 
       const [category, subcategory] = patternKey.split('\x00')
       const messageData = { category, subcategory, predictedDate: predicted.toISOString() }
@@ -162,7 +151,7 @@ export class StreakDetector extends BaseDetector {
 
       if (this.triggerOn === 'break' && predicted < now) {
         // For weekday-only streaks, don't fire a break on weekends
-        if (this.frequency === 'weekdays' && this.isWeekend(now)) continue
+        if (this.frequency === 'weekdays' && isWeekend(now)) continue
 
         const hasEventAfterPredicted = sorted.some((e) => e._date > predicted!)
         if (!hasEventAfterPredicted) {
