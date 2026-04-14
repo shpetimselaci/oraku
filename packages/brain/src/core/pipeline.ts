@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config({ path: path.resolve(__dirname, '../../.env') })
 import { EventStitcher } from './event-stitcher'
 import { DetectorManager } from '../detectors/detector-manager'
-import { AI } from '../ai'
+import { AI } from '../ai-wrapper/ai'
 import { saveNotifications } from '../db/notifications'
 import { upsertProfile, getAllProfiles } from '../db/profiles'
 import { db } from '../db/connection'
