@@ -291,11 +291,6 @@ export interface PipelineResult {
   notificationsByUser: Record<string, Notification[]>
 }
 
-// ============ CRON ============
-
-export interface CronHandle {
-  stop: () => void
-}
 
 // ============ LLM PROVIDER ============
 

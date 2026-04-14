@@ -4,7 +4,6 @@ export { AI } from './ai'
 // ─── Core ────────────────────────────────────────────────────────────────────
 export { EventStitcher } from './core/event-stitcher'
 export { runPipeline } from './core/pipeline'
-export { schedulePipeline } from './core/cron'
 export { initSchema } from './db/schema'
 
 // ─── Detectors ───────────────────────────────────────────────────────────────
@@ -51,7 +50,6 @@ export type {
   ExpectedItem,
   PipelineOptions,
   PipelineResult,
-  CronHandle,
   LLMProvider,
   ChatProviderConfig,
   LLMDetectorConfig,
