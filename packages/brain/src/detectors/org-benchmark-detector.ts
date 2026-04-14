@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import type { GroupDetector, EventGroupMap, Finding, PersistedUserProfile } from '../types'
 import { NotificationTypes } from './helpers/notification-types'
 
@@ -9,9 +10,9 @@ export class OrgBenchmarkDetector implements GroupDetector {
   async detectAll(groups: EventGroupMap, profiles: PersistedUserProfile[]): Promise<Finding[]> {
     if (!profiles.length) return []
 
-    const today = new Date().toISOString().slice(0, 10)
-    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
-    const twoWeeksAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+    const today = dayjs().format('YYYY-MM-DD')
+    const weekAgo = dayjs().subtract(7, 'day').format('YYYY-MM-DD')
+    const twoWeeksAgo = dayjs().subtract(14, 'day').format('YYYY-MM-DD')
 
     // group profiles by org
     const byOrg = new Map<string, PersistedUserProfile[]>()
@@ -41,9 +42,9 @@ export class OrgBenchmarkDetector implements GroupDetector {
         for (const event of group.events) {
           const cat = event.category as string | undefined
           if (!cat || !event.createdAt) continue
-          const d = new Date(event.createdAt)
-          if (isNaN(d.getTime())) continue
-          const date = d.toISOString().slice(0, 10)
+          const d = dayjs(event.createdAt)
+          if (!d.isValid()) continue
+          const date = d.format('YYYY-MM-DD')
           if (date === today) todayCategories.add(cat)
           if (date >= weekAgo && date <= today) {
             thisWeekCounts[cat] = (thisWeekCounts[cat] ?? 0) + 1

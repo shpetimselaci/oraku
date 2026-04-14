@@ -1,4 +1,6 @@
+import dayjs from 'dayjs'
 import { BaseDetector } from './base-detector'
+import { filterByDate, parseDate } from './helpers/date-utils'
 import { AIRetryOnFail } from './helpers/ai-retry-on-fail'
 import type { AI } from '../ai'
 import type { EventGroup, Finding, LLMDetectorConfig, RawLLMFinding } from '../types'
@@ -30,15 +32,15 @@ export class LLMDetector extends BaseDetector {
     const raw = this.getEvents(entry)
     if (!raw.length) return []
 
-    const todayEvents = this.filterByDate(raw, new Date(), 'day')
+    const todayEvents = filterByDate(raw, new Date(), 'day')
     const sourceEvents = todayEvents.length ? todayEvents : raw
 
     const events = sourceEvents
       .slice(0, this.maxEvents)
       .map(logEvent => {
-        const d = this.parseDate(logEvent.createdAt)
+        const d = parseDate(logEvent.createdAt)
         return {
-          time: d ? d.toISOString().slice(11, 19) : null,
+          time: d ? dayjs(d).format('HH:mm:ss') : null,
           category: this.getString(logEvent, 'category') ?? 'log',
           label: this.getEventLabel(logEvent) ?? null
         }

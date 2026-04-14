@@ -1,4 +1,5 @@
 import { BaseDetector } from './base-detector'
+import { filterByDate, todayString } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { items } from './helpers/item-matching'
 import { NotificationTypes } from './helpers/notification-types'
@@ -23,7 +24,7 @@ this.messageFormatter = config.message ?? ((achieved: string[]) => `Achieved: ${
     let events = this.getEvents(entry)
     if (!events.length) return []
 
-    if (this.todayOnly) events = this.filterByDate(events, new Date(), 'day')
+    if (this.todayOnly) events = filterByDate(events, new Date(), 'day')
     if (!events.length) return []
 
     const actualItems = items.extract(events, this.extractActual)
@@ -33,7 +34,7 @@ this.messageFormatter = config.message ?? ((achieved: string[]) => `Achieved: ${
     if (covered.size < this.milestones.length) return []
 
     const achieved = Array.from(covered)
-    const dateStr = this.todayString()
+    const dateStr = todayString()
     const identifier = entry?.externalRef ?? 'user'
 
     return [this.createFinding({

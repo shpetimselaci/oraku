@@ -1,4 +1,5 @@
 import { BaseDetector } from './base-detector'
+import { filterByDate, filterByDateWindow, isEndOfPeriod, todayString } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { resolvePath } from './helpers/item-matching'
 import { fetchWithTimeout } from './helpers/api-matcher'
@@ -54,10 +55,10 @@ export class ItemAnalysisDetector extends BaseDetector {
     if (!events.length) return []
 
     if (this.todayOnly) {
-      events = this.filterByDate(events, new Date(), 'day')
+      events = filterByDate(events, new Date(), 'day')
     } else if (this.dateFilter) {
-      if (!this.isEndOfPeriod(this.dateFilter.unit)) return []
-      events = this.filterByDateWindow(events, this.dateFilter)  // inherited from BaseDetector
+      if (!isEndOfPeriod(this.dateFilter.unit)) return []
+      events = filterByDateWindow(events, this.dateFilter)
     }
 
     if (!events.length) return []
@@ -98,7 +99,7 @@ export class ItemAnalysisDetector extends BaseDetector {
 
     if (!gaps.length) return []
 
-    const dateStr = this.todayString()
+    const dateStr = todayString()
     return [
       this.createFinding({
         id: `item-analysis-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${dateStr}`,

@@ -1,4 +1,5 @@
 import { BaseDetector } from './base-detector'
+import { filterByDate, todayString } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { resolvePath } from './helpers/item-matching'
 import type { EventGroup, Finding, Event, ThresholdOperator, ThresholdAggregate, ThresholdConfig } from '../types'
@@ -53,7 +54,7 @@ export class ThresholdDetector extends BaseDetector {
 
   async detect(entry: EventGroup): Promise<Finding[]> {
     let events = this.getEvents(entry)
-    if (this.todayOnly) events = this.filterByDate(events, new Date(), 'day')
+    if (this.todayOnly) events = filterByDate(events, new Date(), 'day')
     if (!events.length) return []
 
     const values = events.map(e => this.extractFn(e)).filter((v): v is number => v !== null)
@@ -68,7 +69,7 @@ export class ThresholdDetector extends BaseDetector {
 
     return [
       this.createFinding({
-        id: `threshold-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${this.todayString()}`,
+        id: `threshold-${this.name.toLowerCase()}-${entry.externalRef ?? 'auto'}-${todayString()}`,
         message,
         evidence: { actual, target: this.thresholdValue, operator: this.operator, aggregate: this.aggregate }
       })
