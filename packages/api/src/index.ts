@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express'
 import { initSchema } from '@oraku/brain'
 import { initStore } from './store'
@@ -5,6 +6,7 @@ import ingestRouter from './routes/ingest'
 import notificationsRouter from './routes/notifications'
 import detectorsRouter from './routes/detectors'
 import projectRouter from './routes/project'
+import adminRouter from './routes/admin'
 
 initSchema()
 initStore()
@@ -17,6 +19,7 @@ app.use('/ingest', ingestRouter)
 app.use('/notifications', notificationsRouter)
 app.use('/detectors', detectorsRouter)
 app.use(projectRouter)
+app.use(adminRouter)
 
 export { app }
 
