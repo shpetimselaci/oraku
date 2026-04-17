@@ -6,20 +6,20 @@ import { store, saveDetectors } from '../store'
 const router = Router()
 
 router.post('/', requireAuth, (req, res) => {
-  const apiKey: string = res.locals.apiKey
+  const projectId: string = res.locals.projectId
 
   const parsed = SDKDetectorSchemaZod.safeParse(req.body)
   if (!parsed.success) { res.status(400).json({ error: 'Invalid detector config', issues: parsed.error.issues }); return }
 
-  const updated = (store.detectors.get(apiKey) ?? []).filter(d => d.name !== parsed.data.name)
+  const updated = (store.detectors.get(projectId) ?? []).filter(d => d.name !== parsed.data.name)
   updated.push(parsed.data)
-  saveDetectors(apiKey, updated)
+  saveDetectors(projectId, updated)
   res.json({ ok: true, registered: updated.length })
 })
 
 router.delete('/:name', requireAuth, (req, res) => {
-  const apiKey: string = res.locals.apiKey
-  saveDetectors(apiKey, (store.detectors.get(apiKey) ?? []).filter(d => d.name !== req.params.name))
+  const projectId: string = res.locals.projectId
+  saveDetectors(projectId, (store.detectors.get(projectId) ?? []).filter(d => d.name !== req.params.name))
   res.json({ ok: true })
 })
 

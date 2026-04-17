@@ -24,7 +24,7 @@ const ingestLimiter = rateLimit({
 const router = Router()
 
 router.post('/', requireAuth, ingestLimiter, async (req, res) => {
-  const apiKey: string = res.locals.apiKey
+  const projectId: string = res.locals.projectId
 
   const resolved = await resolveEvents(req.body)
   if (!resolved) { res.status(400).json({ error: 'Provide events (array), url (string), or sources (array)' }); return }
@@ -35,24 +35,24 @@ router.post('/', requireAuth, ingestLimiter, async (req, res) => {
 
   const allEvents = limitEventsPerUser(parsed.data)
 
-  const existing = store.detectors.get(apiKey) ?? []
+  const existing = store.detectors.get(projectId) ?? []
   const registeredMarkers = new Set(existing.map(d => d.marker).filter(Boolean))
   const newCategories = [...new Set(allEvents.map((e: any) => e.category).filter(Boolean))].filter(cat => !registeredMarkers.has(cat))
   if (newCategories.length > 0) {
     const autoConfigs: SDKDetectorSchema[] = newCategories.map(cat => ({
       name: `auto-${cat}`, type: 'streak-ongoing', marker: cat, minRepeat: 3, notificationType: 'reminder'
     }))
-    saveDetectors(apiKey, [...existing, ...autoConfigs])
+    saveDetectors(projectId, [...existing, ...autoConfigs])
   }
 
-  const settings = store.settings.get(apiKey)
+  const settings = store.settings.get(projectId)
   const result = await runPipeline(allEvents, {
-    builders: (store.detectors.get(apiKey) ?? []).map(toBuilder),
+    builders: (store.detectors.get(projectId) ?? []).map(toBuilder),
     notificationsPerUser: settings?.notificationsPerUser
   })
-  store.results.set(apiKey, result)
-  store.events.set(apiKey, allEvents)
-  store.runTimestamps.set(apiKey, dayjs().toISOString())
+  store.results.set(projectId, result)
+  store.events.set(projectId, allEvents)
+  store.runTimestamps.set(projectId, dayjs().toISOString())
 
   res.json({ ok: true, count: result.count })
 })

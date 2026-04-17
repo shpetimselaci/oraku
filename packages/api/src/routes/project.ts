@@ -10,15 +10,15 @@ router.get('/health', (_req, res) => {
 })
 
 router.post('/project/settings', requireAuth, (req, res) => {
-  const apiKey: string = res.locals.apiKey
+  const projectId: string = res.locals.projectId
   const incoming: ProjectSettings = req.body
-  const existing = store.settings.get(apiKey) ?? {}
-  saveSettings(apiKey, { ...existing, ...incoming })
+  const existing = store.settings.get(projectId) ?? {}
+  saveSettings(projectId, { ...existing, ...incoming })
   res.json({ ok: true })
 })
 
 router.get('/schedule', requireAuth, (_req, res) => {
-  const result = store.results.get(res.locals.apiKey)
+  const result = store.results.get(res.locals.projectId)
   const nextPredicted = result ? extractNextPredicted(result.findings) : null
   res.json({ nextRun: toNextRun(nextPredicted), nextPredicted })
 })
