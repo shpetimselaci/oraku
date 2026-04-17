@@ -26,6 +26,7 @@ async function login() {
   document.getElementById('auth-status').textContent = 'authenticated'
   document.getElementById('auth-status').className = 'ok'
   loadSettings()
+  loadKeys()
 }
 
 document.getElementById('secret-input').addEventListener('keydown', function(e) {
@@ -69,6 +70,52 @@ async function saveSettings(btn) {
     body: JSON.stringify(body)
   })
   toast(res.ok ? 'Settings saved' : 'Save failed', res.ok ? 'ok' : 'err')
+}
+
+async function loadKeys() {
+  const res = await api('/admin/keys')
+  const keys = await res.json()
+  const tbody = document.getElementById('keys-body')
+  if (!keys.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No keys yet — generate one above.</td></tr>'
+    return
+  }
+  tbody.innerHTML = keys.map(function(k) {
+    const masked = k.key.slice(0, 10) + '…' + k.key.slice(-4)
+    const lastUsed = k.last_used_at ? new Date(k.last_used_at).toLocaleString() : '—'
+    const badge = k.active
+      ? '<span class="badge badge-active">Active</span>'
+      : '<span class="badge badge-revoked">Revoked</span>'
+    const revokeBtn = k.active
+      ? '<button class="btn-danger" onclick="revokeKey(\'' + escHtml(k.key) + '\')">Revoke</button>'
+      : ''
+    return '<tr>' +
+      '<td>' + escHtml(k.name) + '</td>' +
+      '<td class="key-cell" title="' + escHtml(k.key) + '">' + escHtml(masked) + '</td>' +
+      '<td>' + new Date(k.created_at).toLocaleString() + '</td>' +
+      '<td>' + lastUsed + '</td>' +
+      '<td>' + badge + '</td>' +
+      '<td class="actions">' + revokeBtn + '</td>' +
+      '</tr>'
+  }).join('')
+}
+
+async function createKey() {
+  const nameInput = document.getElementById('new-key-name')
+  const name = nameInput.value.trim()
+  if (!name) { toast('Enter a key name first', 'err'); return }
+  const res = await api('/admin/keys', { method: 'POST', body: JSON.stringify({ name }) })
+  if (!res.ok) { toast('Failed to create key', 'err'); return }
+  const data = await res.json()
+  nameInput.value = ''
+  toast('Key created: ' + data.key, 'ok')
+  loadKeys()
+}
+
+async function revokeKey(key) {
+  const res = await api('/admin/keys/' + encodeURIComponent(key), { method: 'DELETE' })
+  toast(res.ok ? 'Key revoked' : 'Revoke failed', res.ok ? 'ok' : 'err')
+  if (res.ok) loadKeys()
 }
 
 function escHtml(str) {

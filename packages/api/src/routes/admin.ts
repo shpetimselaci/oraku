@@ -2,6 +2,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import { Router, type Request, type Response, type NextFunction } from 'express'
 import { getAllProjectSettings } from '@oraku/brain'
+import { createProject, listProjects, createApiKey, listApiKeys, revokeApiKey } from '../api-keys'
 import { store, saveSettings } from '../store'
 
 const DASHBOARD_HTML = readFileSync(join(__dirname, 'admin-dashboard.html'), 'utf8')
@@ -29,12 +30,43 @@ router.get('/admin/settings', requireAdmin, (_req, res) => {
   res.json(result)
 })
 
-router.patch('/admin/settings/:apiKey', requireAdmin, (req, res) => {
-  const apiKey = req.params.apiKey as string
-  const existing = store.settings.get(apiKey) ?? {}
+router.patch('/admin/settings/:projectId', requireAdmin, (req, res) => {
+  const projectId = req.params.projectId as string
+  const existing = store.settings.get(projectId) ?? {}
   const updated = { ...existing, ...req.body }
-  saveSettings(apiKey, updated)
+  saveSettings(projectId, updated)
   res.json({ ok: true, settings: updated })
+})
+
+router.get('/admin/projects', requireAdmin, (_req, res) => {
+  res.json(listProjects())
+})
+
+router.post('/admin/projects', requireAdmin, (req, res) => {
+  const name = (req.body?.name ?? '').trim()
+  if (!name) { res.status(400).json({ error: 'name is required' }); return }
+  const project = createProject(name)
+  res.status(201).json(project)
+})
+
+// API key management
+router.get('/admin/keys', requireAdmin, (_req, res) => {
+  res.json(listApiKeys())
+})
+
+router.post('/admin/keys', requireAdmin, (req, res) => {
+  const name = (req.body?.name ?? '').trim()
+  const projectId = (req.body?.projectId ?? '').trim()
+  const scopes: string[] = Array.isArray(req.body?.scopes) ? req.body.scopes : []
+  if (!name) { res.status(400).json({ error: 'name is required' }); return }
+  if (!projectId) { res.status(400).json({ error: 'projectId is required' }); return }
+  const key = createApiKey(projectId, name, scopes)
+  res.status(201).json({ key, projectId, name, scopes })
+})
+
+router.delete('/admin/keys/:key', requireAdmin, (req, res) => {
+  revokeApiKey(req.params.key as string)
+  res.json({ ok: true })
 })
 
 router.get('/admin', (_req, res) => {

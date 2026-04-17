@@ -8,8 +8,8 @@ import { store } from '../store'
 const router = Router()
 
 router.get('/', requireAuth, (req, res) => {
-  const apiKey: string = res.locals.apiKey
-  const result = store.results.get(apiKey)
+  const projectId: string = res.locals.projectId
+  const result = store.results.get(projectId)
   if (!result) { res.status(404).json({ error: 'No data found — call /ingest first' }); return }
 
   const externalRef = req.query.externalRef as string | undefined
@@ -21,8 +21,8 @@ router.get('/', requireAuth, (req, res) => {
 })
 
 router.get('/latest', requireAuth, (_req, res) => {
-  const apiKey: string = res.locals.apiKey
-  const result = store.results.get(apiKey)
+  const projectId: string = res.locals.projectId
+  const result = store.results.get(projectId)
   if (!result) { res.status(404).json({ error: 'No data found — call /ingest first' }); return }
 
   const dueByUser = getDueNotificationsByUser()
@@ -35,7 +35,7 @@ router.get('/latest', requireAuth, (_req, res) => {
   }
 
   const userGeneratedAt: Record<string, string> = {}
-  store.userTimestamps.get(apiKey)?.forEach((ts, uid) => { userGeneratedAt[uid] = ts })
+  store.userTimestamps.get(projectId)?.forEach((ts, uid) => { userGeneratedAt[uid] = ts })
 
   const nextPredicted = extractNextPredicted(result.findings)
   res.json({
@@ -44,7 +44,7 @@ router.get('/latest', requireAuth, (_req, res) => {
     findingMetaByUser: buildFindingMeta(result.findings),
     userGeneratedAt,
     nextRun: toNextRun(nextPredicted),
-    runTimestamp: store.runTimestamps.get(apiKey) ?? latestCreatedAt
+    runTimestamp: store.runTimestamps.get(projectId) ?? latestCreatedAt
   })
 })
 

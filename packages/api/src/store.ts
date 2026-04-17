@@ -22,12 +22,12 @@ export function initStore(): void {
   for (const [k, v] of getAllProjectSettings()) store.settings.set(k, v)
 }
 
-export function saveDetectors(apiKey: string, detectors: SDKDetectorSchema[]): void {
-  store.detectors.set(apiKey, detectors)
-  setProjectDetectors(apiKey, detectors)
+export function saveDetectors(projectId: string, detectors: SDKDetectorSchema[]): void {
+  store.detectors.set(projectId, detectors)
+  setProjectDetectors(projectId, detectors)
 }
 
-export function saveSettings(apiKey: string, settings: ProjectSettings): void {
-  store.settings.set(apiKey, settings)
-  setProjectSettings(apiKey, settings)
+export function saveSettings(projectId: string, settings: ProjectSettings): void {
+  store.settings.set(projectId, settings)
+  setProjectSettings(projectId, settings)
 }
