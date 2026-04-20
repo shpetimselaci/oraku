@@ -4,10 +4,13 @@ import { z } from 'zod'
 import { EventSchema } from '../schemas'
 import { requireAuth, requireScope } from '../middleware'
 import { resolveEvents, limitEventsPerUser, runIngest } from '../ingest'
+import { store } from '../store'
+
+const DEFAULT_RATE_LIMIT = 10
 
 const ingestLimiter = rateLimit({
   windowMs: 30 * 60 * 1000,
-  limit: 10,
+  limit: (_req, res) => store.settings.get(res.locals.projectId)?.rateLimit ?? DEFAULT_RATE_LIMIT,
   keyGenerator: (req) => req.headers['x-api-key'] as string || 'unknown',
   message: { error: 'Too many requests, slow down.' },
   handler: (req, res) => {

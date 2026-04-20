@@ -55,6 +55,7 @@ async function loadSettings() {
       '<td><input type="text" class="inline-input" placeholder="https://…" value="' + escHtml(s.webhookUrl || '') + '" data-field="webhookUrl" /></td>' +
       '<td class="key-cell" title="' + escHtml(s.webhookAuthKey || '') + '">' + escHtml(secret) + '</td>' +
       '<td><input type="number" class="inline-input" placeholder="–" value="' + (s.notificationsPerUser || '') + '" min="1" max="100" data-field="notificationsPerUser" style="max-width:100px" /></td>' +
+      '<td><input type="number" class="inline-input" placeholder="10" value="' + (s.rateLimit || '') + '" min="1" max="1000" data-field="rateLimit" style="max-width:100px" /></td>' +
       '<td class="actions"><button class="btn-save" onclick="saveSettings(this)">Save</button></td>' +
       '</tr>'
   }).join('')
@@ -67,7 +68,7 @@ async function saveSettings(btn) {
   row.querySelectorAll('[data-field]').forEach(function(el) {
     const field = el.dataset.field
     const val = el.value.trim()
-    if (val !== '') body[field] = field === 'notificationsPerUser' ? Number(val) : val
+    if (val !== '') body[field] = (field === 'notificationsPerUser' || field === 'rateLimit') ? Number(val) : val
   })
   const res = await api('/admin/settings/' + encodeURIComponent(key), {
     method: 'PATCH',
