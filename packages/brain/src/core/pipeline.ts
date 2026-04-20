@@ -87,7 +87,7 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
     await Promise.all(
       Object.entries(generatedByUser).map(async ([userId, notifications]) => {
         notificationsByUser[userId] = notifications
-        await saveNotifications(userId, notifications)
+        await saveNotifications(userId, notifications, options.projectId)
       })
     )
   }

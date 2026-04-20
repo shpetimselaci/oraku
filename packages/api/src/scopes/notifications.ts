@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getDueNotifications, markDelivered } from '@oraku/brain'
+import { getDueNotifications, markDelivered, getProjectSettings } from '@oraku/brain'
 import type { Notification } from '@oraku/brain'
 import { requireAuth, requireScope } from '../middleware'
 import { buildLatestPayload } from '../scheduler'
@@ -29,7 +29,16 @@ router.get('/latest', requireAuth, requireScope('notifications'), (_req, res) =>
 
 router.get('/due', (_req, res) => {
   const due = getDueNotifications()
-  res.json({ notifications: due, count: due.length })
+  const byProject: Record<string, { webhookUrl: string | null; notifications: typeof due }> = {}
+  for (const n of due) {
+    const projectId = n.project_id ?? 'unknown'
+    if (!byProject[projectId]) {
+      const settings = n.project_id ? getProjectSettings(n.project_id) : {}
+      byProject[projectId] = { webhookUrl: settings.webhookUrl ?? null, notifications: [] }
+    }
+    byProject[projectId].notifications.push(n)
+  }
+  res.json({ projects: Object.entries(byProject).map(([projectId, data]) => ({ projectId, ...data })) })
 })
 
 router.patch('/delivered', (req, res) => {

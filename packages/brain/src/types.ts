@@ -282,6 +282,7 @@ export interface PipelineOptions {
   provider?: LLMProvider
   forUserId?: string
   notificationsPerUser?: number
+  projectId?: string
 }
 
 export interface PipelineResult {
@@ -354,6 +355,7 @@ export interface DbFinding {
 export interface DbNotification {
   id: string
   user_id: string
+  project_id?: string
   external_ref?: string
   detector?: string
   message: string
