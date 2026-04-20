@@ -6,7 +6,7 @@ import { runPipeline } from '@oraku/brain/src/core/pipeline'
 import { EventSchema } from '../schemas'
 import type { SDKDetectorSchema } from '@oraku/brain/src/types'
 import { toBuilder } from '../scheduler'
-import { requireAuth } from '../middleware'
+import { requireAuth, requireScope } from '../middleware'
 import { resolveEvents, limitEventsPerUser } from '../ingest'
 import { store, saveDetectors } from '../store'
 
@@ -23,7 +23,7 @@ const ingestLimiter = rateLimit({
 
 const router = Router()
 
-router.post('/', requireAuth, ingestLimiter, async (req, res) => {
+router.post('/', requireAuth, requireScope('ingest'), ingestLimiter, async (req, res) => {
   const projectId: string = res.locals.projectId
 
   const resolved = await resolveEvents(req.body)
