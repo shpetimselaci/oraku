@@ -124,7 +124,7 @@ async function createKey() {
   const projectId = document.getElementById('new-key-project').value
   if (!name) { toast('Enter a key name first', 'err'); return }
   if (!projectId) { toast('Select a project first', 'err'); return }
-  const scopes = ['ingest', 'notifications'].filter(function(s) {
+  const scopes = ['ingest', 'notifications', 'detectors'].filter(function(s) {
     return document.getElementById('scope-' + s).checked
   })
   const res = await api('/admin/keys', { method: 'POST', body: JSON.stringify({ name, projectId, scopes }) })

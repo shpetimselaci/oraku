@@ -2,7 +2,8 @@ import { randomUUID } from 'crypto'
 import { db } from '@oraku/brain'
 
 export const ORG_SCOPES = ['ingest', 'notifications'] as const
-export type OrgScope = typeof ORG_SCOPES[number]
+export const ALL_SCOPES = ['ingest', 'notifications', 'detectors'] as const
+export type OrgScope = typeof ALL_SCOPES[number]
 
 export type Project = {
   id: string
