@@ -2,7 +2,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import { Router, type Request, type Response, type NextFunction } from 'express'
 import { getAllProjectSettings } from '@oraku/brain'
-import { createProject, listProjects, createApiKey, listApiKeys, revokeApiKey, getAuditLog } from '../api-keys'
+import { createProject, listProjects, createApiKey, listApiKeys, revokeApiKey, getAuditLog, setProjectActive } from '../api-keys'
 import { randomUUID } from 'crypto'
 import { store, saveSettings } from '../store'
 
@@ -49,6 +49,13 @@ router.post('/admin/projects', requireAdmin, (req, res) => {
   if (!name) { res.status(400).json({ error: 'name is required' }); return }
   const project = createProject(name)
   res.status(201).json(project)
+})
+
+router.patch('/admin/projects/:id', requireAdmin, (req, res) => {
+  const active = req.body?.active
+  if (typeof active !== 'boolean') { res.status(400).json({ error: 'active (boolean) is required' }); return }
+  setProjectActive(req.params.id as string, active)
+  res.json({ ok: true })
 })
 
 // API key management

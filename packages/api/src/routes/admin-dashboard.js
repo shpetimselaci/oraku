@@ -25,6 +25,7 @@ async function login() {
   document.getElementById('content').style.display = 'block'
   document.getElementById('auth-status').textContent = 'authenticated'
   document.getElementById('auth-status').className = 'ok'
+  loadOrgs()
   loadSettings()
   loadProjects()
   loadKeys()
@@ -75,6 +76,37 @@ async function saveSettings(btn) {
     body: JSON.stringify(body)
   })
   toast(res.ok ? 'Settings saved' : 'Save failed', res.ok ? 'ok' : 'err')
+}
+
+async function loadOrgs() {
+  const res = await api('/admin/projects')
+  const orgs = await res.json()
+  const tbody = document.getElementById('orgs-body')
+  if (!orgs.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="4">No organizations yet.</td></tr>'
+    return
+  }
+  tbody.innerHTML = orgs.map(function(o) {
+    const masked = o.id.length > 12 ? o.id.slice(0, 8) + '…' + o.id.slice(-4) : o.id
+    const badge = o.active
+      ? '<span class="badge badge-active">Active</span>'
+      : '<span class="badge badge-revoked">Suspended</span>'
+    const btn = o.active
+      ? '<button class="btn-danger" onclick="toggleOrg(\'' + escHtml(o.id) + '\', false)">Suspend</button>'
+      : '<button class="btn-primary" onclick="toggleOrg(\'' + escHtml(o.id) + '\', true)">Reinstate</button>'
+    return '<tr>' +
+      '<td class="key-cell" title="' + escHtml(o.id) + '">' + escHtml(masked) + '</td>' +
+      '<td>' + escHtml(o.name) + '</td>' +
+      '<td>' + badge + '</td>' +
+      '<td class="actions">' + btn + '</td>' +
+      '</tr>'
+  }).join('')
+}
+
+async function toggleOrg(id, active) {
+  const res = await api('/admin/projects/' + encodeURIComponent(id), { method: 'PATCH', body: JSON.stringify({ active }) })
+  toast(res.ok ? (active ? 'Organization reinstated' : 'Organization suspended') : 'Failed', res.ok ? 'ok' : 'err')
+  if (res.ok) loadOrgs()
 }
 
 async function loadProjects() {
