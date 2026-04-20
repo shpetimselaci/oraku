@@ -12,12 +12,11 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
     res.status(401).json({ error: 'Invalid or revoked API key' })
     return
   }
-  res.locals.apiKey = key
   res.locals.projectId = result.projectId
   res.locals.scopes = result.scopes
   res.on('finish', () => {
     logAudit({
-      api_key: key,
+      api_key: result.keyHash,
       method: req.method,
       path: req.path,
       status: res.statusCode,

@@ -60,8 +60,8 @@ router.post('/admin/keys', requireAdmin, (req, res) => {
   const scopes: string[] = Array.isArray(req.body?.scopes) ? req.body.scopes : []
   if (!name) { res.status(400).json({ error: 'name is required' }); return }
   if (!projectId) { res.status(400).json({ error: 'projectId is required' }); return }
-  const key = createApiKey(projectId, name, scopes)
-  res.status(201).json({ key, projectId, name, scopes })
+  const { rawKey } = createApiKey(projectId, name, scopes)
+  res.status(201).json({ key: rawKey, projectId, name, scopes })
 })
 
 router.delete('/admin/keys/:key', requireAdmin, (req, res) => {
