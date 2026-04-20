@@ -284,6 +284,29 @@
   <!-- Main content -->
   <div id="content">
 
+    <!-- Organizations -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Organizations</h2>
+        <button class="btn-secondary" onclick="loadOrgs()">Refresh</button>
+      </div>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="orgs-body">
+            <tr class="empty-row"><td colspan="4">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- Project Settings -->
     <div class="section">
       <div class="section-header">

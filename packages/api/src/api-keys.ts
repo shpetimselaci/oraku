@@ -12,6 +12,7 @@ export type OrgScope = typeof ALL_SCOPES[number]
 export type Project = {
   id: string
   name: string
+  active: number
   created_at: string
 }
 
@@ -61,10 +62,18 @@ export function revokeApiKey(key: string): void {
   db.prepare('UPDATE api_keys SET active = 0 WHERE key = ?').run(key)
 }
 
+export function setProjectActive(projectId: string, active: boolean): void {
+  db.prepare('UPDATE projects SET active = ? WHERE id = ?').run(active ? 1 : 0, projectId)
+}
+
 export function validateApiKey(rawKey: string): { projectId: string; scopes: string[]; keyHash: string } | null {
   const keyHash = hashKey(rawKey)
-  const row = db.prepare('SELECT active, scopes, project_id FROM api_keys WHERE key = ?').get(keyHash) as { active: number; scopes: string; project_id: string } | undefined
-  if (!row || !row.active) return null
+  const row = db.prepare(`
+    SELECT k.active, k.scopes, k.project_id FROM api_keys k
+    JOIN projects p ON p.id = k.project_id
+    WHERE k.key = ? AND k.active = 1 AND p.active = 1
+  `).get(keyHash) as { active: number; scopes: string; project_id: string } | undefined
+  if (!row) return null
   db.prepare('UPDATE api_keys SET last_used_at = CURRENT_TIMESTAMP WHERE key = ?').run(keyHash)
   return { projectId: row.project_id, scopes: JSON.parse(row.scopes), keyHash }
 }
