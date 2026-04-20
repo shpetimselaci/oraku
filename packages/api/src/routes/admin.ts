@@ -2,7 +2,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import { Router, type Request, type Response, type NextFunction } from 'express'
 import { getAllProjectSettings } from '@oraku/brain'
-import { createProject, listProjects, createApiKey, listApiKeys, revokeApiKey } from '../api-keys'
+import { createProject, listProjects, createApiKey, listApiKeys, revokeApiKey, getAuditLog } from '../api-keys'
 import { store, saveSettings } from '../store'
 
 const DASHBOARD_HTML = readFileSync(join(__dirname, 'admin-dashboard.html'), 'utf8')
@@ -67,6 +67,11 @@ router.post('/admin/keys', requireAdmin, (req, res) => {
 router.delete('/admin/keys/:key', requireAdmin, (req, res) => {
   revokeApiKey(req.params.key as string)
   res.json({ ok: true })
+})
+
+router.get('/admin/audit', requireAdmin, (req, res) => {
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : 100
+  res.json(getAuditLog(limit))
 })
 
 router.get('/admin', (_req, res) => {

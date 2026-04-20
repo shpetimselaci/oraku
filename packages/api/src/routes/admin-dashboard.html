@@ -335,6 +335,31 @@
       </div>
     </div>
 
+    <!-- Audit Log -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Audit Log</h2>
+        <button class="btn-secondary" onclick="loadAudit()">Refresh</button>
+      </div>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>API Key</th>
+              <th>Method</th>
+              <th>Path</th>
+              <th>Status</th>
+              <th>IP</th>
+            </tr>
+          </thead>
+          <tbody id="audit-body">
+            <tr class="empty-row"><td colspan="6">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </main>
 
