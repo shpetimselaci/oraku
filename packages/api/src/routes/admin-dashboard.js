@@ -26,6 +26,7 @@ async function login() {
   document.getElementById('auth-status').textContent = 'authenticated'
   document.getElementById('auth-status').className = 'ok'
   loadSettings()
+  loadProjects()
   loadKeys()
   loadAudit()
 }
@@ -73,12 +74,26 @@ async function saveSettings(btn) {
   toast(res.ok ? 'Settings saved' : 'Save failed', res.ok ? 'ok' : 'err')
 }
 
+async function loadProjects() {
+  const res = await api('/admin/projects')
+  const projects = await res.json()
+  const select = document.getElementById('new-key-project')
+  select.innerHTML = '<option value="">Select project…</option>'
+  projects.forEach(function(p) {
+    const opt = document.createElement('option')
+    opt.value = p.id
+    opt.textContent = p.name
+    select.appendChild(opt)
+  })
+  if (projects.length === 1) select.value = projects[0].id
+}
+
 async function loadKeys() {
   const res = await api('/admin/keys')
   const keys = await res.json()
   const tbody = document.getElementById('keys-body')
   if (!keys.length) {
-    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No keys yet — generate one above.</td></tr>'
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No keys yet — generate one above.</td></tr>'
     return
   }
   tbody.innerHTML = keys.map(function(k) {
@@ -90,9 +105,11 @@ async function loadKeys() {
     const revokeBtn = k.active
       ? '<button class="btn-danger" onclick="revokeKey(\'' + escHtml(k.key) + '\')">Revoke</button>'
       : ''
+    const scopes = (k.scopes || []).join(', ') || '—'
     return '<tr>' +
       '<td>' + escHtml(k.name) + '</td>' +
       '<td class="key-cell" title="' + escHtml(k.key) + '">' + escHtml(masked) + '</td>' +
+      '<td>' + escHtml(scopes) + '</td>' +
       '<td>' + new Date(k.created_at).toLocaleString() + '</td>' +
       '<td>' + lastUsed + '</td>' +
       '<td>' + badge + '</td>' +
@@ -104,8 +121,13 @@ async function loadKeys() {
 async function createKey() {
   const nameInput = document.getElementById('new-key-name')
   const name = nameInput.value.trim()
+  const projectId = document.getElementById('new-key-project').value
   if (!name) { toast('Enter a key name first', 'err'); return }
-  const res = await api('/admin/keys', { method: 'POST', body: JSON.stringify({ name }) })
+  if (!projectId) { toast('Select a project first', 'err'); return }
+  const scopes = ['ingest', 'notifications'].filter(function(s) {
+    return document.getElementById('scope-' + s).checked
+  })
+  const res = await api('/admin/keys', { method: 'POST', body: JSON.stringify({ name, projectId, scopes }) })
   if (!res.ok) { toast('Failed to create key', 'err'); return }
   const data = await res.json()
   nameInput.value = ''

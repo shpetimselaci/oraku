@@ -2,12 +2,12 @@ import { Router } from 'express'
 import { getDueNotifications, getDueNotificationsByUser, markDelivered } from '@oraku/brain'
 import type { Notification } from '@oraku/brain'
 import { extractNextPredicted, toNextRun, buildFindingMeta } from '../scheduler'
-import { requireAuth } from '../middleware'
+import { requireAuth, requireScope } from '../middleware'
 import { store } from '../store'
 
 const router = Router()
 
-router.get('/', requireAuth, (req, res) => {
+router.get('/', requireAuth, requireScope('notifications'), (req, res) => {
   const projectId: string = res.locals.projectId
   const result = store.results.get(projectId)
   if (!result) { res.status(404).json({ error: 'No data found — call /ingest first' }); return }
@@ -20,7 +20,7 @@ router.get('/', requireAuth, (req, res) => {
   res.json({ notifications, count: notifications.length })
 })
 
-router.get('/latest', requireAuth, (_req, res) => {
+router.get('/latest', requireAuth, requireScope('notifications'), (_req, res) => {
   const projectId: string = res.locals.projectId
   const result = store.results.get(projectId)
   if (!result) { res.status(404).json({ error: 'No data found — call /ingest first' }); return }

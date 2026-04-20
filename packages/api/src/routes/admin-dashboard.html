@@ -312,7 +312,10 @@
       <div class="section-header">
         <h2>Access Keys</h2>
         <div class="actions">
-          <input type="text" id="new-key-name" placeholder="Key name" style="max-width:180px" />
+          <input type="text" id="new-key-name" placeholder="Key name" style="max-width:160px" />
+          <select id="new-key-project" style="max-width:160px"><option value="">Select project…</option></select>
+          <label style="font-size:0.85rem"><input type="checkbox" id="scope-ingest" value="ingest" checked /> ingest</label>
+          <label style="font-size:0.85rem"><input type="checkbox" id="scope-notifications" value="notifications" checked /> notifications</label>
           <button class="btn-primary" onclick="createKey()">Generate key</button>
         </div>
       </div>
@@ -322,6 +325,7 @@
             <tr>
               <th>Name</th>
               <th>Key</th>
+              <th>Scopes</th>
               <th>Created</th>
               <th>Last used</th>
               <th>Status</th>
@@ -329,7 +333,7 @@
             </tr>
           </thead>
           <tbody id="keys-body">
-            <tr class="empty-row"><td colspan="6">Loading…</td></tr>
+            <tr class="empty-row"><td colspan="7">Loading…</td></tr>
           </tbody>
         </table>
       </div>
