@@ -3,6 +3,7 @@ import { join } from 'path'
 import { Router, type Request, type Response, type NextFunction } from 'express'
 import { getAllProjectSettings } from '@oraku/brain'
 import { createProject, listProjects, createApiKey, listApiKeys, revokeApiKey, getAuditLog } from '../api-keys'
+import { randomUUID } from 'crypto'
 import { store, saveSettings } from '../store'
 
 const DASHBOARD_HTML = readFileSync(join(__dirname, 'admin-dashboard.html'), 'utf8')
@@ -34,6 +35,7 @@ router.patch('/admin/settings/:projectId', requireAdmin, (req, res) => {
   const projectId = req.params.projectId as string
   const existing = store.settings.get(projectId) ?? {}
   const updated = { ...existing, ...req.body }
+  if (updated.webhookUrl && !updated.webhookAuthKey) updated.webhookAuthKey = randomUUID().replace(/-/g, '')
   saveSettings(projectId, updated)
   res.json({ ok: true, settings: updated })
 })
