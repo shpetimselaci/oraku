@@ -60,7 +60,8 @@ export async function runIngest(projectId: string, events: Event[]): Promise<{ c
   const settings = store.settings.get(projectId)
   const result = await runPipeline(events, {
     builders: (store.detectors.get(projectId) ?? []).map(toBuilder),
-    notificationsPerUser: settings?.notificationsPerUser
+    notificationsPerUser: settings?.notificationsPerUser,
+    projectId
   })
   store.results.set(projectId, result)
   store.events.set(projectId, events)
