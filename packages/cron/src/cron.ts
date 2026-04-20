@@ -1,7 +1,7 @@
 import cron from 'node-cron'
 import { deliver } from './webhook'
 
-type DueProject = { projectId: string; webhookUrl: string | null; notifications: Array<{ id: string }> }
+type DueProject = { projectId: string; webhookUrl: string | null; webhookSecret: string | null; notifications: Array<{ id: string }> }
 
 export function startCron(apiUrl: string, _webhookUrl: string, expression: string) {
   async function pollAndDeliver() {
@@ -21,7 +21,7 @@ export function startCron(apiUrl: string, _webhookUrl: string, expression: strin
         continue
       }
       console.log(`[cron] Delivering ${project.notifications.length} notification(s) to project ${project.projectId}`)
-      await deliver(project.notifications, project.webhookUrl, apiUrl)
+      await deliver(project.notifications, project.webhookUrl, project.webhookSecret, apiUrl)
     }
   }
 

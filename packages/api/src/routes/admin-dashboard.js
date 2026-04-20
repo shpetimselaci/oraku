@@ -49,9 +49,11 @@ async function loadSettings() {
   tbody.innerHTML = entries.map(function([key, settings]) {
     const s = settings
     const masked = key.length > 12 ? key.slice(0, 8) + '…' + key.slice(-4) : key
+    const secret = s.webhookAuthKey ? s.webhookAuthKey.slice(0, 8) + '…' : '—'
     return '<tr data-key="' + escHtml(key) + '">' +
       '<td class="key-cell" title="' + escHtml(key) + '">' + escHtml(masked) + '</td>' +
       '<td><input type="text" class="inline-input" placeholder="https://…" value="' + escHtml(s.webhookUrl || '') + '" data-field="webhookUrl" /></td>' +
+      '<td class="key-cell" title="' + escHtml(s.webhookAuthKey || '') + '">' + escHtml(secret) + '</td>' +
       '<td><input type="number" class="inline-input" placeholder="–" value="' + (s.notificationsPerUser || '') + '" min="1" max="100" data-field="notificationsPerUser" style="max-width:100px" /></td>' +
       '<td class="actions"><button class="btn-save" onclick="saveSettings(this)">Save</button></td>' +
       '</tr>'

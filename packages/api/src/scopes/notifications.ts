@@ -29,12 +29,12 @@ router.get('/latest', requireAuth, requireScope('notifications'), (_req, res) =>
 
 router.get('/due', (_req, res) => {
   const due = getDueNotifications()
-  const byProject: Record<string, { webhookUrl: string | null; notifications: typeof due }> = {}
+  const byProject: Record<string, { webhookUrl: string | null; webhookSecret: string | null; notifications: typeof due }> = {}
   for (const n of due) {
     const projectId = n.project_id ?? 'unknown'
     if (!byProject[projectId]) {
       const settings = n.project_id ? getProjectSettings(n.project_id) : {}
-      byProject[projectId] = { webhookUrl: settings.webhookUrl ?? null, notifications: [] }
+      byProject[projectId] = { webhookUrl: settings.webhookUrl ?? null, webhookSecret: settings.webhookAuthKey ?? null, notifications: [] }
     }
     byProject[projectId].notifications.push(n)
   }
