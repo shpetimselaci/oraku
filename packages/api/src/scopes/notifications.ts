@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import { getDueNotifications, getDueNotificationsByUser, markDelivered } from '@oraku/brain'
+import { getDueNotifications, markDelivered } from '@oraku/brain'
 import type { Notification } from '@oraku/brain'
-import { extractNextPredicted, toNextRun, buildFindingMeta } from '../scheduler'
 import { requireAuth, requireScope } from '../middleware'
+import { buildLatestPayload } from '../scheduler'
 import { store } from '../store'
 
 const router = Router()
@@ -22,30 +22,9 @@ router.get('/', requireAuth, requireScope('notifications'), (req, res) => {
 
 router.get('/latest', requireAuth, requireScope('notifications'), (_req, res) => {
   const projectId: string = res.locals.projectId
-  const result = store.results.get(projectId)
-  if (!result) { res.status(404).json({ error: 'No data found — call /ingest first' }); return }
-
-  const dueByUser = getDueNotificationsByUser()
-  let latestCreatedAt: string | null = null
-  const notificationsByUser: Record<string, Notification[]> = {}
-
-  for (const [ref, dbNotifs] of Object.entries(dueByUser)) {
-    notificationsByUser[ref] = dbNotifs.map(n => ({ ref, message: n.message, detector: n.detector ?? 'unknown', type: n.type, scheduledAt: n.scheduled_at }))
-    for (const n of dbNotifs) if (!latestCreatedAt || n.created_at > latestCreatedAt) latestCreatedAt = n.created_at
-  }
-
-  const userGeneratedAt: Record<string, string> = {}
-  store.userTimestamps.get(projectId)?.forEach((ts, uid) => { userGeneratedAt[uid] = ts })
-
-  const nextPredicted = extractNextPredicted(result.findings)
-  res.json({
-    ok: true,
-    notificationsByUser,
-    findingMetaByUser: buildFindingMeta(result.findings),
-    userGeneratedAt,
-    nextRun: toNextRun(nextPredicted),
-    runTimestamp: store.runTimestamps.get(projectId) ?? latestCreatedAt
-  })
+  const payload = buildLatestPayload(projectId, store)
+  if (!payload) { res.status(404).json({ error: 'No data found — call /ingest first' }); return }
+  res.json(payload)
 })
 
 router.get('/due', (_req, res) => {

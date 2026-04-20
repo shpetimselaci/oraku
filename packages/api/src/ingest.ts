@@ -1,4 +1,8 @@
-import type { Event } from '@oraku/brain/src/types'
+import dayjs from 'dayjs'
+import { runPipeline } from '@oraku/brain/src/core/pipeline'
+import type { Event, SDKDetectorSchema } from '@oraku/brain/src/types'
+import { toBuilder } from './scheduler'
+import { store, saveDetectors } from './store'
 
 const EVENTS_PER_USER = 50
 
@@ -40,4 +44,26 @@ export async function resolveEvents(body: Record<string, unknown>): Promise<Even
   }
 
   return null
+}
+
+export async function runIngest(projectId: string, events: Event[]): Promise<{ count: number }> {
+  const existing = store.detectors.get(projectId) ?? []
+  const registeredMarkers = new Set(existing.map(d => d.marker).filter(Boolean))
+  const newCategories = [...new Set(events.map((e: any) => e.category).filter(Boolean))].filter(cat => !registeredMarkers.has(cat))
+  if (newCategories.length > 0) {
+    const autoConfigs: SDKDetectorSchema[] = newCategories.map(cat => ({
+      name: `auto-${cat}`, type: 'streak-ongoing', marker: cat, minRepeat: 3, notificationType: 'reminder'
+    }))
+    saveDetectors(projectId, [...existing, ...autoConfigs])
+  }
+
+  const settings = store.settings.get(projectId)
+  const result = await runPipeline(events, {
+    builders: (store.detectors.get(projectId) ?? []).map(toBuilder),
+    notificationsPerUser: settings?.notificationsPerUser
+  })
+  store.results.set(projectId, result)
+  store.events.set(projectId, events)
+  store.runTimestamps.set(projectId, dayjs().toISOString())
+  return { count: result.count }
 }
