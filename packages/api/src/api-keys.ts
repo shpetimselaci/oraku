@@ -1,4 +1,8 @@
-import { randomUUID } from 'crypto'
+import { randomUUID, createHash } from 'crypto'
+
+function hashKey(key: string): string {
+  return createHash('sha256').update(key).digest('hex')
+}
 import { db } from '@oraku/brain'
 
 export const ORG_SCOPES = ['ingest', 'notifications'] as const
@@ -41,10 +45,11 @@ export function listProjects(): Project[] {
   return db.prepare('SELECT * FROM projects ORDER BY created_at DESC').all() as Project[]
 }
 
-export function createApiKey(projectId: string, name: string, scopes: string[]): string {
-  const key = `oraku_${randomUUID().replace(/-/g, '')}`
-  db.prepare('INSERT INTO api_keys (key, project_id, name, scopes) VALUES (?, ?, ?, ?)').run(key, projectId, name, JSON.stringify(scopes))
-  return key
+export function createApiKey(projectId: string, name: string, scopes: string[]): { rawKey: string; keyHash: string } {
+  const rawKey = `oraku_${randomUUID().replace(/-/g, '')}`
+  const keyHash = hashKey(rawKey)
+  db.prepare('INSERT INTO api_keys (key, project_id, name, scopes) VALUES (?, ?, ?, ?)').run(keyHash, projectId, name, JSON.stringify(scopes))
+  return { rawKey, keyHash }
 }
 
 export function listApiKeys(): ApiKey[] {
@@ -56,11 +61,12 @@ export function revokeApiKey(key: string): void {
   db.prepare('UPDATE api_keys SET active = 0 WHERE key = ?').run(key)
 }
 
-export function validateApiKey(key: string): { projectId: string; scopes: string[] } | null {
-  const row = db.prepare('SELECT active, scopes, project_id FROM api_keys WHERE key = ?').get(key) as { active: number; scopes: string; project_id: string } | undefined
+export function validateApiKey(rawKey: string): { projectId: string; scopes: string[]; keyHash: string } | null {
+  const keyHash = hashKey(rawKey)
+  const row = db.prepare('SELECT active, scopes, project_id FROM api_keys WHERE key = ?').get(keyHash) as { active: number; scopes: string; project_id: string } | undefined
   if (!row || !row.active) return null
-  db.prepare('UPDATE api_keys SET last_used_at = CURRENT_TIMESTAMP WHERE key = ?').run(key)
-  return { projectId: row.project_id, scopes: JSON.parse(row.scopes) }
+  db.prepare('UPDATE api_keys SET last_used_at = CURRENT_TIMESTAMP WHERE key = ?').run(keyHash)
+  return { projectId: row.project_id, scopes: JSON.parse(row.scopes), keyHash }
 }
 
 export function logAudit(entry: Omit<AuditEntry, 'id' | 'ts'>): void {
