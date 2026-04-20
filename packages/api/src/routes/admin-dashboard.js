@@ -27,6 +27,7 @@ async function login() {
   document.getElementById('auth-status').className = 'ok'
   loadSettings()
   loadKeys()
+  loadAudit()
 }
 
 document.getElementById('secret-input').addEventListener('keydown', function(e) {
@@ -116,6 +117,28 @@ async function revokeKey(key) {
   const res = await api('/admin/keys/' + encodeURIComponent(key), { method: 'DELETE' })
   toast(res.ok ? 'Key revoked' : 'Revoke failed', res.ok ? 'ok' : 'err')
   if (res.ok) loadKeys()
+}
+
+async function loadAudit() {
+  const res = await api('/admin/audit?limit=100')
+  const entries = await res.json()
+  const tbody = document.getElementById('audit-body')
+  if (!entries.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No activity yet.</td></tr>'
+    return
+  }
+  tbody.innerHTML = entries.map(function(e) {
+    const masked = e.api_key.slice(0, 10) + '…' + e.api_key.slice(-4)
+    const statusClass = e.status >= 400 ? 'color:var(--danger)' : e.status >= 200 ? 'color:var(--success)' : ''
+    return '<tr>' +
+      '<td>' + new Date(e.ts).toLocaleString() + '</td>' +
+      '<td class="key-cell" title="' + escHtml(e.api_key) + '">' + escHtml(masked) + '</td>' +
+      '<td>' + escHtml(e.method) + '</td>' +
+      '<td class="key-cell">' + escHtml(e.path) + '</td>' +
+      '<td style="' + statusClass + '">' + e.status + '</td>' +
+      '<td class="key-cell">' + escHtml(e.ip) + '</td>' +
+      '</tr>'
+  }).join('')
 }
 
 function escHtml(str) {
