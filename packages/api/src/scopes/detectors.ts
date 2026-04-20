@@ -1,11 +1,11 @@
 import { Router } from 'express'
 import { SDKDetectorSchemaZod } from '../schemas'
-import { requireAuth } from '../middleware'
+import { requireAuth, requireScope } from '../middleware'
 import { store, saveDetectors } from '../store'
 
 const router = Router()
 
-router.post('/', requireAuth, (req, res) => {
+router.post('/', requireAuth, requireScope('detectors'), (req, res) => {
   const projectId: string = res.locals.projectId
 
   const parsed = SDKDetectorSchemaZod.safeParse(req.body)
@@ -17,7 +17,7 @@ router.post('/', requireAuth, (req, res) => {
   res.json({ ok: true, registered: updated.length })
 })
 
-router.delete('/:name', requireAuth, (req, res) => {
+router.delete('/:name', requireAuth, requireScope('detectors'), (req, res) => {
   const projectId: string = res.locals.projectId
   saveDetectors(projectId, (store.detectors.get(projectId) ?? []).filter(d => d.name !== req.params.name))
   res.json({ ok: true })

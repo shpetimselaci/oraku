@@ -4,7 +4,7 @@ import { initSchema } from '@oraku/brain'
 import { initStore } from './store'
 import ingestRouter from './scopes/ingest'
 import notificationsRouter from './scopes/notifications'
-import detectorsRouter from './routes/detectors'
+import detectorsRouter from './scopes/detectors'
 import projectRouter from './routes/project'
 import adminRouter from './routes/admin'
 
