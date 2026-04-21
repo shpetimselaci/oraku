@@ -364,4 +364,5 @@ export interface DbNotification {
   generated_date: string
   created_at: string
   delivered_at: string | null
+  expires_at: string | null
 }
