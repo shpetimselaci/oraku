@@ -1,7 +1,8 @@
 import cron from 'node-cron'
 import { deliver } from './webhook'
 
-type DueProject = { projectId: string; webhookUrl: string | null; webhookSecret: string | null; notifications: Array<{ id: string }> }
+type DueNotification = { id: string; expires_at: string | null }
+type DueProject = { projectId: string; webhookUrl: string | null; webhookSecret: string | null; notifications: DueNotification[] }
 
 export function startCron(apiUrl: string, _webhookUrl: string, expression: string) {
   async function pollAndDeliver() {
