@@ -284,6 +284,30 @@
   <!-- Main content -->
   <div id="content">
 
+    <!-- Registrations -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Registrations</h2>
+        <button class="btn-secondary" onclick="loadRegistrations()">Refresh</button>
+      </div>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Webhook URL</th>
+              <th>Status</th>
+              <th>Requested</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="registrations-body">
+            <tr class="empty-row"><td colspan="5">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- Organizations -->
     <div class="section">
       <div class="section-header">
@@ -317,7 +341,7 @@
         <table id="settings-table">
           <thead>
             <tr>
-              <th>API Key</th>
+              <th>Organization</th>
               <th>Webhook URL</th>
               <th>Webhook Secret</th>
               <th>Notifications / User</th>
@@ -336,14 +360,7 @@
     <div class="section">
       <div class="section-header">
         <h2>Access Keys</h2>
-        <div class="actions">
-          <input type="text" id="new-key-name" placeholder="Key name" style="max-width:160px" />
-          <select id="new-key-project" style="max-width:160px"><option value="">Select project…</option></select>
-          <label style="font-size:0.85rem"><input type="checkbox" id="scope-ingest" value="ingest" checked /> ingest</label>
-          <label style="font-size:0.85rem"><input type="checkbox" id="scope-notifications" value="notifications" checked /> notifications</label>
-          <label style="font-size:0.85rem"><input type="checkbox" id="scope-detectors" value="detectors" /> detectors</label>
-          <button class="btn-primary" onclick="createKey()">Generate key</button>
-        </div>
+        <button class="btn-secondary" onclick="loadKeys()">Refresh</button>
       </div>
       <div class="card">
         <table>

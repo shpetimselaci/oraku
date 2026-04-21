@@ -8,6 +8,7 @@ import detectorsRouter from './scopes/detectors'
 import projectRouter from './routes/project'
 import adminRouter from './routes/admin'
 import settingsRouter from './admin-settings'
+import registrationRouter from './registration'
 
 initSchema()
 initStore()
@@ -22,6 +23,7 @@ app.use('/detectors', detectorsRouter)
 app.use(projectRouter)
 app.use(adminRouter)
 app.use(settingsRouter)
+app.use(registrationRouter)
 
 export { app }
 

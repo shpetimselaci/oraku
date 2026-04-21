@@ -3,7 +3,7 @@ import { randomUUID, createHash } from 'crypto'
 function hashKey(key: string): string {
   return createHash('sha256').update(key).digest('hex')
 }
-import { db } from '@oraku/brain'
+import { db } from '@oraku/brain/src/db/connection'
 
 export const ORG_SCOPES = ['ingest', 'notifications'] as const
 export const ALL_SCOPES = ['ingest', 'notifications', 'detectors'] as const
@@ -39,7 +39,7 @@ export type AuditEntry = {
 export function createProject(name: string): Project {
   const id = `proj_${randomUUID().replace(/-/g, '')}`
   db.prepare('INSERT INTO projects (id, name) VALUES (?, ?)').run(id, name)
-  return { id, name, created_at: new Date().toISOString() }
+  return { id, name, active: 1, created_at: new Date().toISOString() }
 }
 
 export function listProjects(): Project[] {

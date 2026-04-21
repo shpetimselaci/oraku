@@ -3,6 +3,7 @@ import { join } from 'path'
 import { Router, type Request, type Response, type NextFunction } from 'express'
 import { getAllProjectSettings } from '@oraku/brain'
 import { createProject, listProjects, createApiKey, listApiKeys, revokeApiKey, getAuditLog, setProjectActive } from '../api-keys'
+import { listRegistrations, getRegistration, updateRegistrationStatus } from '../registration'
 import { randomUUID } from 'crypto'
 import { store, saveSettings } from '../store'
 
@@ -38,6 +39,46 @@ router.patch('/admin/settings/:projectId', requireAdmin, (req, res) => {
   if (updated.webhookUrl && !updated.webhookAuthKey) updated.webhookAuthKey = randomUUID().replace(/-/g, '')
   saveSettings(projectId, updated)
   res.json({ ok: true, settings: updated })
+})
+
+router.get('/admin/registrations', requireAdmin, (_req, res) => {
+  res.json(listRegistrations())
+})
+
+router.post('/admin/registrations/:id/approve', requireAdmin, async (req, res) => {
+  const reg = getRegistration(req.params.id as string)
+  if (!reg) { res.status(404).json({ error: 'Registration not found' }); return }
+  if (reg.status !== 'pending') { res.status(409).json({ error: 'Already processed' }); return }
+
+  const project = createProject(reg.name)
+  const { rawKey } = createApiKey(project.id, `${reg.name} key`, ['ingest', 'notifications', 'detectors'])
+  updateRegistrationStatus(reg.id, 'approved')
+
+  try {
+    await fetch(reg.webhook_url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ approved: true, key: rawKey, projectId: project.id })
+    })
+  } catch (err) {
+    console.error(`[registration] Failed to deliver key to ${reg.webhook_url}:`, (err as Error).message)
+  }
+
+  res.json({ ok: true, projectId: project.id })
+})
+
+router.post('/admin/registrations/:id/reject', requireAdmin, (req, res) => {
+  const reg = getRegistration(req.params.id as string)
+  if (!reg) { res.status(404).json({ error: 'Registration not found' }); return }
+  updateRegistrationStatus(reg.id, 'rejected')
+
+  fetch(reg.webhook_url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ approved: false })
+  }).catch(() => {})
+
+  res.json({ ok: true })
 })
 
 router.get('/admin/projects', requireAdmin, (_req, res) => {
