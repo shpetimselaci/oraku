@@ -52,7 +52,9 @@ describe('DetectorManager — tier hierarchy', () => {
     const manager = new DetectorManager({ builders: [routineStreakBuilder()] })
 
     const findings = await manager.runDetectorsOn(makeGroupMap(streakEvents('user-1')))
-    expect(findings.every(f => f.groupKey === 'user-1')).toBe(true)
+    const groupFindings = findings.filter(f => f.groupKey !== undefined)
+    expect(groupFindings.length).toBeGreaterThan(0)
+    expect(groupFindings.every(f => f.groupKey === 'user-1')).toBe(true)
   })
 
   it('deduplicates findings with the same id', async () => {

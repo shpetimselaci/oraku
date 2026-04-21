@@ -45,4 +45,24 @@ describe('getDueNotifications', () => {
     const results = getDueNotifications()
     expect(results.find(n => n.message === 'future')).toBeUndefined()
   })
+
+  it('excludes notifications past their expires_at', () => {
+    testDb.exec(`
+      INSERT INTO notifications (id, user_id, message, type, scheduled_at, generated_date, expires_at)
+      VALUES ('n6', 'u1', 'expired', 'reminder', '2026-01-01T00:00:00', '2026-01-05', '2026-01-01T00:30:00')
+    `)
+
+    const results = getDueNotifications()
+    expect(results.find(n => n.message === 'expired')).toBeUndefined()
+  })
+
+  it('includes notifications with null expires_at regardless of age', () => {
+    testDb.exec(`
+      INSERT INTO notifications (id, user_id, message, type, scheduled_at, generated_date, expires_at)
+      VALUES ('n7', 'u1', 'achievement', 'achievement', '2026-01-01T00:00:00', '2026-01-06', NULL)
+    `)
+
+    const results = getDueNotifications()
+    expect(results.find(n => n.message === 'achievement')).toBeDefined()
+  })
 })
