@@ -48,21 +48,11 @@
       gap: 2px;
     }
 
-    #timestamp {
-      font-size: 13px;
-      color: #52525b;
-    }
+    #timestamp { font-size: 13px; color: #52525b; }
+    #next-run  { font-size: 12px; color: #3f3f46; }
+    #next-run span { color: #7c6dfa; }
 
-    #next-run {
-      font-size: 12px;
-      color: #3f3f46;
-    }
-
-    #next-run span {
-      color: #7c6dfa;
-    }
-
-    #run-btn {
+    #seed-btn {
       background: #7c6dfa;
       color: #fff;
       border: none;
@@ -72,21 +62,23 @@
       font-weight: 600;
       cursor: pointer;
       transition: background 0.15s, opacity 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    #run-btn:hover { background: #6b5cf0; }
-    #run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    #seed-btn:hover { background: #6b5cf0; }
+    #seed-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .spinner {
       display: none;
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       border: 2px solid #fff3;
       border-top-color: #fff;
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
-      margin-left: 8px;
-      vertical-align: middle;
+      flex-shrink: 0;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -127,11 +119,6 @@
       gap: 12px;
     }
 
-    .avatar-wrap {
-      position: relative;
-      flex-shrink: 0;
-    }
-
     .avatar {
       width: 40px;
       height: 40px;
@@ -141,26 +128,8 @@
       justify-content: center;
       font-weight: 700;
       font-size: 14px;
+      flex-shrink: 0;
     }
-
-    .avatar-badge {
-      position: absolute;
-      bottom: -2px;
-      right: -2px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      border: 2px solid #18181b;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 8px;
-      font-weight: 800;
-      line-height: 1;
-    }
-
-    .badge-streak  { background: #7c6dfa; color: #fff; }
-    .badge-anomaly { background: #f97316; color: #fff; }
 
     .user-info { min-width: 0; flex: 1; }
 
@@ -172,22 +141,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
-    .user-times {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-      margin-top: 3px;
-    }
-
-    .user-time-row {
-      font-size: 11px;
-      color: #52525b;
-      display: flex;
-      gap: 4px;
-    }
-
-    .user-time-row span { color: #71717a; }
 
     .notifications-list { padding: 12px 0; }
 
@@ -242,6 +195,10 @@
       <span id="timestamp"></span>
       <span id="next-run"></span>
     </div>
+    <button id="seed-btn" onclick="reseed()">
+      <span class="spinner" id="spinner"></span>
+      Reseed
+    </button>
   </div>
 </header>
 
@@ -250,7 +207,7 @@
 
   <div id="empty">
     <div class="icon">⏳</div>
-    <p>Waiting for scheduled notifications&hellip;</p>
+    <p>Waiting for notifications&hellip;</p>
     <p style="font-size:12px;margin-top:6px;">Oraku will generate notifications 30 min before a detected routine</p>
   </div>
 
@@ -258,9 +215,20 @@
 </main>
 
 <script>
-  let lastRunTimestamp = null
+  const shownIds = new Set()
+  const typeColors = { reminder: '#7c6dfa', warning: '#f97316', achievement: '#22c55e', insight: '#38bdf8', nudge: '#a78bfa' }
+  const typeLabels = { 'streak-ongoing': 'streak', 'streak-break': 'break', 'checklist': 'checklist', 'milestone': 'milestone', 'threshold': 'threshold', 'item-analysis': 'analysis' }
 
-  // re-seeds events into oraku-api — does NOT show results, just refreshes scheduler data
+  // request browser notification permission on load
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission()
+  }
+
+  function fireDesktopNotif(title, body) {
+    if (!('Notification' in window) || Notification.permission !== 'granted') return
+    new Notification(title, { body, icon: '/favicon.ico', silent: false })
+  }
+
   async function reseed() {
     const btn = document.getElementById('seed-btn')
     const spinner = document.getElementById('spinner')
@@ -268,45 +236,47 @@
     spinner.style.display = 'inline-block'
     try {
       await fetch('/api/seed', { method: 'POST' })
+      await poll()
     } finally {
       btn.disabled = false
       spinner.style.display = 'none'
     }
   }
 
-  // polls every 60s — only renders a new card batch when the scheduler has fired (runTimestamp changed)
   async function poll() {
     try {
       const res = await fetch('/api/latest')
       const data = await res.json()
-      if (!data.ok || data.empty || !data.timestamp) return
-      
+      if (!data.ok || data.empty) return
+
+      document.getElementById('error-banner').style.display = 'none'
       renderResults(data)
-    } catch {}
+    } catch (err) {
+      const banner = document.getElementById('error-banner')
+      banner.textContent = 'Could not reach server: ' + err.message
+      banner.style.display = 'block'
+    }
   }
 
   function renderResults(data) {
-    lastRunTimestamp = data.timestamp
-
     document.getElementById('empty').style.display = 'none'
-    document.getElementById('timestamp').textContent =
-      'Last run ' + new Date(data.timestamp).toLocaleTimeString()
+
+    if (data.timestamp) {
+      document.getElementById('timestamp').textContent = 'Last run ' + new Date(data.timestamp).toLocaleTimeString()
+    }
+    if (data.nextRun) {
+      document.getElementById('next-run').innerHTML = 'Next run <span>' + new Date(data.nextRun).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</span>'
+    }
 
     const grid = document.getElementById('grid')
     grid.style.display = 'grid'
     grid.innerHTML = ''
 
-    const typeColors = { reminder: '#7c6dfa', warning: '#f97316', achievement: '#22c55e', insight: '#38bdf8', nudge: '#a78bfa' }
-    const typeLabels = { 'streak-ongoing': 'streak', 'streak-break': 'break', 'checklist': 'checklist', 'milestone': 'milestone', 'threshold': 'threshold', 'item-analysis': 'analysis' }
     const detectorTypes = data.detectorTypes ?? {}
 
     data.users.forEach((user, i) => {
       const colorIdx = i % 3
       const initials = user.label.split(/[\s._]+/).map(w => w[0]?.toUpperCase() ?? '').join('').slice(0, 2)
-      const generatedAt = data.userGeneratedAt?.[user.id]
-      const generatedLabel = generatedAt
-        ? new Date(generatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' · ' + new Date(generatedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })
-        : null
 
       user.notifications.forEach(n => {
         const typeColor = typeColors[n.type] ?? '#52525b'
@@ -318,22 +288,30 @@
         const detectorLabel = n.detector && n.detector !== 'unknown' ? n.detector : null
         const sdkType = detectorTypes[n.detector]
         const sdkTypeLabel = sdkType ? typeLabels[sdkType] ?? sdkType : null
+
+        // fire desktop notification for new ones
+        const notifKey = user.id + ':' + (n.detector ?? '') + ':' + (n.scheduledAt ?? n.message.slice(0, 20))
+        if (!shownIds.has(notifKey)) {
+          shownIds.add(notifKey)
+          fireDesktopNotif(user.label, n.message)
+        }
+
         const card = document.createElement('div')
         card.className = 'user-card'
         card.innerHTML = `
           <div class="user-card-header">
-            <div class="avatar color-${colorIdx}">${initials}</div>
+            <div class="avatar color-${colorIdx}">${escapeHtml(initials)}</div>
             <div class="user-info">
               <div class="user-name">${escapeHtml(user.label)}</div>
-              <div class="user-time-row" style="margin-top:3px">
-                <span style="background:${typeColor};color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:0.3px">${escapeHtml(n.type ?? '')}</span>
-                ${detectorLabel ? `<span style="font-size:10px;color:#71717a;margin-left:4px">${escapeHtml(detectorLabel)}</span>` : ''}
-                ${sdkTypeLabel ? `<span style="font-size:10px;color:#3f3f46;margin-left:4px">[${escapeHtml(sdkTypeLabel)}]</span>` : ''}
+              <div style="display:flex;gap:4px;margin-top:3px;align-items:center">
+                <span style="background:${typeColor};color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px">${escapeHtml(n.type ?? '')}</span>
+                ${detectorLabel ? `<span style="font-size:10px;color:#71717a">${escapeHtml(detectorLabel)}</span>` : ''}
+                ${sdkTypeLabel ? `<span style="font-size:10px;color:#3f3f46">[${escapeHtml(sdkTypeLabel)}]</span>` : ''}
               </div>
             </div>
           </div>
           <div class="notifications-list">
-            <div class="notif-item">${escapeHtml(n.message)}${scheduledLabel ? `<span class="notif-time">${scheduledLabel}</span>` : ''}</div>
+            <div class="notif-item">${escapeHtml(n.message)}${scheduledLabel ? `<span class="notif-time">${escapeHtml(scheduledLabel)}</span>` : ''}</div>
           </div>
         `
         grid.appendChild(card)
@@ -342,10 +320,9 @@
   }
 
   function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   }
 
-  // start polling immediately on page load
   poll()
   setInterval(poll, 60000)
 </script>

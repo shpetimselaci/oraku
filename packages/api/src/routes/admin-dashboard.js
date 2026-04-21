@@ -25,9 +25,9 @@ async function login() {
   document.getElementById('content').style.display = 'block'
   document.getElementById('auth-status').textContent = 'authenticated'
   document.getElementById('auth-status').className = 'ok'
+  loadRegistrations()
   loadOrgs()
   loadSettings()
-  loadProjects()
   loadKeys()
   loadAudit()
 }
@@ -37,22 +37,22 @@ document.getElementById('secret-input').addEventListener('keydown', function(e) 
 })
 
 async function loadSettings() {
-  const res = await api('/admin/settings')
-  const data = await res.json()
+  const [settingsRes, projectsRes] = await Promise.all([api('/admin/settings'), api('/admin/projects')])
+  const settingsData = await settingsRes.json()
+  const projects = await projectsRes.json()
   const tbody = document.getElementById('settings-body')
 
-  const entries = Object.entries(data)
-  if (!entries.length) {
-    tbody.innerHTML = '<tr class="empty-row"><td colspan="4">No projects yet — ingest some events to create a project.</td></tr>'
+  if (!projects.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No projects yet.</td></tr>'
     return
   }
 
-  tbody.innerHTML = entries.map(function([key, settings]) {
-    const s = settings
-    const masked = key.length > 12 ? key.slice(0, 8) + '…' + key.slice(-4) : key
+  tbody.innerHTML = projects.map(function(p) {
+    const s = settingsData[p.id] || {}
+    const label = escHtml(p.name) + ' <span style="font-size:11px;color:#52525b" title="' + escHtml(p.id) + '">(' + escHtml(p.id.slice(0, 8)) + '…)</span>'
     const secret = s.webhookAuthKey ? s.webhookAuthKey.slice(0, 8) + '…' : '—'
-    return '<tr data-key="' + escHtml(key) + '">' +
-      '<td class="key-cell" title="' + escHtml(key) + '">' + escHtml(masked) + '</td>' +
+    return '<tr data-key="' + escHtml(p.id) + '">' +
+      '<td>' + label + '</td>' +
       '<td><input type="text" class="inline-input" placeholder="https://…" value="' + escHtml(s.webhookUrl || '') + '" data-field="webhookUrl" /></td>' +
       '<td class="key-cell" title="' + escHtml(s.webhookAuthKey || '') + '">' + escHtml(secret) + '</td>' +
       '<td><input type="number" class="inline-input" placeholder="–" value="' + (s.notificationsPerUser || '') + '" min="1" max="100" data-field="notificationsPerUser" style="max-width:100px" /></td>' +
@@ -76,6 +76,43 @@ async function saveSettings(btn) {
     body: JSON.stringify(body)
   })
   toast(res.ok ? 'Settings saved' : 'Save failed', res.ok ? 'ok' : 'err')
+}
+
+async function loadRegistrations() {
+  const res = await api('/admin/registrations')
+  const regs = await res.json()
+  const tbody = document.getElementById('registrations-body')
+  if (!regs.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">No registrations yet.</td></tr>'
+    return
+  }
+  tbody.innerHTML = regs.map(function(r) {
+    const statusColors = { pending: '#f59e0b', approved: '#22c55e', rejected: '#ef4444' }
+    const badge = '<span style="color:' + (statusColors[r.status] || '#71717a') + ';font-weight:600">' + escHtml(r.status) + '</span>'
+    const actions = r.status === 'pending'
+      ? '<button class="btn-primary" onclick="approveReg(\'' + escHtml(r.id) + '\')">Approve</button> ' +
+        '<button class="btn-danger" onclick="rejectReg(\'' + escHtml(r.id) + '\')">Reject</button>'
+      : ''
+    return '<tr>' +
+      '<td>' + escHtml(r.name) + '</td>' +
+      '<td class="key-cell">' + escHtml(r.webhook_url) + '</td>' +
+      '<td>' + badge + '</td>' +
+      '<td>' + new Date(r.created_at).toLocaleString() + '</td>' +
+      '<td class="actions">' + actions + '</td>' +
+      '</tr>'
+  }).join('')
+}
+
+async function approveReg(id) {
+  const res = await api('/admin/registrations/' + encodeURIComponent(id) + '/approve', { method: 'POST' })
+  toast(res.ok ? 'Approved — key delivered' : 'Failed to approve', res.ok ? 'ok' : 'err')
+  if (res.ok) { loadRegistrations(); loadOrgs(); loadKeys() }
+}
+
+async function rejectReg(id) {
+  const res = await api('/admin/registrations/' + encodeURIComponent(id) + '/reject', { method: 'POST' })
+  toast(res.ok ? 'Rejected' : 'Failed to reject', res.ok ? 'ok' : 'err')
+  if (res.ok) loadRegistrations()
 }
 
 async function loadOrgs() {
@@ -109,19 +146,6 @@ async function toggleOrg(id, active) {
   if (res.ok) loadOrgs()
 }
 
-async function loadProjects() {
-  const res = await api('/admin/projects')
-  const projects = await res.json()
-  const select = document.getElementById('new-key-project')
-  select.innerHTML = '<option value="">Select project…</option>'
-  projects.forEach(function(p) {
-    const opt = document.createElement('option')
-    opt.value = p.id
-    opt.textContent = p.name
-    select.appendChild(opt)
-  })
-  if (projects.length === 1) select.value = projects[0].id
-}
 
 async function loadKeys() {
   const res = await api('/admin/keys')
@@ -153,22 +177,6 @@ async function loadKeys() {
   }).join('')
 }
 
-async function createKey() {
-  const nameInput = document.getElementById('new-key-name')
-  const name = nameInput.value.trim()
-  const projectId = document.getElementById('new-key-project').value
-  if (!name) { toast('Enter a key name first', 'err'); return }
-  if (!projectId) { toast('Select a project first', 'err'); return }
-  const scopes = ['ingest', 'notifications', 'detectors'].filter(function(s) {
-    return document.getElementById('scope-' + s).checked
-  })
-  const res = await api('/admin/keys', { method: 'POST', body: JSON.stringify({ name, projectId, scopes }) })
-  if (!res.ok) { toast('Failed to create key', 'err'); return }
-  const data = await res.json()
-  nameInput.value = ''
-  toast('Key created: ' + data.key, 'ok')
-  loadKeys()
-}
 
 async function revokeKey(key) {
   const res = await api('/admin/keys/' + encodeURIComponent(key), { method: 'DELETE' })
