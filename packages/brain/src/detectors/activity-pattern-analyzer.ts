@@ -4,6 +4,7 @@ import { StreakDetector } from './streak-detector'
 import { minEvents } from '../filters/detectorConditions'
 import type { EventGroup, Finding, ActivityPatternAnalyzerConfig, Event } from '../types'
 import { NotificationTypes } from './helpers/notification-types'
+import { TimeWindows } from './helpers/time-windows'
 
 const MS_PER_DAY = 86_400_000
 
@@ -28,6 +29,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
 
     this.ongoingStreakDetector = new StreakDetector({ minRepeat, triggerOn: 'ongoing' })
     this.breakStreakDetector = new StreakDetector({ minRepeat, triggerOn: 'break' })
+    this.timeWindow = TimeWindows.ACTIVITY_PATTERN
   }
 
   async detect(entry: EventGroup): Promise<Finding[]> {
