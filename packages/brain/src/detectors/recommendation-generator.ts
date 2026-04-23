@@ -2,6 +2,7 @@ import { BaseDetector } from './base-detector'
 import { minEvents } from '../filters/detectorConditions'
 import type { EventGroup, Finding, UserProfile, ActivityPopularity } from '../types'
 import { NotificationTypes } from './helpers/notification-types'
+import { TimeWindows } from './helpers/time-windows'
 
 const MAX_GAP_SUGGESTIONS = 3
 const MAX_NAMES_PER_GAP = 2
@@ -22,6 +23,7 @@ export class RecommendationGenerator extends BaseDetector {
       notificationType: NotificationTypes.SUGGESTION,
       description: 'Builds user profiles and generates activity recommendations'
     })
+    this.timeWindow = TimeWindows.RECOMMENDATION
   }
 
   async detect(entry: EventGroup): Promise<Finding[]> {
