@@ -35,6 +35,7 @@ this.itemComparer = config.compareFn || null
     this.dateFilter = config.dateFilter || null
     this.aggregate = config.aggregate || false
     this.pendingItems = []
+    this.timeWindow = 1
   }
 
   async detect(entry: EventGroup): Promise<Finding[]> {
