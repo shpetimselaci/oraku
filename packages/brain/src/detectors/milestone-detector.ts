@@ -18,6 +18,7 @@ private messageFormatter: string | ((achieved: string[]) => string)
     this.extractActual = config.extractActual ?? ((event: Event) => this.getString(event, 'name')?.toLowerCase() ?? '')
 this.messageFormatter = config.message ?? ((achieved: string[]) => `Achieved: ${achieved.join(', ')}`)
     this.todayOnly = config.todayOnly !== false
+    this.timeWindow = Infinity
   }
 
   async detect(entry: EventGroup): Promise<Finding[]> {
