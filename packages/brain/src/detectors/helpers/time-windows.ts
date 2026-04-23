@@ -10,5 +10,6 @@ export const TimeWindows = {
   ITEM_ANALYSIS_RANGE:     30,
   ACTIVITY_PATTERN:        30,
   RECOMMENDATION:          30,
-  ORG_BENCHMARK:           30,
+  ORG_BENCHMARK_THIS_WEEK:  7,
+  ORG_BENCHMARK_LAST_WEEK: 14,
 }
