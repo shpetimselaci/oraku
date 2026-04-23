@@ -14,7 +14,7 @@ export abstract class BaseDetector implements Detector {
   public readonly description: string;
   public readonly notificationType: NotificationType;
   public readonly scheduleAt?: string;
-  public readonly timeWindow: number = 30;
+  public timeWindow: number = 30;
   constructor(config: DetectorConfig = {}) {
     this.name = config.name || this.constructor.name;
     this.description = config.description || '';

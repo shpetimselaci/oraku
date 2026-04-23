@@ -29,6 +29,7 @@ export class StreakDetector extends BaseDetector {
     this.triggerOn = config.triggerOn || 'ongoing'
     this.frequency = config.frequency ?? 'daily'
     this.precision = config.precision ?? 'day'
+    this.timeWindow = this.triggerOn === 'break' ? 14 : 30
     this.messageFormatter = config.message
   }
 
