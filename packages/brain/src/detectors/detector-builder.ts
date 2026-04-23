@@ -56,6 +56,7 @@ class BuiltDetector implements Detector {
   readonly name: string
   readonly description: string
   readonly notificationType: NotificationType
+  readonly timeWindow: number
 
   constructor(
     private readonly entries: BuilderEntry[],
@@ -66,6 +67,7 @@ class BuiltDetector implements Detector {
       : entries.map(e => e.detector.name).join('+')
     this.description = entries.map(e => e.detector.description).filter(Boolean).join(' | ')
     this.notificationType = entries[0]?.detector.notificationType ?? 'insight'
+    this.timeWindow = Math.max(...entries.map(e => e.detector.timeWindow))
   }
 
   async detect(group: EventGroup): Promise<Finding[]> {

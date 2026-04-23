@@ -51,6 +51,7 @@ export interface Detector {
   name: string
   description: string
   notificationType: NotificationType
+  timeWindow: number
   conditions?: DetectorCondition[]
   detect(entry: EventGroup): Promise<Finding[]>
   finalize?(): Promise<Finding[]>
