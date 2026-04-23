@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto';
+import { TimeWindows } from './helpers/time-windows';
 import type {
   EventGroup,
   Event,
@@ -14,7 +15,7 @@ export abstract class BaseDetector implements Detector {
   public readonly description: string;
   public readonly notificationType: NotificationType;
   public readonly scheduleAt?: string;
-  public timeWindow: number = 30;
+  public timeWindow: number = TimeWindows.DEFAULT;
   constructor(config: DetectorConfig = {}) {
     this.name = config.name || this.constructor.name;
     this.description = config.description || '';

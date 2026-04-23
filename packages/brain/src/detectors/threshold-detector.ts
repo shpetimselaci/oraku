@@ -2,6 +2,7 @@ import { BaseDetector } from './base-detector'
 import { filterByDate, todayString } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { resolvePath } from './helpers/item-matching'
+import { TimeWindows } from './helpers/time-windows'
 import type { EventGroup, Finding, Event, ThresholdOperator, ThresholdAggregate, ThresholdConfig } from '../types'
 
 const AGGREGATES: Record<ThresholdAggregate, (values: number[]) => number> = {
@@ -41,6 +42,7 @@ export class ThresholdDetector extends BaseDetector {
     this.todayOnly = config.todayOnly ?? true
     this.messageFormatter = config.message ?? ((actual, target) => `Value ${actual} did not meet target ${target}`)
     this.extractFn = ThresholdDetector.buildExtractFn(config.extract)
+    this.timeWindow = this.todayOnly ? TimeWindows.THRESHOLD_TODAY : TimeWindows.THRESHOLD_RANGE
   }
 
   private static buildExtractFn(extract: ThresholdConfig['extract']): (event: Event) => number | null {

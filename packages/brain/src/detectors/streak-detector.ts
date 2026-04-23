@@ -3,6 +3,7 @@ import { BaseDetector } from './base-detector'
 import { parseDate, advancePastWeekend, isWeekend } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { NotificationTypes } from './helpers/notification-types'
+import { TimeWindows } from './helpers/time-windows'
 import type {
   Event,
   EventGroup,
@@ -29,7 +30,7 @@ export class StreakDetector extends BaseDetector {
     this.triggerOn = config.triggerOn || 'ongoing'
     this.frequency = config.frequency ?? 'daily'
     this.precision = config.precision ?? 'day'
-    this.timeWindow = this.triggerOn === 'break' ? 14 : 30
+    this.timeWindow = this.triggerOn === 'break' ? TimeWindows.STREAK_BREAK : TimeWindows.STREAK_ONGOING
     this.messageFormatter = config.message
   }
 
