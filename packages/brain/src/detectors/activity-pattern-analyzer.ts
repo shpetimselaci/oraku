@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { BaseDetector } from './base-detector'
 import { getTimestamp } from './helpers/date-utils'
 import { StreakDetector } from './streak-detector'
@@ -5,8 +6,6 @@ import { minEvents } from '../filters/detectorConditions'
 import type { EventGroup, Finding, ActivityPatternAnalyzerConfig, Event } from '../types'
 import { NotificationTypes } from './helpers/notification-types'
 import { TimeWindows } from './helpers/time-windows'
-
-const MS_PER_DAY = 86_400_000
 
 export class ActivityPatternAnalyzer extends BaseDetector {
   readonly conditions = [minEvents(1)]
@@ -62,7 +61,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
   }
 
   private findDormantCategories(events: Event[], entry: EventGroup, now: number): Finding[] {
-    const cutoff = now - this.varietyLookbackDays * MS_PER_DAY
+    const cutoff = dayjs().subtract(this.varietyLookbackDays, 'day').valueOf()
 
     const allCategories = new Map<string, number>()
     const recentCategories = new Set<string>()
@@ -96,7 +95,7 @@ export class ActivityPatternAnalyzer extends BaseDetector {
   }
 
   private summarizeRecentActivity(events: Event[], entry: EventGroup, now: number): Finding[] {
-    const cutoff = now - this.summaryLookbackDays * MS_PER_DAY
+    const cutoff = dayjs().subtract(this.summaryLookbackDays, 'day').valueOf()
     const seen = new Set<string>()
     const recentActivities: string[] = []
 

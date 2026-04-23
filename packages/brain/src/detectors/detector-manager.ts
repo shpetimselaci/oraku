@@ -2,6 +2,7 @@ import uniqBy from 'lodash/uniqBy'
 import { ActivityPatternAnalyzer } from './activity-pattern-analyzer'
 import { RecommendationGenerator } from './recommendation-generator'
 import { ContextBasedFilter } from '../filters/context-based-filter'
+import dayjs from 'dayjs'
 import type { DetectorBuilder } from './detector-builder'
 import type {
   Detector,
@@ -11,6 +12,12 @@ import type {
   EventGroupMap,
   EventGroup
 } from '../types'
+
+function sliceByWindow(group: EventGroup, timeWindow: number): EventGroup {
+  if (!isFinite(timeWindow)) return group
+  const cutoff = dayjs().subtract(timeWindow, 'day')
+  return { ...group, events: group.events.filter(e => !e.createdAt || dayjs(e.createdAt).isAfter(cutoff)) }
+}
 
 export class DetectorManager {
   private detectors: Detector[]
@@ -38,7 +45,7 @@ export class DetectorManager {
       const eligible = this.filterMechanism.filter(this.detectors, group, groupContext)
       const results = await Promise.all(
         eligible.map(detector =>
-          detector.detect(group).catch(err => {
+          detector.detect(sliceByWindow(group, detector.timeWindow)).catch(err => {
             console.warn('[DetectorManager] detector error:', detector.name, (err as Error)?.message)
             return [] as Finding[]
           })

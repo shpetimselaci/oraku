@@ -39,8 +39,6 @@ export class StreakDetector extends BaseDetector {
   private predictNextDate(sortedEvents: TimestampedEvent[]): Date | null {
     if (sortedEvents.length < 2) return null
 
-    const MS_PER_DAY = 86_400_000
-
     if (this.precision === 'time') {
       // full timestamp precision — useful for time-sensitive routines like medication schedules
       const intervals: number[] = []
@@ -60,7 +58,7 @@ export class StreakDetector extends BaseDetector {
 
     const intervals: number[] = []
     for (let i = 1; i < dayTimestamps.length; i++) {
-      const days = Math.round((dayTimestamps[i] - dayTimestamps[i - 1]) / MS_PER_DAY)
+      const days = dayjs(dayTimestamps[i]).diff(dayjs(dayTimestamps[i - 1]), 'day')
       if (days > 0) intervals.push(days)
     }
 
@@ -73,7 +71,7 @@ export class StreakDetector extends BaseDetector {
       : Math.round((intervals[mid - 1] + intervals[mid]) / 2)
 
     const lastEvent = sortedEvents[sortedEvents.length - 1]
-    return new Date(lastEvent._date.getTime() + medianDays * MS_PER_DAY)
+    return dayjs(lastEvent._date).add(medianDays, 'day').toDate()
   }
 
   private buildMessage(data: { category: string; subcategory: string; predictedDate: string }): string {
