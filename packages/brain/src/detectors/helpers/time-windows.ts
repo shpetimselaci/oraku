@@ -1,4 +1,5 @@
 export const TimeWindows = {
+  CRON_INTERVAL_MINUTES:   10,
   DEFAULT:                 30,
   STREAK_ONGOING:          30,
   STREAK_BREAK:            14,
