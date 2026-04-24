@@ -4,7 +4,6 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') })
 import { EventStitcher } from './event-stitcher'
 import { DetectorManager } from '../detectors/detector-manager'
 import { AI } from '../ai-wrapper/ai'
-import { saveNotifications } from '../db/notifications'
 import { upsertProfile, getAllProfiles } from '../db/profiles'
 import { db } from '../db/connection'
 import { OrgBenchmarkDetector } from '../detectors/org-benchmark-detector'
@@ -84,12 +83,9 @@ export async function runPipeline(events: Event[], options: PipelineOptions = {}
   const notificationsByUser: Record<string, Notification[]> = {}
   if (allFindings.length) {
     const generatedByUser = await ai.consume(allFindings).generateNotifications({ subjectMap })
-    await Promise.all(
-      Object.entries(generatedByUser).map(async ([userId, notifications]) => {
-        notificationsByUser[userId] = notifications
-        await saveNotifications(userId, notifications, options.projectId)
-      })
-    )
+    for (const [userId, notifications] of Object.entries(generatedByUser)) {
+      notificationsByUser[userId] = notifications
+    }
   }
 
   const notifications = Object.values(notificationsByUser).flat()

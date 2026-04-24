@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { toBuilder, getDueNotificationsByUser } from '@oraku/brain'
+import { toBuilder } from '@oraku/brain'
 import type { Finding, PipelineResult, SDKDetectorSchema, Event, ProjectSettings, Notification } from '@oraku/brain'
 
 export type { SDKDetectorSchema, ProjectSettings }
@@ -47,13 +47,11 @@ export function buildLatestPayload(projectId: string, store: ProjectStore) {
   const result = store.results.get(projectId)
   if (!result) return null
 
-  const dueByUser = getDueNotificationsByUser()
-  let latestCreatedAt: string | null = null
+  const now = new Date()
   const notificationsByUser: Record<string, Notification[]> = {}
-
-  for (const [ref, dbNotifs] of Object.entries(dueByUser)) {
-    notificationsByUser[ref] = dbNotifs.map(n => ({ ref, message: n.message, detector: n.detector ?? 'unknown', type: n.type, scheduledAt: n.scheduled_at }))
-    for (const n of dbNotifs) if (!latestCreatedAt || n.created_at > latestCreatedAt) latestCreatedAt = n.created_at
+  for (const [ref, notifications] of Object.entries(result.notificationsByUser ?? {})) {
+    const due = notifications.filter(n => !n.scheduledAt || new Date(n.scheduledAt) <= now)
+    if (due.length) notificationsByUser[ref] = due
   }
 
   const userGeneratedAt: Record<string, string> = {}
@@ -66,7 +64,7 @@ export function buildLatestPayload(projectId: string, store: ProjectStore) {
     findingMetaByUser: buildFindingMeta(result.findings),
     userGeneratedAt,
     nextRun: toNextRun(nextPredicted),
-    runTimestamp: store.runTimestamps.get(projectId) ?? latestCreatedAt
+    runTimestamp: store.runTimestamps.get(projectId) ?? null
   }
 }
 

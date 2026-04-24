@@ -5,19 +5,10 @@ vi.mock('@oraku/brain/src/core/pipeline', () => ({
   runPipeline: vi.fn()
 }))
 
-vi.mock('@oraku/brain/src/db/notifications', () => ({
-  getDueNotifications: vi.fn(() => []),
-  getDueNotificationsByUser: vi.fn(() => ({})),
-  markDelivered: vi.fn(),
-  saveNotifications: vi.fn(() => [])
-}))
-
 import { runPipeline } from '@oraku/brain/src/core/pipeline'
-import { getDueNotificationsByUser } from '@oraku/brain/src/db/notifications'
 import { app } from '../index'
 
 const mockRunPipeline = vi.mocked(runPipeline)
-const mockGetDueByUser = vi.mocked(getDueNotificationsByUser)
 
 const API_KEY = 'test-key-123'
 const headers = { 'x-api-key': API_KEY }
@@ -284,9 +275,6 @@ describe('GET /notifications/latest', () => {
   })
 
   it('returns notificationsByUser and findingMetaByUser after ingest', async () => {
-    mockGetDueByUser.mockReturnValueOnce({
-      'user-1': [{ id: 'n1', user_id: 'u1', external_ref: 'user-1', detector: 'StreakDetector', message: 'Keep up your routine!', type: 'reminder', scheduled_at: new Date().toISOString(), generated_date: new Date().toISOString().slice(0, 10), created_at: new Date().toISOString(), delivered_at: null }]
-    })
     await request(app).post('/ingest').set(headers).send({ events: [{}] })
     const res = await request(app).get('/notifications/latest').set(headers)
     expect(res.status).toBe(200)

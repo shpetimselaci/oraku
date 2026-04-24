@@ -6,10 +6,6 @@ vi.mock('../core/notification-generator', () => ({
   })
 }))
 
-vi.mock('../db/notifications', () => ({
-  saveNotifications: vi.fn().mockResolvedValue([])
-}))
-
 vi.mock('../db/profiles', () => ({
   upsertProfile: vi.fn(),
   getAllProfiles: vi.fn().mockReturnValue([])

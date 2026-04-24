@@ -42,7 +42,7 @@ export interface DetectorConfig {
   name?: string
   description?: string
   notificationType?: NotificationType
-  scheduleAt?: string  // UTC time to fire the notification, e.g. '16:00' — overrides the default CASE in saveNotifications
+  scheduleAt?: string  // UTC time to schedule the notification, e.g. '16:00'
 }
 
 export type DetectorCondition = (group: EventGroup, context: Record<string, unknown>) => boolean
@@ -353,17 +353,3 @@ export interface DbFinding {
   detected_at: string
 }
 
-export interface DbNotification {
-  id: string
-  user_id: string
-  project_id?: string
-  external_ref?: string
-  detector?: string
-  message: string
-  type: string
-  scheduled_at: string
-  generated_date: string
-  created_at: string
-  delivered_at: string | null
-  expires_at: string | null
-}

@@ -28,7 +28,6 @@ export { ContextBasedFilter } from './filters/context-based-filter'
 
 // ─── Notifications ───────────────────────────────────────────────────────────
 export { generateNotifications } from './core/notification-generator'
-export { getDueNotifications, getDueNotificationsByUser, markDelivered } from './db/notifications'
 export { getProjectDetectors, setProjectDetectors, getProjectSettings, setProjectSettings, getAllProjectDetectors, getAllProjectSettings } from './db/project-store'
 export type { ProjectSettings } from './db/project-store'
 
@@ -58,6 +57,5 @@ export type {
   ThresholdConfig,
   ApiMatcherConfig,
   DbFinding,
-  DbNotification,
   SDKDetectorSchema
 } from './types'
