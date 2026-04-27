@@ -4,7 +4,6 @@ import { parseDate, advancePastWeekend, isWeekend } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { NotificationTypes } from './helpers/notification-types'
 import { TimeWindows } from './helpers/time-windows'
-const REMINDER_OFFSET_MINUTES = 30
 import type {
   Event,
   EventGroup,
@@ -142,16 +141,12 @@ export class StreakDetector extends BaseDetector {
       const safeKey = `${category.replace(/[^a-zA-Z0-9-]/g, '_')}--${subcategory.replace(/[^a-zA-Z0-9-]/g, '_')}`
 
       if (this.triggerOn === 'ongoing' && predicted > now) {
-        const reminderTime = dayjs(predicted).subtract(REMINDER_OFFSET_MINUTES, 'minute')
-        const diffMinutes = dayjs(now).diff(reminderTime, 'minute')
-        if (diffMinutes >= 0 && diffMinutes < TimeWindows.CRON_INTERVAL_MINUTES) {
-          findings.push(this.createFinding({
-            id: `recurring-${entry.externalRef}-${safeKey}`,
-            message: this.buildMessage(messageData),
-            notificationType: NotificationTypes.REMINDER,
-            evidence: { key: entry.externalRef, predicted: predicted.toISOString(), events: evidence, frequency: this.frequency, streakLength: sorted.length }
-          }))
-        }
+        findings.push(this.createFinding({
+          id: `recurring-${entry.externalRef}-${safeKey}`,
+          message: this.buildMessage(messageData),
+          notificationType: NotificationTypes.REMINDER,
+          evidence: { key: entry.externalRef, predicted: predicted.toISOString(), events: evidence, frequency: this.frequency, streakLength: sorted.length }
+        }))
       }
 
       if (this.triggerOn === 'break' && predicted < now) {

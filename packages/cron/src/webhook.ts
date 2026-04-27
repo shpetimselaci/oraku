@@ -1,29 +1,17 @@
 import { createHmac } from 'crypto'
 
-type DueNotification = { id: string; expires_at: string | null }
+export type Notification = { ref: string; detector: string; type: string; message: string; scheduledAt?: string; permanent?: boolean }
 
 function sign(secret: string, payload: string): string {
   return 'sha256=' + createHmac('sha256', secret).update(payload).digest('hex')
 }
 
-function filterExpired(notifications: DueNotification[]): DueNotification[] {
-  const now = new Date()
-  return notifications.filter(n => !n.expires_at || new Date(n.expires_at) > now)
-}
-
 export async function deliver(
-  notifications: DueNotification[],
+  notifications: Notification[],
   webhookUrl: string,
-  webhookSecret: string | null,
-  apiUrl: string
+  webhookSecret: string | null
 ): Promise<void> {
-  const active = filterExpired(notifications)
-  if (!active.length) {
-    console.warn(`[cron] All notifications expired before delivery — skipping`)
-    return
-  }
-
-  const body = JSON.stringify({ notifications: active })
+  const body = JSON.stringify({ notifications })
   const headers: Record<string, string> = { 'Content-Type': 'application/json' }
   if (webhookSecret) headers['X-Oraku-Signature'] = sign(webhookSecret, body)
 
@@ -34,12 +22,5 @@ export async function deliver(
     return
   }
 
-  const ids = active.map(n => n.id)
-  await fetch(`${apiUrl}/notifications/delivered`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ids })
-  })
-
-  console.log(`[cron] Delivered and marked ${ids.length} notification(s)`)
+  console.log(`[cron] Delivered ${notifications.length} notification(s)`)
 }

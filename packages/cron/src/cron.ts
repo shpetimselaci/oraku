@@ -1,8 +1,7 @@
 import cron from 'node-cron'
-import { deliver } from './webhook'
+import { deliver, type Notification } from './webhook'
 
-type DueNotification = { id: string; expires_at: string | null }
-type DueProject = { projectId: string; webhookUrl: string | null; webhookSecret: string | null; notifications: DueNotification[] }
+type DueProject = { projectId: string; webhookUrl: string; webhookSecret: string | null; notifications: Notification[] }
 
 export function startCron(apiUrl: string, _webhookUrl: string, expression: string) {
   async function pollAndDeliver() {
@@ -17,12 +16,8 @@ export function startCron(apiUrl: string, _webhookUrl: string, expression: strin
 
     for (const project of projects) {
       if (!project.notifications.length) continue
-      if (!project.webhookUrl) {
-        console.log(`[cron] No webhook configured for project ${project.projectId} — skipping`)
-        continue
-      }
       console.log(`[cron] Delivering ${project.notifications.length} notification(s) to project ${project.projectId}`)
-      await deliver(project.notifications, project.webhookUrl, project.webhookSecret, apiUrl)
+      await deliver(project.notifications, project.webhookUrl, project.webhookSecret)
     }
   }
 

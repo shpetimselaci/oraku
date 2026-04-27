@@ -26,4 +26,22 @@ router.get('/latest', requireAuth, requireScope('notifications'), (_req, res) =>
   res.json(payload)
 })
 
+router.get('/due', (_req, res) => {
+  const now = new Date()
+  const projects = []
+  for (const [projectId, result] of store.results.entries()) {
+    const settings = store.settings.get(projectId)
+    if (!settings?.webhookUrl) continue
+    const notifications = result.notifications.filter(n => !n.scheduledAt || new Date(n.scheduledAt) <= now)
+    if (!notifications.length) continue
+    projects.push({
+      projectId,
+      webhookUrl: settings.webhookUrl,
+      webhookSecret: settings.webhookAuthKey ?? null,
+      notifications
+    })
+  }
+  res.json({ projects })
+})
+
 export default router

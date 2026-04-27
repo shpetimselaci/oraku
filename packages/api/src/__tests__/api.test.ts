@@ -5,6 +5,28 @@ vi.mock('@oraku/brain/src/core/pipeline', () => ({
   runPipeline: vi.fn()
 }))
 
+vi.mock('@oraku/brain/src/db/project-store', () => ({
+  setProjectDetectors: vi.fn(),
+  setProjectSettings: vi.fn(),
+  getAllProjectDetectors: vi.fn(() => new Map()),
+  getAllProjectSettings: vi.fn(() => new Map()),
+  getProjectDetectors: vi.fn(() => []),
+  getProjectSettings: vi.fn(() => ({})),
+}))
+
+vi.mock('../api-keys', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../api-keys')>()
+  return {
+    ...actual,
+    validateApiKey: (key: string) => ({
+      projectId: `proj-${key}`,
+      scopes: ['ingest', 'notifications', 'detectors'],
+      keyHash: key
+    }),
+    logAudit: vi.fn()
+  }
+})
+
 import { runPipeline } from '@oraku/brain/src/core/pipeline'
 import { app } from '../index'
 
@@ -256,7 +278,7 @@ describe('GET /notifications', () => {
         { ref: 'user-1', message: 'Notif 3', detector: 'X', type: 'reminder' }
       ]
     })
-    await request(app).post('/ingest').set({ 'x-api-key': 'limit-key' }).send({ events: [{}] })
+    await request(app).post('/ingest').set({ 'x-api-key': 'limit-key' }).send({ events: [{ externalRef: 'user-1', createdAt: new Date().toISOString() }] })
     const res = await request(app).get('/notifications').set({ 'x-api-key': 'limit-key' }).query({ limit: 2 })
     expect(res.body.notifications).toHaveLength(2)
     expect(res.body.notifications.map((n: { message: string }) => n.message)).toEqual(['Notif 1', 'Notif 2'])
@@ -291,7 +313,7 @@ describe('GET /notifications/latest', () => {
   })
 
   it('returns runTimestamp after ingest', async () => {
-    await request(app).post('/ingest').set({ 'x-api-key': 'ts-key' }).send({ events: [{}] })
+    await request(app).post('/ingest').set({ 'x-api-key': 'ts-key' }).send({ events: [{ externalRef: 'user-1', createdAt: new Date().toISOString() }] })
     const res = await request(app).get('/notifications/latest').set({ 'x-api-key': 'ts-key' })
     expect(res.body.runTimestamp).toBeDefined()
   })
@@ -311,7 +333,7 @@ describe('GET /schedule', () => {
   })
 
   it('returns nextRun and nextPredicted after ingest with a predicted finding', async () => {
-    await request(app).post('/ingest').set({ 'x-api-key': 'schedule-key' }).send({ events: [{}] })
+    await request(app).post('/ingest').set({ 'x-api-key': 'schedule-key' }).send({ events: [{ externalRef: 'user-1', createdAt: new Date().toISOString() }] })
     const res = await request(app).get('/schedule').set({ 'x-api-key': 'schedule-key' })
     expect(res.status).toBe(200)
     expect(typeof res.body.nextPredicted).toBe('string')
