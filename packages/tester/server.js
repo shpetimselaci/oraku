@@ -23,6 +23,17 @@ function buildSDK(apiKey) {
   return new OrakuSDK({ apiUrl: API_URL, apiKey })
 }
 
+async function registerWebhook(apiKey) {
+  const webhookUrl = process.env.WEBHOOK_URL
+  if (!webhookUrl) return
+  await fetch(`${API_URL}/project/settings`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
+    body: JSON.stringify({ webhookUrl })
+  })
+  console.log(`[tester] Webhook registered: ${webhookUrl}`)
+}
+
 function configToBuilder(config) {
   const b = new DetectorBuilder(config.name, config.type)
   if (config.marker)              b.addMarker(config.marker)
@@ -98,6 +109,7 @@ app.post('/webhook/registration', async (req, res) => {
   process.env.ORAKU_API_KEY = key
 
   oraku = buildSDK(key)
+  await registerWebhook(key)
   await seed()
   setInterval(ingest, 60 * 60 * 1000)
 })
@@ -125,6 +137,7 @@ app.listen(4000, async () => {
   if (process.env.ORAKU_API_KEY) {
     console.log('[tester] Found existing API key — starting...')
     oraku = buildSDK(process.env.ORAKU_API_KEY)
+    await registerWebhook(process.env.ORAKU_API_KEY)
     setTimeout(async function trySeed() {
       try {
         await seed()
