@@ -3,6 +3,7 @@ import { BaseDetector } from './base-detector'
 import { parseDate, advancePastWeekend, isWeekend } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { NotificationTypes } from './helpers/notification-types'
+import { TimeWindows } from './helpers/time-windows'
 import type {
   Event,
   EventGroup,
@@ -29,6 +30,7 @@ export class StreakDetector extends BaseDetector {
     this.triggerOn = config.triggerOn || 'ongoing'
     this.frequency = config.frequency ?? 'daily'
     this.precision = config.precision ?? 'day'
+    this.timeWindow = this.triggerOn === 'break' ? TimeWindows.STREAK_BREAK : TimeWindows.STREAK_ONGOING
     this.messageFormatter = config.message
   }
 
@@ -36,8 +38,6 @@ export class StreakDetector extends BaseDetector {
   // median is used instead of mean to avoid outliers (e.g. a two-week gap) skewing the prediction.
   private predictNextDate(sortedEvents: TimestampedEvent[]): Date | null {
     if (sortedEvents.length < 2) return null
-
-    const MS_PER_DAY = 86_400_000
 
     if (this.precision === 'time') {
       // full timestamp precision — useful for time-sensitive routines like medication schedules
@@ -58,7 +58,7 @@ export class StreakDetector extends BaseDetector {
 
     const intervals: number[] = []
     for (let i = 1; i < dayTimestamps.length; i++) {
-      const days = Math.round((dayTimestamps[i] - dayTimestamps[i - 1]) / MS_PER_DAY)
+      const days = dayjs(dayTimestamps[i]).diff(dayjs(dayTimestamps[i - 1]), 'day')
       if (days > 0) intervals.push(days)
     }
 
@@ -71,7 +71,7 @@ export class StreakDetector extends BaseDetector {
       : Math.round((intervals[mid - 1] + intervals[mid]) / 2)
 
     const lastEvent = sortedEvents[sortedEvents.length - 1]
-    return new Date(lastEvent._date.getTime() + medianDays * MS_PER_DAY)
+    return dayjs(lastEvent._date).add(medianDays, 'day').toDate()
   }
 
   private buildMessage(data: { category: string; subcategory: string; predictedDate: string }): string {

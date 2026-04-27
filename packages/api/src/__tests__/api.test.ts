@@ -5,19 +5,32 @@ vi.mock('@oraku/brain/src/core/pipeline', () => ({
   runPipeline: vi.fn()
 }))
 
-vi.mock('@oraku/brain/src/db/notifications', () => ({
-  getDueNotifications: vi.fn(() => []),
-  getDueNotificationsByUser: vi.fn(() => ({})),
-  markDelivered: vi.fn(),
-  saveNotifications: vi.fn(() => [])
+vi.mock('@oraku/brain/src/db/project-store', () => ({
+  setProjectDetectors: vi.fn(),
+  setProjectSettings: vi.fn(),
+  getAllProjectDetectors: vi.fn(() => new Map()),
+  getAllProjectSettings: vi.fn(() => new Map()),
+  getProjectDetectors: vi.fn(() => []),
+  getProjectSettings: vi.fn(() => ({})),
 }))
 
+vi.mock('../api-keys', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../api-keys')>()
+  return {
+    ...actual,
+    validateApiKey: (key: string) => ({
+      projectId: `proj-${key}`,
+      scopes: ['ingest', 'notifications', 'detectors'],
+      keyHash: key
+    }),
+    logAudit: vi.fn()
+  }
+})
+
 import { runPipeline } from '@oraku/brain/src/core/pipeline'
-import { getDueNotificationsByUser } from '@oraku/brain/src/db/notifications'
 import { app } from '../index'
 
 const mockRunPipeline = vi.mocked(runPipeline)
-const mockGetDueByUser = vi.mocked(getDueNotificationsByUser)
 
 const API_KEY = 'test-key-123'
 const headers = { 'x-api-key': API_KEY }
@@ -265,7 +278,7 @@ describe('GET /notifications', () => {
         { ref: 'user-1', message: 'Notif 3', detector: 'X', type: 'reminder' }
       ]
     })
-    await request(app).post('/ingest').set({ 'x-api-key': 'limit-key' }).send({ events: [{}] })
+    await request(app).post('/ingest').set({ 'x-api-key': 'limit-key' }).send({ events: [{ externalRef: 'user-1', createdAt: new Date().toISOString() }] })
     const res = await request(app).get('/notifications').set({ 'x-api-key': 'limit-key' }).query({ limit: 2 })
     expect(res.body.notifications).toHaveLength(2)
     expect(res.body.notifications.map((n: { message: string }) => n.message)).toEqual(['Notif 1', 'Notif 2'])
@@ -284,9 +297,6 @@ describe('GET /notifications/latest', () => {
   })
 
   it('returns notificationsByUser and findingMetaByUser after ingest', async () => {
-    mockGetDueByUser.mockReturnValueOnce({
-      'user-1': [{ id: 'n1', user_id: 'u1', external_ref: 'user-1', detector: 'StreakDetector', message: 'Keep up your routine!', type: 'reminder', scheduled_at: new Date().toISOString(), generated_date: new Date().toISOString().slice(0, 10), created_at: new Date().toISOString(), delivered_at: null }]
-    })
     await request(app).post('/ingest').set(headers).send({ events: [{}] })
     const res = await request(app).get('/notifications/latest').set(headers)
     expect(res.status).toBe(200)
@@ -303,7 +313,7 @@ describe('GET /notifications/latest', () => {
   })
 
   it('returns runTimestamp after ingest', async () => {
-    await request(app).post('/ingest').set({ 'x-api-key': 'ts-key' }).send({ events: [{}] })
+    await request(app).post('/ingest').set({ 'x-api-key': 'ts-key' }).send({ events: [{ externalRef: 'user-1', createdAt: new Date().toISOString() }] })
     const res = await request(app).get('/notifications/latest').set({ 'x-api-key': 'ts-key' })
     expect(res.body.runTimestamp).toBeDefined()
   })
@@ -323,7 +333,7 @@ describe('GET /schedule', () => {
   })
 
   it('returns nextRun and nextPredicted after ingest with a predicted finding', async () => {
-    await request(app).post('/ingest').set({ 'x-api-key': 'schedule-key' }).send({ events: [{}] })
+    await request(app).post('/ingest').set({ 'x-api-key': 'schedule-key' }).send({ events: [{ externalRef: 'user-1', createdAt: new Date().toISOString() }] })
     const res = await request(app).get('/schedule').set({ 'x-api-key': 'schedule-key' })
     expect(res.status).toBe(200)
     expect(typeof res.body.nextPredicted).toBe('string')

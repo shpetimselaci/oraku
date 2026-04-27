@@ -3,6 +3,8 @@ import { filterByDate, todayString } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { items } from './helpers/item-matching'
 import { NotificationTypes } from './helpers/notification-types'
+import { TimeWindows } from './helpers/time-windows'
+import { hasFired, markFired } from '../db/fired-milestones'
 import type { Event, EventGroup, Finding, ExpectedItem, MilestoneConfig } from '../types'
 
 export class MilestoneDetector extends BaseDetector {
@@ -18,6 +20,7 @@ private messageFormatter: string | ((achieved: string[]) => string)
     this.extractActual = config.extractActual ?? ((event: Event) => this.getString(event, 'name')?.toLowerCase() ?? '')
 this.messageFormatter = config.message ?? ((achieved: string[]) => `Achieved: ${achieved.join(', ')}`)
     this.todayOnly = config.todayOnly !== false
+    this.timeWindow = TimeWindows.MILESTONE
   }
 
   async detect(entry: EventGroup): Promise<Finding[]> {
@@ -36,6 +39,9 @@ this.messageFormatter = config.message ?? ((achieved: string[]) => `Achieved: ${
     const achieved = Array.from(covered)
     const dateStr = todayString()
     const identifier = entry?.externalRef ?? 'user'
+
+    if (hasFired(this.name, identifier)) return []
+    markFired(this.name, identifier)
 
     return [this.createFinding({
       id: `milestone-${this.name.toLowerCase()}-${identifier}-${dateStr}`,

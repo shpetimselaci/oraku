@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import type { GroupDetector, EventGroupMap, Finding, PersistedUserProfile } from '../types'
 import { NotificationTypes } from './helpers/notification-types'
+import { TimeWindows } from './helpers/time-windows'
 
 const MIN_ORG_SIZE = 30
 
@@ -11,8 +12,8 @@ export class OrgBenchmarkDetector implements GroupDetector {
     if (!profiles.length) return []
 
     const today = dayjs().format('YYYY-MM-DD')
-    const weekAgo = dayjs().subtract(7, 'day').format('YYYY-MM-DD')
-    const twoWeeksAgo = dayjs().subtract(14, 'day').format('YYYY-MM-DD')
+    const weekAgo = dayjs().subtract(TimeWindows.ORG_BENCHMARK_THIS_WEEK, 'day').format('YYYY-MM-DD')
+    const twoWeeksAgo = dayjs().subtract(TimeWindows.ORG_BENCHMARK_LAST_WEEK, 'day').format('YYYY-MM-DD')
 
     // group profiles by org
     const byOrg = new Map<string, PersistedUserProfile[]>()

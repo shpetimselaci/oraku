@@ -3,6 +3,7 @@ import { filterByDate, filterByDateWindow, isEndOfPeriod, todayString } from './
 import { minEvents } from '../filters/detectorConditions'
 import { resolvePath } from './helpers/item-matching'
 import { fetchWithTimeout } from './helpers/api-matcher'
+import { TimeWindows } from './helpers/time-windows'
 import type { EventGroup, Finding, Event, StaticLookupSource, ApiLookupSource, LookupSource, ItemAnalysisConfig } from '../types'
 
 export type { StaticLookupSource, ApiLookupSource, LookupSource, ItemAnalysisConfig }
@@ -27,6 +28,7 @@ export class ItemAnalysisDetector extends BaseDetector {
     this.aggregateMode = config.aggregate ?? 'sum'
     this.todayOnly = config.todayOnly ?? false
     this.dateFilter = config.dateFilter ?? null
+    this.timeWindow = this.todayOnly ? TimeWindows.ITEM_ANALYSIS_TODAY : TimeWindows.ITEM_ANALYSIS_RANGE
 
     this.messageFormatter = config.message ?? ((gaps, totals, tgts) => {
       const detail = gaps.map(g => `${g}: ${totals[g]?.toFixed(1) ?? 0} of ${tgts[g]} needed`).join(', ')

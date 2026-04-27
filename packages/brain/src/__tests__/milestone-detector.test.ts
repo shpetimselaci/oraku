@@ -1,4 +1,10 @@
-import { describe, it, expect } from 'vitest'
+import { vi, describe, it, expect } from 'vitest'
+
+vi.mock('../db/fired-milestones', () => ({
+  hasFired: vi.fn(() => false),
+  markFired: vi.fn()
+}))
+
 import { MilestoneDetector } from '../detectors/milestone-detector'
 import type { EventGroup } from '../types'
 

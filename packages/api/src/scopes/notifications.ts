@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import { getDueNotifications, markDelivered, getProjectSettings } from '@oraku/brain'
 import type { Notification } from '@oraku/brain'
 import { requireAuth, requireScope } from '../middleware'
 import { buildLatestPayload } from '../scheduler'
@@ -28,24 +27,21 @@ router.get('/latest', requireAuth, requireScope('notifications'), (_req, res) =>
 })
 
 router.get('/due', (_req, res) => {
-  const due = getDueNotifications()
-  const byProject: Record<string, { webhookUrl: string | null; webhookSecret: string | null; notifications: typeof due }> = {}
-  for (const n of due) {
-    const projectId = n.project_id ?? 'unknown'
-    if (!byProject[projectId]) {
-      const settings = n.project_id ? getProjectSettings(n.project_id) : {}
-      byProject[projectId] = { webhookUrl: settings.webhookUrl ?? null, webhookSecret: settings.webhookAuthKey ?? null, notifications: [] }
-    }
-    byProject[projectId].notifications.push(n)
+  const now = new Date()
+  const projects = []
+  for (const [projectId, result] of store.results.entries()) {
+    const settings = store.settings.get(projectId)
+    if (!settings?.webhookUrl) continue
+    const notifications = result.notifications.filter(n => !n.scheduledAt || new Date(n.scheduledAt) <= now)
+    if (!notifications.length) continue
+    projects.push({
+      projectId,
+      webhookUrl: settings.webhookUrl,
+      webhookSecret: settings.webhookAuthKey ?? null,
+      notifications
+    })
   }
-  res.json({ projects: Object.entries(byProject).map(([projectId, data]) => ({ projectId, ...data })) })
-})
-
-router.patch('/delivered', (req, res) => {
-  const { ids } = req.body
-  if (!Array.isArray(ids) || !ids.length) { res.status(400).json({ error: 'ids must be a non-empty array' }); return }
-  markDelivered(ids)
-  res.json({ ok: true, delivered: ids.length })
+  res.json({ projects })
 })
 
 export default router

@@ -2,6 +2,7 @@ import { BaseDetector } from './base-detector'
 import { filterByDate, filterByDateWindow, isEndOfPeriod, todayString } from './helpers/date-utils'
 import { minEvents } from '../filters/detectorConditions'
 import { items } from './helpers/item-matching'
+import { TimeWindows } from './helpers/time-windows'
 import type {
   Event,
   EventGroup,
@@ -35,6 +36,7 @@ this.itemComparer = config.compareFn || null
     this.dateFilter = config.dateFilter || null
     this.aggregate = config.aggregate || false
     this.pendingItems = []
+    this.timeWindow = TimeWindows.CHECKLIST
   }
 
   async detect(entry: EventGroup): Promise<Finding[]> {

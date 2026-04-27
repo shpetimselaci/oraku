@@ -66,5 +66,6 @@ export async function runIngest(projectId: string, events: Event[]): Promise<{ c
   store.results.set(projectId, result)
   store.events.set(projectId, events)
   store.runTimestamps.set(projectId, dayjs().toISOString())
+
   return { count: result.count }
 }
